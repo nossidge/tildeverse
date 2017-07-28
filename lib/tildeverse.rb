@@ -28,7 +28,7 @@ DIR_HTML                = "#{DIR_ROOT}/output/"
 TEMPLATE_FILE_HTML      = "#{DIR_DATA}/users_template.html"
 OUTPUT_FILE_HTML        = "#{DIR_HTML}/users.html"
 OUTPUT_FILE_JSON        = "#{DIR_HTML}/users.json"
-FILES_TO_COPY           = ['index.html', 'boxes.html', 'pie.html']
+FILES_TO_COPY           = ['boxes.html', 'pie.html']
 
 WRITE_TO_FILES          = true   # This is necessary.
 CHECK_FOR_NEW_BOXES     = false  # This is fast.
@@ -187,9 +187,5 @@ end
 ################################################################################
 
 end
-
-################################################################################
-
-Tildeverse.run_all
 
 ################################################################################
