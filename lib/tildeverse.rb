@@ -60,7 +60,7 @@ def self.output_to_files
     userHash['http://matilde.club'] = read_matilde_club
     userHash['http://noiseandsignal.com'] = read_noiseandsignal_com
     userHash['https://ofmanytrades.com'] = read_ofmanytrades_com
-    userHash['http://oldbsd.club'] = {}
+    userHash['http://oldbsd.club'] = read_oldbsd_club
     userHash['http://palvelin.club'] = read_palvelin_club
     userHash['http://pebble.ink'] = read_pebble_ink
     userHash['http://perispomeni.club'] = read_perispomeni_club
