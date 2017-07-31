@@ -1,0 +1,202 @@
+{
+  "metadata": {
+    "url": "http://tilde.town/~nossidge/tildeverse/"
+  },
+  "sites": {
+    "backtick.town": {
+      "url_root": "https://backtick.town/",
+      "url_list": "",
+      "url_format_user": "https://backtick.town/~USER/"
+    },
+    "bleepbloop.club": {
+      "url_root": "https://bleepbloop.club/",
+      "url_list": "https://bleepbloop.club/~eos/",
+      "url_format_user": "https://bleepbloop.club/~USER/"
+    },
+    "botb.club": {
+      "url_root": "https://botb.club/",
+      "url_list": "http://archive.is/kZ9cr",
+      "url_format_user": "https://botb.club/~USER/"
+    },
+    "catbeard.city": {
+      "url_root": "http://catbeard.city/",
+      "url_list": "http://catbeard.city/",
+      "url_format_user": "http://catbeard.city/~USER/"
+    },
+    "club6.nl": {
+      "url_root": "https://club6.nl",
+      "url_list": "https://club6.nl/tilde.json",
+      "url_format_user": "https://club6.nl~USER/"
+    },
+    "crime.team": {
+      "url_root": "https://crime.team/",
+      "url_list": "https://crime.team/",
+      "url_format_user": "https://crime.team/~USER/"
+    },
+    "ctrl-c.club": {
+      "url_root": "http://ctrl-c.club/",
+      "url_list": "http://ctrl-c.club/",
+      "url_format_user": "http://ctrl-c.club/~USER/"
+    },
+    "cybyte.club": {
+      "url_root": "http://cybyte.club/",
+      "url_list": "http://cybyte.club/",
+      "url_format_user": "http://cybyte.club/~USER/"
+    },
+    "drawbridge.club": {
+      "url_root": "http://drawbridge.club/",
+      "url_list": "http://drawbridge.club/",
+      "url_format_user": "http://drawbridge.club/~USER/"
+    },
+    "germantil.de": {
+      "url_root": "http://germantil.de/",
+      "url_list": "http://germantil.de/",
+      "url_format_user": "http://germantil.de/~USER/"
+    },
+    "hackers.cool": {
+      "url_root": "http://hackers.cool/",
+      "url_list": "http://hackers.cool/",
+      "url_format_user": "http://hackers.cool/~USER/"
+    },
+    "hypertext.website": {
+      "url_root": "http://hypertext.website/",
+      "url_list": "http://hypertext.website/",
+      "url_format_user": "http://hypertext.website/~USER/"
+    },
+    "losangeles.pablo.xyz": {
+      "url_root": "http://losangeles.pablo.xyz/",
+      "url_list": "http://losangeles.pablo.xyz/",
+      "url_format_user": "http://losangeles.pablo.xyz/~USER/"
+    },
+    "matilde.club": {
+      "url_root": "http://matilde.club/",
+      "url_list": "http://matilde.club/~mikker/users.html",
+      "url_format_user": "http://matilde.club/~USER/"
+    },
+    "noiseandsignal.com": {
+      "url_root": "http://noiseandsignal.com/",
+      "url_list": "http://noiseandsignal.com/",
+      "url_format_user": "http://noiseandsignal.com/~USER/"
+    },
+    "ofmanytrades.com": {
+      "url_root": "https://ofmanytrades.com/",
+      "url_list": "https://ofmanytrades.com/",
+      "url_format_user": "https://ofmanytrades.com/~USER/"
+    },
+    "palvelin.club": {
+      "url_root": "http://palvelin.club/",
+      "url_list": "http://palvelin.club/users.html",
+      "url_format_user": "http://palvelin.club/~USER/"
+    },
+    "pebble.ink": {
+      "url_root": "http://pebble.ink/",
+      "url_list": "",
+      "url_format_user": "http://pebble.ink/~USER/"
+    },
+    "perispomeni.club": {
+      "url_root": "http://perispomeni.club/",
+      "url_list": "http://perispomeni.club/",
+      "url_format_user": "http://perispomeni.club/~USER/"
+    },
+    "protocol.club": {
+      "url_root": "http://protocol.club/",
+      "url_list": "http://protocol.club/~insom/protocol.24h.html",
+      "url_format_user": "http://protocol.club/~USER/"
+    },
+    "remotes.club": {
+      "url_root": "https://www.remotes.club/",
+      "url_list": "https://www.remotes.club/",
+      "url_format_user": "https://USER.remotes.club/"
+    },
+    "retronet.net": {
+      "url_root": "http://retronet.net/",
+      "url_list": "http://retronet.net/users.html",
+      "url_format_user": "http://retronet.net/~USER/"
+    },
+    "rudimentarylathe.org": {
+      "url_root": "http://rudimentarylathe.org/",
+      "url_list": "http://rudimentarylathe.org/",
+      "url_format_user": "http://rudimentarylathe.org/~USER/"
+    },
+    "riotgirl.club": {
+      "url_root": "http://riotgirl.club",
+      "url_list": "http://riotgirl.club/~jspc/user_list.html",
+      "url_format_user": "http://riotgirl.club/~USER/"
+    },
+    "skylab.org": {
+      "url_root": "http://skylab.org/",
+      "url_list": "http://skylab.org/clique/",
+      "url_format_user": "http://skylab.org/~USER/"
+    },
+    "spookyscary.science": {
+      "url_root": "https://spookyscary.science/",
+      "url_list": "https://spookyscary.science/~",
+      "url_format_user": "https://spookyscary.science/~USER/"
+    },
+    "squiggle.city": {
+      "url_root": "https://squiggle.city/",
+      "url_list": "https://squiggle.city/tilde.json",
+      "url_format_user": "https://squiggle.city/~USER/"
+    },
+    "sunburnt.country": {
+      "url_root": "http://sunburnt.country/",
+      "url_list": "http://sunburnt.country/~tim/directory.html",
+      "url_format_user": "http://sunburnt.country/~USER/"
+    },
+    "tilde.camp": {
+      "url_root": "http://tilde.camp/",
+      "url_list": "http://tilde.camp/",
+      "url_format_user": "http://tilde.camp/~USER/"
+    },
+    "tilde.center": {
+      "url_root": "https://tilde.center/",
+      "url_list": "https://tilde.center/",
+      "url_format_user": "https://tilde.center/~USER/"
+    },
+    "tilde.city": {
+      "url_root": "http://tilde.city/",
+      "url_list": "",
+      "url_format_user": "http://tilde.city/~USER/"
+    },
+    "tilde.club": {
+      "url_root": "http://tilde.club/",
+      "url_list": "http://tilde.club/",
+      "url_format_user": "http://tilde.club/~USER/"
+    },
+    "tilde.farm": {
+      "url_root": "http://tilde.farm/",
+      "url_list": "http://tilde.farm/",
+      "url_format_user": "http://tilde.farm/~USER/"
+    },
+    "tilde.red": {
+      "url_root": "https://tilde.red/",
+      "url_list": "https://tilde.red/",
+      "url_format_user": "https://tilde.red/~USER/"
+    },
+    "tilde.town": {
+      "url_root": "https://tilde.town/",
+      "url_list": "https://tilde.town/~dan/users.json",
+      "url_format_user": "https://tilde.town/~USER/"
+    },
+    "tilde.works": {
+      "url_root": "http://tilde.works/",
+      "url_list": "http://tilde.works/",
+      "url_format_user": "http://tilde.works/~USER/"
+    },
+    "tildesare.cool": {
+      "url_root": "http://tildesare.cool/",
+      "url_list": "http://tildesare.cool/",
+      "url_format_user": "http://tildesare.cool/~USER/"
+    },
+    "totallynuclear.club": {
+      "url_root": "http://totallynuclear.club/",
+      "url_list": "http://totallynuclear.club/",
+      "url_format_user": "http://totallynuclear.club/~USER/"
+    },
+    "yester.host": {
+      "url_root": "http://yester.host/",
+      "url_list": "http://yester.host/tilde.json",
+      "url_format_user": "http://yester.host/~USER/"
+    }
+  }
+}
