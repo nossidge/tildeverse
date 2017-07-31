@@ -38,11 +38,8 @@ window.addEventListener('load', function() {
 
     // Extract JSON data to just "URL" : "User Count"
     var hashJSON = {};
-    for (var tildeSite in objJSON) {
-      var userCount = 0;
-      for (var tildeUser in objJSON[tildeSite]) {
-        userCount++;
-      }
+    for (var tildeSite in objJSON['sites']) {
+      var userCount = objJSON['sites'][tildeSite]['user_count'];
       if (userCount != 0) {
         hashJSON[tildeSite] = userCount;
       }

@@ -13,6 +13,7 @@ require 'net/https'
 require 'open-uri'
 require 'json'
 require 'text/hyphen'
+require 'fileutils'
 
 require_relative 'tildeverse/core_extensions/string.rb'
 require_relative 'tildeverse/tilde_connection.rb'
@@ -26,6 +27,7 @@ DIR_DATA                = "#{DIR_ROOT}/data/"
 DIR_HTML                = "#{DIR_ROOT}/output/"
 
 TEMPLATE_FILE_HTML      = "#{DIR_DATA}/users_template.html"
+INPUT_BOXES_JSON        = "#{DIR_DATA}/boxes.json"
 OUTPUT_FILE_HTML        = "#{DIR_HTML}/users.html"
 OUTPUT_FILE_JSON        = "#{DIR_HTML}/users.json"
 FILES_TO_COPY           = ['boxes.html', 'pie.html']
@@ -42,65 +44,51 @@ module Tildeverse
 ################################################################################
 
 def self.output_to_files
-  read_all_to_hash = lambda do
-    userHash = {}
-    userHash['https://backtick.town'] = read_backtick_town
-    userHash['https://bleepbloop.club'] = read_bleepbloop_club
-    userHash['https://botb.club'] = read_botb_club
-    userHash['http://catbeard.city'] = read_catbeard_city
-    userHash['https://club6.nl'] = read_club6_nl
-    userHash['https://crime.team'] = read_crime_team
-    userHash['http://ctrl-c.club'] = read_ctrl_c_club
-    userHash['http://cybyte.club'] = read_cybyte_club
-    userHash['http://drawbridge.club'] = read_drawbridge_club
-    userHash['http://germantil.de'] = read_germantil_de
-    userHash['http://hackers.cool'] = read_hackers_cool
-    userHash['http://hypertext.website'] = read_hypertext_website
-    userHash['http://losangeles.pablo.xyz'] = read_losangeles_pablo_xyz
-    userHash['http://matilde.club'] = read_matilde_club
-    userHash['http://noiseandsignal.com'] = read_noiseandsignal_com
-    userHash['https://ofmanytrades.com'] = read_ofmanytrades_com
-    userHash['http://oldbsd.club'] = read_oldbsd_club
-    userHash['http://palvelin.club'] = read_palvelin_club
-    userHash['http://pebble.ink'] = read_pebble_ink
-    userHash['http://perispomeni.club'] = read_perispomeni_club
-    userHash['http://protocol.club'] = read_protocol_club
-    userHash['https://remotes.club'] = read_remotes_club
-    userHash['http://retronet.net'] = read_retronet_net
-    userHash['http://riotgirl.club'] = read_riotgirl_club
-    userHash['http://rudimentarylathe.org'] = read_rudimentarylathe_org
-    userHash['http://skylab.org'] = read_skylab_org
-    userHash['https://spookyscary.science'] = read_spookyscary_science
-    userHash['https://squiggle.city'] = read_squiggle_city
-    userHash['http://sunburnt.country'] = read_sunburnt_country
-    userHash['http://tilde.camp'] = read_tilde_camp
-    userHash['https://tilde.center'] = read_tilde_center
-    userHash['http://tilde.city'] = read_tilde_city
-    userHash['http://tilde.club'] = read_tilde_club
-    userHash['http://tilde.farm'] = read_tilde_farm
-    userHash['https://tilde.red'] = read_tilde_red
-    userHash['https://tilde.town'] = read_tilde_town
-    userHash['http://tilde.works'] = read_tilde_works
-    userHash['http://tildesare.cool'] = read_tildesare_cool
-    userHash['http://totallynuclear.club'] = read_totallynuclear_club
-    userHash['http://yester.host'] = read_yester_host
-    sort_hash_by_keys(userHash)
-    userHash
+
+  # Read in the tildebox names from the JSON.
+  boxes = JSON.parse(File.read(INPUT_BOXES_JSON))
+
+  # Add current date and time to the hash
+  boxes['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
+  boxes['metadata']['date_unix']  = Time.now.to_i
+
+  # Scrape each site and add to the hash.
+  boxes['sites'].each do |i|
+    key = i.first
+    hash = i[1]
+
+    # This is the name of the method that will scrape the site.
+    # Each site is different, so they need bespoke methods.
+    method_name = 'read_' + key.gsub(/[[:punct:]]/, '_')
+    results = Tildeverse.send(method_name)
+
+    hash['online']     = !results.empty?
+    hash['user_count'] = results.size
+    hash['users']      = results.keys
   end
-  all_hash = read_all_to_hash.call
 
   # Write to JSON while we have the hash.
   File.open(OUTPUT_FILE_JSON,'w') do |f|
-    f.write JSON.pretty_generate(all_hash)
+    f.write JSON.pretty_generate(boxes)
   end
 
   # Write to HTML table rows.
   output = []
-  all_hash.each do |key1, val1|
-    if val1
-      val1.each do |key2, val2|
-        output << "<tr><td><a href='#{key1}'>#{key1.partition('//').last}</a></td><td>#{key2}</td><td><a href='#{val2}'>#{val2}</a></td></tr>"
-      end
+  html_format  = "<tr>"
+  html_format += "<td><a href='URL_ROOT'>SITE_NAME_TIDY</a></td>"
+  html_format += "<td>USER_NAME</td>"
+  html_format += "<td><a href='USER_URL'>USER_URL_TIDY</a></td>"
+  html_format += "</tr>"
+  boxes['sites'].each do |site, hash|
+    hash['users'].each do |user|
+      url = hash['url_format_user'].sub('USER', user)
+      row = html_format.dup
+      row = row.sub 'URL_ROOT',       hash['url_root']
+      row = row.sub 'SITE_NAME_TIDY', site.remove_trailing_slash
+      row = row.sub 'USER_NAME',      user
+      row = row.sub 'USER_URL',       url
+      row = row.sub 'USER_URL_TIDY',  url.partition('//').last.remove_trailing_slash
+      output << row
     end
   end
   output
