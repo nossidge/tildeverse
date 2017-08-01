@@ -5,8 +5,45 @@
 # Just calls the main 'tildeverse.rb' file.
 ################################################################################
 
+require 'json'
 require_relative '../lib/tildeverse.rb'
 
-Tildeverse.run_all
+################################################################################
+
+obj_json = JSON.parse(File.read(OUTPUT_FILE_JSON))
+
+help_info = %q{Usage: tildeverse <command> [subcommand]
+
+$ tildeverse scrape
+  Scrape the user list of each box, and output to JSON
+
+$ tildeverse json ['pretty']
+  Write the JSON file to standard out
+  'pretty' subcommand adds new lines
+
+$ tildeverse sites|boxes
+  List all the sites in the Tildeverse
+
+$ tildeverse [site name]
+  List all users for the specified Tildebox
+}
+
+# Use the arguments to decide which function to perform.
+case ARGV[0]
+when nil
+  puts help_info
+when 'scrape'
+  Tildeverse.run_all
+when 'json'
+  if ARGV[1] == 'pretty'
+    puts JSON.pretty_generate(obj_json)
+  else
+    puts JSON(obj_json)
+  end
+when 'sites', 'boxes'
+  puts obj_json['sites'].keys
+else
+  puts obj_json['sites'][ARGV[0]]['users'] rescue ''
+end
 
 ################################################################################
