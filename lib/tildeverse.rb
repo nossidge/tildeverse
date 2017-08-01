@@ -30,7 +30,7 @@ TEMPLATE_FILE_HTML      = "#{DIR_DATA}/index_template.html"
 INPUT_TILDEVERSE_JSON   = "#{DIR_DATA}/tildeverse.json"
 OUTPUT_FILE_HTML        = "#{DIR_HTML}/index.html"
 OUTPUT_FILE_JSON        = "#{DIR_HTML}/tildeverse.json"
-FILES_TO_COPY           = ['boxes.js', 'pie.js']
+FILES_TO_COPY           = ['users.js', 'boxes.js', 'pie.js']
 
 WRITE_TO_FILES          = true   # This is necessary.
 CHECK_FOR_NEW_BOXES     = false  # This is fast.
@@ -67,39 +67,18 @@ def self.output_to_files
     hash['users']      = results.keys
   end
 
-  # Write to JSON while we have the hash.
+  # Write the hash to JSON.
   File.open(OUTPUT_FILE_JSON,'w') do |f|
     f.write JSON.pretty_generate(boxes)
   end
-
-  # Write to HTML table rows.
-  output = []
-  html_format  = '<tr>'
-  html_format += '<td><a href="URL_ROOT">SITE_NAME_TIDY</a></td>'
-  html_format += '<td>USER_NAME</td>'
-  html_format += '<td><a href="USER_URL">USER_URL_TIDY</a></td>'
-  html_format += '</tr>'
-  boxes['sites'].each do |site, hash|
-    hash['users'].each do |user|
-      url = hash['url_format_user'].sub('USER', user)
-      row = html_format.dup
-      row = row.sub 'URL_ROOT',       hash['url_root']
-      row = row.sub 'SITE_NAME_TIDY', site.remove_trailing_slash
-      row = row.sub 'USER_NAME',      user
-      row = row.sub 'USER_URL',       url
-      row = row.sub 'USER_URL_TIDY',  url.partition('//').last.remove_trailing_slash
-      output << row
-    end
-  end
-  output
 end
 
-# Now read back to 'users.html'
-def self.write_to_html(table_html)
+# Now read back to 'index.html'
+def self.write_to_html
   File.open(OUTPUT_FILE_HTML, 'w') do |fo|
     File.open(TEMPLATE_FILE_HTML, 'r') do |fi|
-      out = fi.read.gsub('<!-- @USER_LIST -->', table_html.join("\n"))
-      out = out.gsub('<!-- @TIME_STAMP -->', Time.now.strftime("%Y/%m/%d %H:%M GMT"))
+      time_stamp = Time.now.strftime("%Y/%m/%d %H:%M GMT")
+      out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
       fo.puts out
     end
   end
@@ -166,7 +145,8 @@ end
 ################################################################################
 
 def self.run_all
-  write_to_html(output_to_files) if WRITE_TO_FILES
+  output_to_files if WRITE_TO_FILES
+  write_to_html if WRITE_TO_FILES
   copy_files if WRITE_TO_FILES
   check_for_new_boxes if CHECK_FOR_NEW_BOXES
   check_for_new_desc_json if CHECK_FOR_NEW_DESC_JSON
