@@ -26,11 +26,11 @@ DIR_ROOT                = File.expand_path('../../', __FILE__)
 DIR_DATA                = "#{DIR_ROOT}/data/"
 DIR_HTML                = "#{DIR_ROOT}/output/"
 
-TEMPLATE_FILE_HTML      = "#{DIR_DATA}/users_template.html"
+TEMPLATE_FILE_HTML      = "#{DIR_DATA}/index_template.html"
 INPUT_TILDEVERSE_JSON   = "#{DIR_DATA}/tildeverse.json"
-OUTPUT_FILE_HTML        = "#{DIR_HTML}/users.html"
+OUTPUT_FILE_HTML        = "#{DIR_HTML}/index.html"
 OUTPUT_FILE_JSON        = "#{DIR_HTML}/tildeverse.json"
-FILES_TO_COPY           = ['boxes.html', 'pie.html']
+FILES_TO_COPY           = ['boxes.js', 'pie.js']
 
 WRITE_TO_FILES          = true   # This is necessary.
 CHECK_FOR_NEW_BOXES     = false  # This is fast.
@@ -74,11 +74,11 @@ def self.output_to_files
 
   # Write to HTML table rows.
   output = []
-  html_format  = "<tr>"
-  html_format += "<td><a href='URL_ROOT'>SITE_NAME_TIDY</a></td>"
-  html_format += "<td>USER_NAME</td>"
-  html_format += "<td><a href='USER_URL'>USER_URL_TIDY</a></td>"
-  html_format += "</tr>"
+  html_format  = '<tr>'
+  html_format += '<td><a href="URL_ROOT">SITE_NAME_TIDY</a></td>'
+  html_format += '<td>USER_NAME</td>'
+  html_format += '<td><a href="USER_URL">USER_URL_TIDY</a></td>'
+  html_format += '</tr>'
   boxes['sites'].each do |site, hash|
     hash['users'].each do |user|
       url = hash['url_format_user'].sub('USER', user)
