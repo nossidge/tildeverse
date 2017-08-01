@@ -27,7 +27,7 @@ DIR_DATA                = "#{DIR_ROOT}/data/"
 DIR_HTML                = "#{DIR_ROOT}/output/"
 
 TEMPLATE_FILE_HTML      = "#{DIR_DATA}/index_template.html"
-INPUT_TILDEVERSE_JSON   = "#{DIR_DATA}/tildeverse.json"
+INPUT_FILE_JSON         = "#{DIR_DATA}/tildeverse.json"
 OUTPUT_FILE_HTML        = "#{DIR_HTML}/index.html"
 OUTPUT_FILE_JSON        = "#{DIR_HTML}/tildeverse.json"
 FILES_TO_COPY           = ['users.js', 'boxes.js', 'pie.js']
@@ -46,7 +46,7 @@ module Tildeverse
 def self.output_to_files
 
   # Read in the tildebox names from the JSON.
-  boxes = JSON.parse(File.read(INPUT_TILDEVERSE_JSON))
+  boxes = JSON.parse(File.read(INPUT_FILE_JSON))
 
   # Add current date and time to the hash
   boxes['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')

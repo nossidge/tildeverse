@@ -2,10 +2,12 @@
 // Create the users table in the users tab.
 function users(tildeverseJSON) {
 
+  let thead = "<thead><tr><th>Tilde Box</th><th>User Name</th><th>User URL</th></tr></thead>";
   let tbody = document.createElement("tbody");
+  $("#table_users").append(thead);
   $("#table_users").append(tbody);
 
-  let row = '<tr><td><a href="SITE_URL">SITE_NAME</a></td><td>USER_NAME</td><td><a href="USER_URL">USER_URL_TIDY</a></td></tr>'
+  let row = '<tr><td><a href="SITE_URL">SITE_NAME</a></td><td>USER_NAME</td><td><a href="USER_URL">USER_URL_TIDY</a></td></tr>';
 
   for (let tildeSite in tildeverseJSON["sites"]) {
     let site = tildeverseJSON["sites"][tildeSite];

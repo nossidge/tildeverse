@@ -4,15 +4,16 @@
   <meta charset="UTF-8"></meta>
   <title>Tildeverse Users</title>
 
-  <script src="users.js"></script>
-  <script src="boxes.js"></script>
-  <script src="pie.js"></script>
   <script src="https://tilde.town/~nossidge/jquery/src/jquery.js"></script>
   <script src="https://tilde.town/~nossidge/lib/Chart.bundle.min.js"></script>
   <script src="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.js"></script>
   <script src="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/js/bootstrap.min.js"></script>
   <link href="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.css" rel="stylesheet">
+
+  <script src="users.js"></script>
+  <script src="boxes.js"></script>
+  <script src="pie.js"></script>
 
   <script type="text/javascript">
     function dataTables() {
@@ -45,85 +46,67 @@
   <style type="text/css">
     #content { width: 700px; margin: 0 auto; }
     p, h1    { text-align: center; }
+    canvas   { float: right; }
+    #legend                   { margin: 0 auto; }
     #legend table             { margin: 0 auto; }
     #legend tr td:first-child { padding-left: 0px; }
     #legend tr td:last-child  { text-align: right; }
     #legend td                { padding: 0px 0px 0px 12px; }
+    .dataTables_wrapper       { padding: 20px 0px 10px 0px; }
   </style>
-</head>
+ </head>
 
-<body>
-<div id="content">
+ <body>
+  <div id="content">
 
-  <h1>The users of the Tildeverse</h1>
-  <p>This list is based on the <a href="http://tilde.club/~pfhawkins/othertildes.html">master list</a> tended to by <a href="https://twitter.com/pfhawkins">~pfhawkins</a>
-  <br>If you are aware of any updates to this list, please let me know: <a href="https://twitter.com/nossidge">@nossidge</a></p>
+    <h1>The users of the Tildeverse</h1>
+    <hr>
 
-<hr>
+    <div>
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#users" data-toggle="tab">Users</a>
+        </li>
+        <li>
+          <a href="#boxes" data-toggle="tab">Boxes</a>
+        </li>
+        <li>
+          <a href="#pie" data-toggle="tab">Pie</a>
+        </li>
+        <li>
+          <a href="#data" data-toggle="tab">Data</a>
+        </li>
+      </ul>
 
-<div class="bs-example bs-example-tabs">
-  <ul class="nav nav-tabs" id="myTab">
-    <li class="active">
-      <a href="#users" data-toggle="tab">Users</a>
-    </li>
-    <li>
-      <a href="#boxes" data-toggle="tab">Boxes</a>
-    </li>
-    <li>
-      <a href="#pie" data-toggle="tab">Pie</a>
-    </li>
-    <li>
-      <a href="#data" data-toggle="tab">Data</a>
-    </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
+      <div class="tab-content">
+        <div class="tab-pane fade in active" id="users">
+          <table id="table_users" class="display"></table>
+        </div>
 
-    <div class="tab-pane fade in active" id="users">
-      <br>
-      <table id="table_users" class="display">
-        <thead>
-          <tr>
-            <th>Tilde Box</th>
-            <th>User Name</th>
-            <th>User URL</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+        <div class="tab-pane fade" id="boxes">
+          <table id="table_boxes" class="display"></table>
+        </div>
 
-    <div class="tab-pane fade" id="boxes">
-      <br>
-      <table id="table_boxes" class="display">
-        <thead>
-          <tr>
-            <th>Tilde Box</th>
-            <th>Online?</th>
-            <th>User Count</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+        <div class="tab-pane fade" id="pie">
+          <br>
+          <div id="legend"></div>
+          <br>
+          <canvas id="tildePie" width="400px" height="400px"></canvas>
+        </div>
 
-    <div class="tab-pane fade" id="pie">
-      <br>
-      <div id="legend" style="margin: 0 auto; padding: 120;"></div>
-      <br>
-      <canvas id="tildePie" width="400px" height="400px" style="float: right;"></canvas>
-    </div>
-
-    <div class="tab-pane fade" id="data">
-      <br>
-      <p>Users are found by scraping the source of a Tilde's user directory.
-      <br>If any of those pages change, this list will likely break.</p>
-      <p>The full information can be downloaded as <a href="tildeverse.json">JSON</a>.
-      <br>It is updated every hour, as is this web page.</p>
-      <p>Last update: <strong><!-- @TIME_STAMP --></strong></p>
+        <div class="tab-pane fade" id="data">
+          <br>
+          <p>This list is based on the <a href="http://tilde.club/~pfhawkins/othertildes.html">master list</a> tended to by <a href="https://twitter.com/pfhawkins">~pfhawkins</a>
+          <br>If you are aware of any updates to this list, please let me know: <a href="https://twitter.com/nossidge">@nossidge</a></p>
+          <p>Users are found by scraping the source of a Tilde's user directory.
+          <br>If any of those pages change, this list will likely break.</p>
+          <p>The full information can be downloaded as <a href="tildeverse.json">JSON</a>.
+          <br>It is updated every hour, as is this web page.</p>
+          <p>Last update: <strong><!-- @TIME_STAMP --></strong></p>
+        </div>
+      </div>
     </div>
 
   </div>
-</div>
-
-<hr>
-
-</body>
+ </body>
 </html>
