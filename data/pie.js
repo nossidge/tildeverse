@@ -21,7 +21,7 @@ function pie(tildeverseJSON) {
   }
 
   // Sort the hash by the user count.
-  sortedArray = [];
+  let sortedArray = [];
   for (let key in hashJSON) {
     sortedArray.push([key, hashJSON[key]]);
   }
@@ -56,11 +56,12 @@ function pie(tildeverseJSON) {
         position: 'bottom',
       },
       legendCallback: function(){
-        html = '<table>';
+        let html = '<table>';
         for (let i = 0; i < data.length; i++) {
+          let url = tildeverseJSON['sites'][labels[i]]['url_root'];
           html += '<tr>';
           html += '<td style="background-color:' + colour[i] + ';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>'
-          html += '<td><a href=' + labels[i] + '>' + labels[i] + '</a></td>'
+          html += '<td><a href=' + url + '>' + labels[i] + '</a></td>'
           html += '<td>' + data[i] + '</td>'
           html += '</tr>'
         }
@@ -72,7 +73,7 @@ function pie(tildeverseJSON) {
 
   // Create the chart.
   let ctx = document.getElementById('tildePie').getContext('2d');
-  tildePie = new Chart(ctx, config);
+  let tildePie = new Chart(ctx, config);
 
   // Generate the legend, and put it in the 'legend' element.
   let legend = tildePie.generateLegend();
