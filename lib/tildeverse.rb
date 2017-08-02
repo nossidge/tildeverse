@@ -26,10 +26,11 @@ DIR_ROOT                = File.expand_path('../../', __FILE__)
 DIR_DATA                = "#{DIR_ROOT}/data/"
 DIR_HTML                = "#{DIR_ROOT}/output/"
 
-TEMPLATE_FILE_HTML      = "#{DIR_DATA}/index_template.html"
-INPUT_FILE_JSON         = "#{DIR_DATA}/tildeverse.json"
-OUTPUT_FILE_HTML        = "#{DIR_HTML}/index.html"
-OUTPUT_FILE_JSON        = "#{DIR_HTML}/tildeverse.json"
+INPUT_HTML_TEMPLATE     = "#{DIR_DATA}/index_template.html"
+INPUT_JSON_TILDEVERSE   = "#{DIR_DATA}/tildeverse.json"
+OUTPUT_HTML_INDEX       = "#{DIR_HTML}/index.html"
+OUTPUT_JSON_TILDEVERSE  = "#{DIR_HTML}/tildeverse.json"
+OUTPUT_JSON_USERS       = "#{DIR_HTML}/users.json"
 FILES_TO_COPY           = ['users.js', 'boxes.js', 'pie.js']
 
 WRITE_TO_FILES          = true   # This is necessary.
@@ -46,7 +47,7 @@ module Tildeverse
 def self.output_to_files
 
   # Read in the tildebox names from the JSON.
-  boxes = JSON.parse(File.read(INPUT_FILE_JSON))
+  boxes = JSON.parse(File.read(INPUT_JSON_TILDEVERSE))
 
   # Add current date and time to the hash
   boxes['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
@@ -68,15 +69,28 @@ def self.output_to_files
   end
 
   # Write the hash to JSON.
-  File.open(OUTPUT_FILE_JSON,'w') do |f|
+  File.open(OUTPUT_JSON_TILDEVERSE, 'w') do |f|
     f.write JSON.pretty_generate(boxes)
+  end
+
+  # Write 'users.json' for backwards compatibility.
+  users = {}
+  boxes['sites'].each do |key, value|
+    hash = {}
+    value['users'].each do |user|
+      hash[user] = value['url_format_user'].sub('USER', user)
+    end
+    users[value['url_root']] = hash
+  end
+  File.open(OUTPUT_JSON_USERS, 'w') do |f|
+    f.write JSON.pretty_generate(users)
   end
 end
 
 # Now read back to 'index.html'
 def self.write_to_html
-  File.open(OUTPUT_FILE_HTML, 'w') do |fo|
-    File.open(TEMPLATE_FILE_HTML, 'r') do |fi|
+  File.open(OUTPUT_HTML_INDEX, 'w') do |fo|
+    File.open(INPUT_HTML_TEMPLATE, 'r') do |fi|
       time_stamp = Time.now.strftime("%Y/%m/%d %H:%M GMT")
       out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
       fo.puts out
@@ -119,7 +133,7 @@ end
 def self.get_all_tilde_json
 
   # Read from the master list of Tilde URLs, and append '/tilde.json' to them.
-  obj_json = JSON.parse( open(OUTPUT_FILE_JSON).read )
+  obj_json = JSON.parse( open(OUTPUT_JSON_TILDEVERSE).read )
   urls_json = obj_json.keys.map { |i| i += '/tilde.json' }
 
   # Only select the URLs that can be parsed as JSON.
