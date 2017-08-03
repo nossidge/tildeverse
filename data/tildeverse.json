@@ -24,7 +24,7 @@
       "url_format_user": "http://catbeard.city/~USER/"
     },
     "club6.nl": {
-      "url_root": "https://club6.nl",
+      "url_root": "https://club6.nl/",
       "url_list": "https://club6.nl/tilde.json",
       "url_format_user": "https://club6.nl~USER/"
     },

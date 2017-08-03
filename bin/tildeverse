@@ -10,7 +10,7 @@ require_relative '../lib/tildeverse.rb'
 
 ################################################################################
 
-obj_json = JSON.parse(File.read(OUTPUT_FILE_JSON))
+obj_json = JSON.parse(File.read(OUTPUT_JSON_TILDEVERSE))
 
 help_info = %q{Usage: tildeverse <command> [subcommand]
 
