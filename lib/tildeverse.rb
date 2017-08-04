@@ -22,6 +22,8 @@ require_relative 'tildeverse/misc.rb'
 
 ################################################################################
 
+DEV_MODE                = false
+
 DIR_ROOT                = File.expand_path('../../', __FILE__)
 DIR_DATA                = "#{DIR_ROOT}/data/"
 DIR_HTML                = "#{DIR_ROOT}/output/"
@@ -61,11 +63,30 @@ def self.output_to_files
     # This is the name of the method that will scrape the site.
     # Each site is different, so they need bespoke methods.
     method_name = 'read_' + key.gsub(/[[:punct:]]/, '_')
-    results = Tildeverse.send(method_name)
+    results = if DEV_MODE
+      Tildeverse.read_pebble_ink
+    else
+      Tildeverse.send(method_name)
+    end
 
+    # Add the other details to the hash, including defaults for user info.
     hash['online']     = !results.empty?
     hash['user_count'] = results.size
-    hash['users']      = results.keys
+    user_hash = {}
+    results.keys.each do |user|
+      user_hash[user] = {
+        time: 'unknown'
+      }
+    end
+    hash['users'] = user_hash
+  end
+
+  # Add the date each user page was modified.
+  get_modified_dates.each do |i|
+    user_deets = boxes['sites'][i[:site]]['users'][i[:user]]
+    if user_deets
+      user_deets[:time] = i[:time]
+    end
   end
 
   # Write the hash to JSON.
@@ -77,7 +98,7 @@ def self.output_to_files
   users = {}
   boxes['sites'].each do |key, value|
     hash = {}
-    value['users'].each do |user|
+    value['users'].keys.each do |user|
       hash[user] = value['url_format_user'].sub('USER', user)
     end
     users[value['url_root']] = hash
@@ -102,6 +123,27 @@ end
 def self.copy_files
   FILES_TO_COPY.each do |i|
     FileUtils.cp("#{DIR_DATA}/#{i}", "#{DIR_HTML}/#{i}")
+  end
+end
+
+################################################################################
+
+# Scrape modified dates from ~insom's list.
+def self.get_modified_dates
+  tc = TildeConnection.new('insom/modified')
+  tc.root_url = 'http://tilde.town/~insom/'
+  tc.list_url = 'http://tilde.town/~insom/modified.html'
+  tc.test_connection.split("\n").select do |i|
+    !!i.match('<a href')
+  end.map do |i|
+    i = i.gsub('<br/>', '')
+    i = i.gsub('</a>', '')
+    i = i.split('>')[1..-1].join
+    {
+      site: i.split('/')[2],
+      user: i.split('/')[3].gsub('~', ''),
+      time: i.split(' -- ')[1]
+    }
   end
 end
 

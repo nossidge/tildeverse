@@ -11,7 +11,7 @@ function users(tildeverseJSON) {
 
   for (let tildeSite in tildeverseJSON["sites"]) {
     let site = tildeverseJSON["sites"][tildeSite];
-    $.each(site["users"], function(index, user) {
+    $.each(site["users"], function(user, hash) {
       let url = site["url_format_user"].replace("USER", user);
       let tidy = url.substring(url.indexOf("//") + 2);
       let out = row;
