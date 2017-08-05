@@ -75,7 +75,7 @@ def self.output_to_files
     user_hash = {}
     results.keys.each do |user|
       user_hash[user] = {
-        time: 'unknown'
+        time: '-'
       }
     end
     hash['users'] = user_hash
