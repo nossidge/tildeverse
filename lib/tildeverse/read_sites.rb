@@ -1336,6 +1336,39 @@ def self.read_oldbsd_club
   {}
 end
 
+################################################################################
+
+# 2017/08/06  New box
+# These are lines on the page that include '<a href',
+#   after the line that matches '<h1>users:</h1>'
+def self.read_tilde_team
+  output = {}
+
+  tilde_connection = TildeConnection.new('tilde.team')
+  tilde_connection.root_url = 'https://tilde.team/'
+  tilde_connection.list_url = 'https://tilde.team/'
+  user_list = tilde_connection.test_connection
+  if tilde_connection.error
+    puts tilde_connection.error_message
+
+  else
+    members_found = false
+    user_list.split("\n").each do |i|
+      members_found = true if i.strip == '<h1>users:</h1>'
+      if members_found and i.match(/<a href/)
+        url = 'https://tilde.team' + i.first_between_two_chars('"')
+        name = url.partition('~').last.strip
+        output[name] = url
+      end
+    end
+    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
+  end
+  sort_hash_by_keys(output)
+end
+#puts_hash(read_tilde_team)
+
+################################################################################
+
 end
 
 ################################################################################

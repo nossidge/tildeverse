@@ -173,6 +173,11 @@
       "url_list": "https://tilde.red/",
       "url_format_user": "https://tilde.red/~USER/"
     },
+    "tilde.team": {
+      "url_root": "https://tilde.team/",
+      "url_list": "https://tilde.team/",
+      "url_format_user": "https://tilde.team/~USER/"
+    },
     "tilde.town": {
       "url_root": "https://tilde.town/",
       "url_list": "https://tilde.town/~dan/users.json",

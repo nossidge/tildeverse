@@ -58,3 +58,6 @@
 2017/07/31  Add 'tildeverse.json' output
 2017/08/01  Single .html page for output
             All data is read from 'tildeverse.json'
+2017/08/01  Single .html page for output
+2017/08/04  Add the date each user page was modified
+2017/08/06  New Tildebox: tilde.team
