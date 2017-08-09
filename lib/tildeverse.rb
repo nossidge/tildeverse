@@ -74,9 +74,9 @@ def self.output_to_files
     hash['user_count'] = results.size
     user_hash = {}
     results.keys.each do |user|
-      user_hash[user] = {
-        time: '-'
-      }
+      existing_hash = hash['users'][user] rescue nil
+      user_hash[user] = existing_hash || {}
+      user_hash[user][:time] = '-'
     end
     hash['users'] = user_hash
   end
@@ -119,7 +119,7 @@ def self.write_to_html
   end
 end
 
-# Copy all static files to the ouput directory.
+# Copy all static files to the output directory.
 def self.copy_files
   FILES_TO_COPY.each do |i|
     FileUtils.cp("#{DIR_DATA}/#{i}", "#{DIR_HTML}/#{i}")
@@ -213,3 +213,5 @@ end
 end
 
 ################################################################################
+
+Tildeverse.run_all if DEV_MODE
