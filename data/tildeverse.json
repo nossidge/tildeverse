@@ -73,6 +73,11 @@
       "url_list": "http://matilde.club/~mikker/users.html",
       "url_format_user": "http://matilde.club/~USER/"
     },
+    "myrtle-st.club": {
+      "url_root": "http://myrtle-st.club/",
+      "url_list": "http://myrtle-st.club/",
+      "url_format_user": "http://myrtle-st.club/~USER/"
+    },
     "noiseandsignal.com": {
       "url_root": "http://noiseandsignal.com/",
       "url_list": "http://noiseandsignal.com/",

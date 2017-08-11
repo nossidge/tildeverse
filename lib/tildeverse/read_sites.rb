@@ -1369,6 +1369,35 @@ end
 
 ################################################################################
 
+# These are the lines on the page that include '<p> <a href'
+def self.read_myrtle_st_club
+  output = {}
+
+  tilde_connection = TildeConnection.new('myrtle-st.club')
+  tilde_connection.root_url = 'http://myrtle-st.club/'
+  tilde_connection.list_url = 'http://myrtle-st.club/'
+  user_list = tilde_connection.test_connection
+  if tilde_connection.error
+    puts tilde_connection.error_message
+
+  else
+    user_list.split("\n").each do |i|
+      if i.match(/<p> <a href=/)
+        i = i.partition('a href').last.strip
+        url = i.first_between_two_chars("'")
+        url = url.remove_trailing_slash
+        name = url.partition('~').last.strip
+        output[name] = url
+      end
+    end
+    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
+  end
+  sort_hash_by_keys(output)
+end
+#puts_hash(read_myrtle_st_club)
+
+################################################################################
+
 end
 
 ################################################################################
