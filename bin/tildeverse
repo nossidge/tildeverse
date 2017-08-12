@@ -10,7 +10,7 @@ require_relative '../lib/tildeverse.rb'
 
 ################################################################################
 
-obj_json = JSON.parse(File.read(OUTPUT_JSON_TILDEVERSE))
+obj_json = JSON.parse(File.read(OUTPUT_JSON_TILDEVERSE)) rescue {}
 
 help_info = %q{Usage: tildeverse <command> [subcommand]
 
@@ -24,8 +24,9 @@ $ tildeverse json ['pretty']
 $ tildeverse sites|boxes
   List all the sites in the Tildeverse
 
-$ tildeverse [site name]
+$ tildeverse [site name] ['json']
   List all users for the specified Tildebox
+  'json' subcommand outputs as JSON
 }
 
 # Use the arguments to decide which function to perform.
@@ -43,7 +44,11 @@ when 'json'
 when 'sites', 'boxes'
   puts obj_json['sites'].keys
 else
-  puts obj_json['sites'][ARGV[0]]['users'] rescue ''
+  if ARGV[1] == 'json'
+    puts obj_json['sites'][ARGV[0]]['users'] rescue ''
+  else
+    puts obj_json['sites'][ARGV[0]]['users'].keys rescue ''
+  end
 end
 
 ################################################################################
