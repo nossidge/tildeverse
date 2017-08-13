@@ -25,8 +25,8 @@ require_relative 'tildeverse/misc.rb'
 DEV_MODE                = false
 
 DIR_ROOT                = File.expand_path('../../', __FILE__)
-DIR_DATA                = "#{DIR_ROOT}/data/"
-DIR_HTML                = "#{DIR_ROOT}/output/"
+DIR_DATA                = "#{DIR_ROOT}/data"
+DIR_HTML                = "#{DIR_ROOT}/output"
 
 INPUT_HTML_TEMPLATE     = "#{DIR_DATA}/index_template.html"
 INPUT_JSON_TILDEVERSE   = "#{DIR_DATA}/tildeverse.json"
