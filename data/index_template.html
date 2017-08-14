@@ -10,6 +10,8 @@
   <script src="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/js/bootstrap.min.js"></script>
   <link href="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/css/bootstrap-multiselect.css" rel="stylesheet">
+  <script src="https://tilde.town/~nossidge/zelda/lib/ext/bootstrap/js/bootstrap-multiselect.js"></script>
 
   <script src="users.js"></script>
   <script src="boxes.js"></script>
@@ -39,6 +41,41 @@
         });
       });
     }
+    function createMultiselect() {
+      let tags = [
+        "blog","tutorial","prose","poetry",
+        "art","photo","audio","gaming",
+        "code","procgen","web1.0","unix","tilde",
+        "links","brief","redirect","empty"
+      ];
+      let selectContents = $.map(tags, function(value) {
+        return `<option value="${value}">${value}</option>`;
+      });
+      let elem = document.createElement("select");
+      $(elem).attr("id", "tags_select");
+      $(elem).attr("multiple", "multiple");
+      $("#table_users_length").append(elem);
+      $(elem).html(selectContents);
+      $(elem).multiselect({
+        nonSelectedText: "Filter by user site tag",
+        buttonWidth: "260px",
+        numberDisplayed: 4,
+        includeSelectAllOption: true,
+        selectAllText: "ALL",
+        selectAllNumber: false,
+        onChange: multiselectEvent,
+        onSelectAll: multiselectEvent,
+        onDeselectAll: multiselectEvent
+      });
+    }
+    function multiselectEvent() {
+      let table = $("#table_users").DataTable();
+      let tags = $("#tags_select").val() || [];
+      let tagString = $.map(tags, function(value) {
+        return "#" + value;
+      });
+      table.search(tagString.join(" ")).draw();
+    }
     $(document).ready( function () {
       var x = new XMLHttpRequest();
       x.open("GET", "tildeverse.json", true);
@@ -49,6 +86,7 @@
         boxes(tildeverseJSON);
         pie(tildeverseJSON);
         dataTables();
+        createMultiselect();
       }
       x.send(null);
     });
@@ -58,12 +96,13 @@
     #content { width: 800px; margin: 0 auto; }
     p, h1    { text-align: center; }
     canvas   { float: right; }
-    #legend                   { margin: 0 auto; }
-    #legend table             { margin: 0 auto; }
-    #legend tr td:first-child { padding-left: 0px; }
-    #legend tr td:last-child  { text-align: right; }
-    #legend td                { padding: 0px 0px 0px 12px; }
-    .dataTables_wrapper       { padding: 20px 0px 10px 0px; }
+    #legend                    { margin: 0 auto; }
+    #legend table              { margin: 0 auto; }
+    #legend tr td:first-child  { padding-left: 0px; }
+    #legend tr td:last-child   { text-align: right; }
+    #legend td                 { padding: 0px 0px 0px 12px; }
+    .dataTables_wrapper        { padding: 20px 0px 10px 0px; }
+    .multiselect-native-select { margin-left: 78px; }
   </style>
  </head>
 
@@ -107,6 +146,7 @@
 
         <div class="tab-pane fade" id="data">
           <br>
+          <p>Code is available on <a href="https://github.com/nossidge/tildeverse">GitHub</a>.
           <p>This list is based on the <a href="http://tilde.club/~pfhawkins/othertildes.html">master list</a> tended to by <a href="https://twitter.com/pfhawkins">~pfhawkins</a>
           <br>If you are aware of any updates to this list, please let me know: <a href="https://twitter.com/nossidge">@nossidge</a></p>
           <p>Users are found by scraping the source of a Tilde's user directory.

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8"></meta>
+  <title>Tildeverse Tags</title>
+  <script src="https://tilde.town/~nossidge/jquery/src/jquery.js"></script>
+  <script src="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.js"></script>
+  <link href="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.css" rel="stylesheet">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://tilde.town/~nossidge/zelda/holy_grail.css" rel="stylesheet">
+  <script language="javascript">
+
+    // Turn an array into an iterator.
+    function toIterator(array) {
+      let index = -1;
+      return {
+        index: function() {
+          return index;
+        },
+        all: function() {
+          return array;
+        },
+        current: function() {
+          return (index >= 0 && index < array.length) ?
+            { value: array[index], done: false } :
+            { done: true };
+        },
+        next: function() {
+          if (index < array.length - 1) {
+            return { value: array[++index], done: false };
+          } else {
+            index = array.length;
+            return { done: true };
+          }
+        },
+        previous: function() {
+          if (index > 0) {
+            return { value: array[--index], done: false };
+          } else {
+            index = -1;
+            return { done: true };
+          }
+        },
+        random: function() {
+          index = Math.floor(Math.random() * array.length);
+          return array[index];
+        },
+        gotoIndex: function(inputIndex) {
+          index = inputIndex;
+          return array[index];
+        }
+      };
+    }
+
+    // Return an array of the users that are to be tagged.
+    function untaggedUsersArray(tildeverseJSON) {
+      let i = 0;
+      let output = [];
+      let allSites = tildeverseJSON["sites"];
+      for (let site in allSites) {
+//        if (site == "tilde.town") {
+          let url = allSites[site]["url_format_user"];
+          let siteUsers = allSites[site]["users"];
+          for (let user in siteUsers) {
+//            if ((typeof siteUsers[user]["tags"] != "undefined") && (siteUsers[user]["tags"].includes("TODO"))) {
+            if (typeof siteUsers[user]["tags"] == "undefined") {
+//            if (user.startsWith("a")) {
+//            if (123 == 123) {
+              let obj = {
+                index: i++,
+                site: site,
+                user: user,
+                url: url.replace("USER", user)
+              };
+              if (typeof siteUsers[user]["tags"] != "undefined") {
+                obj["tags"] = siteUsers[user]["tags"]
+              }
+              output.push(obj);
+            }
+          }
+//        }
+      }
+      return output;
+    }
+
+    // Display the next/previous URL in the array.
+    function nextUrl() {
+      saveTagsToState();
+      let user = homepages.next().value;
+      if (!user) user = homepages.previous().value;
+      displayUser(user);
+    }
+    function previousUrl() {
+      saveTagsToState();
+      let user = homepages.previous().value;
+      if (!user) user = homepages.next().value;
+      displayUser(user);
+    }
+    function randomUrl() {
+      let user = homepages.random();
+      displayUser(user);
+    }
+    function gotoUrlIndex(index) {
+      let user = homepages.gotoIndex(index);
+      displayUser(user);
+    }
+
+    // Display all the user's info on screen.
+    function displayUser(user) {
+      if (typeof user !== "undefined") {
+        openInFrame();
+        displayTags(user.tags);
+        $("#text_user").attr("value", user.url);
+        document.getElementById("url_dropdown").value = user.index;
+        let counter = (user.index + 1) + "/" + homepages.all().length;
+        $("#text_counter").attr("value", counter);
+      } else {
+        $("#text_user").attr("value", "No users to tag!");
+      }
+    }
+
+    // Display the tags as active/inactive buttons.
+    function displayTags(tags) {
+      $("#tag_buttons a").each( function() {
+        $(this).removeClass("active");
+      });
+      if (!tags) return;
+      $.each(tags, function(index, tag) {
+        let elem = $("#tag_buttons a[data-tag-name='" + tag + "']");
+        elem.addClass("active");
+      });
+    }
+
+    // Open the current Tilde user site in the iframe, or new tab.
+    // This code is so hacky it hurts. HOW SHOULD I BE DOING THIS??
+    function openInFrame() {
+      if (typeof homepages.current().value !== "undefined") {
+        let elem = document.getElementById("url_iframe_link");
+        elem.href = homepages.current().value.url;
+        elem.click();
+      }
+    }
+    function openInNewTab() {
+      if (typeof homepages.current().value !== "undefined") {
+        let elem = document.getElementById("url_blank_link");
+        elem.href = homepages.current().value.url;
+        elem.click();
+      }
+    }
+
+    // Toggle a tag button active state, and save to state.
+    function toggleTag(element) {
+      if (typeof homepages.current().value !== "undefined") {
+        $(element).toggleClass("active");
+        saveTagsToState();
+        saveDirty();
+
+        // Add to {savedTags}
+        let tildee = homepages.current().value;
+        if (typeof(savedTags[tildee.site]) === "undefined") {
+          savedTags[tildee.site] = {};
+        }
+        savedTags[tildee.site][tildee.user] = tildee.tags;
+      }
+    }
+
+    // Save the current tag layout to the 'homepages' object.
+    function saveTagsToState() {
+      if (typeof homepages.current().value !== "undefined") {
+        let tags = [];
+        $("#tag_buttons a").each( function() {
+          if ($(this).hasClass("active")) {
+            let tagName = $(this).attr("data-tag-name");
+            tags.push(tagName);
+          }
+        });
+        homepages.current().value.tags = tags;
+      }
+    }
+
+    // Save the 'homepages' object back to a JSON file.
+    // Loop through each 'homepages' user and map back
+    //   to the input 'tildeverseJSON'.
+    function saveTagsToFile() {
+      $.post("save_tags", JSON.stringify(savedTags));
+      savedTags = {};
+      saveClean();
+    }
+
+    // Change the glyphicon floppy disk of the 'save tags' button.
+    function saveDirty() {
+      let elem = $("#save_glyphicon");
+      elem.removeClass("glyphicon-floppy-saved");
+      elem.addClass("glyphicon-floppy-disk");
+    }
+    function saveClean() {
+      let elem = $("#save_glyphicon");
+      elem.removeClass("glyphicon-floppy-disk");
+      elem.addClass("glyphicon-floppy-saved");
+    }
+
+    // Populate the input selection with te URLs.
+    function displayDropdownURLs() {
+      let elem = $("#url_dropdown");
+      homepages.all().forEach( function(obj, index) {
+        let url = obj.url.substring(obj.url.search("//") + 2);
+        elem.append("<option value='" + index + "'>" + url + "</option>");
+      });
+    }
+
+    // Load it all up.
+    var homepages = null
+    var savedTags = {};
+    var tildeverseJSON = null;
+    $(document).ready( function() {
+      $.getJSON("tildeverse.json", function(data) {
+        tildeverseJSON = data;
+        homepages = toIterator(untaggedUsersArray(tildeverseJSON));
+        displayDropdownURLs();
+        nextUrl();
+      });
+    });
+  </script>
+  <style type="text/css">
+    body {
+      min-height: 100vh;
+    }
+    input {
+      text-align: center;
+    }
+    .header_div {
+      margin: 10px;
+    }
+    .header_left {
+      flex: 0 0 414px;
+      margin-top: 0px;
+      margin-left: 0px;
+    }
+    .header_right {
+      flex: 0 0 614px;
+      margin-left: 8px;
+      margin-right: 0px;
+      display: flex;
+    }
+    #text_counter {
+      width: 130px;
+      margin-left: 8px;
+    }
+    .top_button {
+      width: 100px;
+    }
+    .col_left {
+      flex: 0 0 16em;
+    }
+    .col_middle {
+      background-color: white;
+      padding: 0px;
+    }
+    #save {
+      margin: 0px 0px 5px 0px;
+    }
+  </style>
+ </head>
+ <body class="border">
+  <header class="border">
+    <div class="header_div">
+      <div class="header_title input-group-lg">
+        <input id="text_user"
+               type="text"
+               class="form-control"
+               readonly="readonly"
+               onfocus="this.focus();this.select()"
+        />
+        <a hidden id="url_iframe_link" target="tildesite"></a>
+        <a hidden id="url_blank_link" target="_blank"></a>
+      </div>
+      <div class="header_left">
+        <div class="btn-group btn-group-lg">
+          <a class="btn btn-default top_button"
+              title="Previous user"
+              onclick="previousUrl()">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+          </a>
+          <a class="btn btn-default top_button"
+              title="Next user"
+              onclick="nextUrl()">
+            <span class="glyphicon glyphicon-arrow-right"></span>
+          </a>
+          <a class="btn btn-default top_button"
+              title="Random user"
+              onclick="randomUrl()">
+            <span class="glyphicon glyphicon-random"></span>
+          </a>
+        </div>
+          <a class="btn btn-default top_button btn-lg"
+              title="Open user homepage in new tab"
+              onclick="openInNewTab()">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
+      </div>
+      <div class="header_right">
+        <select id="url_dropdown"
+                class="form-control input-lg"
+                onchange="gotoUrlIndex(this.value)">
+        </select>
+        <input id="text_counter"
+               type="text"
+               class="form-control input-lg"
+               readonly="readonly"
+               onfocus="this.focus();this.select()"
+        />
+      </div>
+    </div>
+  </header>
+  <div class="contents">
+    <div id="col_left" class="col_left border">
+      <div id="col_left_content">
+        <div id="tag_area">
+          <div id="tag_area_left">
+            <a id="save" class="btn btn-default btn-lg btn-block" onclick="saveTagsToFile()">
+              <span id="save_glyphicon" class="glyphicon glyphicon-floppy-saved"></span>
+            </a>
+            <div id="tag_buttons" class="btn-group-vertical btn-block">
+              <% @tags.each do |tag| %>
+                <a id="tag_button_<%= tag %>" class="btn btn-default btn-lg"
+                    data-tag-name="<%= tag %>"
+                    onclick="toggleTag(this);">
+                  <%= tag %>
+                </a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <iframe id="col_middle" class="col_middle border" name="tildesite"></iframe>
+  </div>
+ </body>
+</html>
