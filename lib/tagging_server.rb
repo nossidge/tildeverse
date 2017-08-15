@@ -48,7 +48,7 @@ class TildeTagApp < Sinatra::Base
   get '/' do
     @tags = %w[
       empty TODO brief redirect links blog poetry prose art photo
-      audio gaming tutorial code procgen web1.0 unix tilde]
+      audio video gaming tutorial code procgen web1.0 unix tilde]
     erb :index
   end
 

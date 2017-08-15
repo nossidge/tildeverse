@@ -415,10 +415,9 @@
           ]
         },
         "andrewa121": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "links",
-            "brief"
+            "redirect"
           ]
         },
         "andrewp": {
@@ -535,8 +534,9 @@
           ]
         },
         "atomicglee": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "TODO",
             "photo"
           ]
         },
@@ -1187,9 +1187,11 @@
           ]
         },
         "cozmo": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "gaming"
+            "links",
+            "gaming",
+            "tutorial"
           ]
         },
         "crazylemon": {
@@ -1205,9 +1207,11 @@
           ]
         },
         "cristo": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "code"
+            "tutorial",
+            "code",
+            "unix"
           ]
         },
         "cshirky": {
@@ -1230,9 +1234,9 @@
           ]
         },
         "ctrlyrown": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "brief"
+            "redirect"
           ]
         },
         "curiouser": {
@@ -1308,8 +1312,9 @@
           ]
         },
         "daniel": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "links",
             "art"
           ]
         },
@@ -1413,10 +1418,11 @@
           ]
         },
         "demophoon": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "art",
-            "audio"
+            "audio",
+            "video"
           ]
         },
         "dep": {
@@ -1562,9 +1568,10 @@
           ]
         },
         "dvd": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "redirect"
+            "redirect",
+            "tilde"
           ]
         },
         "dym": {
@@ -1956,9 +1963,10 @@
           ]
         },
         "frank": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "brief"
+            "brief",
+            "video"
           ]
         },
         "frankblues": {
@@ -2081,8 +2089,9 @@
           ]
         },
         "glittery": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "redirect",
             "art",
             "audio"
           ]
@@ -2602,10 +2611,11 @@
           ]
         },
         "joe": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "prose",
             "art",
+            "photo",
             "web1.0"
           ]
         },
@@ -3088,9 +3098,10 @@
           ]
         },
         "luke": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "brief",
+            "links",
             "audio"
           ]
         },
@@ -3372,7 +3383,7 @@
           ]
         },
         "minkus": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "empty"
           ]
@@ -3488,10 +3499,10 @@
           ]
         },
         "mudskipper": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "audio",
-            "web1.0"
+            "web1.0",
+            "video"
           ]
         },
         "mumblelard": {
@@ -3565,9 +3576,10 @@
           ]
         },
         "nclm": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "audio"
+            "audio",
+            "video"
           ]
         },
         "ndmdn": {
@@ -3675,13 +3687,14 @@
           ]
         },
         "nincollin": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "links",
             "blog",
             "gaming",
             "code",
-            "web1.0"
+            "web1.0",
+            "video"
           ]
         },
         "nixie": {
@@ -3793,8 +3806,10 @@
           ]
         },
         "null": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "links",
+            "poetry",
             "web1.0"
           ]
         },
@@ -3823,8 +3838,9 @@
           ]
         },
         "objelisks": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "art",
             "code"
           ]
         },
@@ -3919,9 +3935,9 @@
           ]
         },
         "p0stxer0x": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "brief"
+            "empty"
           ]
         },
         "p1073r": {
@@ -4114,9 +4130,10 @@
           ]
         },
         "pmitchell": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "audio"
+            "audio",
+            "tutorial"
           ]
         },
         "pnathan": {
@@ -4181,9 +4198,10 @@
           ]
         },
         "puldo": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "art",
+            "photo",
             "web1.0"
           ]
         },
@@ -4391,9 +4409,9 @@
           ]
         },
         "robbymeals": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "blog",
+            "links",
             "art"
           ]
         },
@@ -4856,10 +4874,12 @@
           ]
         },
         "slymodi": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "links",
             "blog",
-            "prose"
+            "prose",
+            "audio"
           ]
         },
         "smare": {
@@ -4962,8 +4982,9 @@
           ]
         },
         "spukspital": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "blog",
             "art",
             "web1.0"
           ]
@@ -5065,10 +5086,11 @@
           ]
         },
         "sunlight": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "links",
-            "prose"
+            "prose",
+            "tilde"
           ]
         },
         "superloach": {
@@ -5136,9 +5158,10 @@
           ]
         },
         "tchan": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "empty"
+            "links",
+            "audio"
           ]
         },
         "tcreech": {
@@ -5263,8 +5286,9 @@
           ]
         },
         "thegiant": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
+            "links",
             "web1.0"
           ]
         },
@@ -5379,11 +5403,12 @@
           ]
         },
         "trenton": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "links",
             "prose",
-            "web1.0"
+            "web1.0",
+            "tilde"
           ]
         },
         "trev": {
@@ -5572,7 +5597,7 @@
           ]
         },
         "vilmibm": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
             "poetry",
             "prose",
@@ -5582,7 +5607,8 @@
             "tutorial",
             "code",
             "procgen",
-            "web1.0"
+            "web1.0",
+            "tilde"
           ]
         },
         "vimes": {
@@ -5839,9 +5865,11 @@
           ]
         },
         "yesh": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-15",
           "tags": [
-            "audio"
+            "links",
+            "audio",
+            "video"
           ]
         },
         "yew": {
