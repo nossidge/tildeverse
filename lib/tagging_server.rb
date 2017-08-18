@@ -100,6 +100,7 @@ class TildeTagApp < Sinatra::Base
     # Write the hash to both JSON files.
     File.open(INPUT_JSON_TILDEVERSE, 'w') do |f|
       f.write JSON.pretty_generate(json)
+      f.write "\n"
     end
     update_tags
 
