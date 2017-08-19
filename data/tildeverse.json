@@ -288,8 +288,8 @@
         "aisthemata": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "art",
+            "links",
             "photo"
           ]
         },
@@ -453,9 +453,9 @@
         "antic": {
           "tagged": "2017-08-14",
           "tags": [
-            "blog",
             "art",
             "audio",
+            "blog",
             "web1.0"
           ]
         },
@@ -480,10 +480,10 @@
         "appropouture": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "prose",
             "art",
             "audio",
+            "links",
+            "prose",
             "web1.0"
           ]
         },
@@ -502,9 +502,9 @@
         "archangelic": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
             "gaming",
+            "links",
             "tutorial",
             "web1.0"
           ]
@@ -543,16 +543,16 @@
         "audiodude": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
             "code",
+            "poetry",
             "web1.0"
           ]
         },
         "audy": {
           "tagged": "2017-08-14",
           "tags": [
-            "blog",
             "art",
+            "blog",
             "code",
             "tilde"
           ]
@@ -650,9 +650,9 @@
         "bear": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
             "code",
+            "links",
             "tilde"
           ]
         },
@@ -780,10 +780,10 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "gaming",
-            "tutorial",
             "code",
-            "procgen"
+            "gaming",
+            "procgen",
+            "tutorial"
           ]
         },
         "blake": {
@@ -900,8 +900,8 @@
         "busb": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog"
+            "blog",
+            "links"
           ]
         },
         "buzzbuzz": {
@@ -1000,12 +1000,12 @@
         "cel": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "tutorial",
             "code",
+            "links",
             "procgen",
-            "unix",
-            "tilde"
+            "tilde",
+            "tutorial",
+            "unix"
           ]
         },
         "cellardoor": {
@@ -1107,8 +1107,8 @@
         "cmr": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
             "art",
+            "brief",
             "web1.0"
           ]
         },
@@ -1189,8 +1189,8 @@
         "cozmo": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
             "gaming",
+            "links",
             "tutorial"
           ]
         },
@@ -1209,8 +1209,8 @@
         "cristo": {
           "tagged": "2017-08-15",
           "tags": [
-            "tutorial",
             "code",
+            "tutorial",
             "unix"
           ]
         },
@@ -1243,8 +1243,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "gaming",
             "code",
+            "gaming",
             "procgen"
           ]
         },
@@ -1287,8 +1287,8 @@
         "dactyl": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "dahc": {
@@ -1301,8 +1301,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "links",
-            "web1.0",
-            "tilde"
+            "tilde",
+            "web1.0"
           ]
         },
         "dana": {
@@ -1314,8 +1314,8 @@
         "daniel": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
-            "art"
+            "art",
+            "links"
           ]
         },
         "dankrank": {
@@ -1334,8 +1334,8 @@
         "datagrok": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog"
+            "blog",
+            "links"
           ]
         },
         "dattasaurabh82": {
@@ -1407,8 +1407,8 @@
         "delaunaymayhem": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "delphi": {
@@ -1440,9 +1440,9 @@
         "desvox": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "art",
             "audio",
+            "links",
             "tilde"
           ]
         },
@@ -1467,8 +1467,8 @@
         "dheeraj": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog"
+            "blog",
+            "links"
           ]
         },
         "dhgwilliam": {
@@ -1583,8 +1583,8 @@
         "dymaxion": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "dznqbit": {
@@ -1692,11 +1692,11 @@
         "elly": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "code",
+            "links",
             "prose",
-            "tutorial",
-            "code"
+            "tutorial"
           ]
         },
         "emilis": {
@@ -1708,9 +1708,9 @@
         "emiltayl": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
             "art",
             "gaming",
+            "poetry",
             "web1.0"
           ]
         },
@@ -1729,20 +1729,20 @@
         "emma": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "prose",
             "art",
             "audio",
+            "code",
             "gaming",
-            "code"
+            "links",
+            "prose"
           ]
         },
         "endorphant": {
           "tagged": "2017-08-14",
           "tags": [
             "blog",
-            "poetry",
-            "code"
+            "code",
+            "poetry"
           ]
         },
         "englishm": {
@@ -1761,9 +1761,9 @@
         "epicmorphism": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "brief",
-            "gaming"
+            "gaming",
+            "links"
           ]
         },
         "erat": {
@@ -1835,8 +1835,8 @@
         "eventi": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "code"
+            "code",
+            "links"
           ]
         },
         "f8al": {
@@ -1848,9 +1848,9 @@
         "fearlessbananas": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "brief",
-            "gaming"
+            "gaming",
+            "links"
           ]
         },
         "fenylalanine": {
@@ -1880,8 +1880,8 @@
         "fivestarhotel": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "audio"
+            "audio",
+            "links"
           ]
         },
         "flocom": {
@@ -1918,9 +1918,9 @@
         "fold": {
           "tagged": "2017-08-14",
           "tags": [
-            "prose",
             "art",
             "audio",
+            "prose",
             "web1.0"
           ]
         },
@@ -1948,10 +1948,10 @@
         "fr4nk": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
-            "poetry",
+            "links",
             "photo",
+            "poetry",
             "procgen"
           ]
         },
@@ -2003,10 +2003,10 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "tutorial",
             "code",
-            "web1.0",
-            "tilde"
+            "tilde",
+            "tutorial",
+            "web1.0"
           ]
         },
         "fulv": {
@@ -2091,9 +2091,9 @@
         "glittery": {
           "tagged": "2017-08-15",
           "tags": [
-            "redirect",
             "art",
-            "audio"
+            "audio",
+            "redirect"
           ]
         },
         "glyph": {
@@ -2254,8 +2254,8 @@
         "hotkeys": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "blog"
+            "blog",
+            "brief"
           ]
         },
         "hozed": {
@@ -2303,9 +2303,9 @@
         "ike": {
           "tagged": "2017-08-14",
           "tags": [
+            "art",
             "poetry",
-            "prose",
-            "art"
+            "prose"
           ]
         },
         "ilesinge": {
@@ -2323,8 +2323,8 @@
         "imt": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "links",
             "tilde"
           ]
         },
@@ -2376,8 +2376,8 @@
         "ivcore": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "art"
+            "art",
+            "links"
           ]
         },
         "ive": {
@@ -2457,10 +2457,10 @@
         "jammerwoch": {
           "tagged": "2017-08-14",
           "tags": [
+            "audio",
             "links",
             "poetry",
-            "prose",
-            "audio"
+            "prose"
           ]
         },
         "jamtur01": {
@@ -2478,8 +2478,8 @@
         "jasp": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "javissimo": {
@@ -2563,9 +2563,9 @@
         "jeremy": {
           "tagged": "2017-08-14",
           "tags": [
+            "audio",
             "poetry",
-            "prose",
-            "audio"
+            "prose"
           ]
         },
         "jesse": {
@@ -2613,9 +2613,9 @@
         "joe": {
           "tagged": "2017-08-15",
           "tags": [
-            "prose",
             "art",
             "photo",
+            "prose",
             "web1.0"
           ]
         },
@@ -2658,10 +2658,10 @@
         "joniwoni": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "prose",
             "art",
-            "audio"
+            "audio",
+            "links",
+            "prose"
           ]
         },
         "joshcarr": {
@@ -2711,8 +2711,8 @@
         "jseakle": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
             "art",
+            "poetry",
             "procgen"
           ]
         },
@@ -2725,8 +2725,8 @@
         "jumblesale": {
           "tagged": "2017-08-14",
           "tags": [
-            "photo",
             "gaming",
+            "photo",
             "tilde"
           ]
         },
@@ -2807,10 +2807,10 @@
         "kc": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
-            "prose",
+            "audio",
             "photo",
-            "audio"
+            "poetry",
+            "prose"
           ]
         },
         "keks": {
@@ -2841,8 +2841,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "tutorial",
-            "code"
+            "code",
+            "tutorial"
           ]
         },
         "kirby": {
@@ -2898,8 +2898,8 @@
         "krowbar": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
             "gaming",
+            "poetry",
             "tilde"
           ]
         },
@@ -3100,9 +3100,9 @@
         "luke": {
           "tagged": "2017-08-15",
           "tags": [
+            "audio",
             "brief",
-            "links",
-            "audio"
+            "links"
           ]
         },
         "lumaio": {
@@ -3127,9 +3127,9 @@
         "lycaon": {
           "tagged": "2017-08-14",
           "tags": [
-            "redirect",
             "gaming",
-            "procgen"
+            "procgen",
+            "redirect"
           ]
         },
         "lykakspars": {
@@ -3141,9 +3141,9 @@
         "m455": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog",
             "art",
+            "blog",
+            "links",
             "tutorial",
             "unix"
           ]
@@ -3176,8 +3176,8 @@
         "magical": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "mahydraal": {
@@ -3189,8 +3189,8 @@
         "maja": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "mankins": {
@@ -3210,8 +3210,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "blog",
-            "tutorial",
-            "code"
+            "code",
+            "tutorial"
           ]
         },
         "marginalia": {
@@ -3320,9 +3320,9 @@
         "mgoh": {
           "tagged": "2017-08-14",
           "tags": [
+            "audio",
             "links",
-            "photo",
-            "audio"
+            "photo"
           ]
         },
         "michelelelilin": {
@@ -3376,8 +3376,8 @@
         "minerobber": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "links",
             "poetry",
             "tilde"
           ]
@@ -3476,8 +3476,8 @@
         "mrspeaker": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "gaming"
+            "gaming",
+            "links"
           ]
         },
         "mrtn": {
@@ -3501,8 +3501,8 @@
         "mudskipper": {
           "tagged": "2017-08-15",
           "tags": [
-            "web1.0",
-            "video"
+            "video",
+            "web1.0"
           ]
         },
         "mumblelard": {
@@ -3515,8 +3515,8 @@
         "mushmouth": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "links",
             "prose",
             "web1.0"
           ]
@@ -3639,17 +3639,17 @@
         "nicha": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "nick": {
           "tagged": "2017-08-14",
           "tags": [
-            "tutorial",
             "code",
-            "unix",
-            "tilde"
+            "tilde",
+            "tutorial",
+            "unix"
           ]
         },
         "nikki": {
@@ -3674,8 +3674,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "photo",
             "gaming",
+            "photo",
             "procgen"
           ]
         },
@@ -3689,12 +3689,12 @@
         "nincollin": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
             "blog",
-            "gaming",
             "code",
-            "web1.0",
-            "video"
+            "gaming",
+            "links",
+            "video",
+            "web1.0"
           ]
         },
         "nixie": {
@@ -3712,11 +3712,11 @@
         "nju": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
-            "tutorial",
             "code",
-            "procgen"
+            "links",
+            "procgen",
+            "tutorial"
           ]
         },
         "nkantar": {
@@ -3740,10 +3740,10 @@
         "noon": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
-            "prose",
             "art",
-            "audio"
+            "audio",
+            "poetry",
+            "prose"
           ]
         },
         "noonat": {
@@ -3755,8 +3755,8 @@
         "norm": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "nosarep": {
@@ -3768,14 +3768,14 @@
         "nossidge": {
           "tagged": "2017-08-14",
           "tags": [
-            "poetry",
-            "prose",
             "art",
             "audio",
             "gaming",
+            "poetry",
             "procgen",
-            "web1.0",
-            "tilde"
+            "prose",
+            "tilde",
+            "web1.0"
           ]
         },
         "notjonathan": {
@@ -3787,16 +3787,16 @@
         "nova": {
           "tagged": "2017-08-14",
           "tags": [
-            "redirect",
             "gaming",
+            "redirect",
             "web1.0"
           ]
         },
         "novas1x": {
           "tagged": "2017-08-14",
           "tags": [
-            "empty",
-            "art"
+            "art",
+            "empty"
           ]
         },
         "nucleosynth": {
@@ -3917,15 +3917,15 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "web1.0",
-            "tilde"
+            "tilde",
+            "web1.0"
           ]
         },
         "owl": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "oyvinrob": {
@@ -3967,10 +3967,10 @@
         "papa": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
-            "web1.0",
-            "tilde"
+            "links",
+            "tilde",
+            "web1.0"
           ]
         },
         "park": {
@@ -4064,8 +4064,8 @@
         "pgst": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "blog"
+            "blog",
+            "brief"
           ]
         },
         "phantummm": {
@@ -4095,8 +4095,8 @@
         "pique": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "audio"
+            "audio",
+            "brief"
           ]
         },
         "pixel": {
@@ -4151,8 +4151,8 @@
         "polaris": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "poliwhirl": {
@@ -4220,17 +4220,17 @@
         "qaz": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
             "art",
+            "brief",
             "web1.0"
           ]
         },
         "quephird": {
           "tagged": "2017-08-14",
           "tags": [
-            "redirect",
+            "art",
             "links",
-            "art"
+            "redirect"
           ]
         },
         "quinn": {
@@ -4294,8 +4294,8 @@
         "raspberryfloof": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "audio"
+            "audio",
+            "brief"
           ]
         },
         "regresssion": {
@@ -4322,28 +4322,28 @@
         "resir014": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog",
-            "photo",
             "audio",
+            "blog",
             "gaming",
+            "links",
+            "photo",
             "tilde"
           ]
         },
         "return": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "audio",
+            "links",
             "web1.0"
           ]
         },
         "revenant": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
+            "code",
             "gaming",
-            "code"
+            "links"
           ]
         },
         "rhea_starstorm": {
@@ -4367,8 +4367,8 @@
         "rickcogley": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog"
+            "blog",
+            "links"
           ]
         },
         "ridgeback": {
@@ -4386,8 +4386,8 @@
         "rklett": {
           "tagged": "2017-08-14",
           "tags": [
-            "prose",
-            "code"
+            "code",
+            "prose"
           ]
         },
         "rll": {
@@ -4411,8 +4411,8 @@
         "robbymeals": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
-            "art"
+            "art",
+            "links"
           ]
         },
         "robert": {
@@ -4425,8 +4425,8 @@
         "robotops": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "links",
             "tutorial"
           ]
         },
@@ -4445,8 +4445,8 @@
         "rogbeer": {
           "tagged": "2017-08-14",
           "tags": [
-            "prose",
-            "audio"
+            "audio",
+            "prose"
           ]
         },
         "ron_of_taarth": {
@@ -4482,8 +4482,8 @@
         "rreknahtan": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "russt": {
@@ -4545,11 +4545,11 @@
         "sanqui": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog",
             "art",
-            "photo",
+            "blog",
             "gaming",
+            "links",
+            "photo",
             "web1.0"
           ]
         },
@@ -4557,8 +4557,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "web1.0",
-            "tilde"
+            "tilde",
+            "web1.0"
           ]
         },
         "sarah": {
@@ -4624,8 +4624,8 @@
         "scottrking": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "blog"
+            "blog",
+            "brief"
           ]
         },
         "scrivenimus": {
@@ -4668,8 +4668,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
-            "photo",
             "code",
+            "photo",
             "procgen",
             "tilde"
           ]
@@ -4677,8 +4677,8 @@
         "selsky": {
           "tagged": "2017-08-14",
           "tags": [
-            "tutorial",
-            "code"
+            "code",
+            "tutorial"
           ]
         },
         "sh20xyqi": {
@@ -4696,13 +4696,13 @@
         "shanx": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "prose",
-            "photo",
-            "tutorial",
             "code",
-            "web1.0",
-            "unix"
+            "links",
+            "photo",
+            "prose",
+            "tutorial",
+            "unix",
+            "web1.0"
           ]
         },
         "sharp": {
@@ -4744,9 +4744,9 @@
         "shrtkv": {
           "tagged": "2017-08-14",
           "tags": [
+            "art",
             "links",
             "prose",
-            "art",
             "web1.0"
           ]
         },
@@ -4855,16 +4855,16 @@
         "sl2c": {
           "tagged": "2017-08-14",
           "tags": [
-            "blog",
             "art",
+            "blog",
             "procgen"
           ]
         },
         "slimelia": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "blog"
+            "blog",
+            "links"
           ]
         },
         "slingshot": {
@@ -4876,10 +4876,10 @@
         "slymodi": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
+            "audio",
             "blog",
-            "prose",
-            "audio"
+            "links",
+            "prose"
           ]
         },
         "smare": {
@@ -4897,8 +4897,8 @@
         "snail": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "snga": {
@@ -4984,8 +4984,8 @@
         "spukspital": {
           "tagged": "2017-08-15",
           "tags": [
-            "blog",
             "art",
+            "blog",
             "web1.0"
           ]
         },
@@ -5048,8 +5048,8 @@
         "stuck": {
           "tagged": "2017-08-14",
           "tags": [
-            "redirect",
-            "gaming"
+            "gaming",
+            "redirect"
           ]
         },
         "stx": {
@@ -5075,8 +5075,8 @@
           "tags": [
             "links",
             "poetry",
-            "prose",
-            "procgen"
+            "procgen",
+            "prose"
           ]
         },
         "sui": {
@@ -5160,8 +5160,8 @@
         "tchan": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
-            "audio"
+            "audio",
+            "links"
           ]
         },
         "tcreech": {
@@ -5379,15 +5379,15 @@
         "tonebender": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "art"
+            "art",
+            "brief"
           ]
         },
         "tony": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
-            "blog"
+            "blog",
+            "brief"
           ]
         },
         "tool": {
@@ -5407,8 +5407,8 @@
           "tags": [
             "links",
             "prose",
-            "web1.0",
-            "tilde"
+            "tilde",
+            "web1.0"
           ]
         },
         "trev": {
@@ -5420,12 +5420,12 @@
         "troido": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "art",
-            "gaming",
             "code",
-            "web1.0",
-            "tilde"
+            "gaming",
+            "links",
+            "tilde",
+            "web1.0"
           ]
         },
         "trueboolean": {
@@ -5491,8 +5491,8 @@
         "twofold": {
           "tagged": "2017-08-14",
           "tags": [
-            "redirect",
-            "audio"
+            "audio",
+            "redirect"
           ]
         },
         "twylo": {
@@ -5529,8 +5529,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "prose",
-            "tutorial",
-            "tilde"
+            "tilde",
+            "tutorial"
           ]
         },
         "undeadcactus": {
@@ -5555,8 +5555,8 @@
         "user": {
           "tagged": "2017-08-14",
           "tags": [
-            "brief",
             "art",
+            "brief",
             "web1.0"
           ]
         },
@@ -5599,16 +5599,16 @@
         "vilmibm": {
           "tagged": "2017-08-15",
           "tags": [
-            "poetry",
-            "prose",
             "art",
-            "photo",
             "audio",
-            "tutorial",
             "code",
+            "photo",
+            "poetry",
             "procgen",
-            "web1.0",
-            "tilde"
+            "prose",
+            "tilde",
+            "tutorial",
+            "web1.0"
           ]
         },
         "vimes": {
@@ -5662,8 +5662,8 @@
         "walfisch": {
           "tagged": "2017-08-14",
           "tags": [
-            "blog",
             "art",
+            "blog",
             "code",
             "web1.0"
           ]
@@ -5767,8 +5767,8 @@
         "woland": {
           "tagged": "2017-08-14",
           "tags": [
-            "tutorial",
             "code",
+            "tutorial",
             "unix"
           ]
         },
@@ -5800,8 +5800,8 @@
         "xero": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "art",
+            "links",
             "unix"
           ]
         },
@@ -5821,8 +5821,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "blog",
-            "prose",
             "gaming",
+            "prose",
             "tutorial"
           ]
         },
@@ -5867,8 +5867,8 @@
         "yesh": {
           "tagged": "2017-08-15",
           "tags": [
-            "links",
             "audio",
+            "links",
             "video"
           ]
         },
@@ -5876,8 +5876,8 @@
           "tagged": "2017-08-14",
           "tags": [
             "tutorial",
-            "web1.0",
-            "unix"
+            "unix",
+            "web1.0"
           ]
         },
         "yoav": {
@@ -5909,8 +5909,8 @@
         "zach": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
             "blog",
+            "links",
             "prose"
           ]
         },
@@ -5924,10 +5924,10 @@
         "ze0nite": {
           "tagged": "2017-08-14",
           "tags": [
-            "links",
-            "prose",
             "art",
-            "procgen"
+            "links",
+            "procgen",
+            "prose"
           ]
         },
         "zed": {
@@ -5971,9 +5971,9 @@
           "tagged": "2017-08-14",
           "tags": [
             "art",
+            "code",
             "gaming",
             "tutorial",
-            "code",
             "web1.0"
           ]
         },

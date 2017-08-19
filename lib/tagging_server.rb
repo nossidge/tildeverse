@@ -93,6 +93,10 @@ class TildeTagApp < Sinatra::Base
         json['sites'][site]['users'].each do |user, user_hash|
           json['sites'][site]['users'][user] =
             json['sites'][site]['users'][user].sort.to_h
+          if json['sites'][site]['users'][user]['tags']
+            json['sites'][site]['users'][user]['tags'] =
+              json['sites'][site]['users'][user]['tags'].sort
+          end
         end
       end
     end
