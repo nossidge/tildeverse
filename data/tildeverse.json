@@ -549,8 +549,9 @@
           ]
         },
         "audy": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
+            "app",
             "art",
             "blog",
             "code",
@@ -648,8 +649,9 @@
           ]
         },
         "bear": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
+            "app",
             "blog",
             "code",
             "links",
@@ -750,10 +752,10 @@
           ]
         },
         "billputer": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
             "art",
-            "code"
+            "procgen"
           ]
         },
         "bipartite": {
@@ -1292,9 +1294,10 @@
           ]
         },
         "dahc": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
-            "code"
+            "code",
+            "procgen"
           ]
         },
         "dan": {
@@ -1690,8 +1693,9 @@
           ]
         },
         "elly": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
+            "app",
             "blog",
             "code",
             "links",
@@ -1833,7 +1837,7 @@
           ]
         },
         "eventi": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
             "code",
             "links"
@@ -2355,7 +2359,7 @@
           ]
         },
         "ironfroggy": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
             "art",
             "code"
@@ -3113,9 +3117,9 @@
           ]
         },
         "lunarbovine": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
-            "code"
+            "app"
           ]
         },
         "lvb": {
@@ -3710,8 +3714,9 @@
           ]
         },
         "nju": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-08-20",
           "tags": [
+            "app",
             "blog",
             "code",
             "links",

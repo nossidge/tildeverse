@@ -52,8 +52,10 @@ prose      Fiction or nonfiction, in sufficient quantity
 art        Any form of art. Includes ASCII, JS and HTML. Words can be art
 photo      Photography
 audio      Music, spoken word, sound
+video      Moving pictures
 gaming     Stuff about games
 tutorial   An in-depth guide to a topic
+app        Web application of any kind
 code       Contains actual code samples/projects
 procgen    Procedurally generated art/poetry/music/whatever
 web1.0     Early web aesthetic
