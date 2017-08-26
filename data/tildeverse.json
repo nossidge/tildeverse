@@ -1542,7 +1542,1012 @@
     "riotgirl.club": {
       "url_root": "http://riotgirl.club",
       "url_list": "http://riotgirl.club/~jspc/user_list.html",
-      "url_format_user": "http://riotgirl.club/~USER/"
+      "url_format_user": "http://riotgirl.club/~USER/",
+      "users": {
+        "ab": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "art",
+            "links"
+          ]
+        },
+        "alexander": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "amanda": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "photo"
+          ]
+        },
+        "amber": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "amy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog",
+            "prose",
+            "tilde"
+          ]
+        },
+        "anais9": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "andrewhinton": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "atlashugged": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "atothej": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "azar": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bazilli": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ben": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "boogah": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "video"
+          ]
+        },
+        "brandonnn": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bspang": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "links",
+            "tilde"
+          ]
+        },
+        "byebyeflyguy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "art",
+            "web1.0"
+          ]
+        },
+        "cade": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "cariwest": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "cdparks": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "celti": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "chessypig": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "curiousmind": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog"
+          ]
+        },
+        "d6": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dana": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dave": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "den": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "web1.0"
+          ]
+        },
+        "dhrubo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "djacobs": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dlitz": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "drh": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief"
+          ]
+        },
+        "dsjoerg": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "duretti": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "eddie": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ellie": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "emef": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "fbk": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "fiono": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "frances": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "fungible": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "futanarchy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "garry": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "geekette": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "grasscait": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "greg": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "guillaume": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "gwachob": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "gwensmu": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog"
+          ]
+        },
+        "h": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "hadaly": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "heygalia": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "hobgadling": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "huws": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ianremsen": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "app",
+            "gaming",
+            "tilde"
+          ]
+        },
+        "iceberg273": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "imightbeamy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "inahill": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "j0shr0se": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jeffrey": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jenn": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jes5199": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "joe": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "audio",
+            "links",
+            "video"
+          ]
+        },
+        "jspc": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "tilde"
+          ]
+        },
+        "justinhale": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kaepora": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kaeti": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kaoudis": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kapsteur": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "katemonkey": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "tutorial",
+            "web1.0"
+          ]
+        },
+        "kathy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kelsey": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ketouem": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kfuruya": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kristenmh": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "laoo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "audio"
+          ]
+        },
+        "louis": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "luci": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "luwuxu": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "macloo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "links"
+          ]
+        },
+        "marcus": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "marie": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "marihuertas": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "marlastromponsky": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "masta": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "matt": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "prose"
+          ]
+        },
+        "maura": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "maya": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "merrin": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "michaela": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mlb": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "prose",
+            "web1.0"
+          ]
+        },
+        "mmorpg": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "morgan": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mqsoh": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "muraca": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "nataliegray": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nataliepo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "art",
+            "links"
+          ]
+        },
+        "nicole": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "noah": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog",
+            "web1.0"
+          ]
+        },
+        "nobody": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "noisyb": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nomadium": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "notjosh": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "oldwestaction": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "olilo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "peepeepoopoo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pentaconsix": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pinkflag": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "prose"
+          ]
+        },
+        "plaid": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "plasmarobo": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "art"
+          ]
+        },
+        "plitter": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pussygriot": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "py": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "art",
+            "video"
+          ]
+        },
+        "rakimr": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "rileyjshaw": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "brief",
+            "prose"
+          ]
+        },
+        "rollinbishop": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ryanfingawesome": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "s": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sammy": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "links"
+          ]
+        },
+        "sarahsosiak": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sawyergallery": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "seanypookins": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "seth": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "shane": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "shellr": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "shoxx": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sinbadev": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog"
+          ]
+        },
+        "skullum": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "prose"
+          ]
+        },
+        "snark": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sohalt": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "sparrow": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "superacidjax": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "swift": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "video"
+          ]
+        },
+        "swizzard": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog",
+            "links"
+          ]
+        },
+        "tape": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "temmon": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tenyen": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tessr": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "audio"
+          ]
+        },
+        "thoswest": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "thrash": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tiff": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tikikate": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tildesarecool": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "links",
+            "tilde"
+          ]
+        },
+        "tran": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tryptonz": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tylerdotdotdot": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "typecloud": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "unkle_social": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "valentine": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "valeriefaith": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "velcrobot": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "vicky": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "vilmibm": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "vinspee": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "virginia": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "w1nd0w": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "waste": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "weston": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "wildcard": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "blog",
+            "tutorial",
+            "unix"
+          ]
+        },
+        "xan": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "yael": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "z": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "zan": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "zempf": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        },
+        "zenparty": {
+          "tagged": "2017-08-26",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "rudimentarylathe.org": {
       "url_root": "http://rudimentarylathe.org/",
