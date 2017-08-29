@@ -4295,7 +4295,463 @@
     "squiggle.city": {
       "url_root": "https://squiggle.city/",
       "url_list": "https://squiggle.city/tilde.json",
-      "url_format_user": "https://squiggle.city/~USER/"
+      "url_format_user": "https://squiggle.city/~USER/",
+      "users": {
+        "acg": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "links"
+          ]
+        },
+        "ahava": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "apostl3pol": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ben": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "berkay": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "brennen": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "code",
+            "links",
+            "tilde",
+            "tutorial"
+          ]
+        },
+        "bri_huang": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "burnedboard": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "brief"
+          ]
+        },
+        "casey": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "photo"
+          ]
+        },
+        "chrisatthestudy": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "art"
+          ]
+        },
+        "cvk": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dan": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "links"
+          ]
+        },
+        "danlyke": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "links",
+            "prose"
+          ]
+        },
+        "dawnbreeze": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "prose"
+          ]
+        },
+        "delio": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dheeraj": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog"
+          ]
+        },
+        "el_seano": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "eric": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "video"
+          ]
+        },
+        "ericlampton": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "photo",
+            "prose",
+            "video"
+          ]
+        },
+        "erik": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog"
+          ]
+        },
+        "fazol": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "frencil": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "code",
+            "links",
+            "tutorial"
+          ]
+        },
+        "gendale": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "glowworm": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "art",
+            "prose",
+            "web1.0"
+          ]
+        },
+        "heather": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "hord": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "links"
+          ]
+        },
+        "imt": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "links",
+            "tilde"
+          ]
+        },
+        "jbd": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jenleelind": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "broken",
+            "photo"
+          ]
+        },
+        "jimblom": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "app"
+          ]
+        },
+        "jjesse": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "joe": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jonny": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jovan": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog"
+          ]
+        },
+        "kache2k": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "links",
+            "tilde"
+          ]
+        },
+        "kirstenrk": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "leducmills": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "lobster": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "code",
+            "tutorial"
+          ]
+        },
+        "logan": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "m3talsmith": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "madduck": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mike": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mshorter": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nallen": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "art",
+            "gaming",
+            "web1.0"
+          ]
+        },
+        "nick": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "web1.0"
+          ]
+        },
+        "nightliz": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "norm": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "orbb": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "app",
+            "gaming"
+          ]
+        },
+        "paper": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "tilde"
+          ]
+        },
+        "pax": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "purdman": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "randy": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "robacarp": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "code",
+            "tutorial"
+          ]
+        },
+        "rowena": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sasha": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "skmr": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "skotchandsoda": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "star": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "steven": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "stilldavid": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "links"
+          ]
+        },
+        "takosuke": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "app",
+            "audio"
+          ]
+        },
+        "thcipriani": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog",
+            "code",
+            "prose"
+          ]
+        },
+        "todd": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "audio",
+            "blog",
+            "code",
+            "tutorial",
+            "unix",
+            "video"
+          ]
+        },
+        "tonicorinne": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "links"
+          ]
+        },
+        "trevor": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "typexawesome": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "uninventive": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "blog"
+          ]
+        },
+        "wesley": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "willawaw": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "empty"
+          ]
+        },
+        "zinefer": {
+          "tagged": "2017-08-29",
+          "tags": [
+            "app",
+            "gaming"
+          ]
+        }
+      }
     },
     "sunburnt.country": {
       "url_root": "http://sunburnt.country/",
