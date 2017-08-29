@@ -14791,7 +14791,222 @@
     "tilde.works": {
       "url_root": "http://tilde.works/",
       "url_list": "http://tilde.works/",
-      "url_format_user": "http://tilde.works/~USER/"
+      "url_format_user": "http://tilde.works/~USER/",
+      "users": {
+        "aix": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "alexandra": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "asio": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "art",
+            "links",
+            "photo",
+            "poetry",
+            "prose",
+            "web1.0"
+          ]
+        },
+        "badger": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "citrusui": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "cutepikachu": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dz": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "earlgrey": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "erenq": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "photo"
+          ]
+        },
+        "greeno": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "heyt": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "imt": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "blog",
+            "links",
+            "tilde"
+          ]
+        },
+        "isaac": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "links",
+            "unix"
+          ]
+        },
+        "jamtur01": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "tilde"
+          ]
+        },
+        "jd": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "joeygreen": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jovan": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "blog"
+          ]
+        },
+        "k": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "khuxkm": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "merwok": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "moon": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ny": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "links"
+          ]
+        },
+        "ondras": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pappy": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pgadey": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "spb": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "spiff": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "streak": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tomblcode": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tomku": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "totem": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tpsavard": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "app"
+          ]
+        },
+        "vi": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "xero": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "art",
+            "brief"
+          ]
+        }
+      }
     },
     "tildesare.cool": {
       "url_root": "http://tildesare.cool/",
