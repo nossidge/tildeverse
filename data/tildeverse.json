@@ -2116,7 +2116,210 @@
     "palvelin.club": {
       "url_root": "http://palvelin.club/",
       "url_list": "http://palvelin.club/users.html",
-      "url_format_user": "http://palvelin.club/~USER/"
+      "url_format_user": "http://palvelin.club/~USER/",
+      "users": {
+        "apecat": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dst": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "blog"
+          ]
+        },
+        "duukkis": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "art",
+            "brief",
+            "web1.0"
+          ]
+        },
+        "elli": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "erkpa": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "heikki": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "imt": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "blog",
+            "links",
+            "tilde"
+          ]
+        },
+        "j": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jaska": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "audio",
+            "video"
+          ]
+        },
+        "jehna": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "art",
+            "procgen"
+          ]
+        },
+        "jukka": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "links"
+          ]
+        },
+        "lasokki": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "links"
+          ]
+        },
+        "moto": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mpihkolu": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nico": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "art",
+            "procgen"
+          ]
+        },
+        "nortti": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "ollifi": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "blog"
+          ]
+        },
+        "peque": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "placid": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "rasjani": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "rbirkin": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "rsal": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "samik": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "samuli": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "video"
+          ]
+        },
+        "shrike": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "squi": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tlxo": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tmy": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "gaming"
+          ]
+        },
+        "tomsigurd": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "links",
+            "photo"
+          ]
+        },
+        "ttso": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "vessel": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "xuzzy": {
+          "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "pebble.ink": {
       "url_root": "http://pebble.ink/",
