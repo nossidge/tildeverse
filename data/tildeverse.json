@@ -9349,7 +9349,165 @@
     "tilde.team": {
       "url_root": "https://tilde.team/",
       "url_list": "https://tilde.team/",
-      "url_format_user": "https://tilde.team/~USER/"
+      "url_format_user": "https://tilde.team/~USER/",
+      "users": {
+        "alex": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ben": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "app",
+            "art",
+            "links",
+            "tilde"
+          ]
+        },
+        "bepsiman": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "daddy": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dean": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "photo"
+          ]
+        },
+        "emma": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "gappleto97": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "geoffrey": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "gnurl": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "greymtr": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "hirose": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kasey": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "micaiah": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "brief"
+          ]
+        },
+        "miloteza": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mushmouth": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "audio"
+          ]
+        },
+        "sarah": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "schro": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "shahbz": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "silversaurus": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "slayer": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "supercock789": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "app",
+            "art",
+            "gaming"
+          ]
+        },
+        "tref": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "vendeteria": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "willeh": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "xpotatoes": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "tilde.town": {
       "url_root": "https://tilde.town/",
