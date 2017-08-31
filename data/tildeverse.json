@@ -2329,7 +2329,180 @@
     "perispomeni.club": {
       "url_root": "http://perispomeni.club/",
       "url_list": "http://perispomeni.club/",
-      "url_format_user": "http://perispomeni.club/~USER/"
+      "url_format_user": "http://perispomeni.club/~USER/",
+      "users": {
+        "akalipetis": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "apas": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "archer": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "awanhitam": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bazinga": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bill93": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bob": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ebal": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "emdim": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "foo": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "greymtr": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ioprev": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "johnblood": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "khuxkm": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ldkge": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "mushmouth": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "links",
+            "web1.0"
+          ]
+        },
+        "neck_black": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "paidakios": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pallas": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "pavlos": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "perito": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "resura": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "snkx": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "subject17": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tex": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "troido": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "art",
+            "gaming",
+            "links"
+          ]
+        },
+        "tsangiotis": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "blog"
+          ]
+        },
+        "vatsamanis": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "protocol.club": {
       "url_root": "http://protocol.club/",
