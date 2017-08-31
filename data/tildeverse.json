@@ -2468,7 +2468,59 @@
     "pebble.ink": {
       "url_root": "http://pebble.ink/",
       "url_list": "",
-      "url_format_user": "http://pebble.ink/~USER/"
+      "url_format_user": "http://pebble.ink/~USER/",
+      "users": {
+        "clach04": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "contolini": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "elzilrac": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "procgen"
+          ]
+        },
+        "imt": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "blog",
+            "links",
+            "tilde"
+          ]
+        },
+        "jovan": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "blog"
+          ]
+        },
+        "ke7ofi": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "phildini": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "blog"
+          ]
+        },
+        "waste": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "perispomeni.club": {
       "url_root": "http://perispomeni.club/",
