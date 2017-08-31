@@ -31,7 +31,151 @@
     "crime.team": {
       "url_root": "https://crime.team/",
       "url_list": "https://crime.team/",
-      "url_format_user": "https://crime.team/~USER/"
+      "url_format_user": "https://crime.team/~USER/",
+      "users": {
+        "00dani": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "CAMERATA": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "annabelle": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "atlas": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "bug": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "claire": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "crohawk": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "audio",
+            "links"
+          ]
+        },
+        "danger": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "links"
+          ]
+        },
+        "elly": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "erin": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "faq": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "tilde"
+          ]
+        },
+        "fen": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jayhay": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jkap": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "links",
+            "tilde"
+          ]
+        },
+        "kadybat": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kuraine": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "audio",
+            "links"
+          ]
+        },
+        "lamb": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "art",
+            "brief"
+          ]
+        },
+        "letsbreelhere": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ohpoorpup": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "links"
+          ]
+        },
+        "rockpuppy": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "shoofle": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sillysina": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "links"
+          ]
+        },
+        "tai": {
+          "tagged": "2017-08-31",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "ctrl-c.club": {
       "url_root": "http://ctrl-c.club/",
