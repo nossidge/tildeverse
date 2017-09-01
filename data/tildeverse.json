@@ -6,7 +6,60 @@
     "backtick.town": {
       "url_root": "https://backtick.town/",
       "url_list": "",
-      "url_format_user": "https://backtick.town/~USER/"
+      "url_format_user": "https://backtick.town/~USER/",
+      "users": {
+        "alyssa": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "j": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "jay": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "kc": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "audio",
+            "photo",
+            "poetry",
+            "prose"
+          ]
+        },
+        "nickolas360": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "nix": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nk": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tb10": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "redirect"
+          ]
+        }
+      }
     },
     "bleepbloop.club": {
       "url_root": "https://bleepbloop.club/",
