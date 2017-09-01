@@ -15794,7 +15794,54 @@
     "tildesare.cool": {
       "url_root": "http://tildesare.cool/",
       "url_list": "http://tildesare.cool/",
-      "url_format_user": "http://tildesare.cool/~USER/"
+      "url_format_user": "http://tildesare.cool/~USER/",
+      "users": {
+        "ajcalskier": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "eventi": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "links",
+            "tutorial"
+          ]
+        },
+        "imt": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "blog",
+            "links",
+            "tilde"
+          ]
+        },
+        "jovan": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "blog"
+          ]
+        },
+        "schrauber": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "silverly": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tom_slick": {
+          "tagged": "2017-09-01",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "totallynuclear.club": {
       "url_root": "http://totallynuclear.club/",
