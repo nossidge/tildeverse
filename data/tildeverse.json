@@ -2328,7 +2328,23 @@
     "ofmanytrades.com": {
       "url_root": "https://ofmanytrades.com/",
       "url_list": "https://ofmanytrades.com/",
-      "url_format_user": "https://ofmanytrades.com/~USER/"
+      "url_format_user": "https://ofmanytrades.com/~USER/",
+      "users": {
+        "ajroach42": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "links",
+            "tilde"
+          ]
+        },
+        "noah": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "tutorial",
+            "unix"
+          ]
+        }
+      }
     },
     "palvelin.club": {
       "url_root": "http://palvelin.club/",
