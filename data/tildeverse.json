@@ -4946,7 +4946,54 @@
     "skylab.org": {
       "url_root": "http://skylab.org/",
       "url_list": "http://skylab.org/clique/",
-      "url_format_user": "http://skylab.org/~USER/"
+      "url_format_user": "http://skylab.org/~USER/",
+      "users": {
+        "ben": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "photo"
+          ]
+        },
+        "cchen": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "links",
+            "photo"
+          ]
+        },
+        "chugga": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "photo",
+            "tutorial",
+            "web1.0"
+          ]
+        },
+        "mahlon": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "pinback": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "empty"
+          ]
+        },
+        "plumpy": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "redirect"
+          ]
+        },
+        "ryan": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "web1.0"
+          ]
+        }
+      }
     },
     "spookyscary.science": {
       "url_root": "https://spookyscary.science/",
