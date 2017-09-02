@@ -2298,7 +2298,27 @@
     "myrtle-st.club": {
       "url_root": "http://myrtle-st.club/",
       "url_list": "http://myrtle-st.club/",
-      "url_format_user": "http://myrtle-st.club/~USER/"
+      "url_format_user": "http://myrtle-st.club/~USER/",
+      "users": {
+        "Jacques": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "empty"
+          ]
+        },
+        "francuz": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "tilde"
+          ]
+        },
+        "mmorena": {
+          "tagged": "2017-09-02",
+          "tags": [
+            "links"
+          ]
+        }
+      }
     },
     "noiseandsignal.com": {
       "url_root": "http://noiseandsignal.com/",
