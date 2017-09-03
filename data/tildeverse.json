@@ -69,7 +69,341 @@
     "botb.club": {
       "url_root": "https://botb.club/",
       "url_list": "http://archive.is/kZ9cr",
-      "url_format_user": "https://botb.club/~USER/"
+      "url_format_user": "https://botb.club/~USER/",
+      "users": {
+        "aji": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "audio",
+            "video",
+            "web1.0"
+          ]
+        },
+        "azuraroom": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "links"
+          ]
+        },
+        "bazz": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "tutorial"
+          ]
+        },
+        "beard": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "audio",
+            "links"
+          ]
+        },
+        "boomlinde": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "procgen",
+            "tilde",
+            "web1.0"
+          ]
+        },
+        "borkborkbork": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "cce": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "audio",
+            "gaming",
+            "tutorial",
+            "web1.0"
+          ]
+        },
+        "cuteewok": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "daverd": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "web1.0"
+          ]
+        },
+        "der": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dimeback": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "dpc": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "blog",
+            "links"
+          ]
+        },
+        "e": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "edlinfan": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "blog",
+            "code",
+            "tutorial",
+            "web1.0"
+          ]
+        },
+        "emeliak": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "frantic": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "app",
+            "audio"
+          ]
+        },
+        "golgi": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "app",
+            "art",
+            "audio",
+            "gaming",
+            "procgen",
+            "web1.0"
+          ]
+        },
+        "gtap": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "video"
+          ]
+        },
+        "ian": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "gaming",
+            "links",
+            "tilde"
+          ]
+        },
+        "jfoppes": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "keffie": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "gaming"
+          ]
+        },
+        "kinkinkijkin": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "littletheremin": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "web1.0"
+          ]
+        },
+        "luaks": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "m9m": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "gaming",
+            "web1.0"
+          ]
+        },
+        "macaw": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "malmen": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "poetry"
+          ]
+        },
+        "marcb0t": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "moviemovies1": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "nuuup": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "puke7": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "web1.0"
+          ]
+        },
+        "radian": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "brief",
+            "web1.0"
+          ]
+        },
+        "raphaelgoulart": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "rapidstrike": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "art",
+            "audio",
+            "links"
+          ]
+        },
+        "savestate": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "app",
+            "art",
+            "audio",
+            "prose",
+            "web1.0"
+          ]
+        },
+        "sc": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "links"
+          ]
+        },
+        "shaymin": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "strawberry": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "sylveon": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "brief",
+            "gaming"
+          ]
+        },
+        "tayle": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tilde": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "tothejazz": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "bio"
+          ]
+        },
+        "tristendo": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "voltagecontrol": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "vpn": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        },
+        "xemogasa": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "video"
+          ]
+        },
+        "zlew": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "audio",
+            "links"
+          ]
+        },
+        "zzzv": {
+          "tagged": "2017-09-03",
+          "tags": [
+            "empty"
+          ]
+        }
+      }
     },
     "catbeard.city": {
       "url_root": "http://catbeard.city/",
