@@ -984,14 +984,17 @@ def self.read_skylab_org
 
   tilde_connection = TildeConnection.new('skylab.org')
   tilde_connection.root_url = 'http://skylab.org/'
-  tilde_connection.list_url = 'http://skylab.org/clique/'
+  tilde_connection.list_url = 'http://skylab.org/'
   user_list = tilde_connection.test_connection
   if tilde_connection.error
     puts tilde_connection.error_message
 
   else
+    membersFound = false
     user_list.split("\n").each do |i|
-      if i.match(/<a href/)
+      membersFound = true  if i.match(/Personal homepages on skylab.org/)
+      membersFound = false if i.match(/Close Userlist/)
+      if membersFound and i.match(/<li><a href/)
         url = 'http://skylab.org' + i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
