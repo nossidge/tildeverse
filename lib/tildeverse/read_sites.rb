@@ -129,11 +129,11 @@ def self.read_noiseandsignal_com
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.match(/<div class="row" id="members">/)
-      membersFound = false if i.match(/<\/ul>/)
-      if membersFound and i.match(/<li/)
+      members_found = true  if i.match(/<div class="row" id="members">/)
+      members_found = false if i.match(/<\/ul>/)
+      if members_found and i.match(/<li/)
         url = 'http://noiseandsignal.com' + i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -154,12 +154,12 @@ end
 #   and before '<h1>What can I do?</h1>'
 def self.read_ctrl_c_club_1
   output = {}
-  membersFound = false
+  members_found = false
   begin
     open('http://ctrl-c.club/').read.split("\n").each do |i|
-      membersFound = true  if i.strip == '<ol class="user-list">'
-      membersFound = false if i.strip == '<h1>What can I do?</h1>'
-      if membersFound and i.match(/<li><a href=/)
+      members_found = true  if i.strip == '<ol class="user-list">'
+      members_found = false if i.strip == '<h1>What can I do?</h1>'
+      if members_found and i.match(/<li><a href=/)
         i = i.partition('a href').last.strip
         url = 'http://ctrl-c.club' + i.first_between_two_chars('"')
         url = url.remove_trailing_slash
@@ -314,11 +314,11 @@ def self.read_tilde_town_index
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.match(/<sub>sorted by recent changes<\/sub>/)
-      membersFound = false if i.match(/<\/ul>/)
-      if membersFound and i.match(/a href/)
+      members_found = true  if i.match(/<sub>sorted by recent changes<\/sub>/)
+      members_found = false if i.match(/<\/ul>/)
+      if members_found and i.match(/a href/)
         url = i.first_between_two_chars('"')
         url = 'https://tilde.town' + url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -384,10 +384,10 @@ def self.read_hackers_cool
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true if i.strip == '<p>Current users:</p>'
-      if membersFound and i.match(/<li><a href/)
+      members_found = true if i.strip == '<p>Current users:</p>'
+      if members_found and i.match(/<li><a href/)
         url = i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -414,11 +414,11 @@ def self.read_tilde_works
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.strip == '<h2>users</h2>'
-      membersFound = false if i.strip == '</ul>'
-      if membersFound and i.match(/<li><a href/)
+      members_found = true  if i.strip == '<h2>users</h2>'
+      members_found = false if i.strip == '</ul>'
+      if members_found and i.match(/<li><a href/)
         url = i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -959,11 +959,11 @@ def self.read_catbeard_city
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.match(/<p>Current inhabitants:</)
-      membersFound = false if i.match(/<h2>Pages Changed In Last 24 Hours</)
-      if membersFound and i.match(/<li><a href/)
+      members_found = true  if i.match(/<p>Current inhabitants:</)
+      members_found = false if i.match(/<h2>Pages Changed In Last 24 Hours</)
+      if members_found and i.match(/<li><a href/)
         url = 'http://catbeard.city/' + i.first_between_two_chars("'")
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -990,11 +990,11 @@ def self.read_skylab_org
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.match(/Personal homepages on skylab.org/)
-      membersFound = false if i.match(/Close Userlist/)
-      if membersFound and i.match(/<li><a href/)
+      members_found = true  if i.match(/Personal homepages on skylab.org/)
+      members_found = false if i.match(/Close Userlist/)
+      if members_found and i.match(/<li><a href/)
         url = 'http://skylab.org' + i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
@@ -1153,10 +1153,10 @@ def self.read_losangeles_pablo_xyz
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true if i.match(/<p><b>Users</)
-      if membersFound and i.match(/<li>/)
+      members_found = true if i.match(/<p><b>Users</)
+      if members_found and i.match(/<li>/)
         i.split('<li').each do |j|
           j = j.strip.gsub('</li','')
           if j != ''
@@ -1190,11 +1190,11 @@ def self.read_perispomeni_club
     puts tilde_connection.error_message
 
   else
-    membersFound = false
+    members_found = false
     user_list.split("\n").each do |i|
-      membersFound = true  if i.match(/<h2>users<\/h2>/)
-      membersFound = false if i.match(/<\/ul>/)
-      if membersFound and i.match(/<li/)
+      members_found = true  if i.match(/<h2>users<\/h2>/)
+      members_found = false if i.match(/<\/ul>/)
+      if members_found and i.match(/<li/)
         url = i.first_between_two_chars('"')
         url = url.remove_trailing_slash
         name = url.partition('~').last.strip
