@@ -1210,10 +1210,11 @@ end
 ################################################################################
 
 # 2016/08/10  New box
-# 2017/11/04  Okay, something weird is going on here. Every page but the index
+# 2016/11/04  Okay, something weird is going on here. Every page but the index
 #             reverts to root. I guess consider it dead?
 #             Alright, for now just use cached users. But keep a watch on it.
-def self.read_spookyscary_science_live
+# 2017/09/04  RIP
+def self.read_spookyscary_science
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
@@ -1237,7 +1238,7 @@ def self.read_spookyscary_science_live
   end
   sort_hash_by_keys(output)
 end
-def self.read_spookyscary_science
+def self.read_spookyscary_science_cache
   output = {}
   %w{_vax aerandir arthursucks deuslapis
     drip roob spiff sternalrub wanderingmind}.each do |i|
