@@ -62,3 +62,6 @@
 2017/08/04  Add the date each user page was modified
 2017/08/06  New Tildebox: tilde.team
 2017/08/11  New Tildebox: myrtle-st.club
+2017/08/14  Initial user page tagging starts
+2017/09/03  Initial user page tagging ends
+2017/09/04  RIP: spookyscary.science
