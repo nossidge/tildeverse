@@ -14,6 +14,9 @@ require 'erb'
 # This is probably overkill...
 Rack::Utils.key_space_limit = 2**62
 
+# Log output to the terminal.
+use Rack::Logger
+
 ################################################################################
 
 # Update user tags from INPUT to OUTPUT.
@@ -43,13 +46,16 @@ end
 ################################################################################
 
 class TildeTagApp < Sinatra::Base
+  configure :production, :development do
+    enable :logging
+  end
 
   # Home page, index.html
   get '/' do
     @tags = %w[
-      empty TODO brief redirect links blog
+      empty brief redirect links blog
       poetry prose art photo audio video gaming
-      tutorial app code procgen web1.0 unix tilde]
+      tutorial app code procgen web1.0 unix tilde ]
     erb :index
   end
 
@@ -77,7 +83,7 @@ class TildeTagApp < Sinatra::Base
         if [*tags].empty?
           json['sites'][site]['users'].delete(user)
         else
-          date_now = Time.now.strftime("%Y-%m-%d")
+          date_now = Time.now.strftime('%Y-%m-%d')
           json['sites'][site]['users'][user] ||= {}
           json['sites'][site]['users'][user]['tagged'] = date_now
           json['sites'][site]['users'][user]['tags'] = tags
@@ -85,7 +91,8 @@ class TildeTagApp < Sinatra::Base
       end
     end
 
-    # Sort the site and user names.
+    # Sort the site, user names, and tags.
+    # ToDo: Is there a better way of doing this?
     json['sites'] = json['sites'].sort.to_h
     json['sites'].each do |site, site_hash|
       if json['sites'][site]['users']
@@ -113,8 +120,8 @@ class TildeTagApp < Sinatra::Base
     num = input_data.keys.inject(0) do |sum, i|
       sum += input_data[i].keys.count
     end
-    puts "#{num} users updated"
-    puts input_data
+    logger.info "#{num} users updated"
+    logger.info input_data
   end
 
 end
