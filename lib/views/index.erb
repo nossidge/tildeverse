@@ -54,37 +54,44 @@
     }
 
     // Return an array of the users that are to be tagged.
-    function untaggedUsersArray(tildeverseJSON) {
+    // Get all users where either:
+    //   No tag data exists yet.
+    //   Site has been updated since last tag edit.
+    function usersToBeTagged(tildeverseJSON) {
       let i = 0;
       let output = [];
       let allSites = tildeverseJSON["sites"];
       for (let site in allSites) {
-//        if (site == "tilde.town") {
-          let url = allSites[site]["url_format_user"];
-          let siteUsers = allSites[site]["users"];
-          for (let user in siteUsers) {
-//            if ((typeof siteUsers[user]["tags"] != "undefined") && (siteUsers[user]["tags"].includes("TODO"))) {
-            if (typeof siteUsers[user]["tags"] == "undefined") {
-//            if (user.startsWith("a")) {
-//            if (123 == 123) {
-              let obj = {
-                index: i++,
-                site: site,
-                user: user,
-                url: url.replace("USER", user)
-              };
-              if (typeof siteUsers[user]["tags"] != "undefined") {
-                obj["tags"] = siteUsers[user]["tags"]
-              }
-              output.push(obj);
+        let url       = allSites[site]["url_format_user"];
+        let siteUsers = allSites[site]["users"];
+        for (let user in siteUsers) {
+          let tagged = new Date(siteUsers[user]["tagged"]);
+          let time   = new Date(siteUsers[user]["time"]);
+          time.setHours(0);
+          time.setMinutes(0);
+          time.setSeconds(0);
+          time.setMilliseconds(0);
+          let newlyUpdated = (time > tagged);
+          let noTags = (typeof siteUsers[user]["tags"] == "undefined");
+          if (noTags || newlyUpdated) {
+            let obj = {
+              index: i++,
+              site: site,
+              user: user,
+              url: url.replace("USER", user)
+            };
+            if (typeof siteUsers[user]["tags"] != "undefined") {
+              obj["tags"] = siteUsers[user]["tags"]
             }
+            output.push(obj);
           }
-//        }
+        }
       }
       return output;
     }
 
     // Display the next/previous URL in the array.
+    // ToDo: Maybe could put some of this in toIterator()?
     function nextUrl() {
       saveTagsToState();
       let user = homepages.next().value;
@@ -216,7 +223,7 @@
     $(document).ready( function() {
       $.getJSON("tildeverse.json", function(data) {
         tildeverseJSON = data;
-        homepages = toIterator(untaggedUsersArray(tildeverseJSON));
+        homepages = toIterator(usersToBeTagged(tildeverseJSON));
         displayDropdownURLs();
         nextUrl();
       });
@@ -259,6 +266,9 @@
     }
     #save {
       margin: 0px 0px 5px 0px;
+    }
+    .btn_tags {
+      height: 44px;
     }
   </style>
  </head>
@@ -318,12 +328,12 @@
       <div id="col_left_content">
         <div id="tag_area">
           <div id="tag_area_left">
-            <a id="save" class="btn btn-default btn-lg btn-block" onclick="saveTagsToFile()">
+            <a id="save" class="btn btn-default btn-lg btn-block btn_tags" onclick="saveTagsToFile()">
               <span id="save_glyphicon" class="glyphicon glyphicon-floppy-saved"></span>
             </a>
             <div id="tag_buttons" class="btn-group-vertical btn-block">
               <% @tags.each do |tag| %>
-                <a id="tag_button_<%= tag %>" class="btn btn-default btn-lg"
+                <a id="tag_button_<%= tag %>" class="btn btn-default btn-lg btn_tags"
                     data-tag-name="<%= tag %>"
                     onclick="toggleTag(this);">
                   <%= tag %>
