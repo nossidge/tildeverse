@@ -67,4 +67,4 @@ To add or edit these tags you can manually alter `data/tildeverse.json`, but I h
 
 If you run `rake server`, a single-page web app will be created. Point your browser to `localhost:4567` and scroll through the sites. The tags are displayed as toggle-able buttons on the left-hand side. Click the 'save' button to save changes back to the JSON file.
 
-I have tagged all 900 members of tilde.town and will work my way through the other sites shortly. I appreciate any pull requests regarding changes to these tags. 2400 websites is a lot to handle, and I'm certain I've made some mistakes.
+I appreciate any pull requests regarding changes to these tags. 2500 websites is a lot to handle, and I'm certain I've made some mistakes.

@@ -33,8 +33,11 @@ def update_tags
 
   input['sites'].each do |site, site_hash|
     [*site_hash['users']].each do |user, user_hash|
-      output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
-      output['sites'][site]['users'][user]['tags']   = user_hash['tags']
+      begin
+        output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
+        output['sites'][site]['users'][user]['tags']   = user_hash['tags']
+      rescue
+      end
     end
   end
 
