@@ -42,7 +42,7 @@
           ]
         },
         "nix": {
-          "tagged": "2017-09-01",
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -476,9 +476,10 @@
           ]
         },
         "erin": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
-            "links"
+            "links",
+            "web1.0"
           ]
         },
         "faq": {
@@ -500,7 +501,7 @@
           ]
         },
         "jkap": {
-          "tagged": "2017-08-31",
+          "tagged": "2017-11-21",
           "tags": [
             "links",
             "tilde"
@@ -653,6 +654,18 @@
             "empty"
           ]
         },
+        "adamthephantump": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
+        "akoe": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "aland": {
           "tagged": "2017-08-25",
           "tags": [
@@ -673,6 +686,24 @@
         },
         "alexandra": {
           "tagged": "2017-08-25",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ameno": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
+        "ana": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
+        "andrewkovnat": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -789,6 +820,12 @@
           "tagged": "2017-08-25",
           "tags": [
             "links"
+          ]
+        },
+        "brokenslides": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
           ]
         },
         "bstrds": {
@@ -939,6 +976,12 @@
           "tagged": "2017-08-25",
           "tags": [
             "blog"
+          ]
+        },
+        "didlo": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
           ]
         },
         "dragyn": {
@@ -1167,6 +1210,12 @@
             "empty"
           ]
         },
+        "iea": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "iiv": {
           "tagged": "2017-08-25",
           "tags": [
@@ -1191,6 +1240,14 @@
             "blog",
             "links",
             "tilde"
+          ]
+        },
+        "ionian": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "blog",
+            "photo",
+            "poetry"
           ]
         },
         "iunio": {
@@ -1397,6 +1454,13 @@
           "tagged": "2017-08-25",
           "tags": [
             "empty"
+          ]
+        },
+        "madnest": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "art",
+            "web1.0"
           ]
         },
         "markymark": {
@@ -1773,6 +1837,12 @@
             "web1.0"
           ]
         },
+        "sidney": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "sintaxerror": {
           "tagged": "2017-08-25",
           "tags": [
@@ -1966,6 +2036,12 @@
         },
         "wavey": {
           "tagged": "2017-08-25",
+          "tags": [
+            "empty"
+          ]
+        },
+        "wolfi": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -2677,7 +2753,7 @@
       "url_format_user": "https://ofmanytrades.com/~USER/",
       "users": {
         "ajroach42": {
-          "tagged": "2017-09-02",
+          "tagged": "2017-11-21",
           "tags": [
             "links",
             "tilde"
@@ -2944,7 +3020,7 @@
           ]
         },
         "phildini": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "blog"
           ]
@@ -3625,9 +3701,9 @@
           ]
         },
         "yipdw": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
-            "empty"
+            "brief"
           ]
         },
         "yomimono": {
@@ -5435,9 +5511,10 @@
           ]
         },
         "dawnbreeze": {
-          "tagged": "2017-08-29",
+          "tagged": "2017-11-21",
           "tags": [
             "blog",
+            "links",
             "prose"
           ]
         },
@@ -5530,7 +5607,7 @@
           ]
         },
         "jbd": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "procgen"
           ]
@@ -5885,7 +5962,7 @@
           ]
         },
         "Smitheroons": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "brief"
           ]
@@ -7778,9 +7855,10 @@
           ]
         },
         "joeld": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "blog",
+            "code",
             "links",
             "tilde",
             "video"
@@ -7800,7 +7878,7 @@
           ]
         },
         "john": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "art",
             "empty"
@@ -7873,10 +7951,11 @@
           ]
         },
         "joshua": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "blog",
-            "links"
+            "links",
+            "tutorial"
           ]
         },
         "joshuag": {
@@ -8291,7 +8370,7 @@
           ]
         },
         "maryr": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "prose",
             "web1.0"
@@ -8686,7 +8765,7 @@
           ]
         },
         "nstop": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "redirect"
           ]
@@ -8698,7 +8777,7 @@
           ]
         },
         "ntlk": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "blog",
             "links"
@@ -9373,7 +9452,7 @@
           ]
         },
         "silver": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "blog",
             "code",
@@ -9825,7 +9904,7 @@
           ]
         },
         "tym": {
-          "tagged": "2017-08-24",
+          "tagged": "2017-11-21",
           "tags": [
             "blog"
           ]
@@ -10259,6 +10338,12 @@
             "brief"
           ]
         },
+        "accelerat0r": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "adambredenberg": {
           "tagged": "2017-09-03",
           "tags": [
@@ -10267,6 +10352,12 @@
         },
         "adamj": {
           "tagged": "2017-08-14",
+          "tags": [
+            "empty"
+          ]
+        },
+        "adamthephantump": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -10283,8 +10374,21 @@
             "empty"
           ]
         },
+        "aeon": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "code",
+            "links"
+          ]
+        },
         "aer": {
           "tagged": "2017-08-14",
+          "tags": [
+            "empty"
+          ]
+        },
+        "aesen": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -10423,6 +10527,12 @@
             "empty"
           ]
         },
+        "anabastos": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "anais9": {
           "tagged": "2017-08-14",
           "tags": [
@@ -10436,7 +10546,7 @@
           ]
         },
         "ando": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-11-21",
           "tags": [
             "brief",
             "code"
@@ -10491,6 +10601,12 @@
             "audio",
             "blog",
             "web1.0"
+          ]
+        },
+        "apanda": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
           ]
         },
         "apogee": {
@@ -10684,7 +10800,7 @@
           ]
         },
         "bear": {
-          "tagged": "2017-08-20",
+          "tagged": "2017-11-21",
           "tags": [
             "app",
             "blog",
@@ -10728,6 +10844,12 @@
           "tags": [
             "redirect",
             "tilde"
+          ]
+        },
+        "benj_red": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
           ]
         },
         "benjamin": {
@@ -10801,7 +10923,7 @@
           ]
         },
         "bipartite": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "links",
             "prose"
@@ -10849,10 +10971,9 @@
           ]
         },
         "bob": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
-            "brief",
-            "prose"
+            "empty"
           ]
         },
         "bodhi": {
@@ -10917,7 +11038,7 @@
           ]
         },
         "brighty": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -10975,7 +11096,7 @@
           ]
         },
         "byxor": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -11024,6 +11145,12 @@
             "web1.0"
           ]
         },
+        "captainchaos": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "cary": {
           "tagged": "2017-08-14",
           "tags": [
@@ -11031,7 +11158,7 @@
           ]
         },
         "cat": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -11071,6 +11198,12 @@
             "unix"
           ]
         },
+        "celes": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "cellardoor": {
           "tagged": "2017-08-14",
           "tags": [
@@ -11095,6 +11228,12 @@
             "empty"
           ]
         },
+        "charlotte": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "chelozzz": {
           "tagged": "2017-08-14",
           "tags": [
@@ -11113,8 +11252,14 @@
             "empty"
           ]
         },
+        "chosafine": {
+          "tagged": "2017-11-21",
+          "tags": [
+            "empty"
+          ]
+        },
         "choufleurnotchauffer": {
-          "tagged": "2017-09-03",
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -11182,7 +11327,7 @@
           ]
         },
         "cnc": {
-          "tagged": "2017-08-14",
+          "tagged": "2017-11-21",
           "tags": [
             "brief"
           ]
@@ -11195,6 +11340,12 @@
         },
         "code": {
           "tagged": "2017-08-14",
+          "tags": [
+            "empty"
+          ]
+        },
+        "codeawayhaley": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -11464,6 +11615,12 @@
         },
         "decade21": {
           "tagged": "2017-08-14",
+          "tags": [
+            "empty"
+          ]
+        },
+        "decaydjk": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
@@ -16302,6 +16459,12 @@
         },
         "khuxkm": {
           "tagged": "2017-08-30",
+          "tags": [
+            "empty"
+          ]
+        },
+        "lee": {
+          "tagged": "2017-11-21",
           "tags": [
             "empty"
           ]
