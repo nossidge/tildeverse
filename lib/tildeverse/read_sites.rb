@@ -1361,7 +1361,7 @@ def self.read_tilde_team
       members_found = true if i.strip == '<h1>users:</h1>'
       if members_found and i.match(/<a href/)
         url = 'https://tilde.team' + i.first_between_two_chars('"')
-        name = url.partition('~').last.strip
+        name = url.partition('~').last.gsub('/','').strip
         output[name] = url
       end
     end
