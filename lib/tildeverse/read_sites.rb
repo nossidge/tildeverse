@@ -1010,8 +1010,10 @@ end
 ################################################################################
 
 # These are the only lines on the page that include '<a href'
+# 2017/11/24  RIP
 def self.read_riotgirl_club
   output = {}
+  return output unless TRY_KNOWN_DEAD_SITES
 
   tilde_connection = TildeConnection.new('riotgirl.club')
   tilde_connection.root_url = 'http://riotgirl.club/'
