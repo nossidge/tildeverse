@@ -1323,10 +1323,10 @@ end
 
 ################################################################################
 
-# Manually found 2 users, but no list.
+# Manually found 3 users, but no list.
 def self.read_ofmanytrades_com
   output = {}
-  %w{ajroach42 noah}.each do |i|
+  %w{ajroach42 djsundog noah}.each do |i|
     output[i] = "https://ofmanytrades.com/~#{i}"
   end
   sort_hash_by_keys(output)
