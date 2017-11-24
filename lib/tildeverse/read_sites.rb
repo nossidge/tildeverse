@@ -1376,8 +1376,10 @@ end
 ################################################################################
 
 # These are the lines on the page that include '<p> <a href'
+# 2017/11/24  RIP
 def self.read_myrtle_st_club
   output = {}
+  return output unless TRY_KNOWN_DEAD_SITES
 
   tilde_connection = TildeConnection.new('myrtle-st.club')
   tilde_connection.root_url = 'http://myrtle-st.club/'
