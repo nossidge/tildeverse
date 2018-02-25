@@ -343,8 +343,10 @@ end
 ################################################################################
 
 # These are the lines on the page that include '<li><a href'
+# 2018/02/25  RIP
 def self.read_tildesare_cool
   output = {}
+  return output unless TRY_KNOWN_DEAD_SITES
 
   tilde_connection = TildeConnection.new('tildesare.cool')
   tilde_connection.root_url = 'http://tildesare.cool/'
