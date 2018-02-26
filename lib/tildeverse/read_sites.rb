@@ -1348,7 +1348,7 @@ end
 
 # 2017/08/06  New box
 # These are lines on the page that include '<a href',
-#   after the line that matches '<h1>users:</h1>'
+#   after the line that matches '<h1>~users~</h1>'
 def self.read_tilde_team
   output = {}
 
@@ -1362,11 +1362,11 @@ def self.read_tilde_team
   else
     members_found = false
     user_list.split("\n").each do |i|
-      members_found = true if i.strip == '<h1>users:</h1>'
+      members_found = true if i.strip == '<h1>~users~</h1>'
       if members_found and i.match(/<a href/)
         url = 'https://tilde.team' + i.first_between_two_chars('"')
         name = url.partition('~').last.gsub('/','').strip
-        output[name] = url
+        output[name] = url unless name.empty?
       end
     end
     puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
