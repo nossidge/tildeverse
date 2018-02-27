@@ -1408,6 +1408,36 @@ end
 
 ################################################################################
 
+# 2018/02/27  New box
+# These are the lines on the page that include '<a href'
+def self.read_yourtilde_com
+  output = {}
+
+  tilde_connection = TildeConnection.new('yourtilde.com')
+  tilde_connection.root_url = 'https://yourtilde.com/'
+  tilde_connection.list_url = 'https://yourtilde.com/userlist.html'
+  user_list = tilde_connection.test_connection
+  if tilde_connection.error
+    puts tilde_connection.error_message
+
+  else
+    user_list.split("\n").each do |i|
+      if i.match(/<a href=/)
+        i = i.partition('a href').last.strip
+        url = i.first_between_two_chars("'")
+        url = url.remove_trailing_slash
+        name = url.partition('~').last.strip
+        output[name] = url
+      end
+    end
+    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
+  end
+  sort_hash_by_keys(output)
+end
+#puts_hash(read_yourtilde_com)
+
+################################################################################
+
 end
 
 ################################################################################

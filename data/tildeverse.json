@@ -17110,6 +17110,11 @@
       "url_root": "http://yester.host/",
       "url_list": "http://yester.host/tilde.json",
       "url_format_user": "http://yester.host/~USER/"
+    },
+    "yourtilde.com": {
+      "url_root": "https://yourtilde.com/",
+      "url_list": "https://yourtilde.com/userlist.html",
+      "url_format_user": "https://yourtilde.com/~USER/"
     }
   }
 }
