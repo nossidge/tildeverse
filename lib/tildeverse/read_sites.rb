@@ -1255,26 +1255,21 @@ end
 ################################################################################
 
 # 2016/09/12  New box
-# This one is weird. It doesn't like me scraping the index.html
-# So I'm reading from a saved archive.is backup.
+# These are the only lines on the page that begin with '<li><a href='
 def self.read_botb_club
   output = {}
-#  return output unless TRY_KNOWN_DEAD_SITES
 
   tilde_connection = TildeConnection.new('botb.club')
   tilde_connection.root_url = 'https://botb.club/'
-  tilde_connection.list_url = 'http://archive.is/kZ9cr'
+  tilde_connection.list_url = 'https://botb.club/'
   user_list = tilde_connection.test_connection
   if tilde_connection.error
     puts tilde_connection.error_message
 
   else
     user_list.split("\n").each do |i|
-      if i.match(/^<li style/)
-        i.sub!('<li style="text-align:left;font-size:13pt;font-weight:normal;">','')
+      if i.strip.match(/^<li><a href=/)
         url = 'https://botb.club' + i.first_between_two_chars('"')
-        url = i.first_between_two_chars('"').sub('https://archive.is/o/kZ9cr/','https://')
-        url = url.remove_trailing_slash
         name = url.partition('~').last.strip
         output[name] = url
       end
