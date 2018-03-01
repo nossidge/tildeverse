@@ -68,7 +68,7 @@
     },
     "botb.club": {
       "url_root": "https://botb.club/",
-      "url_list": "http://archive.is/kZ9cr",
+      "url_list": "https://botb.club/",
       "url_format_user": "https://botb.club/~USER/",
       "users": {
         "aji": {
