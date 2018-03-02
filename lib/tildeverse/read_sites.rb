@@ -9,9 +9,10 @@
 
 require 'json'
 
-require_relative 'core_extensions/string.rb'
-require_relative 'tilde_connection.rb'
-require_relative 'misc.rb'
+require_relative 'core_extensions/string'
+require_relative 'tilde_connection'
+require_relative 'tilde_site'
+require_relative 'misc'
 
 ################################################################################
 
@@ -25,13 +26,10 @@ def self.read_totallynuclear_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['totallynuclear.club', 'http://totallynuclear.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('totallynuclear.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/^<li>/)
         url = i.first_between_two_chars('"')
@@ -52,13 +50,9 @@ end
 def self.read_palvelin_club
   output = {}
 
-  info = ['palvelin.club', 'http://palvelin.club/', 'http://palvelin.club/users.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
-
-  else
+  site = TildeSite.new('palvelin.club')
+  tc = site.connection
+  if not tc.error
 
     # This is very hacky, but it fixes the string encoding problem.
     tc.result[89..-1].split("\n").each do |i|
@@ -83,13 +77,10 @@ def self.read_tilde_center
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['tilde.center', 'https://tilde.center/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.center')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/^<li/)
         i = i.partition('a href').last.strip
@@ -118,13 +109,10 @@ def self.read_noiseandsignal_com
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['noiseandsignal.com', 'http://noiseandsignal.com/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('noiseandsignal.com')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.match(/<div class="row" id="members">/)
@@ -218,13 +206,10 @@ end
 def self.read_ctrl_c_club
   output = {}
 
-  info = ['ctrl-c.club', 'http://ctrl-c.club/', 'http://ctrl-c.club/tilde.json']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('ctrl-c.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     parsed = JSON.parse( tc.result.gsub("\t",'') )
     parsed['users'].each do |i|
       name = i['username']
@@ -243,13 +228,10 @@ end
 def self.read_tilde_club
   output = {}
 
-  info = ['tilde.club', 'http://tilde.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/^<li>/)
         url = 'http://tilde.club' + i.first_between_two_chars('"')
@@ -272,13 +254,10 @@ end
 def self.read_tilde_town_json
   output = {}
 
-  info = ['tilde.town', 'http://tilde.town/', 'http://tilde.town/~dan/users.json']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.town')
+  tc = site.connection('http://tilde.town/~dan/users.json')
+  if not tc.error
 
-  else
     parsed = JSON.parse( tc.result.gsub("\t",'') )
     parsed.each do |i|
       name = i[0]
@@ -298,13 +277,10 @@ end
 def self.read_tilde_town_index
   output = {}
 
-  info = ['tilde.town', 'http://tilde.town/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.town')
+  tc = site.connection('http://tilde.town/')
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.match(/<sub>sorted by recent changes<\/sub>/)
@@ -339,13 +315,10 @@ def self.read_tildesare_cool
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['tildesare.cool', 'http://tildesare.cool/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tildesare.cool')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href=/)
         i = i.partition('a href').last.strip
@@ -368,13 +341,10 @@ end
 def self.read_hackers_cool
   output = {}
 
-  info = ['hackers.cool', 'http://hackers.cool/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('hackers.cool')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true if i.strip == '<p>Current users:</p>'
@@ -397,13 +367,10 @@ end
 def self.read_tilde_works
   output = {}
 
-  info = ['tilde.works', 'http://tilde.works/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.works')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.strip == '<h2>users</h2>'
@@ -429,13 +396,10 @@ def self.read_hypertext_website
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['hypertext.website', 'http://hypertext.website/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('hypertext.website')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = i.first_between_two_chars("'")
@@ -456,13 +420,10 @@ end
 def self.read_squiggle_city_html
   output = {}
 
-  info = ['squiggle.city', 'https://squiggle.city/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('squiggle.city')
+  tc = site.connection('https://squiggle.city/')
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<tr><td><a href/)
         url = 'https://squiggle.city' + i.first_between_two_chars('"')
@@ -484,13 +445,10 @@ end
 def self.read_squiggle_city_json
   output = {}
 
-  info = ['squiggle.city', 'https://squiggle.city/', 'https://squiggle.city/tilde.json']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('squiggle.city')
+  tc = site.connection('https://squiggle.city/tilde.json')
+  if not tc.error
 
-  else
     parsed = JSON.parse( tc.result )
     parsed['users'].each do |i|
       name = i['username']
@@ -525,13 +483,10 @@ def self.read_tilde_red
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['tilde.red', 'https://tilde.red/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.red')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'https:' + i.first_between_two_chars('"')
@@ -566,13 +521,10 @@ end
 def self.read_yester_host_html
   output = {}
 
-  info = ['yester.host', 'http://yester.host/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('yester.host')
+  tc = site.connection('http://yester.host/')
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = i.first_between_two_chars('"')
@@ -593,13 +545,10 @@ end
 def self.read_yester_host_json
   output = {}
 
-  info = ['yester.host', 'http://yester.host/', 'http://yester.host/tilde.json']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('yester.host')
+  tc = site.connection('http://yester.host/tilde.json')
+  if not tc.error
 
-  else
     parsed = JSON.parse( tc.result )
     parsed['users'].each do |i|
       name = i['username']
@@ -629,13 +578,10 @@ def self.read_drawbridge_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['drawbridge.club', 'http://drawbridge.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('drawbridge.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'http://drawbridge.club' + i.first_between_two_chars('"')
@@ -658,13 +604,10 @@ def self.read_tilde_camp
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['tilde.camp', 'http://tilde.camp/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.camp')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'http://tilde.camp' + i.first_between_two_chars('"')
@@ -687,13 +630,10 @@ def self.read_tilde_farm
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['tilde.farm', 'http://tilde.farm/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.farm')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'http://tilde.farm' + i.first_between_two_chars('"')
@@ -716,13 +656,10 @@ def self.read_rudimentarylathe_org
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['rudimentarylathe.org', 'http://rudimentarylathe.org/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('rudimentarylathe.org')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'http://rudimentarylathe.org/' + i.first_between_two_chars('"')
@@ -745,13 +682,10 @@ def self.read_cybyte_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['cybyte.club', 'http://cybyte.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('cybyte.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = 'http://cybyte.club' + i.first_between_two_chars('"')
@@ -779,13 +713,10 @@ end
 def self.read_protocol_club
   output = {}
 
-  info = ['protocol.club', 'http://protocol.club/', 'http://protocol.club/~insom/protocol.24h.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('protocol.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/^<li>/)
         url = i.sub('class="homepage-link"', '')
@@ -809,13 +740,10 @@ def self.read_retronet_net
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['retronet.net', 'http://retronet.net/', 'http://retronet.net/users.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('retronet.net')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = i.first_between_two_chars('"')
@@ -838,13 +766,10 @@ def self.read_sunburnt_country
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['sunburnt.country', 'http://sunburnt.country/', 'http://sunburnt.country/~tim/directory.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('sunburnt.country')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       url = i.first_between_two_chars('"')
       url = url.gsub('../','http://sunburnt.country/')
@@ -865,13 +790,10 @@ def self.read_germantil_de
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['germantil.de', 'http://germantil.de/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('germantil.de')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li><a href/)
         url = i.first_between_two_chars('"')
@@ -895,13 +817,10 @@ def self.read_bleepbloop_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['bleepbloop.club', 'https://bleepbloop.club/', 'https://bleepbloop.club/~eos/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('bleepbloop.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li>/)
         url = 'https://bleepbloop.club' + i.first_between_two_chars('"')
@@ -925,13 +844,10 @@ def self.read_catbeard_city
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['catbeard.city', 'http://catbeard.city/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('catbeard.city')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.match(/<p>Current inhabitants:</)
@@ -955,13 +871,10 @@ end
 def self.read_skylab_org
   output = {}
 
-  info = ['skylab.org', 'http://skylab.org/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('skylab.org')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.match(/Personal homepages on skylab.org/)
@@ -987,13 +900,10 @@ def self.read_riotgirl_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['riotgirl.club', 'http://riotgirl.club/', 'http://riotgirl.club/~jspc/tc.result.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('riotgirl.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<a href/)
         url = 'http://riotgirl.club' + i.first_between_two_chars("'")
@@ -1014,13 +924,10 @@ end
 def self.read_remotes_club
   output = {}
 
-  info = ['remotes.club', 'https://www.remotes.club/', 'https://www.remotes.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('remotes.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<li data-last-update/)
         i = i.partition('<span>').last.strip
@@ -1044,13 +951,10 @@ def self.read_matilde_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['matilde.club', 'http://matilde.club/', 'http://matilde.club/~mikker/users.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('matilde.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<ul><li>/)
         i.split('</li><li>').each do |j|
@@ -1087,13 +991,10 @@ def self.read_club6_nl
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['club6.nl', 'https://club6.nl/', 'https://club6.nl/tilde.json']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('club6.nl')
+  tc = site.connection
+  if not tc.error
 
-  else
     parsed = JSON.parse( tc.result )
     parsed['users'].each do |i|
       name = i['username']
@@ -1115,13 +1016,10 @@ def self.read_losangeles_pablo_xyz
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['losangeles.pablo.xyz', 'http://losangeles.pablo.xyz/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('losangeles.pablo.xyz')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true if i.match(/<p><b>Users</)
@@ -1151,13 +1049,10 @@ end
 def self.read_perispomeni_club
   output = {}
 
-  info = ['perispomeni.club', 'http://perispomeni.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('perispomeni.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true  if i.match(/<h2>users<\/h2>/)
@@ -1186,13 +1081,10 @@ def self.read_spookyscary_science
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['spookyscary.science', 'https://spookyscary.science/', 'https://spookyscary.science/~']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('spookyscary.science')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/^<a href/)
         url = 'https://spookyscary.science' + i.first_between_two_chars('"')
@@ -1222,13 +1114,10 @@ end
 def self.read_botb_club
   output = {}
 
-  info = ['botb.club', 'https://botb.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('botb.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.strip.match(/^<li><a href=/)
         url = 'https://botb.club' + i.first_between_two_chars('"')
@@ -1248,13 +1137,10 @@ end
 def self.read_crime_team
   output = {}
 
-  info = ['crime.team', 'https://crime.team/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('crime.team')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.strip.match(/^<li>/)
         url = i.first_between_two_chars('"')
@@ -1308,13 +1194,10 @@ end
 def self.read_tilde_team
   output = {}
 
-  info = ['tilde.team', 'https://tilde.team/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('tilde.team')
+  tc = site.connection
+  if not tc.error
 
-  else
     members_found = false
     tc.result.split("\n").each do |i|
       members_found = true if i.strip == '<h1>~users~</h1>'
@@ -1338,13 +1221,10 @@ def self.read_myrtle_st_club
   output = {}
   return output unless TRY_KNOWN_DEAD_SITES
 
-  info = ['myrtle-st.club', 'http://myrtle-st.club/']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
+  site = TildeSite.new('myrtle-st.club')
+  tc = site.connection
+  if not tc.error
 
-  else
     tc.result.split("\n").each do |i|
       if i.match(/<p> <a href=/)
         i = i.partition('a href').last.strip
