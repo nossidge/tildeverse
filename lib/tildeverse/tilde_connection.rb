@@ -5,7 +5,7 @@
 # Connection to a tilde box.
 # Begin/rescue blocks for connection errors to the user list and root URL.
 # Gives a sensible error string if either URL is offline.
-# After #test_connection is called, @user_list contains raw source user list,
+# After #get is called, @result contains the URL resource contents,
 #   unless the connection failed (then it's nil).
 ################################################################################
 
@@ -24,22 +24,26 @@ module Tildeverse
     attr_reader   :error_message
     attr_reader   :root_url_connection
     attr_reader   :list_url_connection
-    attr_reader   :user_list
+    attr_reader   :result
 
-    def initialize(name)
+    # If the 'list_url' is not specified, assume it's the same as root.
+    def initialize(name, root_url = nil, list_url = nil)
       @name = name
+      @root_url = root_url
+      @list_url = list_url
+      @list_url = root_url if !root_url.nil? && list_url.nil?
     end
 
-    def test_connection
+    def get
 
       # Test the user list page.
       begin
         page = open(@list_url, {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE})
-        @user_list = page.read
+        @result = page.read
         @list_url_connection = true
         @root_url_connection = true
       rescue
-        @user_list = nil
+        @result = nil
         @list_url_connection = false
       end
 
@@ -64,7 +68,7 @@ module Tildeverse
       end
 
       # Return user list as the return value, if it didn't fail. Else return nil.
-      @user_list
+      @result
     end
   end
 end

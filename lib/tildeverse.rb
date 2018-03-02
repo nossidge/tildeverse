@@ -133,7 +133,7 @@ def self.get_modified_dates
   tc = TildeConnection.new('insom/modified')
   tc.root_url = 'http://tilde.town/~insom/'
   tc.list_url = 'http://tilde.town/~insom/modified.html'
-  tc.test_connection.split("\n").select do |i|
+  tc.get.split("\n").select do |i|
     !!i.match('<a href')
   end.map do |i|
     i = i.gsub('<br/>', '')
