@@ -22,16 +22,12 @@ use Rack::Logger
 # Update user tags from INPUT to OUTPUT.
 # (Without doing the full site-scrape)
 def update_tags
-  input = JSON[File.read(INPUT_JSON_TILDEVERSE,
-    :external_encoding => 'utf-8',
-    :internal_encoding => 'utf-8'
-  )]
   output = JSON[File.read(OUTPUT_JSON_TILDEVERSE,
     :external_encoding => 'utf-8',
     :internal_encoding => 'utf-8'
   )]
 
-  input['sites'].each do |site, site_hash|
+  INPUT_TILDEVERSE['sites'].each do |site, site_hash|
     [*site_hash['users']].each do |user, user_hash|
       begin
         output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
@@ -71,10 +67,7 @@ class TildeTagApp < Sinatra::Base
   post '/save_tags' do
     request.body.rewind
     input_data = JSON[request.body.read]
-    json = JSON[File.read(INPUT_JSON_TILDEVERSE,
-      :external_encoding => 'utf-8',
-      :internal_encoding => 'utf-8'
-    )]
+    json = INPUT_TILDEVERSE
 
     # Alter the original JSON, to update with new tags.
     input_data.each do |site, users|

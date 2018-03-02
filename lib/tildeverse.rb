@@ -30,6 +30,11 @@ DIR_HTML                = "#{DIR_ROOT}/output"
 
 INPUT_HTML_TEMPLATE     = "#{DIR_DATA}/index_template.html"
 INPUT_JSON_TILDEVERSE   = "#{DIR_DATA}/tildeverse.json"
+INPUT_TILDEVERSE        = JSON[File.read(INPUT_JSON_TILDEVERSE,
+                            :external_encoding => 'utf-8',
+                            :internal_encoding => 'utf-8'
+                          )]
+
 OUTPUT_HTML_INDEX       = "#{DIR_HTML}/index.html"
 OUTPUT_JSON_TILDEVERSE  = "#{DIR_HTML}/tildeverse.json"
 OUTPUT_JSON_USERS       = "#{DIR_HTML}/users.json"
@@ -49,7 +54,7 @@ module Tildeverse
 def self.output_to_files
 
   # Read in the tildebox names from the JSON.
-  boxes = JSON.parse(File.read(INPUT_JSON_TILDEVERSE))
+  boxes = INPUT_TILDEVERSE
 
   # Add current date and time to the hash
   boxes['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
