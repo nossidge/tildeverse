@@ -78,7 +78,7 @@ def self.output_to_files
     hash['online']     = !results.empty?
     hash['user_count'] = results.size
     user_hash = {}
-    results.keys.each do |user|
+    results.each do |user|
       existing_hash = hash['users'][user] rescue nil
       user_hash[user] = existing_hash || {}
       user_hash[user][:time] = '-'

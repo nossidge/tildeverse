@@ -23,78 +23,60 @@ module Tildeverse
 # These are the only lines on the page that begin with '<li>'
 # 2016/02/23  RIP
 def self.read_totallynuclear_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('totallynuclear.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/^<li>/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/^<li>/)
+      user = i.first_between_two_chars('"').remove_trailing_slash
+      user.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_totallynuclear_club)
 
 ################################################################################
 
 # These are the only lines on the page that begin with '<li>'
 def self.read_palvelin_club
-  output = {}
-
   site = TildeSite.new('palvelin.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    # This is very hacky, but it fixes the string encoding problem.
-    tc.result[89..-1].split("\n").each do |i|
-      if i.match(/^<li>/)
-        url = 'http://palvelin.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  # This is very hacky, but it fixes the string encoding problem.
+  users = tc.result[89..-1].split("\n").map do |i|
+    if i.match(/^<li>/)
+      i.first_between_two_chars('"').split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_palvelin_club)
 
 ################################################################################
 
 # These are the only lines on the page that begin with '<li>'
 # 2015/06/13  RIP
 def self.read_tilde_center
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('tilde.center')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/^<li/)
-        i = i.partition('a href').last.strip
-        url = 'https://tilde.center' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/^<li/)
+      user = i.split('a href').last.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_center)
 
 ################################################################################
 
@@ -106,145 +88,59 @@ end
 # http://noiseandsignal.com/~tyler/ still exists though...
 # 2015/10/26  RIP
 def self.read_noiseandsignal_com
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('noiseandsignal.com')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.match(/<div class="row" id="members">/)
-      members_found = false if i.match(/<\/ul>/)
-      if members_found and i.match(/<li/)
-        url = 'http://noiseandsignal.com' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.match(/<div class="row" id="members">/)
+    members_found = false if i.match(/<\/ul>/)
+    if members_found and i.match(/<li/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_noiseandsignal_com)
 
 ################################################################################
 
-# Out of date as of 2014/12/22
-# These are the lines on the page that begin with '<li>'
-# But only after the line '<ol class="user-list">'
-#   and before '<h1>What can I do?</h1>'
-def self.read_ctrl_c_club_1
-  output = {}
-  members_found = false
-  begin
-    open('http://ctrl-c.club/').read.split("\n").each do |i|
-      members_found = true  if i.strip == '<ol class="user-list">'
-      members_found = false if i.strip == '<h1>What can I do?</h1>'
-      if members_found and i.match(/<li><a href=/)
-        i = i.partition('a href').last.strip
-        url = 'http://ctrl-c.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
-    end
-  rescue
-  end
-  puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  sort_hash_by_keys(output)
-end
-#puts_hash(read_ctrl_c_club_1)
-
-########################################
-
-# Current as of 2014/12/22
-# This is not newline based anymore, so need to do other stuff.
-# Damn, this is really tricky now. Not every user has a page...
-def self.read_ctrl_c_club_2
-  output = {}
-
-  info = ['ctrl-c.club', 'http://ctrl-c.club/', 'http://ctrl-c.club/who.html']
-  tc = TildeConnection.new(*info)
-  tc.get
-  if tc.error
-    puts tc.error_message
-
-  else
-
-    tc.result.split("\n").each do |i|
-      if i.match(/li><li><a href/)
-        i.split('</li><li>').each do |j|
-          j = j.gsub('<li>','').strip
-
-          # Some of these are just the user, e.g. '~ubercow'
-          if j[0] == '~'
-            name = j[1..-1]
-            url = 'http://ctrl-c.club/' + j
-
-          # But some are normal, e.g. '<a href="/~jovan">~jovan</a>'
-          else
-            url = 'http://ctrl-c.club' + j.first_between_two_chars('"')
-            url = url.remove_trailing_slash
-            name = url.partition('~').last.strip
-          end
-          output[name] = url
-        end
-      end
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
-end
-#puts_hash(read_ctrl_c_club_2)
-
-########################################
-
 # Current as of 2015/11/13
+# Uses a nice JSON format.
 def self.read_ctrl_c_club
-  output = {}
-
   site = TildeSite.new('ctrl-c.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    parsed = JSON.parse( tc.result.gsub("\t",'') )
-    parsed['users'].each do |i|
-      name = i['username']
-      url = 'http://ctrl-c.club/~' + name
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  parsed = JSON[ tc.result.gsub("\t",'') ]
+  users = parsed['users'].map do |i|
+    i['username']
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_ctrl_c_club)
 
 ################################################################################
 
 # These are the only lines on the page that begin with '<li>'
 def self.read_tilde_club
-  output = {}
-
   site = TildeSite.new('tilde.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/^<li>/)
-        url = 'http://tilde.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/^<li>/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_club)
 
 ################################################################################
 
@@ -252,21 +148,16 @@ end
 
 # A nice easy JSON format.
 def self.read_tilde_town_json
-  output = {}
-
   site = TildeSite.new('tilde.town')
   tc = site.connection('http://tilde.town/~dan/users.json')
-  if not tc.error
+  return [] if tc.error
 
-    parsed = JSON.parse( tc.result.gsub("\t",'') )
-    parsed.each do |i|
-      name = i[0]
-      url = i[1]['homepage'].sub('http://','https://')
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  parsed = JSON[ tc.result.gsub("\t",'') ]
+  users = parsed.map do |i|
+    i.first
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
 
 ########################################
@@ -274,193 +165,151 @@ end
 # These are the lines on the page that include 'a href'
 # But only after the line '<sub>sorted by recent changes</sub>'
 #   and before the closing '</ul>'
-def self.read_tilde_town_index
-  output = {}
-
+def self.read_tilde_town_html
   site = TildeSite.new('tilde.town')
   tc = site.connection('http://tilde.town/')
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.match(/<sub>sorted by recent changes<\/sub>/)
-      members_found = false if i.match(/<\/ul>/)
-      if members_found and i.match(/a href/)
-        url = i.first_between_two_chars('"')
-        url = 'https://tilde.town' + url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.match(/<sub>sorted by recent changes<\/sub>/)
+    members_found = false if i.match(/<\/ul>/)
+    if members_found and i.match(/a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
 
 ########################################
 
 def self.read_tilde_town
-  json   = read_tilde_town_json
-  index  = read_tilde_town_index
-  merged = json.merge(index)
-  sort_hash_by_keys(merged)
+  a = read_tilde_town_json
+  b = read_tilde_town_html
+  a.concat(b).sort.uniq
 end
-#puts_hash(read_tilde_town)
 
 ################################################################################
 
 # These are the lines on the page that include '<li><a href'
 # 2018/02/25  RIP
 def self.read_tildesare_cool
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('tildesare.cool')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href=/)
-        i = i.partition('a href').last.strip
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href=/)
+      user = i.split('a href').last.strip
+      user = user.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tildesare_cool)
 
 ################################################################################
 
 # These are lines on the page that include '<li><a href', after the line that
 #   matches '<p>Current users:</p>'
 def self.read_hackers_cool
-  output = {}
-
   site = TildeSite.new('hackers.cool')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true if i.strip == '<p>Current users:</p>'
-      if members_found and i.match(/<li><a href/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  # There's an error with some URLs, so we need to use the anchor text.
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true if i.strip == '<p>Current users:</p>'
+    if members_found and i.match(/<li><a href/)
+      i.split('~').last.split('<').first.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_hackers_cool)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 def self.read_tilde_works
-  output = {}
-
   site = TildeSite.new('tilde.works')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.strip == '<h2>users</h2>'
-      members_found = false if i.strip == '</ul>'
-      if members_found and i.match(/<li><a href/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.strip == '<h2>users</h2>'
+    members_found = false if i.strip == '</ul>'
+    if members_found and i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_works)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/10/26  RIP
 def self.read_hypertext_website
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('hypertext.website')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = i.first_between_two_chars("'")
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars("'").strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_hypertext_website)
 
 ################################################################################
 
 # These are the only lines on the page that include '<tr><td><a href'
 def self.read_squiggle_city_html
-  output = {}
-
   site = TildeSite.new('squiggle.city')
   tc = site.connection('https://squiggle.city/')
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<tr><td><a href/)
-        url = 'https://squiggle.city' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.to_s.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<tr><td><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_squiggle_city_html)
 
 ########################################
 
 # JSON format. There's a NULL record at the end of the file though.
 # Also, doesn't seem to include all users...
 def self.read_squiggle_city_json
-  output = {}
-
   site = TildeSite.new('squiggle.city')
   tc = site.connection('https://squiggle.city/tilde.json')
-  if not tc.error
+  return [] if tc.error
 
-    parsed = JSON.parse( tc.result )
-    parsed['users'].each do |i|
-      name = i['username']
-      break if name == nil
-      url = 'https://squiggle.city/~' + name
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  parsed = JSON[ tc.result.gsub("\t",'') ]
+  users = parsed['users'].map do |i|
+    i['username']
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_squiggle_city_json)
 
 ########################################
 
@@ -469,9 +318,8 @@ end
 def self.read_squiggle_city
   a = read_squiggle_city_html
   b = read_squiggle_city_json
-  a.merge(b)
+  a.concat(b).sort.uniq
 end
-#puts_hash(read_squiggle_city)
 
 ################################################################################
 
@@ -480,225 +328,177 @@ end
 # 2016/08/14  Back!
 # 2017/04/11  RIP again
 def self.read_tilde_red
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('tilde.red')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'https:' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_red)
 
 ################################################################################
 
 # Manually found 2 users, but no list.
 # 2015/06/13  RIP
 def self.read_tilde_city
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
-
-  output['twilde'] = 'http://tilde.city/~twilde'
-  output['skk'] = 'http://tilde.city/~skk'
-  sort_hash_by_keys(output)
+  return [] unless TRY_KNOWN_DEAD_SITES
+  %w{twilde skk}
 end
-#puts_hash(read_tilde_city)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 def self.read_yester_host_html
-  output = {}
-
   site = TildeSite.new('yester.host')
   tc = site.connection('http://yester.host/')
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_yester_host_html)
 
 ########################################
 
 # JSON format. There's a NULL record at the end of the file though.
 def self.read_yester_host_json
-  output = {}
-
   site = TildeSite.new('yester.host')
   tc = site.connection('http://yester.host/tilde.json')
-  if not tc.error
+  return [] if tc.error
 
-    parsed = JSON.parse( tc.result )
-    parsed['users'].each do |i|
-      name = i['username']
-      break if name == nil
-      url = 'http://yester.host/~' + name
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  parsed = JSON[ tc.result.gsub("\t",'') ]
+  users = parsed['users'].map do |i|
+    i['username']
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_yester_host_json)
+
 ########################################
 
 # 2015/06/13  RIP
 def self.read_yester_host
-  return {} unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
   read_yester_host_json
 end
-#puts_hash(read_yester_host)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/03/05  drawbridge.club merged into tilde.town
 def self.read_drawbridge_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('drawbridge.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'http://drawbridge.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_drawbridge_club)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/10/26  RIP
 def self.read_tilde_camp
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('tilde.camp')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'http://tilde.camp' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_camp)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/06/13  RIP
 def self.read_tilde_farm
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('tilde.farm')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'http://tilde.farm' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_farm)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/06/13  RIP
 def self.read_rudimentarylathe_org
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('rudimentarylathe.org')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'http://rudimentarylathe.org/' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_rudimentarylathe_org)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2016/09/03  RIP
 def self.read_cybyte_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('cybyte.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = 'http://cybyte.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_cybyte_club)
 
 ################################################################################
 
@@ -711,102 +511,80 @@ end
 # 2017/04/11  Use http://protocol.club/~insom/protocol.24h.html
 #             Also, the https has expired, do use http.
 def self.read_protocol_club
-  output = {}
-
   site = TildeSite.new('protocol.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/^<li>/)
-        url = i.sub('class="homepage-link"', '')
-        url = url.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = tc.root_url + '~' + name
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/^<li>/)
+      user = i.split('href=')[1].first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_protocol_club)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2016/08/14  RIP: retronet.net
 def self.read_retronet_net
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('retronet.net')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_retronet_net)
 
 ################################################################################
 
 # Really easy, just read every line of the html.
 # 2015/06/13  RIP
 def self.read_sunburnt_country
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('sunburnt.country')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      url = i.first_between_two_chars('"')
-      url = url.gsub('../','http://sunburnt.country/')
-      name = url.partition('~').last.strip
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  users = tc.result.split("\n").map do |i|
+    user = i.first_between_two_chars('"').strip
+    user.remove_trailing_slash.split('~').last.strip
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_sunburnt_country)
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 # 2015/03/05  RIP
 def self.read_germantil_de
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('germantil.de')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li><a href/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_germantil_de)
 
 ################################################################################
 
@@ -814,26 +592,21 @@ end
 # I'm betting this will be the first page to break.
 # 2015/10/26  RIP
 def self.read_bleepbloop_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('bleepbloop.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li>/)
-        url = 'https://bleepbloop.club' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li>/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_bleepbloop_club)
 
 ################################################################################
 
@@ -841,171 +614,134 @@ end
 # But only between two other lines.
 # 2015/10/26  RIP
 def self.read_catbeard_city
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('catbeard.city')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.match(/<p>Current inhabitants:</)
-      members_found = false if i.match(/<h2>Pages Changed In Last 24 Hours</)
-      if members_found and i.match(/<li><a href/)
-        url = 'http://catbeard.city/' + i.first_between_two_chars("'")
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.match(/<p>Current inhabitants:</)
+    members_found = false if i.match(/<h2>Pages Changed In Last 24 Hours</)
+    if members_found and i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_catbeard_city)
 
 ################################################################################
 
 # These are the only lines on the page that include '<a href'
 def self.read_skylab_org
-  output = {}
-
   site = TildeSite.new('skylab.org')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.match(/Personal homepages on skylab.org/)
-      members_found = false if i.match(/Close Userlist/)
-      if members_found and i.match(/<li><a href/)
-        url = 'http://skylab.org' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.match(/Personal homepages on skylab.org/)
+    members_found = false if i.match(/Close Userlist/)
+    if members_found and i.match(/<li><a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_skylab_org)
 
 ################################################################################
 
 # These are the only lines on the page that include '<a href'
 # 2017/11/24  RIP
 def self.read_riotgirl_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('riotgirl.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<a href/)
-        url = 'http://riotgirl.club' + i.first_between_two_chars("'")
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_riotgirl_club)
 
 ################################################################################
 
 # A bit different, this one. They don't even use Tildes!
 def self.read_remotes_club
-  output = {}
-
   site = TildeSite.new('remotes.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<li data-last-update/)
-        i = i.partition('<span>').last.strip
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('.').first.sub('https://','')
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<li data-last-update/)
+      i.split('href="https://').last.split('.').first
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_remotes_club)
 
 ################################################################################
 
 # This is not newline based, so need to do other stuff.
 # 2016/02/04  RIP
 def self.read_matilde_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('matilde.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<ul><li>/)
-        i.split('</li><li>').each do |j|
-          url = 'http://matilde.club' + j.first_between_two_chars("'")
-          url = url.remove_trailing_slash
-          name = url.partition('~').last.strip
-          output[name] = url
-        end
+  users = []
+  tc.result.split("\n").each do |i|
+    if i.match(/<ul><li>/)
+      i.split('</li><li>').each do |j|
+        user = i.first_between_two_chars('"').strip
+        user = user.remove_trailing_slash.split('~').last.strip
+        users << user
       end
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
   end
-  sort_hash_by_keys(output)
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users.compact.sort
 end
-#puts_hash(read_matilde_club)
 
 ################################################################################
 
 # Manually found 8 users, but no easily parsable list.
 def self.read_pebble_ink
-  output = {}
-  %w{clach04 contolini elzilrac imt jovan ke7ofi phildini waste}.each do |i|
-    output[i] = "http://pebble.ink/~#{i}"
-  end
-  sort_hash_by_keys(output)
+  %w{clach04 contolini elzilrac imt jovan ke7ofi phildini waste}
 end
-#puts_hash(read_pebble_ink)
 
 ################################################################################
 
 # 2015/01/03  New box, a nice easy JSON format.
 # 2016/01/13  RIP
 def self.read_club6_nl
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('club6.nl')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    parsed = JSON.parse( tc.result )
-    parsed['users'].each do |i|
-      name = i['username']
-      url = 'https://club6.nl/~' + name
-      output[name] = url
-    end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  parsed = JSON[ tc.result.gsub("\t",'') ]
+  users = parsed['users'].map do |i|
+    i['username']
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_club6_nl)
 
 ################################################################################
 
@@ -1013,32 +749,28 @@ end
 # 2015/01/15  User list on index.html
 # 2015/06/13  RIP
 def self.read_losangeles_pablo_xyz
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('losangeles.pablo.xyz')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true if i.match(/<p><b>Users</)
-      if members_found and i.match(/<li>/)
-        i.split('<li').each do |j|
-          j = j.strip.gsub('</li','')
-          if j != ''
-            name = j.first_between_two_chars('>')
-            url = 'http://losangeles.pablo.xyz/~' + name
-            output[name] = url
-          end
+  users = []
+  members_found = false
+  tc.result.split("\n").each do |i|
+    members_found = true if i.match(/<p><b>Users</)
+    if members_found and i.match(/<li>/)
+      i.split('<li').each do |j|
+        j = j.strip.gsub('</li','')
+        if j != ''
+          users << j.first_between_two_chars('>')
         end
       end
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
   end
-  sort_hash_by_keys(output)
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_losangeles_pablo_xyz)
 
 ################################################################################
 
@@ -1047,28 +779,22 @@ end
 # But only after the line '<h2>users</h2>'
 #   and before '</ul>'
 def self.read_perispomeni_club
-  output = {}
-
   site = TildeSite.new('perispomeni.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true  if i.match(/<h2>users<\/h2>/)
-      members_found = false if i.match(/<\/ul>/)
-      if members_found and i.match(/<li/)
-        url = i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  members_found = false
+  users = tc.result.split("\n").map do |i|
+    members_found = true  if i.match(/<h2>users<\/h2>/)
+    members_found = false if i.match(/<\/ul>/)
+    if members_found and i.match(/<li/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_perispomeni_club)
 
 ################################################################################
 
@@ -1078,167 +804,123 @@ end
 #             Alright, for now just use cached users. But keep a watch on it.
 # 2017/09/04  RIP
 def self.read_spookyscary_science
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('spookyscary.science')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/^<a href/)
-        url = 'https://spookyscary.science' + i.first_between_two_chars('"')
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/^<a href/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
 def self.read_spookyscary_science_cache
-  output = {}
   %w{_vax aerandir arthursucks deuslapis
-    drip roob spiff sternalrub wanderingmind}.each do |i|
-    output[i] = "https://spookyscary.science/~#{i}"
-  end
-  sort_hash_by_keys(output)
+    drip roob spiff sternalrub wanderingmind}
 end
-#puts_hash(read_spookyscary_science)
 
 ################################################################################
 
 # 2016/09/12  New box
 # These are the only lines on the page that begin with '<li><a href='
 def self.read_botb_club
-  output = {}
-
   site = TildeSite.new('botb.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.strip.match(/^<li><a href=/)
-        url = 'https://botb.club' + i.first_between_two_chars('"')
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.strip.match(/^<li><a href=/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_botb_club)
 
 ################################################################################
 
 # 2017/04/11  New box, user list on index.html
 def self.read_crime_team
-  output = {}
-
   site = TildeSite.new('crime.team')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.strip.match(/^<li>/)
-        url = i.first_between_two_chars('"')
-        name = url.partition('~').last.strip
-        output[name] = tc.root_url + '~' + name
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.strip.match(/^<li>/)
+      user = i.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_crime_team)
 
 ################################################################################
 
 # 2017/04/11  New box
 # Manually found 8 users, but no list.
 def self.read_backtick_town
-  output = {}
-  %w{alyssa j jay nk kc nickolas360 nix tb10}.each do |i|
-    output[i] = "https://backtick.town/~#{i}"
-  end
-  sort_hash_by_keys(output)
+  %w{alyssa j jay nk kc nickolas360 nix tb10}
 end
-#puts_hash(read_backtick_town)
 
 ################################################################################
 
 # Manually found 3 users, but no list.
 def self.read_ofmanytrades_com
-  output = {}
-  %w{ajroach42 djsundog noah}.each do |i|
-    output[i] = "https://ofmanytrades.com/~#{i}"
-  end
-  sort_hash_by_keys(output)
+  %w{ajroach42 djsundog noah}
 end
-#puts_hash(read_ofmanytrades_com)
 
 ################################################################################
 
 # No idea about this one.
 def self.read_oldbsd_club
-  {}
+  []
 end
 
 ################################################################################
 
 # 2017/08/06  New box
-# These are lines on the page that include '<a href',
-#   after the line that matches '<h1>~users~</h1>'
+# These are lines on the page that start with '<h5'.
 def self.read_tilde_team
-  output = {}
-
   site = TildeSite.new('tilde.team')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    members_found = false
-    tc.result.split("\n").each do |i|
-      members_found = true if i.strip == '<h1>~users~</h1>'
-      if members_found and i.match(/<a href/)
-        url = 'https://tilde.team' + i.first_between_two_chars('"')
-        name = url.partition('~').last.gsub('/','').strip
-        output[name] = url unless name.empty?
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.strip.match(/^<h5/)
+      i.split('~').last.split('<').first
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_tilde_team)
 
 ################################################################################
 
 # These are the lines on the page that include '<p> <a href'
 # 2017/11/24  RIP
 def self.read_myrtle_st_club
-  output = {}
-  return output unless TRY_KNOWN_DEAD_SITES
+  return [] unless TRY_KNOWN_DEAD_SITES
 
   site = TildeSite.new('myrtle-st.club')
   tc = site.connection
-  if not tc.error
+  return [] if tc.error
 
-    tc.result.split("\n").each do |i|
-      if i.match(/<p> <a href=/)
-        i = i.partition('a href').last.strip
-        url = i.first_between_two_chars("'")
-        url = url.remove_trailing_slash
-        name = url.partition('~').last.strip
-        output[name] = url
-      end
+  users = tc.result.split("\n").map do |i|
+    if i.match(/<p> <a href=/)
+      user = i.split('a href').last.first_between_two_chars('"').strip
+      user.remove_trailing_slash.split('~').last.strip
     end
-    puts "ERROR: Empty hash in method: #{__method__}" if output.length == 0
-  end
-  sort_hash_by_keys(output)
+  end.compact.sort.uniq
+  puts "ERROR: Empty hash in method: #{__method__}" if users.length == 0
+  users
 end
-#puts_hash(read_myrtle_st_club)
 
 ################################################################################
 
@@ -1246,14 +928,9 @@ end
 # There's a strange issue with curling this URL.
 # I'll just use a manual list for now.
 def self.read_yourtilde_com
-  output = {}
   %w{WL01 deepend emv jovan kingofobsolete login mhj msmcmickey mushmouth
-      nozy sebboh ubergeek}.each do |i|
-    output[i] = "https://yourtilde.com/~#{i}"
-  end
-  sort_hash_by_keys(output)
+      nozy sebboh ubergeek}
 end
-#puts_hash(read_yourtilde_com)
 
 ################################################################################
 
