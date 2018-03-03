@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 ################################################################################
 # Tildeverse Users Scraper
@@ -15,14 +14,13 @@ require 'json'
 require 'text/hyphen'
 require 'fileutils'
 
-require_relative 'tildeverse/core_extensions/string.rb'
-require_relative 'tildeverse/tilde_connection.rb'
-require_relative 'tildeverse/read_sites.rb'
-require_relative 'tildeverse/misc.rb'
+require_relative 'tildeverse/core_extensions/string'
+require_relative 'tildeverse/tilde_connection'
+require_relative 'tildeverse/tilde_site'
+require_relative 'tildeverse/read_sites'
+require_relative 'tildeverse/misc'
 
 ################################################################################
-
-DEV_MODE                = false
 
 DIR_ROOT                = File.expand_path('../../', __FILE__)
 DIR_DATA                = "#{DIR_ROOT}/data"
@@ -30,10 +28,13 @@ DIR_HTML                = "#{DIR_ROOT}/output"
 
 INPUT_HTML_TEMPLATE     = "#{DIR_DATA}/index_template.html"
 INPUT_JSON_TILDEVERSE   = "#{DIR_DATA}/tildeverse.json"
-INPUT_TILDEVERSE        = JSON[File.read(INPUT_JSON_TILDEVERSE,
-                            :external_encoding => 'utf-8',
-                            :internal_encoding => 'utf-8'
-                          )]
+INPUT_TILDEVERSE        = JSON[
+                            File.read(
+                              INPUT_JSON_TILDEVERSE,
+                              external_encoding: 'utf-8',
+                              internal_encoding: 'utf-8'
+                            )
+                          ]
 
 OUTPUT_HTML_INDEX       = "#{DIR_HTML}/index.html"
 OUTPUT_JSON_TILDEVERSE  = "#{DIR_HTML}/tildeverse.json"
@@ -68,11 +69,7 @@ def self.output_to_files
     # This is the name of the method that will scrape the site.
     # Each site is different, so they need bespoke methods.
     method_name = 'read_' + key.gsub(/[[:punct:]]/, '_')
-    results = if DEV_MODE
-      Tildeverse.read_pebble_ink
-    else
-      Tildeverse.send(method_name)
-    end
+    results = Tildeverse.send(method_name)
 
     # Add the other details to the hash, including defaults for user info.
     hash['online']     = !results.empty?
@@ -87,11 +84,9 @@ def self.output_to_files
   end
 
   # Add the date each user page was modified.
-  get_modified_dates.each do |i|
+  scrape_modified_dates.each do |i|
     user_deets = boxes['sites'][i[:site]]['users'][i[:user]]
-    if user_deets
-      user_deets[:time] = i[:time]
-    end
+    user_deets[:time] = i[:time] if user_deets
   end
 
   # Write the hash to JSON.
@@ -101,9 +96,9 @@ def self.output_to_files
 
   # Write 'users.json' for backwards compatibility.
   users = {}
-  boxes['sites'].each do |key, value|
+  boxes['sites'].each_value do |value|
     hash = {}
-    value['users'].keys.each do |user|
+    value['users'].each_key do |user|
       hash[user] = value['url_format_user'].sub('USER', user)
     end
     users[value['url_root']] = hash
@@ -117,7 +112,7 @@ end
 def self.write_to_html
   File.open(OUTPUT_HTML_INDEX, 'w') do |fo|
     File.open(INPUT_HTML_TEMPLATE, 'r') do |fi|
-      time_stamp = Time.now.strftime("%Y/%m/%d %H:%M GMT")
+      time_stamp = Time.now.strftime('%Y/%m/%d %H:%M GMT')
       out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
       fo.puts out
     end
@@ -134,19 +129,21 @@ end
 ################################################################################
 
 # Scrape modified dates from ~insom's list.
-def self.get_modified_dates
-  tc = TildeConnection.new('insom/modified')
-  tc.root_url = 'http://tilde.town/~insom/'
-  tc.list_url = 'http://tilde.town/~insom/modified.html'
-  tc.get.split("\n").select do |i|
-    !!i.match('<a href')
-  end.map do |i|
+def self.scrape_modified_dates
+  info = [
+    'insom/modified',
+    'http://tilde.town/~insom/',
+    'http://tilde.town/~insom/modified.html'
+  ]
+  tc = TildeConnection.new(*info)
+  lines = tc.get.split("\n").select { |i| i.match('<a href') }
+  lines.map do |i|
     i = i.gsub('<br/>', '')
     i = i.gsub('</a>', '')
     i = i.split('>')[1..-1].join
     {
       site: i.split('/')[2],
-      user: i.split('/')[3].gsub('~', ''),
+      user: i.split('/')[3].delete('~'),
       time: i.split(' -- ')[1]
     }
   end
@@ -156,18 +153,18 @@ end
 
 # ~pfhawkins JSON list of all other tildes.
 # If this has been updated let me know. Then I can manually add the new box.
-def self.get_all_tildes
+def self.scrape_all_tildes
   string_json = open('http://tilde.club/~pfhawkins/othertildes.json').read
-  JSON.parse(string_json).values.map do |i|
+  JSON[string_json].values.map do |i|
     i = i[0...-1] if i[-1] == '/'
-    i = i.partition('//').last
+    i.split('//').last
   end
 end
+
 def self.check_for_new_boxes
-  if get_all_tildes.length != 33
-    puts '-- New Tilde Boxes!'
-    puts 'http://tilde.club/~pfhawkins/othertildes.html'
-  end
+  return if scrape_all_tildes.length == 19
+  puts '-- New Tilde Boxes!'
+  puts 'http://tilde.club/~pfhawkins/othertildes.html'
 end
 
 ################################################################################
@@ -177,30 +174,29 @@ end
 #   https://club6.nl/tilde.json
 #   http://ctrl-c.club/tilde.json
 #   https://squiggle.city/tilde.json
-def self.get_all_tilde_json
+def self.check_for_tilde_json
 
   # Read from the master list of Tilde URLs, and append '/tilde.json' to them.
-  obj_json = JSON.parse( open(OUTPUT_JSON_TILDEVERSE).read )
-  urls_json = obj_json.keys.map { |i| i += '/tilde.json' }
+  obj_json = JSON[open(OUTPUT_JSON_TILDEVERSE).read]
+  urls_json = obj_json.keys.map { |i| i + '/tilde.json' }
 
   # Only select the URLs that can be parsed as JSON.
   urls_json.select do |item|
     begin
-      JSON.parse( open(item).read )
+      JSON[open(item).read]
       true
-    rescue
+    rescue StandardError
       false
     end
   end
 end
 
 def self.check_for_new_desc_json
-  tilde_desc_files = get_all_tilde_json
-  if tilde_desc_files.length != 3
-    puts '-- Tilde Description JSON files:'
-    puts tilde_desc_files
-    puts nil
-  end
+  tilde_desc_files = check_for_tilde_json
+  return if tilde_desc_files.length == 3
+  puts '-- Tilde Description JSON files:'
+  puts tilde_desc_files
+  puts nil
 end
 
 ################################################################################
@@ -218,5 +214,3 @@ end
 end
 
 ################################################################################
-
-Tildeverse.run_all if DEV_MODE

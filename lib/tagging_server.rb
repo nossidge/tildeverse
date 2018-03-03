@@ -1,9 +1,8 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 ################################################################################
 
-require_relative 'tildeverse.rb'
+require_relative 'tildeverse'
 
 ################################################################################
 
@@ -22,17 +21,20 @@ use Rack::Logger
 # Update user tags from INPUT to OUTPUT.
 # (Without doing the full site-scrape)
 def update_tags
-  output = JSON[File.read(OUTPUT_JSON_TILDEVERSE,
-    :external_encoding => 'utf-8',
-    :internal_encoding => 'utf-8'
-  )]
+  output = JSON[
+    File.read(
+      OUTPUT_JSON_TILDEVERSE,
+      external_encoding: 'utf-8',
+      internal_encoding: 'utf-8'
+    )
+  ]
 
   INPUT_TILDEVERSE['sites'].each do |site, site_hash|
     [*site_hash['users']].each do |user, user_hash|
       begin
         output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
         output['sites'][site]['users'][user]['tags']   = user_hash['tags']
-      rescue
+      rescue StandardError
       end
     end
   end

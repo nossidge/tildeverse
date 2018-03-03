@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 ################################################################################
 # Monkey patch the String class.

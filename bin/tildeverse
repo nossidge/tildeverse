@@ -1,18 +1,17 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 ################################################################################
 # Just calls the main 'tildeverse.rb' file.
 ################################################################################
 
 require 'json'
-require_relative '../lib/tildeverse.rb'
+require_relative '../lib/tildeverse'
 
 ################################################################################
 
-obj_json = JSON.parse(File.read(OUTPUT_JSON_TILDEVERSE)) rescue {}
+obj_json = JSON[File.read(OUTPUT_JSON_TILDEVERSE)] rescue {}
 
-help_info = %q{Usage: tildeverse <command> [subcommand]
+help_info = "Usage: tildeverse <command> [subcommand]
 
 $ tildeverse scrape
   Scrape the user list of each box, and output to JSON
@@ -27,7 +26,7 @@ $ tildeverse sites|boxes
 $ tildeverse [site name] ['json']
   List all users for the specified Tildebox
   'json' subcommand outputs as JSON
-}
+"
 
 # Use the arguments to decide which function to perform.
 case ARGV[0]

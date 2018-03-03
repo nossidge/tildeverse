@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 ################################################################################
 # Read site info from the input JSON file 'INPUT_TILDEVERSE'.
@@ -27,14 +26,13 @@ module Tildeverse
     # Optional argument to overwrite the userlist URL.
     def connection(url_list = nil)
       url_list ||= @url_list
-      return @tc if @tc && @tc.list_url == url_list
+      return @tc if @tc && @tc.url_list == url_list
       info = [@site_name, @url_root, url_list]
       @tc = TildeConnection.new(*info)
       @tc.get
       puts @tc.error_message if @tc.error
       @tc
     end
-
   end
 end
 

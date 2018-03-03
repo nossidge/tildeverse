@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# Encoding: UTF-8
 
 module Tildeverse
 
@@ -12,7 +11,7 @@ module Tildeverse
     tiny  = 1
     pre   = 'pre'
 
-    string = [major, minor, tiny, pre].compact.join('.')
+    [major, minor, tiny, pre].compact.join('.')
   end
 
   ##
