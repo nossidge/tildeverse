@@ -19,6 +19,7 @@ require_relative 'tildeverse/tilde_connection'
 require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/read_sites'
 require_relative 'tildeverse/misc'
+require_relative 'tildeverse/site_scrapers'
 
 ################################################################################
 

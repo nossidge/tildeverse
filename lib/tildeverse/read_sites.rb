@@ -31,19 +31,8 @@ end
 
 ################################################################################
 
-# These are the only lines on the page that begin with '<li>'
 def self.read_palvelin_club
-  site = TildeSite.new('palvelin.club')
-  con = site.connection
-  return [] if con.error
-
-  # This is very hacky, but it fixes the string encoding problem.
-  users = con.result[89..-1].split("\n").map do |i|
-    next unless i =~ /^<li>/
-    i.first_between_two_chars('"').split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  PalvelinClub.new.users
 end
 
 ################################################################################
@@ -96,82 +85,22 @@ end
 
 ################################################################################
 
-# Current as of 2015/11/13
-# Uses a nice JSON format.
 def self.read_ctrl_c_club
-  site = TildeSite.new('ctrl-c.club')
-  con = site.connection
-  return [] if con.error
-
-  parsed = JSON[con.result.delete("\t")]
-  users = parsed['users'].map do |i|
-    i['username']
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  CtrlCClub.new.users
 end
 
 ################################################################################
 
 # These are the only lines on the page that begin with '<li>'
 def self.read_tilde_club
-  site = TildeSite.new('tilde.club')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i =~ /^<li>/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  TildeClub.new.users
 end
 
 ################################################################################
 
 # 2016/08/05  JSON is incomplete, so merge with index.html user list
-
-# A nice easy JSON format.
-def self.read_tilde_town_json
-  site = TildeSite.new('tilde.town')
-  con = site.connection('http://tilde.town/~dan/users.json')
-  return [] if con.error
-
-  parsed = JSON[con.result.delete("\t")]
-  users = parsed.map(&:first).compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
-end
-
-########################################
-
-# These are the lines on the page that include 'a href'
-# But only after the line '<sub>sorted by recent changes</sub>'
-#   and before the closing '</ul>'
-def self.read_tilde_town_html
-  site = TildeSite.new('tilde.town')
-  con = site.connection('http://tilde.town/')
-  return [] if con.error
-
-  members_found = false
-  users = con.result.split("\n").map do |i|
-    members_found = true  if i =~ %r{<sub>sorted by recent changes</sub>}
-    members_found = false if i =~ %r{</ul>}
-    next unless members_found && i =~ /a href/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
-end
-
-########################################
-
 def self.read_tilde_town
-  a = read_tilde_town_json
-  b = read_tilde_town_html
-  a.concat(b).sort.uniq
+  TildeTown.new.users
 end
 
 ################################################################################
@@ -200,39 +129,14 @@ end
 # These are lines on the page that include '<li><a href', after the line that
 #   matches '<p>Current users:</p>'
 def self.read_hackers_cool
-  site = TildeSite.new('hackers.cool')
-  con = site.connection
-  return [] if con.error
-
-  # There's an error with some URLs, so we need to use the anchor text.
-  members_found = false
-  users = con.result.split("\n").map do |i|
-    members_found = true if i.strip == '<p>Current users:</p>'
-    next unless members_found && i =~ /<li><a href/
-    i.split('~').last.split('<').first.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  HackersCool.new.users
 end
 
 ################################################################################
 
 # These are the only lines on the page that include '<li><a href'
 def self.read_tilde_works
-  site = TildeSite.new('tilde.works')
-  con = site.connection
-  return [] if con.error
-
-  members_found = false
-  users = con.result.split("\n").map do |i|
-    members_found = true  if i.strip == '<h2>users</h2>'
-    members_found = false if i.strip == '</ul>'
-    next unless members_found && i =~ /<li><a href/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  TildeWorks.new.users
 end
 
 ################################################################################
@@ -257,46 +161,10 @@ end
 
 ################################################################################
 
-# These are the only lines on the page that include '<tr><td><a href'
-def self.read_squiggle_city_html
-  site = TildeSite.new('squiggle.city')
-  con = site.connection('https://squiggle.city/')
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i =~ /<tr><td><a href/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
-end
-
-########################################
-
-# JSON format. There's a NULL record at the end of the file though.
-# Also, doesn't seem to include all users...
-def self.read_squiggle_city_json
-  site = TildeSite.new('squiggle.city')
-  con = site.connection('https://squiggle.city/tilde.json')
-  return [] if con.error
-
-  parsed = JSON[con.result.delete("\t")]
-  users = parsed['users'].map do |i|
-    i['username']
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
-end
-
-########################################
-
 # The JSON doesn't include all the users.
 # So group them together, sort and uniq.
 def self.read_squiggle_city
-  a = read_squiggle_city_html
-  b = read_squiggle_city_json
-  a.concat(b).sort.uniq
+  SquiggleCity.new.users
 end
 
 ################################################################################
@@ -473,26 +341,8 @@ end
 
 ################################################################################
 
-# A few lists to choose from here:
-# https://protocol.club/~insom/protocol.24h.json
-# http://protocol.club/~silentbicycle/homepages.html
-# http://protocol.club/~insom/protocol.24h.html
-
-# 201x/xx/xx  Use https://protocol.club/~insom/protocol.24h.json
-# 2017/04/11  Use http://protocol.club/~insom/protocol.24h.html
-#             Also, the https has expired, do use http.
 def self.read_protocol_club
-  site = TildeSite.new('protocol.club')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i =~ /^<li>/
-    user = i.split('href=')[1].first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  ProtocolClub.new.users
 end
 
 ################################################################################
