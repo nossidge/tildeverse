@@ -453,20 +453,7 @@ end
 
 # These are the only lines on the page that include '<a href'
 def self.read_skylab_org
-  site = TildeSite.new('skylab.org')
-  con = site.connection
-  return [] if con.error
-
-  members_found = false
-  users = con.result.split("\n").map do |i|
-    members_found = true  if i =~ /Personal homepages on skylab.org/
-    members_found = false if i =~ /Close Userlist/
-    next unless members_found && i =~ /<li><a href/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  SkylabOrg.new.users
 end
 
 ################################################################################
@@ -493,16 +480,7 @@ end
 
 # A bit different, this one. They don't even use Tildes!
 def self.read_remotes_club
-  site = TildeSite.new('remotes.club')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i =~ /<li data-last-update/
-    i.split('href="https://').last.split('.').first
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  RemotesClub.new.users
 end
 
 ################################################################################
@@ -533,7 +511,7 @@ end
 
 # Manually found 8 users, but no easily parsable list.
 def self.read_pebble_ink
-  %w[clach04 contolini elzilrac imt jovan ke7ofi phildini waste]
+  PebbleInk.new.users
 end
 
 ################################################################################
@@ -588,20 +566,7 @@ end
 # But only after the line '<h2>users</h2>'
 #   and before '</ul>'
 def self.read_perispomeni_club
-  site = TildeSite.new('perispomeni.club')
-  con = site.connection
-  return [] if con.error
-
-  members_found = false
-  users = con.result.split("\n").map do |i|
-    members_found = true  if i =~ %r{<h2>users</h2>}
-    members_found = false if i =~ %r{</ul>}
-    next unless members_found && i =~ /<li/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  PerispomeniClub.new.users
 end
 
 ################################################################################
@@ -637,34 +602,14 @@ end
 # 2016/09/12  New box
 # These are the only lines on the page that begin with '<li><a href='
 def self.read_botb_club
-  site = TildeSite.new('botb.club')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i.strip =~ /^<li><a href=/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  BotbClub.new.users
 end
 
 ################################################################################
 
 # 2017/04/11  New box, user list on index.html
 def self.read_crime_team
-  site = TildeSite.new('crime.team')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i.strip =~ /^<li>/
-    user = i.first_between_two_chars('"').strip
-    user.remove_trailing_slash.split('~').last.strip
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  CrimeTeam.new.users
 end
 
 ################################################################################
@@ -672,21 +617,21 @@ end
 # 2017/04/11  New box
 # Manually found 8 users, but no list.
 def self.read_backtick_town
-  %w[alyssa j jay nk kc nickolas360 nix tb10]
+  BacktickTown.new.users
 end
 
 ################################################################################
 
 # Manually found 3 users, but no list.
 def self.read_ofmanytrades_com
-  %w[ajroach42 djsundog noah]
+  OfmanytradesCom.new.users
 end
 
 ################################################################################
 
 # No idea about this one.
 def self.read_oldbsd_club
-  []
+  OldbsdClub.new.users
 end
 
 ################################################################################
@@ -694,16 +639,7 @@ end
 # 2017/08/06  New box
 # These are lines on the page that start with '<h5'.
 def self.read_tilde_team
-  site = TildeSite.new('tilde.team')
-  con = site.connection
-  return [] if con.error
-
-  users = con.result.split("\n").map do |i|
-    next unless i.strip =~ /^<h5/
-    i.split('~').last.split('<').first
-  end.compact.sort.uniq
-  puts "ERROR: Empty hash in method: #{__method__}" if users.empty?
-  users
+  TildeTeam.new.users
 end
 
 ################################################################################
@@ -732,8 +668,7 @@ end
 # There's a strange issue with curling this URL.
 # I'll just use a manual list for now.
 def self.read_yourtilde_com
-  %w[WL01 deepend emv jovan kingofobsolete login mhj msmcmickey mushmouth
-     nozy sebboh ubergeek]
+  YourtildeCom.new.users
 end
 
 ################################################################################
