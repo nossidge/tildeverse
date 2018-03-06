@@ -17,8 +17,6 @@ require 'fileutils'
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/tilde_connection'
 require_relative 'tildeverse/tilde_site'
-require_relative 'tildeverse/read_sites'
-require_relative 'tildeverse/misc'
 require_relative 'tildeverse/site_scrapers'
 
 ################################################################################
@@ -45,7 +43,6 @@ FILES_TO_COPY           = ['users.js', 'boxes.js', 'pie.js']
 WRITE_TO_FILES          = true   # This is necessary.
 CHECK_FOR_NEW_BOXES     = false  # This is fast.
 CHECK_FOR_NEW_DESC_JSON = false  # This is slow.
-TRY_KNOWN_DEAD_SITES    = false  # This is pointless.
 
 ################################################################################
 
@@ -67,10 +64,16 @@ def self.output_to_files
     key = i.first
     hash = i[1]
 
-    # This is the name of the method that will scrape the site.
-    # Each site is different, so they need bespoke methods.
-    method_name = 'read_' + key.gsub(/[[:punct:]]/, '_')
-    results = Tildeverse.send(method_name)
+    # The class name is based on the site name.
+    #   i.e. 'myrtle-st.club' => 'MyrtleStClub'
+    # If the site is no longer online, it is moved to '/site_scrapers/dead/'
+    #   and is not required by ruby. We can return an empty array for these.
+    class_name = key.split(/\W/).map(&:capitalize).join
+    results = begin
+      Tildeverse.const_get(class_name).new.users
+    rescue NameError
+      []
+    end
 
     # Add the other details to the hash, including defaults for user info.
     hash['online']     = !results.empty?
