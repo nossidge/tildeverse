@@ -18,6 +18,7 @@ require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/tilde_connection'
 require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/site_scrapers'
+require_relative 'tildeverse/modified_dates'
 
 ################################################################################
 
@@ -88,7 +89,7 @@ def self.output_to_files
   end
 
   # Add the date each user page was modified.
-  scrape_modified_dates.each do |i|
+  Tildeverse::ModifiedDates.new.get.each do |i|
     user_deets = boxes['sites'][i[:site]]['users'][i[:user]]
     user_deets[:time] = i[:time] if user_deets
   end
@@ -127,29 +128,6 @@ end
 def self.copy_files
   FILES_TO_COPY.each do |i|
     FileUtils.cp("#{DIR_DATA}/#{i}", "#{DIR_HTML}/#{i}")
-  end
-end
-
-################################################################################
-
-# Scrape modified dates from ~insom's list.
-def self.scrape_modified_dates
-  info = [
-    'insom/modified',
-    'http://tilde.town/~insom/',
-    'http://tilde.town/~insom/modified.html'
-  ]
-  tc = TildeConnection.new(*info)
-  lines = tc.get.split("\n").select { |i| i.match('<a href') }
-  lines.map do |i|
-    i = i.gsub('<br/>', '')
-    i = i.gsub('</a>', '')
-    i = i.split('>')[1..-1].join
-    {
-      site: i.split('/')[2],
-      user: i.split('/')[3].delete('~'),
-      time: i.split(' -- ')[1]
-    }
   end
 end
 
