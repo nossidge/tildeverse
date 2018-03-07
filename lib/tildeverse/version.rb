@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 module Tildeverse
-
   ##
   # The number of the current version.
   #

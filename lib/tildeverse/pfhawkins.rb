@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
   #
   # ~pfhawkins JSON list of all other tildes.
@@ -33,10 +31,14 @@ module Tildeverse
       boxes.length != 19
     end
 
+    def puts_if_new
+      puts new_message if new?
+    end
+
+    private
+
     def new_message
       "-- New Tilde Boxes!\n" + html_url
     end
   end
 end
-
-################################################################################

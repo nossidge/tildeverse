@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
   #
   # Scrape all Tilde sites and save as JSON files.
@@ -107,5 +105,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

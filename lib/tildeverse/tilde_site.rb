@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-################################################################################
-# Read site info from the input JSON file 'INPUT_TILDEVERSE'.
-################################################################################
-
 module Tildeverse
   #
   # Read site info from the input JSON file 'INPUT_TILDEVERSE'.
@@ -56,5 +52,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

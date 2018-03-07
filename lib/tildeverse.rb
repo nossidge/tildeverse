@@ -49,29 +49,10 @@ CHECK_FOR_NEW_BOXES     = false  # This is fast.
 ################################################################################
 
 module Tildeverse
-
-################################################################################
-
-def self.output_to_files
-  Tildeverse::TildeverseScraper.new.scrape
-end
-
-################################################################################
-
-def self.check_for_new_boxes
-  pfhawkins = Tildeverse::PFHawkins.new
-  puts pfhawkins.new_message if pfhawkins.new?
-end
-
-################################################################################
-
-def self.run_all
-  output_to_files if WRITE_TO_FILES
-  check_for_new_boxes if CHECK_FOR_NEW_BOXES
-end
-
-################################################################################
-
+  def self.run_all
+    Tildeverse::TildeverseScraper.new.scrape if WRITE_TO_FILES
+    Tildeverse::PFHawkins.new.puts_if_new if CHECK_FOR_NEW_BOXES
+  end
 end
 
 ################################################################################

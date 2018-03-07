@@ -1,14 +1,12 @@
 #!/usr/bin/env ruby
 
-################################################################################
-# Connection to a tilde box.
-# Begin/rescue blocks for connection errors to the user list and root URL.
-# Gives a sensible error string if either URL is offline.
-# After #get is called, @result contains the URL resource contents,
-#   unless the connection failed (then it's nil).
-################################################################################
-
 module Tildeverse
+  #
+  # Connection to a tilde box.
+  # Begin/rescue blocks for connection errors to the user list and root URL.
+  # Gives a sensible error string if either URL is offline.
+  # After #get is called, @result contains the URL resource contents,
+  #   unless the connection failed (then it's nil).
   class TildeConnection
     attr_accessor :name, :url_root, :url_list
     attr_reader :result, :error, :error_message
@@ -63,5 +61,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################
