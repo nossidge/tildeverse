@@ -2,13 +2,13 @@
 
 module Tildeverse
   #
-  # Read site info from the input JSON file 'INPUT_TILDEVERSE'.
+  # Read site info from the input JSON file 'input_tildeverse'.
   class TildeSite
     attr_reader :name, :url_root, :url_list, :url_format_user
 
     # Pick up the URLs from the JSON, if not specified.
     def initialize(site_name, url_root = nil, url_list = nil)
-      json = INPUT_TILDEVERSE['sites'][site_name]
+      json = Tildeverse::Config.input_tildeverse['sites'][site_name]
       @name = site_name
       @url_root = url_root || json['url_root']
       @url_list = url_list || json['url_list']

@@ -21,15 +21,9 @@ use Rack::Logger
 # Update user tags from INPUT to OUTPUT.
 # (Without doing the full site-scrape)
 def update_tags
-  output = JSON[
-    File.read(
-      OUTPUT_JSON_TILDEVERSE,
-      external_encoding: 'utf-8',
-      internal_encoding: 'utf-8'
-    )
-  ]
+  output = Tildeverse::Config.output_tildeverse
 
-  INPUT_TILDEVERSE['sites'].each do |site, site_hash|
+  Tildeverse::Config.input_tildeverse['sites'].each do |site, site_hash|
     [*site_hash['users']].each do |user, user_hash|
       begin
         output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
@@ -39,7 +33,7 @@ def update_tags
     end
   end
 
-  File.open(OUTPUT_JSON_TILDEVERSE, 'w') do |f|
+  File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
     f.write JSON.pretty_generate(output).force_encoding('UTF-8')
   end
 end
@@ -62,14 +56,14 @@ class TildeTagApp < Sinatra::Base
 
   # This is given to the client as an Xreq.
   get '/tildeverse.json' do
-    File.read(OUTPUT_JSON_TILDEVERSE)
+    File.read(Tildeverse::Config.output_json_tildeverse)
   end
 
   # Save the tags to the JSON file.
   post '/save_tags' do
     request.body.rewind
     input_data = JSON[request.body.read]
-    json = INPUT_TILDEVERSE
+    json = Tildeverse::Config.input_tildeverse
 
     # Alter the original JSON, to update with new tags.
     input_data.each do |site, users|
@@ -108,7 +102,7 @@ class TildeTagApp < Sinatra::Base
     end
 
     # Write the hash to both JSON files.
-    File.open(INPUT_JSON_TILDEVERSE, 'w') do |f|
+    File.open(Tildeverse::Config.input_json_tildeverse, 'w') do |f|
       f.write JSON.pretty_generate(json)
       f.write "\n"
     end

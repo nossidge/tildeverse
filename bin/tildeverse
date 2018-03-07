@@ -9,7 +9,7 @@ require_relative '../lib/tildeverse'
 
 ################################################################################
 
-obj_json = JSON[File.read(OUTPUT_JSON_TILDEVERSE)] rescue {}
+obj_json = Tildeverse::Config.output_tildeverse rescue {}
 
 help_info = "Usage: tildeverse <command> [subcommand]
 

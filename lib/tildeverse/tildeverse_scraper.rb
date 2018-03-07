@@ -18,7 +18,7 @@ module Tildeverse
     # This is the object that holds the full state.
     def json
       return @json if @json
-      @json = INPUT_TILDEVERSE
+      @json = Tildeverse::Config.input_tildeverse
       @json['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
       @json['metadata']['date_unix']  = Time.now.to_i
       @json
@@ -66,7 +66,7 @@ module Tildeverse
 
     # Write the hash to 'tildeverse.json'.
     def save_tildeverse_json
-      File.open(OUTPUT_JSON_TILDEVERSE, 'w') do |f|
+      File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
         f.write JSON.pretty_generate(json)
       end
     end
@@ -81,15 +81,15 @@ module Tildeverse
         end
         users_hash[value['url_root']] = site_hash
       end
-      File.open(OUTPUT_JSON_USERS, 'w') do |f|
+      File.open(Tildeverse::Config.output_json_users, 'w') do |f|
         f.write JSON.pretty_generate(users_hash)
       end
     end
 
     # Update the timestamp in 'index.html'.
     def save_index_html
-      File.open(OUTPUT_HTML_INDEX, 'w') do |fo|
-        File.open(INPUT_HTML_TEMPLATE, 'r') do |fi|
+      File.open(Tildeverse::Config.output_html_index, 'w') do |fo|
+        File.open(Tildeverse::Config.input_html_template, 'r') do |fi|
           time_stamp = Time.now.strftime('%Y/%m/%d %H:%M GMT')
           out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
           fo.puts out
@@ -99,8 +99,10 @@ module Tildeverse
 
     # Copy all static files to the output directory.
     def copy_static_files
-      FILES_TO_COPY.each do |i|
-        FileUtils.cp("#{DIR_DATA}/#{i}", "#{DIR_HTML}/#{i}")
+      Tildeverse::Config.files_to_copy.each do |i|
+        from = "#{Tildeverse::Config.dir_data}/#{i}"
+        to   = "#{Tildeverse::Config.dir_html}/#{i}"
+        FileUtils.cp(from, to)
       end
     end
   end
