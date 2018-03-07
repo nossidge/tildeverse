@@ -20,6 +20,7 @@ require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/site_scrapers'
 require_relative 'tildeverse/modified_dates'
 require_relative 'tildeverse/tildeverse_scraper'
+require_relative 'tildeverse/pfhawkins'
 
 ################################################################################
 
@@ -58,20 +59,9 @@ end
 
 ################################################################################
 
-# ~pfhawkins JSON list of all other tildes.
-# If this has been updated let me know. Then I can manually add the new box.
-def self.scrape_all_tildes
-  string_json = open('http://tilde.club/~pfhawkins/othertildes.json').read
-  JSON[string_json].values.map do |i|
-    i = i[0...-1] if i[-1] == '/'
-    i.split('//').last
-  end
-end
-
 def self.check_for_new_boxes
-  return if scrape_all_tildes.length == 19
-  puts '-- New Tilde Boxes!'
-  puts 'http://tilde.club/~pfhawkins/othertildes.html'
+  pfhawkins = Tildeverse::PFHawkins.new
+  puts pfhawkins.new_message if pfhawkins.new?
 end
 
 ################################################################################
