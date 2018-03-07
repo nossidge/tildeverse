@@ -19,6 +19,7 @@ require_relative 'tildeverse/tilde_connection'
 require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/site_scrapers'
 require_relative 'tildeverse/modified_dates'
+require_relative 'tildeverse/tildeverse_scraper'
 
 ################################################################################
 
@@ -52,83 +53,7 @@ module Tildeverse
 ################################################################################
 
 def self.output_to_files
-
-  # Read in the tildebox names from the JSON.
-  boxes = INPUT_TILDEVERSE
-
-  # Add current date and time to the hash
-  boxes['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-  boxes['metadata']['date_unix']  = Time.now.to_i
-
-  # Scrape each site and add to the hash.
-  boxes['sites'].each do |i|
-    key = i.first
-    hash = i[1]
-
-    # The class name is based on the site name.
-    #   i.e. 'myrtle-st.club' => 'MyrtleStClub'
-    # If the site is no longer online, it is moved to '/site_scrapers/dead/'
-    #   and is not required by ruby. We can return an empty array for these.
-    class_name = key.split(/\W/).map(&:capitalize).join
-    results = begin
-      Tildeverse.const_get(class_name).new.users
-    rescue NameError
-      []
-    end
-
-    # Add the other details to the hash, including defaults for user info.
-    hash['online']     = !results.empty?
-    hash['user_count'] = results.size
-    user_hash = {}
-    results.each do |user|
-      existing_hash = hash['users'][user] rescue nil
-      user_hash[user] = existing_hash || {}
-      user_hash[user][:time] = '-'
-    end
-    hash['users'] = user_hash
-  end
-
-  # Add the date each user page was modified.
-  Tildeverse::ModifiedDates.new.get.each do |i|
-    user_deets = boxes['sites'][i[:site]]['users'][i[:user]]
-    user_deets[:time] = i[:time] if user_deets
-  end
-
-  # Write the hash to JSON.
-  File.open(OUTPUT_JSON_TILDEVERSE, 'w') do |f|
-    f.write JSON.pretty_generate(boxes)
-  end
-
-  # Write 'users.json' for backwards compatibility.
-  users = {}
-  boxes['sites'].each_value do |value|
-    hash = {}
-    value['users'].each_key do |user|
-      hash[user] = value['url_format_user'].sub('USER', user)
-    end
-    users[value['url_root']] = hash
-  end
-  File.open(OUTPUT_JSON_USERS, 'w') do |f|
-    f.write JSON.pretty_generate(users)
-  end
-end
-
-# Now read back to 'index.html'
-def self.write_to_html
-  File.open(OUTPUT_HTML_INDEX, 'w') do |fo|
-    File.open(INPUT_HTML_TEMPLATE, 'r') do |fi|
-      time_stamp = Time.now.strftime('%Y/%m/%d %H:%M GMT')
-      out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
-      fo.puts out
-    end
-  end
-end
-
-# Copy all static files to the output directory.
-def self.copy_files
-  FILES_TO_COPY.each do |i|
-    FileUtils.cp("#{DIR_DATA}/#{i}", "#{DIR_HTML}/#{i}")
-  end
+  Tildeverse::TildeverseScraper.new.scrape
 end
 
 ################################################################################
@@ -185,8 +110,6 @@ end
 
 def self.run_all
   output_to_files if WRITE_TO_FILES
-  write_to_html if WRITE_TO_FILES
-  copy_files if WRITE_TO_FILES
   check_for_new_boxes if CHECK_FOR_NEW_BOXES
   check_for_new_desc_json if CHECK_FOR_NEW_DESC_JSON
 end
