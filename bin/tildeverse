@@ -15,6 +15,9 @@ help_info = "Usage: tildeverse <command> [subcommand]
 $ tildeverse scrape
   Scrape the user list of each box, and output to JSON
 
+$ tildeverse fetch
+  Fetch pre-scraped data from tilde.town/~nossidge/tildeverse
+
 $ tildeverse new
   See if there have been any additions by ~pfhawkins
 
@@ -36,6 +39,8 @@ when nil
   puts help_info
 when 'scrape'
   Tildeverse.scrape
+when 'fetch'
+  Tildeverse.fetch
 when 'new'
   Tildeverse::PFHawkins.new.puts_if_new
 when 'json'
