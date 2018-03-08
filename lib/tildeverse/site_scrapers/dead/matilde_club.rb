@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # This is not newline based, so need to do other stuff.
+  # 2016/02/04  RIP
   class MatildeClub < TildeSite
     def initialize
       super 'matilde.club'
     end
 
-    # This is not newline based, so need to do other stuff.
-    # 2016/02/04  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -28,5 +27,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

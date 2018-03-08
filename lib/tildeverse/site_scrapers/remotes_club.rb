@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # A bit different, this one. They don't even use Tildes!
   class RemotesClub < TildeSite
     def initialize
       super 'remotes.club'
     end
 
-    # A bit different, this one. They don't even use Tildes!
     def users
       return @users if @users
       return @users = [] if con.error
@@ -22,5 +21,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

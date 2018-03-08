@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the lines on the page that begin with '<li>'
+  # But only after the line '<h2>users</h2>' and before '</ul>'
   class PerispomeniClub < TildeSite
     def initialize
       super 'perispomeni.club'
     end
 
-    # These are the lines on the page that begin with '<li>'
-    # But only after the line '<h2>users</h2>' and before '</ul>'
     def users
       return @users if @users
       return @users = [] if con.error
@@ -27,5 +26,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the only lines on the page that include '<li><a href'
+  # 2015/03/05  RIP
   class GermantilDe < TildeSite
     def initialize
       super 'germantil.de'
     end
 
-    # These are the only lines on the page that include '<li><a href'
-    # 2015/03/05  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -24,5 +23,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

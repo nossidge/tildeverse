@@ -1,16 +1,15 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # This is straight from someone's ~user index.html.
+  # I'm betting this will be the first page to break.
+  # 2015/10/26  RIP
   class BleepbloopClub < TildeSite
     def initialize
       super 'bleepbloop.club'
     end
 
-    # This is straight from someone's ~user index.html.
-    # I'm betting this will be the first page to break.
-    # 2015/10/26  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -25,5 +24,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

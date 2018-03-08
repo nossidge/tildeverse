@@ -1,18 +1,17 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2016/08/10  New box
+  # 2016/11/04  Okay, something weird is going on here. Every page but the
+  #             index reverts to root. I guess consider it dead?
+  #             For now just use cached users. But keep a watch on it.
+  # 2017/09/04  RIP
   class SpookyscaryScience < TildeSite
     def initialize
       super 'spookyscary.science'
     end
 
-    # 2016/08/10  New box
-    # 2016/11/04  Okay, something weird is going on here. Every page but the
-    #             index reverts to root. I guess consider it dead?
-    #             For now just use cached users. But keep a watch on it.
-    # 2017/09/04  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -32,5 +31,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

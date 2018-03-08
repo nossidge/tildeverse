@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the only lines on the page that include '<li><a href'
+  # 2015/03/05  drawbridge.club merged into tilde.town
   class DrawbridgeClub < TildeSite
     def initialize
       super 'drawbridge.club'
     end
 
-    # These are the only lines on the page that include '<li><a href'
-    # 2015/03/05  drawbridge.club merged into tilde.town
     def users
       return @users if @users
       return @users = [] if con.error
@@ -24,5 +23,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the lines on the page that include '<p> <a href'
+  # 2017/11/24  RIP
   class MyrtleStClub < TildeSite
     def initialize
       super 'myrtle-st.club'
     end
 
-    # These are the lines on the page that include '<p> <a href'
-    # 2017/11/24  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -24,5 +23,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

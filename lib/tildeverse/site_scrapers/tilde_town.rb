@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2016/08/05  JSON is incomplete, so merge with index.html user list
   class TildeTown < TildeSite
     def initialize
       super 'tilde.town'
     end
 
-    # 2016/08/05  JSON is incomplete, so merge with index.html user list
     def users
       return @users if @users
       a = read_json
@@ -47,5 +46,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

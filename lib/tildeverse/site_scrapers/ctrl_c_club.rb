@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # Current as of 2015/11/13
+  # Uses a nice JSON format.
   class CtrlCClub < TildeSite
     def initialize
       super 'ctrl-c.club'
     end
 
-    # Current as of 2015/11/13
-    # Uses a nice JSON format.
     def users
       return @users if @users
       return @users = [] if con.error
@@ -23,5 +22,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

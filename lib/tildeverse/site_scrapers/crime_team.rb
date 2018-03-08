@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2017/04/11  New box, user list on index.html
   class CrimeTeam < TildeSite
     def initialize
       super 'crime.team'
     end
 
-    # 2017/04/11  New box, user list on index.html
     def users
       return @users if @users
       return @users = [] if con.error
@@ -23,5 +22,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

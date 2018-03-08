@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the lines on the page that include '<li><a href'
   class TildesareCool < TildeSite
     def initialize
       super 'tildesare.cool'
     end
 
-    # These are the lines on the page that include '<li><a href'
     def users
       return @users if @users
       return @users = [] if con.error
@@ -24,5 +23,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

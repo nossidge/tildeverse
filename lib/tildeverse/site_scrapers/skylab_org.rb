@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the only lines on the page that include '<a href'
   class SkylabOrg < TildeSite
     def initialize
       super 'skylab.org'
     end
 
-    # These are the only lines on the page that include '<a href'
     def users
       return @users if @users
       return @users = [] if con.error
@@ -26,5 +25,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

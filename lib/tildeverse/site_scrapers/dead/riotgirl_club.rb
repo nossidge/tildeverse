@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the only lines on the page that include '<a href'
+  # 2017/11/24  RIP
   class RiotgirlClub < TildeSite
     def initialize
       super 'riotgirl.club'
     end
 
-    # These are the only lines on the page that include '<a href'
-    # 2017/11/24  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -24,5 +23,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

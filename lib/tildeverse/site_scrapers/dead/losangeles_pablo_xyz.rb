@@ -1,16 +1,15 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2015/01/03  New tildebox
+  # 2015/01/15  User list on index.html
+  # 2015/06/13  RIP
   class LosangelesPabloXyz < TildeSite
     def initialize
       super 'losangeles.pablo.xyz'
     end
 
-    # 2015/01/03  New tildebox
-    # 2015/01/15  User list on index.html
-    # 2015/06/13  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -30,5 +29,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

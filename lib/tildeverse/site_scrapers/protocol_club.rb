@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # The https has expired, do use http.
   class ProtocolClub < TildeSite
     def initialize
       super 'protocol.club'
@@ -22,5 +22,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

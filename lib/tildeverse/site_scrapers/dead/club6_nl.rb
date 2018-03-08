@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2015/01/03  New box, a nice easy JSON format.
+  # 2016/01/13  RIP
   class Club6Nl < TildeSite
     def initialize
       super 'club6.nl'
     end
 
-    # 2015/01/03  New box, a nice easy JSON format.
-    # 2016/01/13  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -23,5 +22,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

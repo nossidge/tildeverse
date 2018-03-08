@@ -1,16 +1,15 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are lines on the page that include '<li><a href'
+  # But only between two other lines.
+  # 2015/10/26  RIP
   class CatbeardCity < TildeSite
     def initialize
       super 'catbeard.city'
     end
 
-    # These are lines on the page that include '<li><a href'
-    # But only between two other lines.
-    # 2015/10/26  RIP
     def users
       return @users if @users
       return @users = [] if con.error
@@ -28,5 +27,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

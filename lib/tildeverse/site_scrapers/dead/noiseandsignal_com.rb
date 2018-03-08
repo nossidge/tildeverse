@@ -1,16 +1,15 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are the lines on the page that begin with '<li>'
+  # But only after the line '<div class="row" id="members">'
+  #   and before '</ul>'
   class NoiseandsignalCom < TildeSite
     def initialize
       super 'noiseandsignal.com'
     end
 
-    # These are the lines on the page that begin with '<li>'
-    # But only after the line '<div class="row" id="members">'
-    #   and before '</ul>'
     def users
       return @users if @users
       return @users = [] if con.error
@@ -28,5 +27,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

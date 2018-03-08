@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are lines on the page that start with '<h5'.
   class TildeTeam < TildeSite
     def initialize
       super 'tilde.team'
     end
 
-    # These are lines on the page that start with '<h5'.
     def users
       return @users if @users
       return @users = [] if con.error
@@ -22,5 +21,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

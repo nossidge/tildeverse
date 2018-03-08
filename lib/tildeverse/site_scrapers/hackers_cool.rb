@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # These are lines on the page that include '<li><a href',
+  #   after the line that matches '<p>Current users:</p>'
   class HackersCool < TildeSite
     def initialize
       super 'hackers.cool'
     end
 
-    # These are lines on the page that include '<li><a href',
-    #   after the line that matches '<p>Current users:</p>'
     def users
       return @users if @users
       return @users = [] if con.error
@@ -26,5 +25,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

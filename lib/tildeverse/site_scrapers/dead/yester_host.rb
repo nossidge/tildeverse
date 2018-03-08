@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # 2015/06/13  RIP
   class YesterHost < TildeSite
     def initialize
       super 'yester.host'
     end
 
-    # 2015/06/13  RIP
     def users
       return @users if @users
       a = read_json
@@ -44,5 +43,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

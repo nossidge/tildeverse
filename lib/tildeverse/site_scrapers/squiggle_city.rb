@@ -1,15 +1,14 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 module Tildeverse
+  #
+  # The JSON doesn't include all the users.
+  # So group them together, sort and uniq.
   class SquiggleCity < TildeSite
     def initialize
       super 'squiggle.city'
     end
 
-    # The JSON doesn't include all the users.
-    # So group them together, sort and uniq.
     def users
       return @users if @users
       a = read_json
@@ -46,5 +45,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################
