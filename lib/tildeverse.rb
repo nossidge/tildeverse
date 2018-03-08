@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
 
-################################################################################
-# Tildeverse Users Scraper
-################################################################################
-# Get a list of all users in the Tildeverse.
-# Mostly done using HTML scraping, but there are few JSON feeds.
-################################################################################
-
 require 'net/http'
 require 'net/https'
 require 'open-uri'
@@ -25,16 +18,67 @@ require_relative 'tildeverse/pfhawkins'
 
 ################################################################################
 
-WRITE_TO_FILES          = true   # This is necessary.
-CHECK_FOR_NEW_BOXES     = false  # This is fast.
-
-################################################################################
-
+# Download and output lists of the servers and users in the Tildeverse.
 module Tildeverse
-  def self.run_all
-    Tildeverse::TildeverseScraper.new.scrape if WRITE_TO_FILES
-    Tildeverse::PFHawkins.new.puts_if_new if CHECK_FOR_NEW_BOXES
+  class << self
+    #
+    # All the data in the tildeverse JSON file.
+    def data
+      obj = Config.output_tildeverse
+      return obj unless obj.empty?
+      msg = 'JSON file not found. Run method #scrape or #fetch to create.'
+      raise IOError, msg
+    end
+
+    # Return the users hash for all sites, or for a given site.
+    def users(site_name = nil)
+      if site_name
+        data.dig('sites', site_name, 'users')
+      else
+        data['sites'].map do |_, site_hash|
+          site_hash['users'].each_key.map do |user|
+            site_hash['url_format_user'].sub('USER', user)
+          end
+        end
+      end
+    end
+
+    # Return an array of the server names.
+    def servers(include_offline = false)
+      if include_offline
+        data['sites'].keys
+      else
+        data['sites'].select do |_, site_hash|
+          site_hash['online']
+        end.keys
+      end
+    end
+    alias sites servers
+    alias boxes servers
+
+    # Boolean for if a new Tilde server has been added by ~pfhawkins.
+    def new?
+      Tildeverse::PFHawkins.new.new?
+    end
+
+    # Scrape all the sites for users.
+    def scrape
+      Tildeverse::TildeverseScraper.new.scrape
+    end
+
+    # Fetch the up-to-date JSON file from the remote URI.
+    def fetch
+      remote_json = Tildeverse::Config.remote_json
+      info = ['remote_json', remote_json]
+      tc = Tildeverse::TildeConnection.new(*info)
+      tc.get
+      if tc.error
+        puts tc.error_message
+        return
+      end
+      File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
+        f.write tc.result
+      end
+    end
   end
 end
-
-################################################################################

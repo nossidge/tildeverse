@@ -4,17 +4,19 @@
 # Just calls the main 'tildeverse.rb' file.
 ################################################################################
 
-require 'json'
 require_relative '../lib/tildeverse'
 
 ################################################################################
 
-obj_json = Tildeverse::Config.output_tildeverse rescue {}
+obj_json = Tildeverse::Config.output_tildeverse
 
 help_info = "Usage: tildeverse <command> [subcommand]
 
 $ tildeverse scrape
   Scrape the user list of each box, and output to JSON
+
+$ tildeverse new
+  See if there have been any additions by ~pfhawkins
 
 $ tildeverse json ['pretty']
   Write the JSON file to standard out
@@ -33,7 +35,9 @@ case ARGV[0]
 when nil
   puts help_info
 when 'scrape'
-  Tildeverse.run_all
+  Tildeverse.scrape
+when 'new'
+  Tildeverse::PFHawkins.new.puts_if_new
 when 'json'
   if ARGV[1] == 'pretty'
     puts JSON.pretty_generate(obj_json)
@@ -43,10 +47,9 @@ when 'json'
 when 'sites', 'boxes'
   puts obj_json['sites'].keys
 else
-  if ARGV[1] == 'json'
-    puts obj_json['sites'][ARGV[0]]['users'] rescue ''
-  else
-    puts obj_json['sites'][ARGV[0]]['users'].keys rescue ''
+  user_hash = obj_json.dig('sites', ARGV[0], 'users')
+  if user_hash
+    puts ARGV[1] == 'json' ? user_hash : user_hash.keys
   end
 end
 
