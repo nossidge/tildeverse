@@ -18,28 +18,6 @@ use Rack::Logger
 
 ################################################################################
 
-# Update user tags from INPUT to OUTPUT.
-# (Without doing the full site-scrape)
-def update_tags
-  output = Tildeverse::Config.output_tildeverse
-
-  Tildeverse::Config.input_tildeverse['sites'].each do |site, site_hash|
-    [*site_hash['users']].each do |user, user_hash|
-      begin
-        output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
-        output['sites'][site]['users'][user]['tags']   = user_hash['tags']
-      rescue StandardError
-      end
-    end
-  end
-
-  File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
-    f.write JSON.pretty_generate(output).force_encoding('UTF-8')
-  end
-end
-
-################################################################################
-
 class TildeTagApp < Sinatra::Base
   configure :production, :development do
     enable :logging
@@ -106,22 +84,21 @@ class TildeTagApp < Sinatra::Base
       f.write JSON.pretty_generate(json)
       f.write "\n"
     end
-    update_tags
+    Tildeverse.patch
 
     # Output some user messages to the console.
     num = input_data.keys.inject(0) do |sum, i|
-      sum += input_data[i].keys.count
+      sum + input_data[i].keys.count
     end
     logger.info "#{num} users updated"
     logger.info input_data
   end
-
 end
 
 ################################################################################
 
 def start_server
-  update_tags
+  Tildeverse.patch
   TildeTagApp.run!
 end
 

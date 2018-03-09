@@ -13,10 +13,14 @@ obj_json = Tildeverse::Config.output_tildeverse
 help_info = "Usage: tildeverse <command> [subcommand]
 
 $ tildeverse scrape
-  Scrape the user list of each box, and output to JSON
+  Scrape the user list of each box, and generate the JSON files
 
 $ tildeverse fetch
-  Fetch pre-scraped data from tilde.town/~nossidge/tildeverse
+  Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
+
+$ tildeverse patch
+  Run this after you have done manual user tagging in the input JSON
+  It will update the output JSON without doing the full site-scrape
 
 $ tildeverse new
   See if there have been any additions by ~pfhawkins
@@ -25,7 +29,7 @@ $ tildeverse json ['pretty']
   Write the JSON file to standard out
   'pretty' subcommand adds new lines
 
-$ tildeverse sites|boxes
+$ tildeverse sites|boxes|servers
   List all the sites in the Tildeverse
 
 $ tildeverse [site name] ['json']
@@ -41,6 +45,8 @@ when 'scrape'
   Tildeverse.scrape
 when 'fetch'
   Tildeverse.fetch
+when 'patch'
+  Tildeverse.patch
 when 'new'
   Tildeverse::PFHawkins.new.puts_if_new
 when 'json'
@@ -49,7 +55,7 @@ when 'json'
   else
     puts JSON(obj_json)
   end
-when 'sites', 'boxes'
+when 'sites', 'boxes', 'servers'
   puts obj_json['sites'].keys
 else
   user_hash = obj_json.dig('sites', ARGV[0], 'users')

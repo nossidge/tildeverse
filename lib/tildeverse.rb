@@ -79,5 +79,27 @@ module Tildeverse
         f.write tc.result
       end
     end
+
+    # Update user tags from 'dir_data' to 'dir_html'.
+    # Run this after you have done manual user tagging in the input JSON.
+    # It will update the output JSON without doing the full site-scrape.
+    def patch
+      output = Tildeverse::Config.output_tildeverse
+
+      # Only need to update the users that exist in the output file.
+      Tildeverse::Config.input_tildeverse['sites'].each do |site, site_hash|
+        [*site_hash['users']].each do |user, user_hash|
+          begin
+            output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
+            output['sites'][site]['users'][user]['tags']   = user_hash['tags']
+          rescue NoMethodError
+          end
+        end
+      end
+
+      File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
+        f.write JSON.pretty_generate(output).force_encoding('UTF-8')
+      end
+    end
   end
 end

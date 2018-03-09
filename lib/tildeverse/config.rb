@@ -9,6 +9,10 @@ module Tildeverse
         File.expand_path('../../../', __FILE__)
       end
 
+      def dir_config
+        "#{dir_root}/config"
+      end
+
       def dir_data
         "#{dir_root}/data"
       end
