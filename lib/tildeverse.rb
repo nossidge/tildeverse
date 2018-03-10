@@ -78,6 +78,7 @@ module Tildeverse
       File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
         f.write tc.result
       end
+      update_input_from_output
     end
 
     # Update user tags from 'dir_data' to 'dir_html'.
@@ -97,8 +98,66 @@ module Tildeverse
         end
       end
 
-      File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
-        f.write JSON.pretty_generate(output).force_encoding('UTF-8')
+      # Update the 'output' JSON.
+      save_json(output, Tildeverse::Config.output_json_tildeverse)
+    end
+
+    private
+
+    # Update the 'input' JSON from the 'output' JSON.
+    # This seems a bit backward, but it makes sense, honest.
+    def update_input_from_output
+      from = Config.output_tildeverse
+      to   = Config.input_tildeverse
+
+      # Copy the metadata exactly.
+      to['metadata'] = from['metadata']
+
+      # Copy just the new users.
+      from['sites'].each_key do |site|
+        hash_to   = to  ['sites'][site]
+        hash_from = from['sites'][site]
+
+        # Copy the whole structure if the site doesn't already exist.
+        if hash_to.nil?
+          hash_to = hash_from
+          next
+        end
+
+        # Update the url fields.
+        %w[url_root url_list url_format_user].each do |field|
+          hash_to[field] = hash_from[field]
+        end
+      end
+
+      # Update the 'input' JSON.
+      save_json(to, Tildeverse::Config.input_json_tildeverse)
+    end
+
+    # Update each user.
+    def update_input_users_from_output
+      hash_from['users'].each_key do |user|
+        #
+        # Copy the whole structure if the user doesn't already exist.
+        if hash_to['users'][user].nil?
+          hash_to['users'][user] = hash_from['users'][user]
+          hash_to['users'][user].delete('time')
+          next
+        end
+
+        # Only update the tags if the 'tagged' date is greater.
+        tagged_to   = hash_to  ['users'][user]['tagged']
+        tagged_from = hash_from['users'][user]['tagged']
+        date_to     = Date.strptime(tagged_to,   '%Y-%m-%d')
+        date_from   = Date.strptime(tagged_from, '%Y-%m-%d')
+        hash_to['users'][user]['tagged'] = tagged_from if date_to > date_from
+      end
+    end
+
+    # Save a hash to a JSON file.
+    def save_json(hash_obj, filepath)
+      File.open(filepath, 'w') do |f|
+        f.write JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
       end
     end
   end
