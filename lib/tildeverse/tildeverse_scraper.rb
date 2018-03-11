@@ -100,8 +100,8 @@ module Tildeverse
     # Copy all static files to the output directory.
     def copy_static_files
       Tildeverse::Config.files_to_copy.each do |i|
-        from = "#{Tildeverse::Config.dir_data}/#{i}"
-        to   = "#{Tildeverse::Config.dir_html}/#{i}"
+        from = "#{Tildeverse::Config.dir_input}/#{i}"
+        to   = "#{Tildeverse::Config.dir_output}/#{i}"
         FileUtils.cp(from, to)
       end
     end

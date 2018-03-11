@@ -13,20 +13,20 @@ module Tildeverse
         "#{dir_root}/config"
       end
 
-      def dir_data
-        "#{dir_root}/data"
+      def dir_input
+        "#{dir_root}/input"
       end
 
-      def dir_html
+      def dir_output
         "#{dir_root}/output"
       end
 
       def input_html_template
-        "#{dir_data}/index_template.html"
+        "#{dir_input}/index_template.html"
       end
 
       def input_json_tildeverse
-        "#{dir_data}/tildeverse.json"
+        "#{dir_input}/tildeverse.json"
       end
 
       def input_tildeverse
@@ -40,15 +40,15 @@ module Tildeverse
       end
 
       def output_html_index
-        "#{dir_html}/index.html"
+        "#{dir_output}/index.html"
       end
 
       def output_json_users
-        "#{dir_html}/users.json"
+        "#{dir_output}/users.json"
       end
 
       def output_json_tildeverse
-        "#{dir_html}/tildeverse.json"
+        "#{dir_output}/tildeverse.json"
       end
 
       def output_tildeverse

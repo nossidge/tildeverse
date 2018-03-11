@@ -81,7 +81,7 @@ module Tildeverse
       update_input_from_output
     end
 
-    # Update user tags from 'dir_data' to 'dir_html'.
+    # Update user tags from 'dir_input' to 'dir_output'.
     # Run this after you have done manual user tagging in the input JSON.
     # It will update the output JSON without doing the full site-scrape.
     def patch
