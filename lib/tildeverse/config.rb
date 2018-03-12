@@ -1,32 +1,34 @@
 #!/usr/bin/env ruby
 
+require 'pathname'
+
 module Tildeverse
   #
   # Configuration of the files in the repo.
   module Config
     class << self
       def dir_root
-        File.expand_path('../../../', __FILE__)
+        Pathname(__FILE__).dirname.parent.parent
       end
 
       def dir_config
-        "#{dir_root}/config"
+        dir_root + 'config'
       end
 
       def dir_input
-        "#{dir_root}/input"
+        dir_root + 'input'
       end
 
       def dir_output
-        "#{dir_root}/output"
+        dir_root + 'output'
       end
 
       def input_html_template
-        "#{dir_input}/index_template.html"
+        dir_input + 'index_template.html'
       end
 
       def input_json_tildeverse
-        "#{dir_input}/tildeverse.json"
+        dir_input + 'tildeverse.json'
       end
 
       def input_tildeverse
@@ -40,15 +42,15 @@ module Tildeverse
       end
 
       def output_html_index
-        "#{dir_output}/index.html"
+        dir_output + 'index.html'
       end
 
       def output_json_users
-        "#{dir_output}/users.json"
+        dir_output + 'users.json'
       end
 
       def output_json_tildeverse
-        "#{dir_output}/tildeverse.json"
+        dir_output + 'tildeverse.json'
       end
 
       def output_tildeverse
