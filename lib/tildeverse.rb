@@ -7,7 +7,7 @@ require 'json'
 require 'fileutils'
 
 require_relative 'tildeverse/core_extensions/string'
-require_relative 'tildeverse/config'
+require_relative 'tildeverse/files'
 require_relative 'tildeverse/tilde_connection'
 require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/site_scrapers'
@@ -23,7 +23,7 @@ module Tildeverse
     #
     # All the data in the tildeverse JSON file.
     def data
-      obj = Config.output_tildeverse
+      obj = Tildeverse::Files.output_tildeverse
       return obj unless obj.empty?
       msg = 'JSON file not found. Run method #scrape or #fetch to create.'
       raise IOError, msg
@@ -67,7 +67,7 @@ module Tildeverse
 
     # Fetch the up-to-date JSON file from the remote URI.
     def fetch
-      remote_json = Tildeverse::Config.remote_json
+      remote_json = Tildeverse::Files.remote_json
       info = ['remote_json', remote_json]
       tc = Tildeverse::TildeConnection.new(*info)
       tc.get
@@ -75,7 +75,7 @@ module Tildeverse
         puts tc.error_message
         return
       end
-      File.open(Tildeverse::Config.output_json_tildeverse, 'w') do |f|
+      File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
         f.write tc.result
       end
       update_input_from_output
@@ -85,10 +85,10 @@ module Tildeverse
     # Run this after you have done manual user tagging in the input JSON.
     # It will update the output JSON without doing the full site-scrape.
     def patch
-      output = Tildeverse::Config.output_tildeverse
+      output = Tildeverse::Files.output_tildeverse
 
       # Only need to update the users that exist in the output file.
-      Tildeverse::Config.input_tildeverse['sites'].each do |site, site_hash|
+      Tildeverse::Files.input_tildeverse['sites'].each do |site, site_hash|
         [*site_hash['users']].each do |user, user_hash|
           begin
             output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
@@ -99,7 +99,7 @@ module Tildeverse
       end
 
       # Update the 'output' JSON.
-      save_json(output, Tildeverse::Config.output_json_tildeverse)
+      save_json(output, Tildeverse::Files.output_json_tildeverse)
     end
 
     private
@@ -107,8 +107,8 @@ module Tildeverse
     # Update the 'input' JSON from the 'output' JSON.
     # This seems a bit backward, but it makes sense, honest.
     def update_input_from_output
-      from = Config.output_tildeverse
-      to   = Config.input_tildeverse
+      from = Tildeverse::Files.output_tildeverse
+      to   = Tildeverse::Files.input_tildeverse
 
       # Copy the metadata exactly.
       to['metadata'] = from['metadata']
@@ -131,7 +131,7 @@ module Tildeverse
       end
 
       # Update the 'input' JSON.
-      save_json(to, Tildeverse::Config.input_json_tildeverse)
+      save_json(to, Tildeverse::Files.input_json_tildeverse)
     end
 
     # Update each user.

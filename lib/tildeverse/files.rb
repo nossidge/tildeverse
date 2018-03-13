@@ -4,8 +4,8 @@ require 'pathname'
 
 module Tildeverse
   #
-  # Configuration of the files in the repo.
-  module Config
+  # Location of the files in the repo.
+  module Files
     class << self
       def dir_root
         Pathname(__FILE__).dirname.parent.parent

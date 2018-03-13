@@ -34,14 +34,14 @@ class TildeTagApp < Sinatra::Base
 
   # This is given to the client as an Xreq.
   get '/tildeverse.json' do
-    File.read(Tildeverse::Config.output_json_tildeverse)
+    File.read(Tildeverse::Files.output_json_tildeverse)
   end
 
   # Save the tags to the JSON file.
   post '/save_tags' do
     request.body.rewind
     input_data = JSON[request.body.read]
-    json = Tildeverse::Config.input_tildeverse
+    json = Tildeverse::Files.input_tildeverse
 
     # Alter the original JSON, to update with new tags.
     input_data.each do |site, users|
@@ -80,7 +80,7 @@ class TildeTagApp < Sinatra::Base
     end
 
     # Write the hash to both JSON files.
-    File.open(Tildeverse::Config.input_json_tildeverse, 'w') do |f|
+    File.open(Tildeverse::Files.input_json_tildeverse, 'w') do |f|
       f.write JSON.pretty_generate(json)
       f.write "\n"
     end

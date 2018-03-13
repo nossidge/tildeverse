@@ -8,7 +8,7 @@ module Tildeverse
 
     # Pick up the URLs from the JSON, if not specified.
     def initialize(site_name, url_root = nil, url_list = nil)
-      json = Tildeverse::Config.input_tildeverse['sites'][site_name]
+      json = Tildeverse::Files.input_tildeverse['sites'][site_name]
       @name = site_name
       @url_root = url_root || json['url_root']
       @url_list = url_list || json['url_list']
