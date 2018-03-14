@@ -67,24 +67,33 @@ module Tildeverse
 
     # Fetch the up-to-date JSON file from the remote URI.
     def fetch
+      files = [
+        Tildeverse::Files.output_json_tildeverse,
+        Tildeverse::Files.input_json_tildeverse
+      ]
+      return false unless Tildeverse::Files.write?(files)
+
       remote_json = Tildeverse::Files.remote_json
       info = ['remote_json', remote_json]
       tc = Tildeverse::TildeConnection.new(*info)
       tc.get
-      if tc.error
-        puts tc.error_message
-        return
-      end
+      puts tc.error_message or return false if tc.error
+
       File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
         f.write tc.result
       end
       update_input_from_output
+      true
     end
 
     # Update user tags from 'dir_input' to 'dir_output'.
     # Run this after you have done manual user tagging in the input JSON.
     # It will update the output JSON without doing the full site-scrape.
     def patch
+      files = [Tildeverse::Files.output_json_tildeverse]
+      return false unless Tildeverse::Files.write?(files)
+
+      # This is the JSON object that will be updated.
       output = Tildeverse::Files.output_tildeverse
 
       # Only need to update the users that exist in the output file.
@@ -100,6 +109,7 @@ module Tildeverse
 
       # Update the 'output' JSON.
       save_json(output, Tildeverse::Files.output_json_tildeverse)
+      true
     end
 
     private
@@ -124,6 +134,10 @@ module Tildeverse
           next
         end
 
+        # TODO: Test this.
+        # Update each user.
+        # update_input_users_from_output!(hash_to, hash_from)
+
         # Update the url fields.
         %w[url_root url_list url_format_user].each do |field|
           hash_to[field] = hash_from[field]
@@ -135,7 +149,7 @@ module Tildeverse
     end
 
     # Update each user.
-    def update_input_users_from_output
+    def update_input_users_from_output!(hash_to, hash_from)
       hash_from['users'].each_key do |user|
         #
         # Copy the whole structure if the user doesn't already exist.

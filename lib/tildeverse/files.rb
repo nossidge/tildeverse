@@ -72,6 +72,18 @@ module Tildeverse
       def remote_json
         'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
       end
+
+      # Does the current user have permission to write to the files?
+      def write?(files)
+        faulty = files.reject(&:writable?)
+        return true if faulty.empty?
+
+        msg  = "You do not have permission to write to the output location.\n"
+        msg += "Please contact your admin to get write access to:\n"
+        msg += faulty.map(&:to_s).join("\n")
+        puts msg
+        false
+      end
     end
   end
 end

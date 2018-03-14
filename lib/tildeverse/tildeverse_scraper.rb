@@ -5,12 +5,27 @@ module Tildeverse
   # Scrape all Tilde sites and save as JSON files.
   class TildeverseScraper
     def scrape
+      return false unless write_permissions?
       scrape_new_users
       scrape_modified_dates
       save_tildeverse_json
       save_users_json
       save_index_html
       copy_static_files
+      true
+    end
+
+    private
+
+    # All of the output files need to be writable.
+    def write_permissions?
+      files = [
+        Tildeverse::Files.dir_output,
+        Tildeverse::Files.output_json_tildeverse,
+        Tildeverse::Files.output_json_users,
+        Tildeverse::Files.output_html_index
+      ]
+      Tildeverse::Files.write?(files)
     end
 
     # Read in the tildebox names from the JSON.
