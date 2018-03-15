@@ -82,7 +82,7 @@ module Tildeverse
     # Write the hash to 'tildeverse.json'.
     def save_tildeverse_json
       File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
-        f.write JSON.pretty_generate(json)
+        f.puts JSON.pretty_generate(json)
       end
     end
 
@@ -97,7 +97,7 @@ module Tildeverse
         users_hash[value['url_root']] = site_hash
       end
       File.open(Tildeverse::Files.output_json_users, 'w') do |f|
-        f.write JSON.pretty_generate(users_hash)
+        f.puts JSON.pretty_generate(users_hash)
       end
     end
 

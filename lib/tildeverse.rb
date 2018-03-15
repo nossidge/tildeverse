@@ -80,7 +80,7 @@ module Tildeverse
       puts tc.error_message or return false if tc.error
 
       File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
-        f.write tc.result
+        f.puts tc.result
       end
       update_input_from_output
       true
@@ -120,8 +120,8 @@ module Tildeverse
       from = Tildeverse::Files.output_tildeverse
       to   = Tildeverse::Files.input_tildeverse
 
-      # Copy the metadata exactly.
-      to['metadata'] = from['metadata']
+      # Copy the metadata url.
+      to['metadata']['url'] = from['metadata']['url']
 
       # Copy just the new users.
       from['sites'].each_key do |site|
@@ -171,7 +171,7 @@ module Tildeverse
     # Save a hash to a JSON file.
     def save_json(hash_obj, filepath)
       File.open(filepath, 'w') do |f|
-        f.write JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
+        f.puts JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
       end
     end
   end
