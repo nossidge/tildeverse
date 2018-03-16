@@ -67,21 +67,21 @@ module Tildeverse
 
     # Fetch the up-to-date JSON file from the remote URI.
     def fetch
-      files = [
-        Tildeverse::Files.output_json_tildeverse,
-        Tildeverse::Files.input_json_tildeverse
-      ]
-      return false unless Tildeverse::Files.write?(files)
+      tf = Tildeverse::Files
 
-      remote_json = Tildeverse::Files.remote_json
-      info = ['remote_json', remote_json]
+      # Error message and return if user has no write permissions.
+      files = [
+        tf.output_json_tildeverse,
+        tf.input_json_tildeverse
+      ]
+      return false unless tf.write?(files)
+
+      info = ['remote_json', tf.remote_json]
       tc = Tildeverse::TildeConnection.new(*info)
       tc.get
       puts tc.error_message or return false if tc.error
 
-      File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
-        f.puts tc.result
-      end
+      tf.save_text(tc.result, tf.output_json_tildeverse)
       update_input_from_output
       true
     end
@@ -90,14 +90,17 @@ module Tildeverse
     # Run this after you have done manual user tagging in the input JSON.
     # It will update the output JSON without doing the full site-scrape.
     def patch
-      files = [Tildeverse::Files.output_json_tildeverse]
-      return false unless Tildeverse::Files.write?(files)
+      tf = Tildeverse::Files
+
+      # Error message and return if user has no write permissions.
+      files = [tf.output_json_tildeverse]
+      return false unless tf.write?(files)
 
       # This is the JSON object that will be updated.
-      output = Tildeverse::Files.output_tildeverse
+      output = tf.output_tildeverse
 
       # Only need to update the users that exist in the output file.
-      Tildeverse::Files.input_tildeverse['sites'].each do |site, site_hash|
+      tf.input_tildeverse['sites'].each do |site, site_hash|
         [*site_hash['users']].each do |user, user_hash|
           begin
             output['sites'][site]['users'][user]['tagged'] = user_hash['tagged']
@@ -108,7 +111,7 @@ module Tildeverse
       end
 
       # Update the 'output' JSON.
-      save_json(output, Tildeverse::Files.output_json_tildeverse)
+      tf.save_json(output, tf.output_json_tildeverse)
       true
     end
 
@@ -117,8 +120,9 @@ module Tildeverse
     # Update the 'input' JSON from the 'output' JSON.
     # This seems a bit backward, but it makes sense, honest.
     def update_input_from_output
-      from = Tildeverse::Files.output_tildeverse
-      to   = Tildeverse::Files.input_tildeverse
+      tf   = Tildeverse::Files
+      from = tf.output_tildeverse
+      to   = tf.input_tildeverse
 
       # Copy the metadata url.
       to['metadata']['url'] = from['metadata']['url']
@@ -145,7 +149,7 @@ module Tildeverse
       end
 
       # Update the 'input' JSON.
-      save_json(to, Tildeverse::Files.input_json_tildeverse)
+      tf.save_json(to, tf.input_json_tildeverse)
     end
 
     # Update each user.
@@ -165,13 +169,6 @@ module Tildeverse
         date_to     = Date.strptime(tagged_to,   '%Y-%m-%d')
         date_from   = Date.strptime(tagged_from, '%Y-%m-%d')
         hash_to['users'][user]['tagged'] = tagged_from if date_to > date_from
-      end
-    end
-
-    # Save a hash to a JSON file.
-    def save_json(hash_obj, filepath)
-      File.open(filepath, 'w') do |f|
-        f.puts JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
       end
     end
   end

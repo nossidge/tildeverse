@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'pathname'
+require 'json'
 
 module Tildeverse
   #
@@ -9,10 +10,6 @@ module Tildeverse
     class << self
       def dir_root
         Pathname(__FILE__).dirname.parent.parent
-      end
-
-      def dir_config
-        dir_root + 'config'
       end
 
       def dir_input
@@ -83,6 +80,20 @@ module Tildeverse
         msg += faulty.map(&:to_s).join("\n")
         puts msg
         false
+      end
+
+      # Save a hash to a JSON file.
+      def save_json(hash_obj, filepath)
+        File.open(filepath, 'w') do |f|
+          f.puts JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
+        end
+      end
+
+      # Save a string to a text file.
+      def save_text(string, filepath)
+        File.open(filepath, 'w') do |f|
+          f.puts string.to_s.force_encoding('UTF-8')
+        end
       end
     end
   end

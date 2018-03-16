@@ -81,9 +81,8 @@ module Tildeverse
 
     # Write the hash to 'tildeverse.json'.
     def save_tildeverse_json
-      File.open(Tildeverse::Files.output_json_tildeverse, 'w') do |f|
-        f.puts JSON.pretty_generate(json)
-      end
+      file = Tildeverse::Files.output_json_tildeverse
+      Tildeverse::Files.save_json(json, file)
     end
 
     # Write 'users.json' for backwards compatibility.
@@ -96,9 +95,8 @@ module Tildeverse
         end
         users_hash[value['url_root']] = site_hash
       end
-      File.open(Tildeverse::Files.output_json_users, 'w') do |f|
-        f.puts JSON.pretty_generate(users_hash)
-      end
+      file = Tildeverse::Files.output_json_users
+      Tildeverse::Files.save_json(users_hash, file)
     end
 
     # Update the timestamp in 'index.html'.

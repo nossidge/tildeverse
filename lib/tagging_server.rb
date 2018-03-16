@@ -80,9 +80,8 @@ class TildeTagApp < Sinatra::Base
     end
 
     # Write the hash to both JSON files.
-    File.open(Tildeverse::Files.input_json_tildeverse, 'w') do |f|
-      f.puts JSON.pretty_generate(json)
-    end
+    file = Tildeverse::Files.input_json_tildeverse
+    Tildeverse::Files.save_json(json, file)
     Tildeverse.patch
 
     # Output some user messages to the console.
