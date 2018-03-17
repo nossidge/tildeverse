@@ -134,13 +134,12 @@ module Tildeverse
 
         # Copy the whole structure if the site doesn't already exist.
         if hash_to.nil?
-          hash_to = hash_from
+          to['sites'][site] = from['sites'][site]
           next
         end
 
-        # TODO: Test this.
-        # Update each user.
-        # update_input_users_from_output!(hash_to, hash_from)
+        # Update each user, if remote is more recent.
+        update_input_users_from_output!(hash_to, hash_from)
 
         # Update the url fields.
         %w[url_root url_list url_format_user].each do |field|
@@ -157,18 +156,21 @@ module Tildeverse
       hash_from['users'].each_key do |user|
         #
         # Copy the whole structure if the user doesn't already exist.
+        # But don't get users that don't yet have tags.
         if hash_to['users'][user].nil?
-          hash_to['users'][user] = hash_from['users'][user]
-          hash_to['users'][user].delete('time')
+          unless hash_from['users'][user]['tags'].nil?
+            hash_to['users'][user] = hash_from['users'][user]
+            hash_to['users'][user].delete('time')
+          end
           next
         end
 
         # Only update the tags if the 'tagged' date is greater.
-        tagged_to   = hash_to  ['users'][user]['tagged']
-        tagged_from = hash_from['users'][user]['tagged']
+        tagged_to   = hash_to  ['users'][user]['tagged'] || '1970-01-01'
+        tagged_from = hash_from['users'][user]['tagged'] || '1970-01-01'
         date_to     = Date.strptime(tagged_to,   '%Y-%m-%d')
         date_from   = Date.strptime(tagged_from, '%Y-%m-%d')
-        hash_to['users'][user]['tagged'] = tagged_from if date_to > date_from
+        hash_to['users'][user]['tagged'] = tagged_from if date_to < date_from
       end
     end
   end
