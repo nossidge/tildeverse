@@ -38,7 +38,7 @@ module Tildeverse
           site_hash['users'].each_key.map do |user|
             site_hash['url_format_user'].sub('USER', user)
           end
-        end
+        end.flatten
       end
     end
 

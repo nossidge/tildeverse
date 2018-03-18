@@ -35,6 +35,10 @@ $ tildeverse sites|boxes|servers
 $ tildeverse [site name] ['json']
   List all users for the specified Tildebox
   'json' subcommand outputs as JSON
+
+$ tildeverse user|users [regex]
+  List all the users by URL
+  'regex' subcommand filters by regex
 "
 
 # Use the arguments to decide which function to perform.
@@ -55,8 +59,15 @@ when 'json'
   else
     puts JSON(obj_json)
   end
-when 'sites', 'boxes', 'servers'
+when 's', 'b', 'sites', 'boxes', 'servers'
   puts obj_json['sites'].keys
+when 'u', 'user', 'users'
+  if ARGV[1]
+    regex = Regexp.new(ARGV[1])
+    puts Tildeverse.users.select{ |i| i[regex] }
+  else
+    puts Tildeverse.users
+  end
 else
   user_hash = obj_json.dig('sites', ARGV[0], 'users')
   if user_hash
