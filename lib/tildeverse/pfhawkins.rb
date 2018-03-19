@@ -27,8 +27,12 @@ module Tildeverse
     end
     alias sites boxes
 
+    def count
+      19
+    end
+
     def new?
-      boxes.length != 19
+      boxes.length != count
     end
 
     def puts_if_new
