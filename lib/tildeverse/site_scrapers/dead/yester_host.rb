@@ -18,7 +18,7 @@ module Tildeverse
     # JSON format. There's a NULL record at the end of the file though.
     def read_json
       url = 'http://yester.host/tilde.json'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       parsed = JSON[con(url).result.delete("\t")]
       users = parsed['users'].map do |i|
@@ -31,7 +31,7 @@ module Tildeverse
     # These are the only lines on the page that include '<li><a href'
     def read_html
       url = 'http://yester.host/'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       users = con.result.split("\n").map do |i|
         next unless i =~ /<li><a href/

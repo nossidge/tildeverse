@@ -11,8 +11,8 @@ module Tildeverse
         'http://tilde.town/~insom/',
         'http://tilde.town/~insom/modified.html'
       ]
-      tc = TildeConnection.new(*info)
-      lines = tc.get.split("\n").select { |i| i.match('<a href') }
+      remote = RemoteResource.new(*info)
+      lines = remote.get.split("\n").select { |i| i.match('<a href') }
       @results = lines.map do |i|
         i = i.gsub('<br/>', '')
         i = i.gsub('</a>', '')

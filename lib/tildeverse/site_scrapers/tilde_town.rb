@@ -18,7 +18,7 @@ module Tildeverse
     # A nice easy JSON format.
     def read_json
       url = 'http://tilde.town/~dan/users.json'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       parsed = JSON[con(url).result.delete("\t")]
       users = parsed.map(&:first).compact.sort.uniq
@@ -31,7 +31,7 @@ module Tildeverse
     #   and before the closing '</ul>'
     def read_html
       url = 'http://tilde.town/'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       members_found = false
       users = con(url).result.split("\n").map do |i|

@@ -10,7 +10,7 @@ module Tildeverse
 
     def users
       return @users if @users
-      return @users = [] if con.error
+      return @users = [] if con.error?
 
       # This is very hacky, but it fixes the string encoding problem.
       @users = con.result[89..-1].split("\n").map do |i|

@@ -11,7 +11,7 @@ module Tildeverse
 
     def users
       return @users if @users
-      return @users = [] if con.error
+      return @users = [] if con.error?
 
       members_found = false
       @users = con.result.split("\n").map do |i|

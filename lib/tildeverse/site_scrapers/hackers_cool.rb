@@ -11,7 +11,7 @@ module Tildeverse
 
     def users
       return @users if @users
-      return @users = [] if con.error
+      return @users = [] if con.error?
 
       # There's an error with some URLs, so we need to use the anchor text.
       members_found = false

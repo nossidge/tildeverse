@@ -8,7 +8,7 @@ require 'fileutils'
 
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/files'
-require_relative 'tildeverse/tilde_connection'
+require_relative 'tildeverse/remote_resource'
 require_relative 'tildeverse/tilde_site'
 require_relative 'tildeverse/site_scrapers'
 require_relative 'tildeverse/modified_dates'
@@ -77,9 +77,9 @@ module Tildeverse
       return false unless tf.write?(files)
 
       info = ['remote_json', tf.remote_json]
-      tc = Tildeverse::TildeConnection.new(*info)
+      tc = Tildeverse::RemoteResource.new(*info)
       tc.get
-      puts tc.error_message or return false if tc.error
+      puts tc.msg or return false if tc.error
 
       tf.save_text(tc.result, tf.output_json_tildeverse)
       update_input_from_output

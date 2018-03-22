@@ -20,7 +20,7 @@ module Tildeverse
     # Also, doesn't seem to include all users...
     def read_json
       url = 'https://squiggle.city/tilde.json'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       parsed = JSON[con(url).result.delete("\t")]
       users = parsed['users'].map do |i|
@@ -33,7 +33,7 @@ module Tildeverse
     # These are the only lines on the page that include '<tr><td><a href'
     def read_html
       url = 'https://squiggle.city/'
-      return [] if con(url).error
+      return [] if con(url).error?
 
       users = con(url).result.split("\n").map do |i|
         next unless i =~ /<tr><td><a href/
