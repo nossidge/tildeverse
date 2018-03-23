@@ -16,22 +16,20 @@ module Tildeverse
       :valid_root,      # Can connect to root URL?
       :valid_resource,  # Can connect to resource URL?
       :result,          # The result of the HTTP request.
-      :msg,             # User-friendly error message. 'nil' if no errors.
     )
 
     # If the 'resource' is not specified, assume it's the same as root.
-    def initialize(name, root = nil, resource = nil)
+    def initialize(name, root, resource = nil)
       @name = name
       @root = root
       @resource = resource
-      @resource = root if !root.nil? && resource.nil?
+      @resource = root if resource.nil?
 
       # Initial values, before #get is called.
       @get_tried = false
       @valid_root = nil
       @valid_resource = nil
       @result = nil
-      @msg = nil
     end
 
     # Try to return the resource located at @resource.
@@ -40,7 +38,6 @@ module Tildeverse
       @get_tried = true
       try_connection_resource
       try_connection_root unless @valid_resource
-      set_errors
       @result
     end
 
@@ -48,7 +45,6 @@ module Tildeverse
     def get
       return @result if @get_tried
       get!
-      @result
     end
 
     # Is there an error with either URL?
@@ -56,6 +52,13 @@ module Tildeverse
     def error?
       return nil unless @get_tried
       !@valid_resource || !@valid_root
+    end
+
+    # User-friendly error message. 'nil' if no errors.
+    def msg
+      return nil unless error?
+      url = !@valid_root ? @root : @resource
+      "URL is currently offline: #{url}"
     end
 
     private
@@ -80,14 +83,6 @@ module Tildeverse
       @valid_root = true
     rescue StandardError
       @valid_root = false
-    end
-
-    # Set error message.
-    def set_errors
-      return unless error?
-
-      url = !@valid_root ? @root : @resource
-      @msg = "URL is currently offline: #{url}"
     end
   end
 end
