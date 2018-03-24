@@ -22,18 +22,32 @@ https://tilde.town/~nossidge/tildeverse/tildeverse.json
 Usage: tildeverse <command> [subcommand]
 
 $ tildeverse scrape
-  Scrape the user list of each box, and output to JSON
+  Scrape the user list of each box, and generate the JSON files
+
+$ tildeverse fetch
+  Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
+
+$ tildeverse patch
+  Run this after you have done manual user tagging in the input JSON
+  It will update the output JSON without doing the full site-scrape
+
+$ tildeverse new
+  See if there have been any additions by ~pfhawkins
 
 $ tildeverse json ['pretty']
   Write the JSON file to standard out
   'pretty' subcommand adds new lines
 
-$ tildeverse sites|boxes
+$ tildeverse sites|boxes|servers
   List all the sites in the Tildeverse
 
 $ tildeverse [site name] ['json']
   List all users for the specified Tildebox
   'json' subcommand outputs as JSON
+
+$ tildeverse user|users [regex]
+  List all the users by URL
+  'regex' subcommand filters by regex
 ````
 
 
