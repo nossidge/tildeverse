@@ -48,7 +48,7 @@ module Tildeverse
       return @site_users[site_name] if @site_users[site_name]
       class_name = site_name.split(/\W/).map(&:capitalize).join
       @site_users[site_name] = begin
-        Tildeverse.const_get(class_name).new.users
+        Tildeverse::Site.const_get(class_name).new.users
       rescue NameError
         []
       end

@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
 
 module Tildeverse
-  #
-  # No idea about this one.
-  class OldbsdClub < TildeSite
-    def initialize
-      super 'oldbsd.club'
-    end
+  module Site
+    #
+    # No idea about this one.
+    class OldbsdClub < Tildeverse::TildeSite
+      def initialize
+        super 'oldbsd.club'
+      end
 
-    def users
-      []
+      def users
+        []
+      end
     end
   end
 end
