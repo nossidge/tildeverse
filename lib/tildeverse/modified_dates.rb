@@ -1,9 +1,20 @@
 #!/usr/bin/env ruby
 
 module Tildeverse
-  #
-  # Scrape modified dates from ~insom's list.
+  ##
+  # Scrape modified dates from ~insom's list,
+  # http://tilde.town/~insom/modified.html.
   class ModifiedDates
+    ##
+    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
+    #
+    # @return [Array<Hash{Symbol => String}>]
+    #   Array of hashes that describe a user's updated time.
+    #   Example element:
+    #   - +:site+ [String] "tilde.town"
+    #   - +:user+ [String] "nossidge"
+    #   - +:time+ [String] "2017-04-02T07:18:44"
+    #
     def get
       return @results if @results
       info = [

@@ -14,14 +14,17 @@ require_relative 'tildeverse/site_scrapers'
 require_relative 'tildeverse/modified_dates'
 require_relative 'tildeverse/tildeverse_scraper'
 require_relative 'tildeverse/pfhawkins'
+require_relative 'tildeverse/version'
 
 ################################################################################
 
 # Download and output lists of the servers and users in the Tildeverse.
 module Tildeverse
   class << self
+    ##
+    # @return [Hash] the data in the file {Files.output_json_tildeverse}.
+    # @raise [IOError] if the file is not found.
     #
-    # All the data in the tildeverse JSON file.
     def data
       obj = Tildeverse::Files.output_tildeverse
       return obj unless obj.empty?
@@ -29,7 +32,15 @@ module Tildeverse
       raise IOError, msg
     end
 
-    # Return the users hash for all sites, or for a given site.
+    ##
+    # Return the users for all sites, or for a given site.
+    # @param [String] site_name
+    #   Only list users of the given server.
+    # @return [Hash] If +site_name+ is present.
+    #   Pulled directly from the file {Files.output_json_tildeverse}.
+    # @return [Array] If no +site_name+ is present.
+    #   A list of all user URLs in the Tildeverse.
+    #
     def users(site_name = nil)
       if site_name
         data.dig('sites', site_name, 'users')
@@ -42,7 +53,17 @@ module Tildeverse
       end
     end
 
-    # Return an array of the server names.
+    ##
+    # @return [Array] a list of the server names.
+    # @example
+    #   [
+    #     'backtick.town',
+    #     'botb.club',
+    #     'crime.team',
+    #     'ctrl-c.club',
+    #     'hackers.cool'
+    #   ]
+    #
     def servers(include_offline = false)
       if include_offline
         data['sites'].keys
@@ -55,17 +76,24 @@ module Tildeverse
     alias sites servers
     alias boxes servers
 
-    # Boolean for if a new Tilde server has been added by ~pfhawkins.
+    ##
+    # (see Tildeverse::PFHawkins#new?)
+    #
     def new?
       Tildeverse::PFHawkins.new.new?
     end
 
-    # Scrape all the sites for users.
+    ##
+    # (see Tildeverse::TildeverseScraper#scrape)
+    #
     def scrape
       Tildeverse::TildeverseScraper.new.scrape
     end
 
+    ##
     # Fetch the up-to-date JSON file from the remote URI.
+    # @return [Boolean] success state.
+    #
     def fetch
       tf = Tildeverse::Files
 
@@ -86,9 +114,14 @@ module Tildeverse
       true
     end
 
+    ##
     # Update user tags from 'dir_input' to 'dir_output'.
+    #
     # Run this after you have done manual user tagging in the input JSON.
     # It will update the output JSON without doing the full site-scrape.
+    #
+    # @return [Boolean] success state.
+    #
     def patch
       tf = Tildeverse::Files
 
@@ -117,8 +150,12 @@ module Tildeverse
 
     private
 
+    ##
     # Update the 'input' JSON from the 'output' JSON.
     # This seems a bit backward, but it makes sense, honest.
+    #
+    # @return [nil]
+    #
     def update_input_from_output
       tf   = Tildeverse::Files
       from = tf.output_tildeverse
@@ -151,7 +188,15 @@ module Tildeverse
       tf.save_json(to, tf.input_json_tildeverse)
     end
 
-    # Update each user.
+    ##
+    # Update each user. Changes the values of the hash inputs.
+    #
+    # @param [Hash] hash_to
+    #   Hash to read from.
+    # @param [Hash] hash_from
+    #   Hash to write to.
+    # @return [nil]
+    #
     def update_input_users_from_output!(hash_to, hash_from)
       hash_from['users'].each_key do |user|
         #

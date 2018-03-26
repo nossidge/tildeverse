@@ -6,26 +6,27 @@ describe 'Tildeverse::PFHawkins' do
     @instance ||= Tildeverse::PFHawkins.new
   end
 
-  it '#html_url' do
-    uri = URI(instance.html_url)
+  it '#url_html' do
+    uri = URI(instance.url_html)
     res = Net::HTTP.get_response(uri)
     expect(res.code).to eq '200'
   end
 
-  it '#json_url' do
-    uri = URI(instance.json_url)
+  it '#url_json' do
+    uri = URI(instance.url_json)
     res = Net::HTTP.get_response(uri)
     expect(res.code).to eq '200'
   end
 
-  it '#json' do
-    json = instance.json
-    expect(json).to be_a Hash
-  end
-
-  it '#boxes' do
+  it '#servers' do
+    servers = instance.servers
+    expect(servers).to be_a Array
+    sites = instance.sites
+    expect(sites).to be_a Array
     boxes = instance.boxes
     expect(boxes).to be_a Array
+    expect(servers).to eq sites
+    expect(servers).to eq boxes
   end
 
   it '#count' do

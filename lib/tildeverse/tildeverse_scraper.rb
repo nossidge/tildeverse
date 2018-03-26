@@ -1,9 +1,17 @@
 #!/usr/bin/env ruby
 
 module Tildeverse
-  #
+  ##
   # Scrape all Tilde sites and save as JSON files.
+  #
   class TildeverseScraper
+    ##
+    # Scrape all Tilde sites and save as JSON files.
+    #
+    # Return false if the user does not have the correct write permissions.
+    #
+    # @return [Boolean]
+    #
     def scrape
       return false unless write_permissions?
       scrape_new_users
@@ -17,7 +25,11 @@ module Tildeverse
 
     private
 
-    # All of the output files need to be writable.
+    ##
+    # Check whether the current user has the correct OS permissions
+    # to write to the output files.
+    # @return [Boolean]
+    #
     def write_permissions?
       files = [
         Tildeverse::Files.dir_output,
@@ -28,9 +40,11 @@ module Tildeverse
       Tildeverse::Files.write?(files)
     end
 
+    ##
     # Read in the tildebox names from the JSON.
     # Add current date and time to the hash.
     # This is the object that holds the full state.
+    #
     def json
       return @json if @json
       @json = Tildeverse::Files.input_tildeverse
@@ -39,10 +53,12 @@ module Tildeverse
       @json
     end
 
+    ##
     # The class name is based on the site name.
     #   i.e. 'myrtle-st.club' => 'MyrtleStClub'
     # If the site is no longer online, it is moved to '/site_scrapers/dead/'
-    #   and is not required by ruby. We can return an empty array for these.
+    # and is not required by ruby. We can return an empty array for these.
+    #
     def site_users(site_name)
       @site_users ||= {}
       return @site_users[site_name] if @site_users[site_name]
@@ -54,8 +70,10 @@ module Tildeverse
       end
     end
 
+    ##
     # Add new users to the hash, for all sites.
     # Use existing data, or create new if necessary.
+    #
     def scrape_new_users
       json['sites'].each do |site_name, site_hash|
         users = site_users(site_name)
@@ -71,7 +89,9 @@ module Tildeverse
       end
     end
 
+    ##
     # Add the date each user page was modified.
+    #
     def scrape_modified_dates
       Tildeverse::ModifiedDates.new.get.each do |i|
         user_deets = json['sites'][i[:site]]['users'][i[:user]]
@@ -79,13 +99,17 @@ module Tildeverse
       end
     end
 
+    ##
     # Write the hash to 'tildeverse.json'.
+    #
     def save_tildeverse_json
       file = Tildeverse::Files.output_json_tildeverse
       Tildeverse::Files.save_json(json, file)
     end
 
+    ##
     # Write 'users.json' for backwards compatibility.
+    #
     def save_users_json
       users_hash = {}
       json['sites'].each_value do |value|
@@ -99,7 +123,9 @@ module Tildeverse
       Tildeverse::Files.save_json(users_hash, file)
     end
 
+    ##
     # Update the timestamp in 'index.html'.
+    #
     def save_index_html
       File.open(Tildeverse::Files.output_html_index, 'w') do |fo|
         File.open(Tildeverse::Files.input_html_template, 'r') do |fi|
@@ -110,7 +136,9 @@ module Tildeverse
       end
     end
 
+    ##
     # Copy all static files to the output directory.
+    #
     def copy_static_files
       Tildeverse::Files.files_to_copy.each do |i|
         from = "#{Tildeverse::Files.dir_input}/#{i}"

@@ -4,8 +4,9 @@ require 'pathname'
 require 'json'
 
 module Tildeverse
+  ##
+  # Location of the input and output files in the repo.
   #
-  # Location of the files in the repo.
   module Files
     class << self
       def dir_root
@@ -70,7 +71,10 @@ module Tildeverse
         'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
       end
 
-      # Does the current user have permission to write to the files?
+      ##
+      # Determine if the current user has permission to write to the files.
+      # @return [Boolean]
+      #
       def write?(files)
         faulty = files.reject(&:writable?)
         return true if faulty.empty?
@@ -82,14 +86,26 @@ module Tildeverse
         false
       end
 
+      ##
       # Save a hash to a JSON file.
+      #
+      # @param [String] hash_obj  Hash object to write to file.
+      # @param [String] filepath  Location to save file to.
+      # @return [nil]
+      #
       def save_json(hash_obj, filepath)
         File.open(filepath, 'w') do |f|
           f.puts JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
         end
       end
 
+      ##
       # Save a string to a text file.
+      #
+      # @param [String] string  String to write to file.
+      # @param [String] filepath  Location to save file to.
+      # @return [nil]
+      #
       def save_text(string, filepath)
         File.open(filepath, 'w') do |f|
           f.puts string.to_s.force_encoding('UTF-8')

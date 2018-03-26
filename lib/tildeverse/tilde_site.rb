@@ -16,13 +16,14 @@ module Tildeverse
     end
 
     # Use the format string to map the user to their URL.
-    # Example: 'https://tilde.town/~USER/'
+    # @example
+    #   'https://tilde.town/~USER/'
     def user_page(user)
       @url_format_user.sub('USER', user)
     end
 
     # Cache results with the same info.
-    # Optional argument to overwrite the userlist URL.
+    # Optional argument to overwrite the resource URL.
     def connection(resource = nil)
       resource ||= @resource
       return @remote if @remote && @remote.resource == resource
@@ -34,8 +35,10 @@ module Tildeverse
     end
     alias con connection
 
+    # List of all the users of the site.
+    #
     # Does nothing here in the base class. Individual descendant
-    #   classes should extend this with site-specific scrape code.
+    # classes should extend this with site-specific scrape code.
     def users
       []
     end

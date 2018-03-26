@@ -2,7 +2,10 @@
 
 module Tildeverse
   ##
-  # The number of the current version.
+  # @return [String] the number of the current version.
+  # @example
+  #   '1.2.0'
+  #   '0.0.1.pre'
   #
   def self.version_number
     major = 0
@@ -14,7 +17,9 @@ module Tildeverse
   end
 
   ##
-  # The date of the current version.
+  # @return [String] the date of the current version.
+  # @example
+  #   '2017-07-28'
   #
   def self.version_date
     '2017-07-28'
