@@ -5,30 +5,58 @@ require 'json'
 
 module Tildeverse
   ##
-  # Location of the input and output files in the repo.
+  # Location of the input and output files in the repository.
   #
   module Files
     class << self
+      ##
+      # @return [Pathname] the root directory of the repository.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse'
+      #
       def dir_root
         Pathname(__FILE__).dirname.parent.parent
       end
 
+      ##
+      # @return [Pathname] the directory for input data files.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/input'
+      #
       def dir_input
         dir_root + 'input'
       end
 
+      ##
+      # @return [Pathname] the directory for output data files.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/output'
+      #
       def dir_output
         dir_root + 'output'
       end
 
+      ##
+      # @return [Pathname] the template file for the HTML output.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/input/index_template.html'
+      #
       def input_html_template
         dir_input + 'index_template.html'
       end
 
+      ##
+      # @return [Pathname] the input 'tildeverse' JSON file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse.json'
+      #
       def input_json_tildeverse
         dir_input + 'tildeverse.json'
       end
 
+      ##
+      # @return [Hash] the contents of {Files#input_json_tildeverse}.
+      #
       def input_tildeverse
         JSON[
           File.read(
@@ -39,18 +67,41 @@ module Tildeverse
         ]
       end
 
+      ##
+      # @return [Pathname] the HTML output file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/output/index.html'
+      #
       def output_html_index
         dir_output + 'index.html'
       end
 
+      ##
+      # The path to the output 'users' JSON file.
+      #
+      # This is created for backwards-compatibility for external services
+      # that use this instead of the newer {Files#output_json_tildeverse} file.
+      #
+      # @return [Pathname] the output 'users' JSON file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/output/users.json'
+      #
       def output_json_users
         dir_output + 'users.json'
       end
 
+      ##
+      # @return [Pathname] the output 'tildeverse' JSON file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.json'
+      #
       def output_json_tildeverse
         dir_output + 'tildeverse.json'
       end
 
+      ##
+      # @return [Hash] the contents of {Files#output_json_tildeverse}.
+      #
       def output_tildeverse
         JSON[
           File.read(
@@ -63,10 +114,26 @@ module Tildeverse
         {}
       end
 
+      ##
+      # @return [Array<String>]
+      #   the files to directly copy from +/input/+ to +/output/+.
+      # @example
+      #   [
+      #     'users.js',
+      #     'boxes.js',
+      #     'pie.js'
+      #   ]
+      #
       def files_to_copy
         %w[users.js boxes.js pie.js]
       end
 
+      ##
+      # @return [String] the location of the remote +tildeverse.json+ file.
+      #   This is updated every hour.
+      # @example
+      #   'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
+      #
       def remote_json
         'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
       end

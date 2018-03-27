@@ -2,17 +2,25 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +tilde.works+
     #
-    # These are the only lines on the page that include '<li><a href'
     class TildeWorks < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +tilde.works+
+      #
       def initialize
         super 'tilde.works'
       end
 
+      ##
+      # @return [Array<String>] all users of +tilde.works+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # These are the only lines on the page that include '<li><a href'
         members_found = false
         @users = con.result.split("\n").map do |i|
           members_found = true  if i.strip == '<h2>users</h2>'

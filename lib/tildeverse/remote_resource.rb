@@ -55,6 +55,8 @@ module Tildeverse
     attr_reader :result
 
     ##
+    # Returns a new instance of RemoteResource.
+    # All parameters are immutable once initialised.
     # @param [String] name
     #   An identifier for the connection.
     # @param [String] root

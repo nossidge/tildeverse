@@ -2,17 +2,25 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +skylab.org+
     #
-    # These are the only lines on the page that include '<a href'
     class SkylabOrg < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +skylab.org+
+      #
       def initialize
         super 'skylab.org'
       end
 
+      ##
+      # @return [Array<String>] all users of +skylab.org+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # These are the only lines on the page that include '<a href'
         members_found = false
         @users = con.result.split("\n").map do |i|
           members_found = true  if i =~ /Personal homepages on skylab.org/

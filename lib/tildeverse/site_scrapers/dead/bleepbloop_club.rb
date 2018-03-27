@@ -2,19 +2,27 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +bleepbloop.club+
     #
-    # This is straight from someone's ~user index.html.
-    # I'm betting this will be the first page to break.
-    # 2015/10/26  RIP
     class BleepbloopClub < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +bleepbloop.club+
+      #
       def initialize
         super 'bleepbloop.club'
       end
 
+      ##
+      # @return [Array<String>] all users of +bleepbloop.club+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # This is straight from someone's ~user index.html.
+        # I'm betting this will be the first page to break.
+        # 2015/10/26  RIP
         @users = con.result.split("\n").map do |i|
           next unless i =~ /<li>/
           user = i.first_between_two_chars('"').strip

@@ -2,14 +2,22 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +oldbsd.club+
     #
-    # No idea about this one.
     class OldbsdClub < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +oldbsd.club+
+      #
       def initialize
         super 'oldbsd.club'
       end
 
+      ##
+      # @return [Array<String>] all users of +oldbsd.club+
+      #
       def users
+        # No idea about this one.
         []
       end
     end

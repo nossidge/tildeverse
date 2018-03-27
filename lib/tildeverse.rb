@@ -38,7 +38,7 @@ module Tildeverse
     #   Only list users of the given server.
     # @return [Hash] If +site_name+ is present.
     #   Pulled directly from the file {Files.output_json_tildeverse}.
-    # @return [Array] If no +site_name+ is present.
+    # @return [Array<String>] If no +site_name+ is present.
     #   A list of all user URLs in the Tildeverse.
     #
     def users(site_name = nil)
@@ -54,7 +54,9 @@ module Tildeverse
     end
 
     ##
-    # @return [Array] a list of the server names.
+    # @param [Boolean] include_offline
+    #   Include servers known to be offline.
+    # @return [Array<String>] a list of the server names.
     # @example
     #   [
     #     'backtick.town',

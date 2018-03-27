@@ -2,18 +2,26 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +ctrl-c.club+
     #
-    # Current as of 2015/11/13
-    # Uses a nice JSON format.
     class CtrlCClub < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +ctrl-c.club+
+      #
       def initialize
         super 'ctrl-c.club'
       end
 
+      ##
+      # @return [Array<String>] all users of +ctrl-c.club+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # Current as of 2015/11/13
+        # Uses a nice JSON format.
         parsed = JSON[con.result.delete("\t")]
         @users = parsed['users'].map do |i|
           i['username']

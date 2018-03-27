@@ -1,29 +1,75 @@
 #!/usr/bin/env ruby
 
 module Tildeverse
-  #
+  ##
   # Read site info from the input JSON file 'input_tildeverse'.
+  #
+  # This class exists to be inherited from. All classes in the
+  # {Tildeverse::Site} namespace should be children of this class.
+  #
   class TildeSite
-    attr_reader :name, :root, :resource, :url_format_user
+    ##
+    # (see Tildeverse::RemoteResource#name)
+    #
+    attr_reader :name
 
-    # Pick up the URLs from the JSON, if not specified.
-    def initialize(site_name, root = nil, resource = nil)
-      json = Tildeverse::Files.input_tildeverse['sites'][site_name]
-      @name = site_name
+    ##
+    # (see Tildeverse::RemoteResource#root)
+    #
+    attr_reader :root
+
+    ##
+    # (see Tildeverse::RemoteResource#resource)
+    #
+    attr_reader :resource
+
+    ##
+    # The format that the site uses to map users to their homepage.
+    # @example
+    #   'https://tilde.town/~USER/'
+    #   'https://USER.remotes.club/'
+    #
+    attr_reader :url_format_user
+
+    ##
+    # (see Tildeverse::RemoteResource#initialize)
+    #
+    # Similar to {Tildeverse::RemoteResource#initialize}, except that only
+    # the site name needs to be specified. The root and resource parameters
+    # will be looked up using {Tildeverse::Files#input_tildeverse}.
+    #
+    def initialize(name, root = nil, resource = nil)
+      json      = Tildeverse::Files.input_tildeverse['sites'][name]
+      @name     = name
       @root     = root     || json['url_root']
       @resource = resource || json['url_list']
       @url_format_user = json['url_format_user']
     end
 
-    # Use the format string to map the user to their URL.
+    ##
+    # Use {#url_format_user} to map the user to their homepage URL.
+    # @param [String] user The name of the user.
+    # @return [String] user's homepage.
     # @example
-    #   'https://tilde.town/~USER/'
+    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town.user_page('imt')
+    #   # => 'https://tilde.town/~imt/'
+    # @example
+    #   remotes_club = TildeSite.new('remotes.club')
+    #   remotes_club.user_page('imt')
+    #   # => 'https://imt.remotes.club/'
+    #
     def user_page(user)
       @url_format_user.sub('USER', user)
     end
 
-    # Cache results with the same info.
-    # Optional argument to overwrite the resource URL.
+    ##
+    # Create a connection to the remote {#resource}.
+    # Cache results with the same info, to reduce server load.
+    # @param [String] resource
+    #   Optional argument to overwrite the {#resource} URL.
+    # @return [RemoteResource] Connection to the remote {#resource}.
+    #
     def connection(resource = nil)
       resource ||= @resource
       return @remote if @remote && @remote.resource == resource
@@ -35,21 +81,11 @@ module Tildeverse
     end
     alias con connection
 
-    # List of all the users of the site.
-    #
-    # Does nothing here in the base class. Individual descendant
-    # classes should extend this with site-specific scrape code.
-    def users
-      []
-    end
-
-    # Find all descendants of this class.
-    def self.descendants
-      ObjectSpace.each_object(Class).select { |klass| klass < self }
-    end
-
     private
 
+    ##
+    # @return [String] Message to return if no users are found.
+    #
     def no_user_message
       "ERROR: No users found for site: #{@name}"
     end

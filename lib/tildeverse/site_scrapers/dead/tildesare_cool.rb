@@ -2,17 +2,25 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +tildesare.cool+
     #
-    # These are the lines on the page that include '<li><a href'
     class TildesareCool < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +tildesare.cool+
+      #
       def initialize
         super 'tildesare.cool'
       end
 
+      ##
+      # @return [Array<String>] all users of +tildesare.cool+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # These are the lines on the page that include '<li><a href'
         @users = con.result.split("\n").map do |i|
           next unless i =~ /<li><a href=/
           user = i.split('a href').last.strip

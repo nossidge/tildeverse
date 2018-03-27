@@ -2,17 +2,25 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +remotes.club+
     #
-    # A bit different, this one. They don't even use Tildes!
     class RemotesClub < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +remotes.club+
+      #
       def initialize
         super 'remotes.club'
       end
 
+      ##
+      # @return [Array<String>] all users of +remotes.club+
+      #
       def users
         return @users if @users
         return @users = [] if con.error?
 
+        # A bit different, this one. They don't even use Tildes!
         @users = con.result.split("\n").map do |i|
           next unless i =~ /<li data-last-update/
           i.split('href="https://').last.split('.').first

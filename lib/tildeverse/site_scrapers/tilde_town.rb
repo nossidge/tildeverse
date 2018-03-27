@@ -2,38 +2,52 @@
 
 module Tildeverse
   module Site
+    ##
+    # Site information and user list for +tilde.town+
     #
-    # 2016/08/05  JSON is incomplete, so merge with index.html user list
     class TildeTown < Tildeverse::TildeSite
+      ##
+      # Calls {Tildeverse::TildeSite#initialize} with arg +tilde.town+
+      #
       def initialize
         super 'tilde.town'
       end
 
+      ##
+      # @return [Array<String>] all users of +tilde.town+
+      #
       def users
+        # 2016/08/05  JSON is incomplete, so merge with index.html user list
         return @users if @users
         a = read_json
         b = read_html
         @users = a.concat(b).sort.uniq
       end
 
-      # A nice easy JSON format.
+      ##
+      # @return [Array<String>] users from the JSON source.
+      #
       def read_json
         url = 'http://tilde.town/~dan/users.json'
         return [] if con(url).error?
 
+        # A nice easy JSON format.
         parsed = JSON[con(url).result.delete("\t")]
         users = parsed.map(&:first).compact.sort.uniq
         puts no_user_message if users.empty?
         users
       end
 
-      # These are the lines on the page that include 'a href'
-      # But only after the line '<sub>sorted by recent changes</sub>'
-      # and before the closing '</ul>'
+      ##
+      # @return [Array<String>] users from the HTML source.
+      #
       def read_html
         url = 'http://tilde.town/'
         return [] if con(url).error?
 
+        # These are the lines on the page that include 'a href'
+        # But only after the line '<sub>sorted by recent changes</sub>'
+        # and before the closing '</ul>'
         members_found = false
         users = con(url).result.split("\n").map do |i|
           members_found = true  if i =~ %r{<sub>sorted by recent changes</sub>}
