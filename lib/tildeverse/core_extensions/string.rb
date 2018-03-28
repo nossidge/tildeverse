@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
+##
 # Additional methods for the String class.
+#
 class String
   ##
   # Remove trailing slash if there is one.
@@ -13,17 +15,16 @@ class String
   end
 
   ##
-  # Get the string between the first and second occurrences of a char.
+  # Return the string between the first and second occurrences of a character.
   #
   # @param [String] char
   #   Character to scan between.
   # @return [nil]
-  #   If char invalid or char.length > 1.
+  #   If there are fewer than 2 occurrences of the character.
   # @return [String]
   #   String between the first and second occurrences.
   #
   def first_between_two_chars(char = '"')
-    between = scan(/#{char}([^#{char}]*)#{char}/).first
-    between.join if between
+    scan(char).count < 2 ? nil : split(char)[1]
   end
 end
