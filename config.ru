@@ -1,2 +1,2 @@
 require_relative 'lib/tagging_server'
-start_server
+Tildeverse::App.run!
