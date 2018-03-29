@@ -1,16 +1,18 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 module Tildeverse
   ##
   # Scrape all Tilde sites and save as JSON files.
   #
-  class TildeverseScraper
+  class Scraper
     ##
     # Scrape all Tilde sites and save as JSON files.
     #
     # Return false if the user does not have the correct write permissions.
     #
-    # @return [Boolean]
+    # @return [Boolean] success state.
     #
     def scrape
       return false unless write_permissions?
@@ -28,6 +30,7 @@ module Tildeverse
     ##
     # Check whether the current user has the correct OS permissions
     # to write to the output files.
+    #
     # @return [Boolean]
     #
     def write_permissions?
@@ -109,6 +112,8 @@ module Tildeverse
 
     ##
     # Write 'users.json' for backwards compatibility.
+    #
+    # Used by http://tilde.town/~insom/modified.html
     #
     def save_users_json
       users_hash = {}
