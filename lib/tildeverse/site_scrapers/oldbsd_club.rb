@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +oldbsd.club+
       #
-      def users
+      def scrape_users
         # No idea about this one.
         []
       end

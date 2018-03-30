@@ -14,9 +14,16 @@ module Tildeverse
       end
 
       ##
+      # @return [Boolean] the site's known online status.
+      #
+      def online?
+        false
+      end
+
+      ##
       # @return [Array<String>] all users of +tilde.city+
       #
-      def users
+      def scrape_users
         # Manually found 2 users, but no list.
         %w[twilde skk]
       end

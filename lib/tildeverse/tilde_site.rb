@@ -10,17 +10,17 @@ module Tildeverse
   class TildeSite
     ##
     # (see Tildeverse::RemoteResource#name)
-    #
+    # .
     attr_reader :name
 
     ##
     # (see Tildeverse::RemoteResource#root)
-    #
+    # .
     attr_reader :root
 
     ##
     # (see Tildeverse::RemoteResource#resource)
-    #
+    # .
     attr_reader :resource
 
     ##
@@ -47,7 +47,27 @@ module Tildeverse
     end
 
     ##
+    # Create a connection to the remote {#resource}.
+    # Cache results with the same info, to reduce server load.
+    #
+    # @param [String] resource
+    #   Optional argument to overwrite the {#resource} URL.
+    # @return [RemoteResource] Connection to the remote {#resource}.
+    #
+    def connection(resource = nil)
+      resource ||= @resource
+      return @remote if @remote && @remote.resource == resource
+      info = [@site_name, @root, resource]
+      @remote = RemoteResource.new(*info)
+      @remote.get
+      puts @remote.msg if @remote.error?
+      @remote
+    end
+    alias con connection
+
+    ##
     # Use {#url_format_user} to map the user to their homepage URL.
+    #
     # @param [String] user The name of the user.
     # @return [String] user's homepage.
     # @example
@@ -64,27 +84,74 @@ module Tildeverse
     end
 
     ##
-    # Create a connection to the remote {#resource}.
-    # Cache results with the same info, to reduce server load.
-    # @param [String] resource
-    #   Optional argument to overwrite the {#resource} URL.
-    # @return [RemoteResource] Connection to the remote {#resource}.
+    # @return [Boolean] the site's known online status.
     #
-    def connection(resource = nil)
-      resource ||= @resource
-      return @remote if @remote && @remote.resource == resource
-      info = [@site_name, @root, resource]
-      @remote = RemoteResource.new(*info)
-      @remote.get
-      puts @remote.msg if @remote.error?
-      @remote
+    def online?
+      true
     end
-    alias con connection
+
+    ##
+    # Return the users of this Tilde site. In order to reduce HTTP requests,
+    # read from a cached instance variable, or from today's user list file,
+    # if either exist.
+    #
+    # @return [Array<String>] the users of the site.
+    #
+    def users
+      return @users if @users
+      return read_users_from_file if filepath.exist?
+      users!
+    end
+
+    ##
+    # Return the users of this Tilde site. Scrape this directly from the
+    # remote server, ignoring and overwriting any existing user list data.
+    #
+    # @return [Array<String>] the users of the site.
+    #
+    def users!
+      @users = scrape_users
+      Files.save_array(@users, filepath)
+      @users
+    end
 
     private
 
     ##
-    # @return [String] Message to return if no users are found.
+    # @return [Pathname]
+    #   location of the site directory within the {Files#dir_output}.
+    #
+    def pathname
+      path = Files.dir_output + 'sites' + name
+      Files.makedirs(path) unless path.exist?
+      path
+    end
+
+    ##
+    # @return [String] name of the current day's user list file.
+    #
+    def filename
+      date_now = Time.now.strftime('%Y%m%d')
+      filename = date_now + '.txt'
+    end
+
+    ##
+    # @return [Pathname] full path to the {#filename}.
+    #
+    def filepath
+      pathname + filename
+    end
+
+    ##
+    # Read user list from today's cached file.
+    # @return [Array] list of users.
+    #
+    def read_users_from_file
+      open(filepath).readlines.map(&:chomp)
+    end
+
+    ##
+    # @return [String] 'no users found' message.
     #
     def no_user_message
       "ERROR: No users found for site: #{@name}"

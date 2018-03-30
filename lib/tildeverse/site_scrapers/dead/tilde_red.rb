@@ -14,9 +14,16 @@ module Tildeverse
       end
 
       ##
+      # @return [Boolean] the site's known online status.
+      #
+      def online?
+        false
+      end
+
+      ##
       # @return [Array<String>] all users of +tilde.red+
       #
-      def users
+      def scrape_users
         return @users if @users
         return @users = [] if con.error?
 

@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +pebble.ink+
       #
-      def users
+      def scrape_users
         # Manually found 8 users, but no easily parsable list.
         %w[clach04 contolini elzilrac imt jovan ke7ofi phildini waste]
       end

@@ -14,9 +14,16 @@ module Tildeverse
       end
 
       ##
+      # @return [Boolean] the site's known online status.
+      #
+      def online?
+        false
+      end
+
+      ##
       # @return [Array<String>] all users of +yester.host+
       #
-      def users
+      def scrape_users
         # 2015/06/13  RIP
         return @users if @users
         a = read_json

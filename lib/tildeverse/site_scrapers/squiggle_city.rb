@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +squiggle.city+
       #
-      def users
+      def scrape_users
         # The JSON doesn't include all the users.
         # So group them together, sort and uniq.
         return @users if @users

@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +skylab.org+
       #
-      def users
+      def scrape_users
         return @users if @users
         return @users = [] if con.error?
 

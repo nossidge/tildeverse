@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +yourtilde.com+
       #
-      def users
+      def scrape_users
         # There's a strange issue with curling this URL.
         # I'll just use a manual list for now.
         %w[WL01 deepend emv jovan kingofobsolete login mhj msmcmickey

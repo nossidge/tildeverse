@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Array<String>] all users of +tilde.town+
       #
-      def users
+      def scrape_users
         # 2016/08/05  JSON is incomplete, so merge with index.html user list
         return @users if @users
         a = read_json

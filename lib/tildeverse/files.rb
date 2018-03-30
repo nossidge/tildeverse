@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
 require 'pathname'
 require 'json'
 
@@ -140,6 +141,11 @@ module Tildeverse
 
       ##
       # Determine if the current user has permission to write to the files.
+      #
+      # Writes error message to stdout if no permission granted.
+      #
+      # @param [Array<Pathname>] files
+      #   Array of files to determine permissions for.
       # @return [Boolean]
       #
       def write?(files)
@@ -157,7 +163,7 @@ module Tildeverse
       # Save a hash to a JSON file.
       #
       # @param [String] hash_obj  Hash object to write to file.
-      # @param [String] filepath  Location to save file to.
+      # @param [Pathname, String] filepath  Location to save file to.
       # @return [nil]
       #
       def save_json(hash_obj, filepath)
@@ -170,13 +176,38 @@ module Tildeverse
       # Save a string to a text file.
       #
       # @param [String] string  String to write to file.
-      # @param [String] filepath  Location to save file to.
+      # @param [Pathname, String] filepath  Location to save file to.
       # @return [nil]
       #
       def save_text(string, filepath)
         File.open(filepath, 'w') do |f|
           f.puts string.to_s.force_encoding('UTF-8')
         end
+      end
+
+      ##
+      # Save an array to a text file, separated by newlines.
+      #
+      # @param [Array] array  Array to write to file.
+      # @param [Pathname, String] filepath  Location to save file to.
+      # @return [nil]
+      #
+      def save_array(array, filepath)
+        File.open(filepath, 'w') do |f|
+          array.each do |i|
+            f.puts i.dup.force_encoding('UTF-8')
+          end
+        end
+      end
+
+      ##
+      # Make a directory, or recursively make a directory structure.
+      #
+      # @param [Pathname, String] pathname  Directory to create.
+      # @return [nil]
+      #
+      def makedirs(pathname)
+        FileUtils.makedirs pathname
       end
     end
   end
