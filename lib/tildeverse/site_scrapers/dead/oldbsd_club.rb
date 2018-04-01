@@ -14,6 +14,13 @@ module Tildeverse
       end
 
       ##
+      # @return [Boolean] the site's known online status.
+      #
+      def online?
+        false
+      end
+
+      ##
       # @return [Array<String>] all users of +oldbsd.club+
       #
       def scrape_users

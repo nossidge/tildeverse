@@ -2932,6 +2932,11 @@
         }
       }
     },
+    "oldbsd.club": {
+      "url_root": "http://oldbsd.club/",
+      "url_list": "",
+      "url_format_user": ""
+    },
     "palvelin.club": {
       "url_root": "http://palvelin.club/",
       "url_list": "http://palvelin.club/users.html",
