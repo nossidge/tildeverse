@@ -16,7 +16,7 @@ module Tildeverse
       ##
       # @return [Boolean] the site's known online status.
       #
-      def online?
+      def self.online?
         false
       end
 

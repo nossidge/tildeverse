@@ -47,6 +47,20 @@ module Tildeverse
     end
 
     ##
+    # @return [Boolean] the site's known online status.
+    #
+    def self.online?
+      true
+    end
+
+    ##
+    # @return [Boolean] the site's known online status.
+    #
+    def online?
+      self.class.online?
+    end
+
+    ##
     # Create a connection to the remote {#resource}.
     # Cache results with the same info, to reduce server load.
     #
@@ -81,13 +95,6 @@ module Tildeverse
     #
     def user_page(user)
       @url_format_user.sub('USER', user)
-    end
-
-    ##
-    # @return [Boolean] the site's known online status.
-    #
-    def online?
-      true
     end
 
     ##
@@ -132,7 +139,7 @@ module Tildeverse
     #
     def filename
       date_now = Time.now.strftime('%Y%m%d')
-      filename = date_now + '.txt'
+      date_now + '.txt'
     end
 
     ##
