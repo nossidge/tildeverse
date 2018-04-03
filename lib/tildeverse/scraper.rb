@@ -48,6 +48,8 @@ module Tildeverse
     # Add current date and time to the hash.
     # This is the object that holds the full state.
     #
+    # @return [Hash]
+    #
     def json
       return @json if @json
       @json = Tildeverse::Files.input_tildeverse
@@ -57,20 +59,14 @@ module Tildeverse
     end
 
     ##
-    # The class name is based on the site name.
-    #   i.e. 'myrtle-st.club' => 'MyrtleStClub'
-    # If the site is no longer online, it is moved to '/site_scrapers/dead/'
-    # and is not required by ruby. We can return an empty array for these.
+    # Find all Tilde site classes by returning the inheritors of {TildeSite}.
     #
-    def site_users(site_name)
-      @site_users ||= {}
-      return @site_users[site_name] if @site_users[site_name]
-      class_name = site_name.split(/\W/).map(&:capitalize).join
-      @site_users[site_name] = begin
-        Tildeverse::Site.const_get(class_name).new.users
-      rescue NameError
-        []
-      end
+    # @return [Array<Class>]
+    #
+    def tilde_sites
+      ObjectSpace.each_object(Class).select do |i|
+        i < Tildeverse::TildeSite
+      end.sort_by(&:name)
     end
 
     ##
@@ -78,8 +74,10 @@ module Tildeverse
     # Use existing data, or create new if necessary.
     #
     def scrape_new_users
-      json['sites'].each do |site_name, site_hash|
-        users = site_users(site_name)
+      tilde_sites.each do |klass|
+        tilde_site = klass.new
+        users = tilde_site.users
+        site_hash = json['sites'][tilde_site.name]
         site_hash['online']     = !users.empty?
         site_hash['user_count'] = users.size
 

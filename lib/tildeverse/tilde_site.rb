@@ -105,6 +105,7 @@ module Tildeverse
     # @return [Array<String>] the users of the site.
     #
     def users
+      return [] unless online?
       return @users if @users
       return read_users_from_file if filepath.exist?
       users!
