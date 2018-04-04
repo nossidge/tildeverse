@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake',    '~> 10.0')
   s.add_development_dependency('rspec',   '~> 3.0')
   s.add_development_dependency('sinatra', '~> 2.0', '>= 2.0.0')
+  s.add_development_dependency('simplecov', '~> 0.10', '>= 0.10.2')
 end
