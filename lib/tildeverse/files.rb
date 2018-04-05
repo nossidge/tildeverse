@@ -160,15 +160,15 @@ module Tildeverse
       end
 
       ##
-      # Save a hash to a JSON file.
+      # Save an object to a JSON file.
       #
-      # @param [String] hash_obj  Hash object to write to file.
+      # @param [Hash, Array] obj  Object to write to file.
       # @param [Pathname, String] filepath  Location to save file to.
       # @return [nil]
       #
-      def save_json(hash_obj, filepath)
+      def save_json(obj, filepath)
         File.open(filepath, 'w') do |f|
-          f.puts JSON.pretty_generate(hash_obj).force_encoding('UTF-8')
+          f.puts JSON.pretty_generate(obj).force_encoding('UTF-8')
         end
       end
 
@@ -181,7 +181,7 @@ module Tildeverse
       #
       def save_text(string, filepath)
         File.open(filepath, 'w') do |f|
-          f.puts string.to_s.force_encoding('UTF-8')
+          f.puts string.to_s.dup.force_encoding('UTF-8')
         end
       end
 
@@ -195,7 +195,7 @@ module Tildeverse
       def save_array(array, filepath)
         File.open(filepath, 'w') do |f|
           array.each do |i|
-            f.puts i.dup.force_encoding('UTF-8')
+            f.puts i.to_s.dup.force_encoding('UTF-8')
           end
         end
       end
