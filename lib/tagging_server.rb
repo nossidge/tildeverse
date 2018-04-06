@@ -1,12 +1,7 @@
 #!/usr/bin/env ruby
 
-################################################################################
-
 require_relative 'tildeverse'
 
-################################################################################
-
-# http://guides.railsgirls.com/sinatra-app
 require 'sinatra'
 require 'erb'
 
@@ -37,7 +32,7 @@ module Tildeverse
 
     ##
     # @method get_index
-    # @overload get '/'
+    # @overload GET '/'
     #
     # Home page, index.html
     #
@@ -51,10 +46,9 @@ module Tildeverse
 
     ##
     # @method get_tildeverse_json
-    # @overload get '/tildeverse.json'
+    # @overload GET '/tildeverse.json'
     #
     # This is given to the client as an Xreq.
-    # Look at {#get_index}
     #
     get '/tildeverse.json' do
       File.read(Tildeverse::Files.output_json_tildeverse)
@@ -62,7 +56,7 @@ module Tildeverse
 
     ##
     # @method post_save_tags
-    # @overload post '/save_tags'
+    # @overload POST '/save_tags'
     #
     # Save the tags to the JSON file.
     #
@@ -121,5 +115,3 @@ module Tildeverse
     end
   end
 end
-
-################################################################################

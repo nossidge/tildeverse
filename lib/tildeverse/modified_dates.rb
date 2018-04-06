@@ -4,6 +4,7 @@ module Tildeverse
   ##
   # Scrape modified dates from ~insom's list,
   # http://tilde.town/~insom/modified.html.
+  #
   class ModifiedDates
     ##
     # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
@@ -17,12 +18,6 @@ module Tildeverse
     #
     def get
       return @results if @results
-      info = [
-        'insom/modified',
-        'http://tilde.town/~insom/',
-        'http://tilde.town/~insom/modified.html'
-      ]
-      remote = RemoteResource.new(*info)
       lines = remote.get.split("\n").select { |i| i.match('<a href') }
       @results = lines.map do |i|
         i = i.gsub('<br/>', '')
@@ -34,6 +29,23 @@ module Tildeverse
           time: i.split(' -- ')[1]
         }
       end
+    end
+
+    private
+
+    ##
+    # Set up a connection to the remote HTML file.
+    #
+    # @return [RemoteResource]
+    #
+    def remote
+      return @remote if @remote
+      info = [
+        'insom/modified',
+        'http://tilde.town/~insom/',
+        'http://tilde.town/~insom/modified.html'
+      ]
+      @remote = RemoteResource.new(*info)
     end
   end
 end

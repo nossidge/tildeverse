@@ -7,6 +7,9 @@ module Tildeverse
   # This class exists to be inherited from. All classes in the
   # {Tildeverse::Site} namespace should be children of this class.
   #
+  # All child classes MUST define a method named {#scrape_users}.
+  # This method defines how the user list is scraped on that site.
+  #
   class TildeSite
     ##
     # (see Tildeverse::RemoteResource#name)

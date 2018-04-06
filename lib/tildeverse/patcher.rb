@@ -36,6 +36,8 @@ module Tildeverse
       true
     end
 
+    private
+
     ##
     # Check whether the current user has the correct OS permissions
     # to write to the output file.

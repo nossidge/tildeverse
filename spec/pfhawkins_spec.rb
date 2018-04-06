@@ -1,9 +1,16 @@
 #!/usr/bin/env ruby
 
 describe 'Tildeverse::PFHawkins' do
-
   def instance
     @instance ||= Tildeverse::PFHawkins.new
+  end
+
+  def instance_with_new_box
+    singleton = Tildeverse::PFHawkins.new
+    def singleton.count
+      20
+    end
+    singleton
   end
 
   it '#url_html' do
@@ -36,6 +43,16 @@ describe 'Tildeverse::PFHawkins' do
 
   it '#new?' do
     has_new = instance.new?
-    expect(has_new).to be_boolean
+    expect(has_new).to be false
+
+    has_new = instance_with_new_box.new?
+    expect(has_new).to be true
+  end
+
+  it '#puts_if_new' do
+    singleton = instance_with_new_box
+    msg = "-- New Tilde Boxes!\n" + singleton.url_html
+    expect(STDOUT).to receive(:puts).with(msg)
+    singleton.puts_if_new
   end
 end
