@@ -129,6 +129,16 @@ module Tildeverse
     private
 
     ##
+    # This needs to be overwritten by child classes. It should specify how
+    # to scrape the tilde server remote resource to return the users.
+    #
+    # @raise [NoMethodError]
+    #
+    def scrape_users
+      raise NoMethodError, 'Method should be overwritten by a child class'
+    end
+
+    ##
     # @return [Pathname]
     #   location of the site directory within the {Files#dir_output}.
     #

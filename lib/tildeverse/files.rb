@@ -56,16 +56,25 @@ module Tildeverse
       end
 
       ##
-      # @return [Hash] the contents of {Files#input_json_tildeverse}.
+      # @return [Hash] the contents of {Files#input_json_tildeverse}
       #
-      def input_tildeverse
-        JSON[
+      def input_tildeverse!
+        @@input_tildeverse = JSON[
           File.read(
             input_json_tildeverse,
             external_encoding: 'utf-8',
             internal_encoding: 'utf-8'
           )
         ]
+      end
+
+      ##
+      # Same as {Files#input_tildeverse!}, but result is cached.
+      #
+      # @return [Hash] the contents of {Files#input_json_tildeverse}
+      #
+      def input_tildeverse
+        @@input_tildeverse ||= input_tildeverse!
       end
 
       ##
@@ -101,18 +110,29 @@ module Tildeverse
       end
 
       ##
-      # @return [Hash] the contents of {Files#output_json_tildeverse}.
+      # @return [Hash] the contents of {Files#output_json_tildeverse}
+      #
+      def output_tildeverse!
+        @@output_tildeverse = begin
+          JSON[
+            File.read(
+              output_json_tildeverse,
+              external_encoding: 'utf-8',
+              internal_encoding: 'utf-8'
+            )
+          ]
+        rescue Errno::ENOENT
+          {}
+        end
+      end
+
+      ##
+      # Same as {Files#output_tildeverse!}, but result is cached.
+      #
+      # @return [Hash] the contents of {Files#output_json_tildeverse}
       #
       def output_tildeverse
-        JSON[
-          File.read(
-            output_json_tildeverse,
-            external_encoding: 'utf-8',
-            internal_encoding: 'utf-8'
-          )
-        ]
-      rescue Errno::ENOENT
-        {}
+        @@output_tildeverse ||= output_tildeverse!
       end
 
       ##

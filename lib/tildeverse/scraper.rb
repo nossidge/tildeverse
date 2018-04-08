@@ -59,22 +59,11 @@ module Tildeverse
     end
 
     ##
-    # Find all Tilde site classes by returning the inheritors of {TildeSite}.
-    #
-    # @return [Array<Class>]
-    #
-    def tilde_sites
-      ObjectSpace.each_object(Class).select do |i|
-        i < Tildeverse::TildeSite
-      end.sort_by(&:name)
-    end
-
-    ##
     # Add new users to the hash, for all sites.
     # Use existing data, or create new if necessary.
     #
     def scrape_new_users
-      tilde_sites.each do |klass|
+      Tildeverse::Site.classes.each do |klass|
         tilde_site = klass.new
         users = tilde_site.users
         site_hash = json['sites'][tilde_site.name]
