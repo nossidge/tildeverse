@@ -24,12 +24,13 @@ module Tildeverse
     # @param [String] site  Name of the server.
     # @param [String] user  Name of the user.
     # @return [String] string representation of the datetime.
+    # @return [nil] if not found.
     #
     def for_user(site, user)
       result = @data.select do |i|
         i[:site] == site && i[:user] == user
       end.first
-      result ? result[:time] : '-'
+      result ? result[:time] : nil
     end
 
     private

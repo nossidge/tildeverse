@@ -87,8 +87,8 @@ describe 'Tildeverse::Files' do
     expect(filepath).to eq check
   end
 
-  it '#input_tildeverse' do
-    data = Tildeverse::Files.input_tildeverse
+  it '#input_tildeverse!' do
+    data = Tildeverse::Files.input_tildeverse!
     expect(data).to be_a Hash
     expect(data).to_not be_empty
 
@@ -96,11 +96,11 @@ describe 'Tildeverse::Files' do
     def singleton.input_json_tildeverse
       'foo/not_valid/sausage.json'
     end
-    expect { singleton.input_tildeverse }.to raise_error(Errno::ENOENT)
+    expect { singleton.input_tildeverse! }.to raise_error(Errno::ENOENT)
   end
 
-  it '#output_tildeverse' do
-    data = Tildeverse::Files.output_tildeverse
+  it '#output_tildeverse!' do
+    data = Tildeverse::Files.output_tildeverse!
     expect(data).to be_a Hash
     expect(data).to_not be_empty
 
@@ -108,7 +108,7 @@ describe 'Tildeverse::Files' do
     def singleton.output_json_tildeverse
       'foo/not_valid/sausage.json'
     end
-    data = singleton.output_tildeverse
+    data = singleton.output_tildeverse!
     expect(data).to be_a Hash
     expect(data).to be_empty
   end
