@@ -65,7 +65,7 @@ module Tildeverse
     def scrape_new_users
       Tildeverse::Site.classes.each do |klass|
         tilde_site = klass.new
-        users = tilde_site.users
+        users = tilde_site.users_online
         site_hash = json['sites'][tilde_site.name]
         site_hash['online']     = !users.empty?
         site_hash['user_count'] = users.size
