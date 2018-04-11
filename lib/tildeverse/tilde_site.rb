@@ -2,7 +2,12 @@
 
 module Tildeverse
   ##
-  # Read site info from the input JSON file 'input_tildeverse'.
+  # Class to store information for a particular site.
+  #
+  # Relation model is:
+  #   Data           (singleton)
+  #   └── TildeSite  (has many)
+  #       └── User   (has many)
   #
   # This class exists to be inherited from. All classes in the
   # {Tildeverse::Site} namespace should be children of this class.
@@ -33,22 +38,6 @@ module Tildeverse
     #   'https://USER.remotes.club/'
     #
     attr_reader :url_format_user
-
-    ##
-    # User names scraped for the 'output' JSON.
-    # Some of these may be new users that have no tags yet.
-    #
-    # @return [Array<String>]
-    #
-    attr_reader :users_online
-
-    ##
-    # User names from the 'input' JSON.
-    # Some of these may no longer be online.
-    #
-    # @return [Array<String>]
-    #
-    attr_reader :users_tagged
 
     ##
     # (see Tildeverse::RemoteResource#initialize)
@@ -82,17 +71,14 @@ module Tildeverse
     end
 
     ##
-    # (see #scrape_online_users)
+    # Since this is the 'public' interface for this class, only return those
+    # users who are online. I can't imagine any situation where another class
+    # will need to know about old users.
+    #
+    # @return [Array<User>] All users of the site
     #
     def users
-      scrape_online_users
-    end
-
-    ##
-    # (see #scrape_online_users!)
-    #
-    def users!
-      scrape_online_users!
+      @all_users.values.select(&:online?).sort_by(&:name)
     end
 
     ############################################################################
@@ -103,7 +89,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_for_output
-      serialize(users_online, 'output')
+      serialize(@users_online, 'output')
     end
 
     ##
@@ -112,7 +98,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_for_input
-      serialize(users_tagged, 'input')
+      serialize(@users_tagged, 'input')
     end
 
     ############################################################################
@@ -131,24 +117,7 @@ module Tildeverse
       self.class.online?
     end
 
-    ##
-    # Create a connection to the remote {#resource}.
-    # Cache results with the same info, to reduce server load.
-    #
-    # @param [String] resource
-    #   Optional argument to overwrite the {#resource} URL.
-    # @return [RemoteResource] Connection to the remote {#resource}.
-    #
-    def connection(resource = nil)
-      resource ||= @resource
-      return @remote if @remote && @remote.resource == resource
-      info = [@site_name, @root, resource]
-      @remote = RemoteResource.new(*info)
-      @remote.get
-      puts @remote.msg if @remote.error?
-      @remote
-    end
-    alias con connection
+    ############################################################################
 
     ##
     # Use {#url_format_user} to map the user to their homepage URL.
@@ -168,6 +137,22 @@ module Tildeverse
       @url_format_user.sub('USER', user)
     end
 
+    ##
+    # Use {#name} to map the user to their email address
+    #
+    # @param [String] user The name of the user
+    # @return [String] user's email address
+    # @example
+    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town.email('nossidge')
+    #   # => 'nossidge@tilde.town'
+    # @note
+    #   On most Tilde servers, this is valid for local email only
+    #
+    def user_email(user)
+      "#{user}@#{name}"
+    end
+
     ############################################################################
 
     private
@@ -184,21 +169,20 @@ module Tildeverse
     ##
     # Build up the @all_users hash, by finding user tagging data from
     # {Tildeverse::Files#input_tildeverse} and online users from the remote
-    # location. This will set the data that can be read by {#users_tagged}
-    # and {#users_online}
+    # location. This will set the data that can be read by @users_tagged
+    # and @users_online
     #
     # @return [nil]
     #
     def initialize_users
-      site_name = name
-
+      #
       # Create the list of all users.
       # Initially, this will be just those users from the 'input' JSON.
       @all_users = {}.tap do |hash|
         users = data_from_input_tildeverse['users'] || []
         users.each do |user_name, user_hash|
           hash[user_name] = User.new(
-            site_name,
+            self,
             user_name,
             user_hash['tagged'],
             user_hash['tags']
@@ -208,21 +192,40 @@ module Tildeverse
       @users_tagged = @all_users.keys.sort
 
       # Scrape the online users, to find any new accounts.
-      new_users = scrape_online_users - users_tagged
+      new_users = scrape_online_users - @users_tagged
 
       # Add the new users to @all_users.
       # They do not have 'tagged' or 'tags' data yet.
       new_users.each do |u_name|
-        @all_users[u_name] = User.new(site_name, u_name)
+        @all_users[u_name] = User.new(self, u_name)
       end
 
       # Set the 'online' value of each user.
-      users_online.each do |u_name|
+      @users_online.each do |u_name|
         @all_users[u_name].online = true
       end
 
       nil
     end
+
+    ##
+    # Create a connection to the remote {#resource}.
+    # Cache results with the same info, to reduce server load.
+    #
+    # @param [String] resource
+    #   Optional argument to overwrite the {#resource} URL.
+    # @return [RemoteResource] Connection to the remote {#resource}.
+    #
+    def connection(resource = nil)
+      resource ||= @resource
+      return @remote if @remote && @remote.resource == resource
+      info = [name, @root, resource]
+      @remote = RemoteResource.new(*info)
+      @remote.get
+      puts @remote.msg if @remote.error?
+      @remote
+    end
+    alias con connection
 
     ##
     # Return the users of this Tilde site. In order to reduce HTTP requests,

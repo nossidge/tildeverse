@@ -2,12 +2,17 @@
 
 module Tildeverse
   ##
+  # Class to store information for a particular user.
   #
+  # Relation model is:
+  #   Data           (singleton)
+  #   └── TildeSite  (has many)
+  #       └── User   (has many)
   #
   class User
 
     ##
-    # @return [String] The name of the site.
+    # @return [TildeSite] The site the user belongs to.
     #
     attr_reader :site
 
@@ -22,17 +27,17 @@ module Tildeverse
     attr_reader :tagged
 
     ##
-    # @return [Array<String>, nil] A list of usersite tags for the user.
+    # @return [Array<String>] A list of usersite tags for the user.
     #
     attr_reader :tags
 
     ##
-    # @param [String] site The name of the site.
+    # @param [TildeSite] site The site the user belongs to.
     # @param [String] name The name of the user.
     # @param [String] tagged The date the tags were last updated.
     # @param [Array<String>] tags A list of usersite tags for the user.
     #
-    def initialize(site, name, tagged = nil, tags = nil)
+    def initialize(site, name, tagged = nil, tags = [])
       @site   = site
       @name   = name
       @tagged = tagged
@@ -58,13 +63,41 @@ module Tildeverse
     end
 
     ##
+    # Use {TildeSite#url_format_user} to map the user to their homepage URL
+    #
+    # @return [String] user's homepage
+    # @example
+    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town.user('nossidge').url
+    #   # => 'https://tilde.town/~nossidge/'
+    #
+    def url
+      site.user_page(name)
+    end
+
+    ##
+    # Use {TildeSite#name} to map the user to their email address
+    #
+    # @return [String] user's email address
+    # @example
+    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town.user('nossidge').email
+    #   # => 'nossidge@tilde.town'
+    # @note
+    #   On most Tilde servers, this is valid for local email only
+    #
+    def email
+      site.user_email(name)
+    end
+
+    ##
     # Return the modified date of the user page
     #
     # @return [String] string representation of the datetime
     #
     def modified_date
       @@modified_dates ||= Tildeverse::ModifiedDates.new
-      @@modified_dates.for_user(site, name) || '-'
+      @@modified_dates.for_user(site.name, name) || '-'
     end
 
     ##
