@@ -1,78 +1,172 @@
 #!/usr/bin/env ruby
 
-################################################################################
-# Just calls the main 'tildeverse.rb' file.
-################################################################################
-
 require_relative '../lib/tildeverse'
 
-################################################################################
+##
+# Define the commands that are possible through the CLI
+#
+module TildeverseBin
+  class << self
+    ##
+    # Use the arguments to decide which function to perform
+    #
+    def run(argv)
+      case argv[0]
+      when nil
+        tildeverse_help
+      when 'scrape'
+        tildeverse_scrape
+      when 'fetch'
+        tildeverse_fetch
+      when 'patch'
+        tildeverse_patch
+      when 'new'
+        tildeverse_new
+      when 'json'
+        tildeverse_json argv[1]
+      when 's', 'b', 'sites', 'boxes', 'servers'
+        tildeverse_sites
+      when 'u', 'user', 'users'
+        tildeverse_user argv[1]
+      else
+        tildeverse_sitename argv[0], argv[1]
+      end
+    end
 
-obj_json = Tildeverse::Files.output_tildeverse
+    ##
+    # $ tildeverse
+    #
+    # Display help info by default
+    #
+    def tildeverse_help
+      puts <<-HELP.gsub(/^ {8}/, '')
+          Usage: tildeverse <command> [subcommand]
 
-help_info = "Usage: tildeverse <command> [subcommand]
+        $ tildeverse scrape
+          Scrape the user list of each box, and generate the JSON files
 
-$ tildeverse scrape
-  Scrape the user list of each box, and generate the JSON files
+        $ tildeverse fetch
+          Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
 
-$ tildeverse fetch
-  Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
+        $ tildeverse patch
+          Run this after you have done manual user tagging in the input JSON
+          It will update the output JSON without doing the full site-scrape
 
-$ tildeverse patch
-  Run this after you have done manual user tagging in the input JSON
-  It will update the output JSON without doing the full site-scrape
+        $ tildeverse new
+          See if there have been any additions by ~pfhawkins
 
-$ tildeverse new
-  See if there have been any additions by ~pfhawkins
+        $ tildeverse json ['pretty']
+          Write the JSON file to standard out
+          'pretty' subcommand adds new lines
 
-$ tildeverse json ['pretty']
-  Write the JSON file to standard out
-  'pretty' subcommand adds new lines
+        $ tildeverse sites|boxes|servers
+          List all online sites in the Tildeverse
 
-$ tildeverse sites|boxes|servers
-  List all the sites in the Tildeverse
+        $ tildeverse [site name] ['json']
+          List all users for the specified Tildebox
+          'json' subcommand outputs as JSON
 
-$ tildeverse [site name] ['json']
-  List all users for the specified Tildebox
-  'json' subcommand outputs as JSON
+        $ tildeverse user|users [regex]
+          List all the users by URL
+          'regex' subcommand filters by regex
+      HELP
+    end
 
-$ tildeverse user|users [regex]
-  List all the users by URL
-  'regex' subcommand filters by regex
-"
+    ##
+    # $ tildeverse scrape
+    #
+    # Scrape the user list of each box, and generate the JSON files
+    #
+    def tildeverse_scrape
+      Tildeverse.scrape
+    end
 
-# Use the arguments to decide which function to perform.
-case ARGV[0]
-when nil
-  puts help_info
-when 'scrape'
-  Tildeverse.scrape
-when 'fetch'
-  Tildeverse.fetch
-when 'patch'
-  Tildeverse.patch
-when 'new'
-  Tildeverse::PFHawkins.new.puts_if_new
-when 'json'
-  if ARGV[1] == 'pretty'
-    puts JSON.pretty_generate(obj_json)
-  else
-    puts JSON(obj_json)
-  end
-when 's', 'b', 'sites', 'boxes', 'servers'
-  puts obj_json['sites'].keys
-when 'u', 'user', 'users'
-  if ARGV[1]
-    regex = Regexp.new(ARGV[1])
-    puts Tildeverse.users.select{ |i| i[regex] }
-  else
-    puts Tildeverse.users
-  end
-else
-  user_hash = obj_json.dig('sites', ARGV[0], 'users')
-  if user_hash
-    puts ARGV[1] == 'json' ? user_hash : user_hash.keys
+    ##
+    # $ tildeverse fetch
+    #
+    # Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
+    #
+    def tildeverse_fetch
+      Tildeverse.fetch
+    end
+
+    ##
+    # $ tildeverse patch
+    #
+    # Run this after you have done manual user tagging in the input JSON
+    # It will update the output JSON without doing the full site-scrape
+    #
+    def tildeverse_patch
+      Tildeverse.patch
+    end
+
+    ##
+    # $ tildeverse new
+    #
+    # See if there have been any additions by ~pfhawkins
+    #
+    def tildeverse_new
+      Tildeverse::PFHawkins.new.puts_if_new
+    end
+
+    ##
+    # $ tildeverse json ['pretty']
+    #
+    # Write the JSON file to standard out
+    # 'pretty' subcommand adds new lines
+    #
+    def tildeverse_json(argv1)
+      obj = Tildeverse.data.serialize_tildeverse_json
+      if argv1 == 'pretty'
+        puts JSON.pretty_generate(obj)
+      else
+        puts obj.to_json
+      end
+    end
+
+    ##
+    # $ tildeverse sites|boxes|servers
+    #
+    # List all online sites in the Tildeverse
+    #
+    def tildeverse_sites
+      puts Tildeverse.sites.select(&:online?).map(&:name)
+    end
+
+    ##
+    # $ tildeverse [site name] ['json']
+    #
+    # List all users for the specified Tildebox
+    # 'json' subcommand outputs as JSON
+    #
+    def tildeverse_sitename(argv0, argv1)
+      site = Tildeverse.site(argv0)
+      return unless site
+      if argv1 == 'json'
+        puts site.serialize_for_output.to_json
+      else
+        puts site.users.map(&:name)
+      end
+    end
+
+    ##
+    # $ tildeverse user|users [regex]
+    #
+    # List all the users by URL
+    # 'regex' subcommand filters by regex
+    #
+    def tildeverse_user(argv1)
+      if argv1
+        regex = ->(x) { x[Regexp.new(argv1)] }
+        puts Tildeverse.users.map(&:url).select(&regex)
+      else
+        puts Tildeverse.users.map(&:url)
+      end
+    end
   end
 end
 
-################################################################################
+##
+# Run the damn thing!
+#
+TildeverseBin.run(ARGV)

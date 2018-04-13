@@ -30,6 +30,13 @@ require_relative 'tildeverse/version'
 module Tildeverse
   class << self
     ##
+    # Reference to the {Tildeverse::Data} singleton instance
+    #
+    def data
+      Data.instance
+    end
+
+    ##
     # (see Tildeverse::Data#sites)
     #
     def sites
@@ -83,15 +90,6 @@ module Tildeverse
     #
     def patch
       Tildeverse::Patcher.new.patch
-    end
-
-    private
-
-    ##
-    # Reference to the {Tildeverse::Data} singleton instance.
-    #
-    def data
-      Data.instance
     end
   end
 end
