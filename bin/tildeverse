@@ -11,8 +11,10 @@ module TildeverseBin
     # Use the arguments to decide which function to perform
     #
     def run(argv)
+      opt_f = !argv.delete('-f').nil?
+      opt_p = !argv.delete('-p').nil?
       case argv[0]
-      when nil
+      when nil, 'help', '--help', '-h', '?'
         tildeverse_help
       when 'scrape'
         tildeverse_scrape
@@ -23,13 +25,13 @@ module TildeverseBin
       when 'new'
         tildeverse_new
       when 'json'
-        tildeverse_json argv[1]
-      when 's', 'b', 'sites', 'boxes', 'servers'
-        tildeverse_sites
-      when 'u', 'user', 'users'
-        tildeverse_user argv[1]
+        tildeverse_json(opt_p)
+      when 'sites', 'boxes', 'servers'
+        tildeverse_sites(argv[1], opt_f)
+      when 's', 'b', 'site', 'box', 'server'
+        tildeverse_site(argv[1], argv[2], opt_f, opt_p)
       else
-        tildeverse_sitename argv[0], argv[1]
+        tildeverse_user(argv[0], opt_f)
       end
     end
 
@@ -55,20 +57,25 @@ module TildeverseBin
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
 
-        $ tildeverse json ['pretty']
+        $ tildeverse json [-p]
           Write the JSON file to standard out
-          'pretty' subcommand adds new lines
+          -p switch will output JSON in pretty format
 
-        $ tildeverse sites|boxes|servers
+        $ tildeverse sites [regex] [-f]
           List all online sites in the Tildeverse
+          'regex' argument filters URLs by regex
+          -f switch will output all fields in table form
 
-        $ tildeverse [site name] ['json']
+        $ tildeverse site [site name] [-f] ['json' -p]
           List all users for the specified Tildebox
+          -f switch will output all fields in table form
           'json' subcommand outputs as JSON
+          -p switch will output JSON in pretty format
 
-        $ tildeverse user|users [regex]
+        $ tildeverse [regex] [-f]
           List all the users by URL
-          'regex' subcommand filters by regex
+          'regex' argument filters URLs by regex
+          -f switch will output all fields in table form
       HELP
     end
 
@@ -110,57 +117,137 @@ module TildeverseBin
     end
 
     ##
-    # $ tildeverse json ['pretty']
+    # $ tildeverse json [-p]
     #
     # Write the JSON file to standard out
-    # 'pretty' subcommand adds new lines
+    # -p switch will output in pretty format
     #
-    def tildeverse_json(argv1)
+    def tildeverse_json(opt_p)
       obj = Tildeverse.data.serialize_tildeverse_json
-      if argv1 == 'pretty'
-        puts JSON.pretty_generate(obj)
+      puts opt_p ? JSON.pretty_generate(obj) : obj.to_json
+    end
+
+    ##
+    # $ tildeverse sites [regex] [-f]
+    #
+    # List all online sites in the Tildeverse
+    # 'regex' argument filters URLs by regex
+    # -f switch will output all fields in table form
+    #
+    def tildeverse_sites(argv1, opt_f)
+      sites = Tildeverse.sites.select(&:online?)
+      sites.select! { |i| i.root[Regexp.new(argv1)] } if argv1
+
+      if opt_f
+        header = %w[NAME URL USERS]
+        output = [header] + sites.map do |site|
+          [
+            site.name,
+            site.root,
+            site.users.count
+          ]
+        end
+        puts format_in_columns(output, [2])
+
       else
-        puts obj.to_json
+        puts sites.map(&:name)
       end
     end
 
     ##
-    # $ tildeverse sites|boxes|servers
-    #
-    # List all online sites in the Tildeverse
-    #
-    def tildeverse_sites
-      puts Tildeverse.sites.select(&:online?).map(&:name)
-    end
-
-    ##
-    # $ tildeverse [site name] ['json']
+    # $ tildeverse site [site name] [-f] ['json' -p]
     #
     # List all users for the specified Tildebox
+    # -f switch will output all fields in table form
     # 'json' subcommand outputs as JSON
+    # -p switch will output JSON in pretty format
     #
-    def tildeverse_sitename(argv0, argv1)
-      site = Tildeverse.site(argv0)
-      return unless site
-      if argv1 == 'json'
-        puts site.serialize_for_output.to_json
+    def tildeverse_site(argv1, argv2, opt_f, opt_p)
+      site = Tildeverse.site(argv1)
+      return unless site && site.online?
+
+      if argv2 == 'json'
+        obj = site.serialize_for_output
+        puts opt_p ? JSON.pretty_generate(obj) : obj.to_json
+
+      elsif opt_f
+        header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
+        output = [header] + site.users.map do |user|
+          [
+            user.site.name,
+            user.name,
+            user.url,
+            user.modified_date.split('T').first,
+            user.tagged || '-',
+            user.tags.join(' ')
+          ]
+        end
+        puts format_in_columns(output)
+
       else
         puts site.users.map(&:name)
       end
     end
 
     ##
-    # $ tildeverse user|users [regex]
+    # $ tildeverse u|user|users [regex] [-f]
     #
     # List all the users by URL
-    # 'regex' subcommand filters by regex
+    # 'regex' argument filters by regex
+    # -f switch will output all fields in table form
     #
-    def tildeverse_user(argv1)
-      if argv1
-        regex = ->(x) { x[Regexp.new(argv1)] }
-        puts Tildeverse.users.map(&:url).select(&regex)
+    def tildeverse_user(argv1, opt_f)
+      users = Tildeverse.users
+      users.select! { |i| i.url[Regexp.new(argv1)] } if argv1
+
+      if opt_f
+        header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
+        output = [header] + users.map do |user|
+          [
+            user.site.name,
+            user.name,
+            user.url,
+            user.modified_date.split('T').first,
+            user.tagged || '-',
+            user.tags.join(' ')
+          ]
+        end
+        puts format_in_columns(output)
+
       else
-        puts Tildeverse.users.map(&:url)
+        puts users.map(&:url)
+      end
+    end
+
+    private
+
+    ##
+    # Format a 2D array for output to console
+    # https://stackoverflow.com/a/11747678/139299
+    #
+    # @param [Array<Array<String>>] array
+    # @param [Array<Integer>] rjust
+    #   Elements that should be right-justified
+    #   Default is left-justified
+    #
+    def format_in_columns(array, rjust = [])
+      #
+      # Figure out max lengths, to use as the width of each column.
+      max_lengths = array[0].map(&:length)
+      array.each do |row|
+        row.each_with_index do |e, i|
+          s = e.size
+          max_lengths[i] = s if s > max_lengths[i]
+        end
+      end
+
+      # Format each row as one long string.
+      array.map do |row|
+        format = max_lengths.map.with_index do |value, index|
+          just = rjust.include?(index) ? '' : '-'
+          "%#{just}#{value}s"
+        end
+        format.join(' ' * 2) % row
       end
     end
   end
