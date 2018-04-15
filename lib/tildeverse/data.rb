@@ -77,23 +77,49 @@ module Tildeverse
     end
 
     ##
+    # Serialise an array of users to a hash, with site name as the key,
+    # then user name, then user details
+    #
+    # @param [Array<User>] users
+    # @return [Hash{String => Hash{String => User}}]
+    #
+    def serialize_users(users)
+      {}.tap do |site_hash|
+        users.each do |user|
+          site_hash[user.site.name] ||= {}
+          site_hash[user.site.name][user.name] = user.serialize_output
+        end
+      end
+    end
+
+    ##
+    # Serialise an array of sites to a hash, with site name as the key,
+    # then user name, then user details
+    #
+    # @param [Array<TildeSite>] sites
+    # @return [Hash{String => TildeSite#serialize_for_output}]
+    #
+    def serialize_sites(sites)
+      {}.tap do |site_hash|
+        sites.each do |site|
+          site_hash[site.name] = site.serialize_for_output
+        end
+      end
+    end
+
+    ##
     # Serialize data in the format of {Files#output_json_tildeverse}
     #
     # @return [Hash]
     #
     def serialize_tildeverse_json
-      serialize_sites = {}.tap do |hash|
-        sites_hash.each do |site_name, site|
-          hash[site_name] = site.serialize_for_output
-        end
-      end
       {
         metadata: {
           url: 'http://tilde.town/~nossidge/tildeverse/',
           date_human: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
           date_unix: Time.now.to_i
         },
-        sites: serialize_sites
+        sites: serialize_sites(sites_hash.values)
       }
     end
 

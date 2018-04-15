@@ -2,19 +2,29 @@
 
 require_relative '../lib/tildeverse'
 
-##
-# Define the commands that are possible through the CLI
-#
-module TildeverseBin
-  class << self
+module Tildeverse
+  ##
+  # Define the commands that are possible through the CLI
+  #
+  class Bin
+    attr_reader :argv
+
+    def initialize(argv)
+      @argv = argv
+    end
+
     ##
     # Use the arguments to decide which function to perform
     #
-    def run(argv)
+    def run
       opt_f = !argv.delete('-f').nil?
       opt_p = !argv.delete('-p').nil?
+      opt_j = !argv.delete('-j').nil?
+      opt_h = !argv.delete('-h').nil?
+      tildeverse_help and return if opt_h
+
       case argv[0]
-      when nil, 'help', '--help', '-h', '?'
+      when nil, 'help', '--help', '?'
         tildeverse_help
       when 'scrape'
         tildeverse_scrape
@@ -27,11 +37,11 @@ module TildeverseBin
       when 'json'
         tildeverse_json(opt_p)
       when 'sites', 'boxes', 'servers'
-        tildeverse_sites(argv[1], opt_f)
+        tildeverse_sites(argv[1], opt_f, opt_j, opt_p)
       when 's', 'b', 'site', 'box', 'server'
-        tildeverse_site(argv[1], argv[2], opt_f, opt_p)
+        tildeverse_site(argv[1], opt_f, opt_j, opt_p)
       else
-        tildeverse_user(argv[0], opt_f)
+        tildeverse_else(argv[0], opt_f, opt_j, opt_p)
       end
     end
 
@@ -61,22 +71,28 @@ module TildeverseBin
           Write the JSON file to standard out
           -p switch will output JSON in pretty format
 
-        $ tildeverse sites [regex] [-f]
+        $ tildeverse sites [regex] [-f] [-j -p]
           List all online sites in the Tildeverse
           'regex' argument filters URLs by regex
           -f switch will output all fields in table form
-
-        $ tildeverse site [site name] [-f] ['json' -p]
-          List all users for the specified Tildebox
-          -f switch will output all fields in table form
-          'json' subcommand outputs as JSON
+          -j switch will output as JSON
           -p switch will output JSON in pretty format
 
-        $ tildeverse [regex] [-f]
+        $ tildeverse site [regex] [-f] [-j -p]
+          List all users for the specified Tildebox
+          'regex' argument filters URLs by regex
+          -f switch will output all fields in table form
+          -j switch will output as JSON
+          -p switch will output JSON in pretty format
+
+        $ tildeverse [regex] [-f] [-j -p]
           List all the users by URL
           'regex' argument filters URLs by regex
           -f switch will output all fields in table form
+          -j switch will output as JSON
+          -p switch will output JSON in pretty format
       HELP
+      true
     end
 
     ##
@@ -128,13 +144,15 @@ module TildeverseBin
     end
 
     ##
-    # $ tildeverse sites [regex] [-f]
+    # $ tildeverse sites [regex] [-f] [-j -p]
     #
     # List all online sites in the Tildeverse
-    # 'regex' argument filters URLs by regex
+    # 'regex' argument filters site URLs by regex
     # -f switch will output all fields in table form
+    # -j switch will output as JSON
+    # -p switch will output JSON in pretty format
     #
-    def tildeverse_sites(argv1, opt_f)
+    def tildeverse_sites(argv1, opt_f, opt_j, opt_p)
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.root[Regexp.new(argv1)] } if argv1
 
@@ -149,57 +167,58 @@ module TildeverseBin
         end
         puts format_in_columns(output, [2])
 
+      elsif opt_j
+        obj = Tildeverse.data.serialize_sites(sites)
+        puts opt_p ? JSON.pretty_generate(obj) : obj.to_json
+
       else
         puts sites.map(&:name)
       end
     end
 
     ##
-    # $ tildeverse site [site name] [-f] ['json' -p]
+    # $ tildeverse site [regex] [-f] [-j -p]
     #
     # List all users for the specified Tildebox
+    # 'regex' argument filters site URLs by regex
     # -f switch will output all fields in table form
-    # 'json' subcommand outputs as JSON
+    # -j switch will output as JSON
     # -p switch will output JSON in pretty format
     #
-    def tildeverse_site(argv1, argv2, opt_f, opt_p)
-      site = Tildeverse.site(argv1)
-      return unless site && site.online?
+    def tildeverse_site(argv1, opt_f, opt_j, opt_p)
+      sites = Tildeverse.sites.select(&:online?)
+      sites.select! { |i| i.root[Regexp.new(argv1)] } if argv1
+      users = sites.map { |i| i.users }.flatten
 
-      if argv2 == 'json'
-        obj = site.serialize_for_output
-        puts opt_p ? JSON.pretty_generate(obj) : obj.to_json
-
-      elsif opt_f
-        header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
-        output = [header] + site.users.map do |user|
-          [
-            user.site.name,
-            user.name,
-            user.url,
-            user.modified_date.split('T').first,
-            user.tagged || '-',
-            user.tags.join(' ')
-          ]
-        end
-        puts format_in_columns(output)
-
-      else
-        puts site.users.map(&:name)
-      end
+      output = output_users(users, opt_f, opt_j, opt_p)
+      puts (output || users.map(&:name))
     end
 
     ##
-    # $ tildeverse u|user|users [regex] [-f]
+    # $ tildeverse [regex] [-f] [-j -p]
     #
     # List all the users by URL
-    # 'regex' argument filters by regex
+    # 'regex' argument filters user URLs by regex
     # -f switch will output all fields in table form
+    # -j switch will output as JSON
+    # -p switch will output JSON in pretty format
     #
-    def tildeverse_user(argv1, opt_f)
+    def tildeverse_else(argv1, opt_f, opt_j, opt_p)
       users = Tildeverse.users
       users.select! { |i| i.url[Regexp.new(argv1)] } if argv1
 
+      output = output_users(users, opt_f, opt_j, opt_p)
+      puts (output || users.map(&:url))
+    end
+
+    private
+
+    ##
+    # Output a list of users in a consistant way
+    #
+    # @return [String] text to be put to stdout
+    #
+    def output_users(users, opt_f, opt_j, opt_p)
       if opt_f
         header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
         output = [header] + users.map do |user|
@@ -212,14 +231,13 @@ module TildeverseBin
             user.tags.join(' ')
           ]
         end
-        puts format_in_columns(output)
+        format_in_columns(output)
 
-      else
-        puts users.map(&:url)
+      elsif opt_j
+        obj = Tildeverse.data.serialize_users(users)
+        opt_p ? JSON.pretty_generate(obj) : obj.to_json
       end
     end
-
-    private
 
     ##
     # Format a 2D array for output to console
@@ -256,4 +274,4 @@ end
 ##
 # Run the damn thing!
 #
-TildeverseBin.run(ARGV)
+Tildeverse::Bin.new(ARGV).run
