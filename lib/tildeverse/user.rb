@@ -10,7 +10,6 @@ module Tildeverse
   #       └── User   (has many)
   #
   class User
-
     ##
     # @return [TildeSite] The site the user belongs to.
     #
@@ -96,8 +95,7 @@ module Tildeverse
     # @return [String] string representation of the datetime
     #
     def modified_date
-      @@modified_dates ||= Tildeverse::ModifiedDates.new
-      @@modified_dates.for_user(site.name, name) || '-'
+      ModifiedDates.instance.for_user(site.name, name) || '-'
     end
 
     ##

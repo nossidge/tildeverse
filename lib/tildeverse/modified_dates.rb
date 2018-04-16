@@ -1,20 +1,49 @@
 #!/usr/bin/env ruby
 
+require 'singleton'
+
 module Tildeverse
   ##
   # Scrape modified dates from ~insom's list,
   # http://tilde.town/~insom/modified.html.
   #
+  # This is a singleton, in order to keep remote requests
+  # cached throughout the runtime.
+  #
+  # Use {#get} to overwrite the cache with a new remote scrape.
+  #
+  # Use {#data} to return the most recent cache.
+  #
   class ModifiedDates
+    include Singleton
+
     ##
-    # @return [String] string representation of the datetime.
+    # @return [Array<Hash{Symbol => String}>]
+    #   Array of hashes that describe a user's updated time.
+    # @example
+    #   [
+    #     {
+    #       :site => "tilde.town",
+    #       :user => "nossidge",
+    #       :time => "2017-04-02T07:18:44"
+    #     }
+    #   ]
     #
     attr_reader :data
 
     ##
-    # (see #scrape_data)
+    # On initialisation, call {#get}
     #
     def initialize
+      get
+    end
+
+    ##
+    # (see #scrape_data)
+    #
+    # This overwrites {#data} with updated information
+    #
+    def get
       @data = scrape_data
     end
 
@@ -54,11 +83,15 @@ module Tildeverse
     # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
     #
     # @return [Array<Hash{Symbol => String}>]
-    # Array of hashes that describe a user's updated time.
+    #   Array of hashes that describe a user's updated time.
     # @example
-    #   :site => "tilde.town"
-    #   :user => "nossidge"
-    #   :time => "2017-04-02T07:18:44"
+    #   [
+    #     {
+    #       :site => "tilde.town",
+    #       :user => "nossidge",
+    #       :time => "2017-04-02T07:18:44"
+    #     }
+    #   ]
     #
     def scrape_data
       lines = remote.get.split("\n").select { |i| i.match('<a href') }

@@ -2,7 +2,7 @@
 
 describe 'Tildeverse::ModifiedDates' do
   def instance
-    @instance ||= Tildeverse::ModifiedDates.new
+    Tildeverse::ModifiedDates.instance
   end
 
   it '#data' do

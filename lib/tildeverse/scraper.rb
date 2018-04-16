@@ -83,7 +83,7 @@ module Tildeverse
     # Add the date each user page was modified.
     #
     def scrape_modified_dates
-      Tildeverse::ModifiedDates.new.data.each do |i|
+      ModifiedDates.instance.data.each do |i|
         user_deets = json['sites'][i[:site]]['users'][i[:user]]
         user_deets[:time] = i[:time] if user_deets
       end

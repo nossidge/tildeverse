@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'singleton'
+
 module Tildeverse
   ##
   # Singleton class to store all the Tildeverse information.
