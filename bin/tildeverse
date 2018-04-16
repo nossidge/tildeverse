@@ -21,7 +21,7 @@ module Tildeverse
     def parse!(args)
       @options = {}
       OptionParser.new do |opts|
-        opts.on('-f', '--full')   { @options[:full]   = true }
+        opts.on('-l', '--long')   { @options[:long]   = true }
         opts.on('-j', '--json')   { @options[:json]   = true }
         opts.on('-p', '--pretty') { @options[:pretty] = true }
         opts.on('-h', '--help') do
@@ -60,9 +60,9 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse
+    # $ tildeverse help
     #
-    # Display help info by default
+    # Display help info
     #
     def tildeverse_help
       puts <<-HELP.gsub(/^ {8}/, '')
@@ -84,26 +84,25 @@ module Tildeverse
         $ tildeverse json [-p]
           Write the full JSON file to standard out
 
-        $ tildeverse sites [regex] [-f] [-j -p]
+        $ tildeverse sites [regex] [-l] [-j -p]
           List all online sites in the Tildeverse
           'regex' argument filters URLs by regex
 
-        $ tildeverse site [regex] [-f] [-j -p]
+        $ tildeverse site [regex] [-l] [-j -p]
           List all users for the specified Tildebox
           'regex' argument filters URLs by regex
 
-        $ tildeverse user [regex] [-f] [-j -p]
+        $ tildeverse user [regex] [-l] [-j -p]
           or
-        $ tildeverse [regex] [-f] [-j -p]
+        $ tildeverse [regex] [-l] [-j -p]
           List all the users by URL
           'regex' argument filters URLs by regex
 
         [options]
-          -f output all fields in table form
-          -j output in JSON format
-          -p output JSON in pretty format
+          -l  output in long listing format
+          -j  output in JSON format
+          -p  output in pretty JSON format
       HELP
-      true
     end
 
     ##
@@ -155,13 +154,10 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse sites [regex] [-f] [-j -p]
+    # $ tildeverse sites [regex] [-l] [-j -p]
     #
     # List all online sites in the Tildeverse
     # 'regex' argument filters site URLs by regex
-    # -f switch will output all fields in table form
-    # -j switch will output as JSON
-    # -p switch will output JSON in pretty format
     #
     def tildeverse_sites(regex)
       sites = Tildeverse.sites.select(&:online?)
@@ -172,13 +168,10 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse site [regex] [-f] [-j -p]
+    # $ tildeverse site [regex] [-l] [-j -p]
     #
     # List all users for the specified Tildebox
     # 'regex' argument filters site URLs by regex
-    # -f switch will output all fields in table form
-    # -j switch will output as JSON
-    # -p switch will output JSON in pretty format
     #
     def tildeverse_site(regex)
       sites = Tildeverse.sites.select(&:online?)
@@ -190,15 +183,12 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse user [regex] [-f] [-j -p]
+    # $ tildeverse user [regex] [-l] [-j -p]
     #   or
-    # $ tildeverse [regex] [-f] [-j -p]
+    # $ tildeverse [regex] [-l] [-j -p]
     #
     # List all the users by URL
     # 'regex' argument filters user URLs by regex
-    # -f switch will output all fields in table form
-    # -j switch will output as JSON
-    # -p switch will output JSON in pretty format
     #
     def tildeverse_users(regex)
       users = Tildeverse.users
@@ -217,7 +207,7 @@ module Tildeverse
     # @return [String] text to be put to stdout
     #
     def output_users(users)
-      if @options[:full]
+      if @options[:long]
         header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
         output = [header] + users.map do |user|
           [
@@ -244,7 +234,7 @@ module Tildeverse
     # @return [String] text to be put to stdout
     #
     def output_sites(sites)
-      if @options[:full]
+      if @options[:long]
         header = %w[NAME URL USERS]
         output = [header] + sites.map do |site|
           [
