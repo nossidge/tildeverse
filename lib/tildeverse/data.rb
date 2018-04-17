@@ -37,6 +37,39 @@ module Tildeverse
     include Singleton
 
     ##
+    # On initialisation, call {#update_json_output}
+    #
+    def initialize
+      update_json_output
+    end
+
+    ##
+    # If the JSON output file {Files#output_tildeverse} is not up to
+    # today's date, then generate a new one
+    #
+    def update_json_output
+      if Date.today != updated_on
+        Tildeverse::Scraper.new.scrape
+      end
+    end
+
+    ##
+    # @return [Date] the date {Files#output_tildeverse} was last updated
+    #
+    def updated_on
+      json = Files.output_tildeverse
+      date_unix = json.dig('metadata', 'date_unix')
+      Time.at(date_unix).to_date
+    end
+
+    ##
+    # @return [Boolean] whether {Files#output_tildeverse} was updated today
+    #
+    def updated_today?
+      updated_on == Date.today
+    end
+
+    ##
     # @return [Array<TildeSite>] all sites in the Tildeverse
     #
     def sites
