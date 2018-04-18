@@ -151,8 +151,9 @@ module Tildeverse
       {
         metadata: {
           url: 'http://tilde.town/~nossidge/tildeverse/',
-          date_human: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
-          date_unix: Time.now.to_i
+          date_human:    Time.now.strftime('%Y/%m/%d %H:%M'),
+          date_unix:     Time.now.to_i,
+          date_timezone: Time.now.getlocal.zone
         },
         sites: serialize_sites(sites_hash.values)
       }

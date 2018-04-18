@@ -87,6 +87,12 @@
         pie(tildeverseJSON);
         dataTables();
         createMultiselect();
+
+        let elem = $("#last_update");
+        let d  = tildeverseJSON["metadata"]["date_human"];
+        let tz = tildeverseJSON["metadata"]["date_timezone"];
+        elem.html(d);
+        elem.prop("title", tz);
       }
       x.send(null);
     });
@@ -153,7 +159,7 @@
           <br>If any of those pages change, this list will likely break.</p>
           <p>The full information can be downloaded as <a href="tildeverse.json">JSON</a>.
           <br>It is updated every hour, as is this web page.</p>
-          <p>Last update: <strong><!-- @TIME_STAMP --></strong></p>
+          <p>Last update: <strong id="last_update">(JavaScript required)</strong></p>
         </div>
       </div>
     </div>

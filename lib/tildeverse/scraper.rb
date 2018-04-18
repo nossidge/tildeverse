@@ -53,8 +53,9 @@ module Tildeverse
     def json
       return @json if @json
       @json = Tildeverse::Files.input_tildeverse
-      @json['metadata']['date_human'] = Time.now.strftime('%Y-%m-%d %H:%M:%S')
-      @json['metadata']['date_unix']  = Time.now.to_i
+      @json['metadata']['date_human']    = Time.now.strftime('%Y/%m/%d %H:%M')
+      @json['metadata']['date_unix']     = Time.now.to_i
+      @json['metadata']['date_timezone'] = Time.now.getlocal.zone
       @json
     end
 
