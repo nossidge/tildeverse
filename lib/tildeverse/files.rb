@@ -140,13 +140,14 @@ module Tildeverse
       #   the files to directly copy from +/input/+ to +/output/+.
       # @example
       #   [
+      #     'index.html',
       #     'users.js',
       #     'boxes.js',
       #     'pie.js'
       #   ]
       #
       def files_to_copy
-        %w[users.js boxes.js pie.js]
+        %w[index.html users.js boxes.js pie.js]
       end
 
       ##

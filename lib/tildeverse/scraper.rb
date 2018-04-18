@@ -20,7 +20,6 @@ module Tildeverse
       scrape_modified_dates
       save_tildeverse_json
       save_users_json
-      save_index_html
       copy_static_files
       true
     end
@@ -114,19 +113,6 @@ module Tildeverse
       end
       file = Tildeverse::Files.output_json_users
       Tildeverse::Files.save_json(users_hash, file)
-    end
-
-    ##
-    # Update the timestamp in 'index.html'.
-    #
-    def save_index_html
-      File.open(Tildeverse::Files.output_html_index, 'w') do |fo|
-        File.open(Tildeverse::Files.input_html_template, 'r') do |fi|
-          time_stamp = Time.now.strftime('%Y/%m/%d %H:%M GMT')
-          out = fi.read.gsub('<!-- @TIME_STAMP -->', time_stamp)
-          fo.puts out
-        end
-      end
     end
 
     ##
