@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
 
-require 'singleton'
-
 module Tildeverse
   ##
-  # Singleton class to store all the Tildeverse information.
+  # Class to store all the Tildeverse information.
   #
   # Relation model is:
-  #   Data           (singleton)
+  #   Data
   #   └── TildeSite  (has many)
   #       └── User   (has many)
   #
@@ -34,15 +32,6 @@ module Tildeverse
   #   # => ['dave@tilde.club', 'dave@tilde.town']
   #
   class Data
-    include Singleton
-
-    ##
-    # On initialisation, call {#update_json_output}
-    #
-    def initialize
-      update_json_output
-    end
-
     ##
     # If the JSON output file {Files#output_tildeverse} is not up to
     # today's date, then generate a new one

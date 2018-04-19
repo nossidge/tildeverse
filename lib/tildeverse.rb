@@ -33,7 +33,7 @@ module Tildeverse
     # Reference to the {Tildeverse::Data} singleton instance
     #
     def data
-      Data.instance
+      @data ||= Tildeverse::Data.new
     end
 
     ##

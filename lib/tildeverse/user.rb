@@ -5,7 +5,7 @@ module Tildeverse
   # Class to store information for a particular user.
   #
   # Relation model is:
-  #   Data           (singleton)
+  #   Data
   #   └── TildeSite  (has many)
   #       └── User   (has many)
   #
