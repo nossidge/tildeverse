@@ -10,6 +10,8 @@ module Tildeverse
   #       └── User   (has many)
   #
   class User
+    include UserSerializer
+
     ##
     # @return [TildeSite] The site the user belongs to.
     #
@@ -96,31 +98,6 @@ module Tildeverse
     #
     def modified_date
       ModifiedDates.instance.for_user(site.name, name) || '-'
-    end
-
-    ##
-    # Serialize the data for writing to {Files#input_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_input
-      {}.tap do |hash|
-        hash[:tagged] = tagged if tagged
-        hash[:tags] = tags if tags
-      end
-    end
-
-    ##
-    # Serialize the data for writing to {Files#output_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_output
-      {}.tap do |hash|
-        hash[:tagged] = tagged if tagged
-        hash[:tags] = tags if tagged
-        hash[:time] = modified_date
-      end
     end
   end
 end
