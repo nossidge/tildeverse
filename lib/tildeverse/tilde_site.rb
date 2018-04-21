@@ -16,6 +16,8 @@ module Tildeverse
   # This method defines how the user list is scraped on that site.
   #
   class TildeSite
+    include SiteSerializer
+
     ##
     # (see Tildeverse::RemoteResource#name)
     # .
@@ -79,26 +81,6 @@ module Tildeverse
     #
     def users
       @all_users.values.select(&:online?).sort_by(&:name)
-    end
-
-    ############################################################################
-
-    ##
-    # Serialize the data for writing to {Files#output_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_for_output
-      serialize(@users_online, 'output')
-    end
-
-    ##
-    # Serialize the data for writing to {Files#input_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_for_input
-      serialize(@users_tagged, 'input')
     end
 
     ############################################################################
@@ -172,8 +154,6 @@ module Tildeverse
     # location. This will set the data that can be read by @users_tagged
     # and @users_online
     #
-    # @return [nil]
-    #
     def initialize_users
       #
       # Create the list of all users.
@@ -204,8 +184,6 @@ module Tildeverse
       @users_online.each do |u_name|
         @all_users[u_name].online = true
       end
-
-      nil
     end
 
     ##
@@ -261,38 +239,6 @@ module Tildeverse
     #
     def scrape_users
       raise NoMethodError, 'Method should be overwritten by a child class'
-    end
-
-    ##
-    # Serialize the data
-    #
-    # @param [Array<String>] users_array list of user names to display
-    # @param [String] type either 'input' or 'output'
-    #
-    def serialize(users_array, type)
-      raise ArgumentError unless %w[input output].include?(type)
-      {}.tap do |hash|
-        hash[:url_root]        = root
-        hash[:url_list]        = resource
-        hash[:url_format_user] = url_format_user
-        hash[:online]          = online?           if type == 'output'
-        hash[:user_count]      = users_array.count if type == 'output'
-        hash[:users]           = serialize_users(users_array, type)
-      end
-    end
-
-    ##
-    # @param [Array<String>] users_array list of user names to display
-    # @param [String] type either 'input' or 'output'
-    # @return [Hash]
-    #
-    def serialize_users(users_array, type)
-      raise ArgumentError unless %w[input output].include?(type)
-      {}.tap do |hash|
-        users_array.each do |user|
-          hash[user] = @all_users[user].send("serialize_#{type}")
-        end
-      end
     end
 
     ##
