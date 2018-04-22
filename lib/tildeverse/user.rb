@@ -6,14 +6,14 @@ module Tildeverse
   #
   # Relation model is:
   #   Data
-  #   └── TildeSite  (has many)
+  #   └── Site       (has many)
   #       └── User   (has many)
   #
   class User
     include UserSerializer
 
     ##
-    # @return [TildeSite] The site the user belongs to.
+    # @return [Site] The site the user belongs to.
     #
     attr_reader :site
 
@@ -33,7 +33,7 @@ module Tildeverse
     attr_reader :tags
 
     ##
-    # @param [TildeSite] site The site the user belongs to.
+    # @param [Site] site The site the user belongs to.
     # @param [String] name The name of the user.
     # @param [String] tagged The date the tags were last updated.
     # @param [Array<String>] tags A list of usersite tags for the user.
@@ -64,11 +64,11 @@ module Tildeverse
     end
 
     ##
-    # Use {TildeSite#url_format_user} to map the user to their homepage URL
+    # Use {Site#url_format_user} to map the user to their homepage URL
     #
     # @return [String] user's homepage
     # @example
-    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town = Site.new('tilde.town')
     #   tilde_town.user('nossidge').url
     #   # => 'https://tilde.town/~nossidge/'
     #
@@ -77,11 +77,11 @@ module Tildeverse
     end
 
     ##
-    # Use {TildeSite#name} to map the user to their email address
+    # Use {Site#name} to map the user to their email address
     #
     # @return [String] user's email address
     # @example
-    #   tilde_town = TildeSite.new('tilde.town')
+    #   tilde_town = Site.new('tilde.town')
     #   tilde_town.user('nossidge').email
     #   # => 'nossidge@tilde.town'
     # @note

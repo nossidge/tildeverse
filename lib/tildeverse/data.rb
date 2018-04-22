@@ -6,7 +6,7 @@ module Tildeverse
   #
   # Relation model is:
   #   Data
-  #   └── TildeSite  (has many)
+  #   └── Site       (has many)
   #       └── User   (has many)
   #
   # When first instantiated, it will automatically scrape all user
@@ -61,7 +61,7 @@ module Tildeverse
     end
 
     ##
-    # @return [Array<TildeSite>] all sites in the Tildeverse
+    # @return [Array<Site>] all sites in the Tildeverse
     #
     def sites
       sites_hash.values
@@ -71,7 +71,7 @@ module Tildeverse
     # Find a site by name
     #
     # @param [String] site_name  Name of the site
-    # @return [TildeSite] First matching site
+    # @return [Site] First matching site
     # @return [nil] If no site matches
     #
     def site(site_name)
@@ -108,11 +108,11 @@ module Tildeverse
     # This is the main storage object.
     # The key is the name of the site.
     #
-    # @return [Hash{String => TildeSite}]
+    # @return [Hash{String => Site}]
     #
     def sites_hash
       @sites_hash ||= {}.tap do |hash|
-        Tildeverse::Site.classes.each do |klass|
+        Tildeverse::Sites.classes.each do |klass|
           site = klass.new
           hash[site.name] = site
         end

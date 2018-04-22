@@ -46,7 +46,7 @@ module Tildeverse
     # Use existing data, or create new if necessary.
     #
     def scrape_new_users
-      Tildeverse::Site.classes.each do |klass|
+      Tildeverse::Sites.classes.each do |klass|
         site = klass.new
         site.users
       end

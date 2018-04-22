@@ -27,8 +27,8 @@ module Tildeverse
     # Serialise an array of sites to a hash, with site name as the key,
     # then user name, then user details
     #
-    # @param [Array<TildeSite>] sites
-    # @return [Hash{String => TildeSite#serialize_for_output}]
+    # @param [Array<Site>] sites
+    # @return [Hash{String => Site#serialize_for_output}]
     #
     def serialize_sites(sites)
       {}.tap do |site_hash|

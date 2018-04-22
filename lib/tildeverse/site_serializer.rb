@@ -4,7 +4,7 @@ module Tildeverse
   ##
   # Methods for serialising a site full of users
   #
-  # To be included by the {TildeSite} class
+  # To be included by the {Site} class
   #
   module SiteSerializer
     ##

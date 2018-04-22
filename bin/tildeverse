@@ -230,7 +230,7 @@ module Tildeverse
     ##
     # Output a list of sites in a consistant way
     #
-    # @param [Array<TildeSite>] sites
+    # @param [Array<Site>] sites
     # @return [String] text to be put to stdout
     #
     def output_sites(sites)
