@@ -39,12 +39,26 @@ module Tildeverse
     end
 
     ##
-    # (see #scrape_data)
+    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
+    # Save the result to a cache file.
     #
-    # This overwrites {#data} with updated information
+    # If the list has already been scraped today, read from the cached file.
+    #
+    # This overwrites {#data} with updated information.
+    #
+    # @return [Array<Hash{Symbol => String}>]
+    #   Array of hashes that describe a user's updated time.
+    # @example
+    #   [
+    #     {
+    #       :site => "tilde.town",
+    #       :user => "nossidge",
+    #       :time => "2017-04-02T07:18:44"
+    #     }
+    #   ]
     #
     def get
-      @data = scrape_data
+      @data = parse_data(read_data)
     end
 
     ##
@@ -81,7 +95,30 @@ module Tildeverse
 
     ##
     # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
+    # Save the result to a cache file.
     #
+    # If the list has already been scraped today, read from the cached file.
+    #
+    # @return [Array<String>]
+    #   Array of HTML lines that describe a user's updated time.
+    #
+    def read_data
+      filepath = Files.dir_output + 'modified.html'
+      if Tildeverse.data.updated_today? && filepath.exist?
+        open(filepath).readlines.map(&:chomp).select { |i| i.match('<a href') }
+      else
+        [].tap do |a|
+          a.replace(remote.get.split("\n").select { |i| i.match('<a href') })
+          Files.save_array(a, filepath) if Files.dir_output.writable?
+        end
+      end
+    end
+
+    ##
+    # Parse ~insom's HTML formatted lines to a usable hash.
+    #
+    # @param [Array<String>] input_data
+    #   Array of HTML lines that describe a user's updated time.
     # @return [Array<Hash{Symbol => String}>]
     #   Array of hashes that describe a user's updated time.
     # @example
@@ -93,9 +130,8 @@ module Tildeverse
     #     }
     #   ]
     #
-    def scrape_data
-      lines = remote.get.split("\n").select { |i| i.match('<a href') }
-      lines.map do |i|
+    def parse_data(input_data)
+      input_data.map do |i|
         i = i.gsub('<br/>', '')
         i = i.gsub('</a>', '')
         i = i.split('>')[1..-1].join
