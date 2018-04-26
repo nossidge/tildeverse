@@ -219,7 +219,7 @@ module Tildeverse
             user.tags.join(' ')
           ]
         end
-        format_in_columns(output)
+        WSV.new(output).to_wsv
 
       elsif @options[:json] || @options[:pretty]
         obj = Tildeverse.data.serialize_users(users)
@@ -243,41 +243,11 @@ module Tildeverse
             site.users.count
           ]
         end
-        format_in_columns(output, rjust: [2])
+        WSV.new(output).to_wsv(rjust: [2])
 
       elsif @options[:json] || @options[:pretty]
         obj = Tildeverse.data.serialize_sites(sites)
         @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
-      end
-    end
-
-    ##
-    # Format a 2D array for output to console
-    # https://stackoverflow.com/a/11747678/139299
-    #
-    # @param [Array<Array<String>>] array
-    # @param [Array<Integer>] rjust
-    #   Elements that should be right-justified
-    #   Default is left-justified
-    #
-    def format_in_columns(array, rjust: [])
-      #
-      # Figure out max lengths, to use as the width of each column.
-      max_lengths = array[0].map(&:length)
-      array.each do |row|
-        row.each_with_index do |e, i|
-          s = e.size
-          max_lengths[i] = s if s > max_lengths[i]
-        end
-      end
-
-      # Format each row as one long string.
-      array.map do |row|
-        format = max_lengths.map.with_index do |value, index|
-          just = rjust.include?(index) ? '' : '-'
-          "%#{just}#{value}s"
-        end
-        format.join(' ' * 2) % row
       end
     end
   end
