@@ -25,6 +25,10 @@ require_relative 'tildeverse/fetcher'
 require_relative 'tildeverse/patcher'
 require_relative 'tildeverse/version'
 
+# Fixes bug with 'open-uri' not using 'tempfile' correctly.
+# 'could not find a temporary directory (ArgumentError)'
+ENV['TMPDIR'] = ENV['TMP'] = ENV['TEMP'] = Tildeverse::Files.dir_output.to_s
+
 ################################################################################
 
 ##
