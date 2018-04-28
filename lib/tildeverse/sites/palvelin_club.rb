@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +palvelin.club+
       #
       def initialize
-        super 'palvelin.club'
+        super({
+          name: 'palvelin.club',
+          root: 'http://palvelin.club/',
+          resource: 'http://palvelin.club/users.html',
+          url_format_user: 'http://palvelin.club/~USER/'
+        })
       end
 
       ##

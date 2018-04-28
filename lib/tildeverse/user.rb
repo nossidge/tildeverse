@@ -35,15 +35,30 @@ module Tildeverse
     ##
     # @param [Site] site The site the user belongs to.
     # @param [String] name The name of the user.
-    # @param [String] tagged The date the tags were last updated.
+    # @param [String] date_online The date the user first came online.
+    # @param [String] date_offline The date the user went offline.
+    # @param [String] date_modified The date the user site was last modified.
+    # @param [String] date_tagged The date the tags were last updated.
     # @param [Array<String>] tags A list of usersite tags for the user.
     #
-    def initialize(site, name, tagged = nil, tags = [])
-      @site   = site
-      @name   = name
-      @tagged = tagged
-      @tags   = tags
-      @online = false
+    def initialize(
+      site: nil,
+      name: nil,
+      date_online: '-',
+      date_offline: '-',
+      date_modified: '-',
+      date_tagged: '-',
+      tags: []
+    )
+      raise NoMethodError unless site && name
+      @site          = site
+      @name          = name
+      @date_online   = date_online
+      @date_offline  = date_offline
+      @date_modified = date_modified
+      @tagged        = date_tagged
+      @tags          = tags
+      @online        = false
     end
 
     ##

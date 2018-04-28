@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tilde.red+
       #
       def initialize
-        super 'tilde.red'
+        super({
+          name: 'tilde.red',
+          root: 'https://tilde.red/',
+          resource: 'https://tilde.red/',
+          url_format_user: 'https://tilde.red/~USER/'
+        })
       end
 
       ##

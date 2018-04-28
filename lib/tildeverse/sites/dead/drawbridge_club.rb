@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +drawbridge.club+
       #
       def initialize
-        super 'drawbridge.club'
+        super({
+          name: 'drawbridge.club',
+          root: 'http://drawbridge.club/',
+          resource: 'http://drawbridge.club/',
+          url_format_user: 'http://drawbridge.club/~USER/'
+        })
       end
 
       ##

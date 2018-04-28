@@ -78,6 +78,51 @@ module Tildeverse
       end
 
       ##
+      # TODO
+      #
+      def input_tildeverse_txt
+        return @input_tildeverse_txt if @input_tildeverse_txt
+
+        filepath = dir_input + 'tildeverse.txt'
+        file_contents = File.read(
+          filepath,
+          external_encoding: 'utf-8',
+          internal_encoding: 'utf-8'
+        )
+        wsv = WSV.new(file_contents.split("\n"))
+        hash_array = wsv.from_wsv_with_header.tap do |a|
+          a.each do |i|
+            i[:tags] ||= ''
+            i[:tags] = i[:tags].split(',')
+          end
+        end
+
+        # TODO: replace with something better.
+        # Serve the new 'tildeverse.txt' file in the same format as 'tildeverse.json'
+        @input_tildeverse_txt = {}.tap do |h|
+          h['metadata'] = {
+            'url' => 'http://tilde.town/~nossidge/tildeverse/'
+          }
+          h['sites'] = {}
+          hash_array.each do |i|
+            site = i[:site_name]
+            user = i[:user_name]
+            h['sites'][site] ||= {}
+            h['sites'][site]['users'] ||= {}
+            h['sites'][site]['users'][user] = {
+              :date_online => i[:date_online],
+              :date_offline => i[:date_offline],
+              :date_modified => i[:date_modified],
+              :date_tagged => i[:date_tagged],
+              :tags => i[:tags] || [],
+              'tagged' => i[:date_tagged],
+              'tags' => i[:tags] || []
+            }
+          end
+        end
+      end
+
+      ##
       # @return [Pathname] the HTML output file.
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/index.html'

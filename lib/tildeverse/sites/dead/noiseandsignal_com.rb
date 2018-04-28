@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +noiseandsignal.com+
       #
       def initialize
-        super 'noiseandsignal.com'
+        super({
+          name: 'noiseandsignal.com',
+          root: 'http://noiseandsignal.com/',
+          resource: 'http://noiseandsignal.com/',
+          url_format_user: 'http://noiseandsignal.com/~USER/'
+        })
       end
 
       ##

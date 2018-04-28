@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +retronet.net+
       #
       def initialize
-        super 'retronet.net'
+        super({
+          name: 'retronet.net',
+          root: 'http://retronet.net/',
+          resource: 'http://retronet.net/users.html',
+          url_format_user: 'http://retronet.net/~USER/'
+        })
       end
 
       ##

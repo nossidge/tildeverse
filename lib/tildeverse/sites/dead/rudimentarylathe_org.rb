@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +rudimentarylathe.org+
       #
       def initialize
-        super 'rudimentarylathe.org'
+        super({
+          name: 'rudimentarylathe.org',
+          root: 'http://rudimentarylathe.org/',
+          resource: 'http://rudimentarylathe.org/',
+          url_format_user: 'http://rudimentarylathe.org/~USER/'
+        })
       end
 
       ##

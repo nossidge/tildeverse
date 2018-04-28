@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +ofmanytrades.com+
       #
       def initialize
-        super 'ofmanytrades.com'
+        super({
+          name: 'ofmanytrades.com',
+          root: 'https://ofmanytrades.com/',
+          resource: 'https://ofmanytrades.com/',
+          url_format_user: 'https://ofmanytrades.com/~USER/'
+        })
       end
 
       ##

@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +matilde.club+
       #
       def initialize
-        super 'matilde.club'
+        super({
+          name: 'matilde.club',
+          root: 'http://matilde.club/',
+          resource: 'http://matilde.club/~mikker/users.html',
+          url_format_user: 'http://matilde.club/~USER/'
+        })
       end
 
       ##

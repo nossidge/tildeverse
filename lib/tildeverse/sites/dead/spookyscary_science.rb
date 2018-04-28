@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +spookyscary.science+
       #
       def initialize
-        super 'spookyscary.science'
+        super({
+          name: 'spookyscary.science',
+          root: 'https://spookyscary.science/',
+          resource: 'https://spookyscary.science/~',
+          url_format_user: 'https://spookyscary.science/~USER/'
+        })
       end
 
       ##

@@ -42,18 +42,26 @@ module Tildeverse
     attr_reader :url_format_user
 
     ##
-    # (see Tildeverse::RemoteResource#initialize)
+    # Returns a new instance of Site.
+    # All parameters are immutable once initialised.
     #
-    # Similar to {Tildeverse::RemoteResource#initialize}, except that only
-    # the site name needs to be specified. The root and resource parameters
-    # will be looked up using {Tildeverse::Files#input_tildeverse}.
+    # @param [String] name
+    #   An identifier for the connection.
+    # @param [String] root
+    #   The root URL of the domain.
+    # @param [String] resource
+    #   The URL of the user list.
+    #   If the resource is not specified, assume it's the same as root.
+    # @param [String] url_format_user
+    #   The format that the site uses to map users to their homepage.
     #
-    def initialize(name, root = nil, resource = nil)
-      @name     = name
-      json      = data_from_input_tildeverse
-      @root     = root     || json['url_root']
-      @resource = resource || json['url_list']
-      @url_format_user = json['url_format_user']
+    def initialize(name: nil, root: nil, resource: root, url_format_user: nil)
+      raise NoMethodError unless name
+
+      @name            = name
+      @root            = root
+      @resource        = resource
+      @url_format_user = url_format_user
 
       initialize_users
     end
@@ -144,8 +152,8 @@ module Tildeverse
     #
     # @return [Hash]
     #
-    def data_from_input_tildeverse
-      Tildeverse::Files.input_tildeverse['sites'][name]
+    def users_from_input_tildeverse
+      Tildeverse::Files.input_tildeverse_txt.dig('sites', name, 'users') || []
     end
 
     ##
@@ -159,13 +167,21 @@ module Tildeverse
       # Create the list of all users.
       # Initially, this will be just those users from the 'input' JSON.
       @all_users = {}.tap do |hash|
-        users = data_from_input_tildeverse['users'] || []
+        users = users_from_input_tildeverse
         users.each do |user_name, user_hash|
+
+          # Grab the most recent cached info from 'tildeverse.txt'
+          from_input_txt = users[user_name]
+
+          # Create a new User instance using the cached data.
           hash[user_name] = User.new(
-            self,
-            user_name,
-            user_hash['tagged'],
-            user_hash['tags']
+            site: self,
+            name: user_name,
+            date_online: from_input_txt[:date_online],
+            date_offline: from_input_txt[:date_offline],
+            date_modified: from_input_txt[:date_modified],
+            date_tagged: from_input_txt[:date_tagged],
+            tags: from_input_txt[:tags]
           )
         end
       end
@@ -177,7 +193,10 @@ module Tildeverse
       # Add the new users to @all_users.
       # They do not have 'tagged' or 'tags' data yet.
       new_users.each do |u_name|
-        @all_users[u_name] = User.new(self, u_name)
+        @all_users[u_name] = User.new(
+          site: self,
+          name: u_name
+        )
       end
 
       # Set the 'online' value of each user.

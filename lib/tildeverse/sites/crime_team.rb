@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +crime.team+
       #
       def initialize
-        super 'crime.team'
+        super({
+          name: 'crime.team',
+          root: 'https://crime.team/',
+          resource: 'https://crime.team/',
+          url_format_user: 'https://crime.team/~USER/'
+        })
       end
 
       ##

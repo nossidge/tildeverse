@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +bleepbloop.club+
       #
       def initialize
-        super 'bleepbloop.club'
+        super({
+          name: 'bleepbloop.club',
+          root: 'https://bleepbloop.club/',
+          resource: 'https://bleepbloop.club/~eos/',
+          url_format_user: 'https://bleepbloop.club/~USER/'
+        })
       end
 
       ##

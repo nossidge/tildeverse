@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +skylab.org+
       #
       def initialize
-        super 'skylab.org'
+        super({
+          name: 'skylab.org',
+          root: 'http://skylab.org/',
+          resource: 'http://skylab.org/',
+          url_format_user: 'http://skylab.org/~USER/'
+        })
       end
 
       ##

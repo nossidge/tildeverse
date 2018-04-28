@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +perispomeni.club+
       #
       def initialize
-        super 'perispomeni.club'
+        super({
+          name: 'perispomeni.club',
+          root: 'http://perispomeni.club/',
+          resource: 'http://perispomeni.club/',
+          url_format_user: 'http://perispomeni.club/~USER/'
+        })
       end
 
       ##

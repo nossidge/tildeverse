@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +oldbsd.club+
       #
       def initialize
-        super 'oldbsd.club'
+        super({
+          name: 'oldbsd.club',
+          root: 'http://oldbsd.club/',
+          resource: '',
+          url_format_user: ''
+        })
       end
 
       ##

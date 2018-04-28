@@ -10,7 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +totallynuclear.club+
       #
       def initialize
-        super 'totallynuclear.club'
+        super({
+          name: 'totallynuclear.club',
+          root: 'http://totallynuclear.club/',
+          resource: 'http://totallynuclear.club/',
+          url_format_user: 'http://totallynuclear.club/~USER/'
+        })
       end
 
       ##
