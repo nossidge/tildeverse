@@ -79,10 +79,13 @@ module Tildeverse
     end
 
     ##
+    # Since this is the 'public' interface for the data, only return those
+    # users who are online.
+    #
     # @return [Array<User>] a list of all online users in the Tildeverse
     #
     def users
-      sites.map(&:users).flatten!
+      sites.map!(&:users).flatten!.select!(&:online?)
     end
 
     ##

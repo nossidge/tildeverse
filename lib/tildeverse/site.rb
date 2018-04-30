@@ -81,14 +81,10 @@ module Tildeverse
     end
 
     ##
-    # Since this is the 'public' interface for this class, only return those
-    # users who are online. I can't imagine any situation where another class
-    # will need to know about old users.
-    #
-    # @return [Array<User>] All users of the site
+    # @return [Array<User>] all users of the site
     #
     def users
-      @all_users.values.select(&:online?).sort_by(&:name)
+      @all_users.values.sort_by(&:name)
     end
 
     ############################################################################
