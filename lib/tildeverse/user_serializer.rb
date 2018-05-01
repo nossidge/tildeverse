@@ -14,8 +14,8 @@ module Tildeverse
     #
     def serialize_input
       {}.tap do |h|
-        h[:tagged] = tagged if tagged
-        h[:tags]   = tags   if tags
+        h[:tagged] = date_tagged if date_tagged
+        h[:tags]   = tags        if tags
       end
     end
 
@@ -26,8 +26,8 @@ module Tildeverse
     #
     def serialize_output
       {}.tap do |h|
-        h[:tagged] = tagged if tagged
-        h[:tags]   = tags   if tags
+        h[:tagged] = date_tagged if date_tagged
+        h[:tags]   = tags        if tags
         h[:time]   = modified_date
       end
     end

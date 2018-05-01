@@ -25,7 +25,7 @@ module Tildeverse
     ##
     # @return [String, nil] The date the tags were last updated.
     #
-    attr_reader :tagged
+    attr_reader :date_tagged
 
     ##
     # @return [Array<String>] A list of usersite tags for the user.
@@ -56,9 +56,25 @@ module Tildeverse
       @date_online   = date_online
       @date_offline  = date_offline
       @date_modified = date_modified
-      @tagged        = date_tagged
+      @date_tagged   = date_tagged
       @tags          = tags
       @online        = false
+    end
+
+    ##
+    # @return [String] string representation of the contents of the instance
+    #
+    def to_s
+      {
+        site:           @site.name,
+        name:           @name,
+        date_online:    @date_online,
+        date_offline:   @date_offline,
+        date_modified:  @date_modified,
+        date_tagged:    @date_tagged,
+        tags:           @tags.join(','),
+        online:         @online,
+      }.to_s
     end
 
     ##
