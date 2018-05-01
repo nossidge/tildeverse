@@ -60,11 +60,7 @@ module Tildeverse
       #
       def input_tildeverse!
         @@input_tildeverse = JSON[
-          File.read(
-            input_json_tildeverse,
-            external_encoding: 'utf-8',
-            internal_encoding: 'utf-8'
-          )
+          read_utf8(input_json_tildeverse)
         ]
       end
 
@@ -84,11 +80,8 @@ module Tildeverse
         return @input_tildeverse_txt if @input_tildeverse_txt
 
         filepath = dir_input + 'tildeverse.txt'
-        file_contents = File.read(
-          filepath,
-          external_encoding: 'utf-8',
-          internal_encoding: 'utf-8'
-        )
+        file_contents = read_utf8(filepath)
+
         wsv = WSV.new(file_contents.split("\n"))
         hash_array = wsv.from_wsv_with_header.tap do |a|
           a.each do |i|
@@ -160,11 +153,7 @@ module Tildeverse
       def output_tildeverse!
         @@output_tildeverse = begin
           JSON[
-            File.read(
-              output_json_tildeverse,
-              external_encoding: 'utf-8',
-              internal_encoding: 'utf-8'
-            )
+            read_utf8(output_json_tildeverse)
           ]
         rescue Errno::ENOENT
           {}
@@ -274,6 +263,20 @@ module Tildeverse
       #
       def makedirs(pathname)
         FileUtils.makedirs pathname
+      end
+
+      ##
+      # Read a text file ensuring UTF8 encoding.
+      #
+      # @param [Pathname, String] filepath  Location of input file.
+      # @return [String] File contents.
+      #
+      def read_utf8(filepath)
+        File.read(
+          filepath,
+          external_encoding: 'utf-8',
+          internal_encoding: 'utf-8'
+        )
       end
     end
   end

@@ -286,7 +286,7 @@ module Tildeverse
     # @return [Array] list of users.
     #
     def read_users_from_file
-      open(filepath).readlines.map(&:chomp).sort
+      Files.read_utf8(filepath).split("\n")
     end
 
     ##
