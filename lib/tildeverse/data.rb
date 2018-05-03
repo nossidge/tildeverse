@@ -79,13 +79,10 @@ module Tildeverse
     end
 
     ##
-    # Since this is the 'public' interface for the data, only return those
-    # users who are online.
-    #
-    # @return [Array<User>] a list of all online users in the Tildeverse
+    # @return [Array<User>] the list of all users in the Tildeverse
     #
     def users
-      sites.map!(&:users).flatten!.select!(&:online?)
+      sites.map!(&:users).flatten!
     end
 
     ##
@@ -93,16 +90,10 @@ module Tildeverse
     # There may be multiple users with the same account name on different
     # sites, so the return must be an array.
     #
-    # @return [Array<User>] a list of all users in the Tildeverse
-    # @return [nil] if the user cannot be found
+    # @return [Array<User>] the list of all matching users in the Tildeverse
     #
     def user(user_name)
-      [].tap do |array|
-        sites.each do |site|
-          user = site.user(user_name)
-          array << user if user && user.online?
-        end
-      end
+      users.select! { |i| i.name == user_name }
     end
 
     private

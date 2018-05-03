@@ -27,7 +27,7 @@ require_relative 'tildeverse/version'
 
 # Fixes bug with 'open-uri' not using 'tempfile' correctly.
 # 'could not find a temporary directory (ArgumentError)'
-ENV['TMPDIR'] = ENV['TMP'] = ENV['TEMP'] = Tildeverse::Files.dir_output.to_s
+ENV['TMPDIR'] = Tildeverse::Files.dir_output.to_s
 
 ################################################################################
 
@@ -60,15 +60,21 @@ module Tildeverse
     ##
     # (see Tildeverse::Data#users)
     #
+    # Since this is the 'public' interface for the data, only return those
+    # users who are online.
+    #
     def users
-      data.users
+      data.users.select(&:online?)
     end
 
     ##
     # (see Tildeverse::Data#user)
     #
+    # Since this is the 'public' interface for the data, only return those
+    # users who are online.
+    #
     def user(user_name)
-      data.user(user_name)
+      data.user(user_name).select(&:online?)
     end
 
     ##
