@@ -214,9 +214,9 @@ module Tildeverse
             user.site.name,
             user.name,
             user.url,
-            user.modified_date.split('T').first,
+            user.date_modified,
             user.date_tagged || '-',
-            user.tags.join(',')
+            user.tags.empty? ? '-' : user.tags.join(',')
           ]
         end
         WSV.new(output).to_wsv

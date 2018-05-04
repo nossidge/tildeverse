@@ -5,7 +5,6 @@ require 'net/https'
 require 'open-uri'
 require 'json'
 require 'fileutils'
-require 'singleton'
 
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/wsv'
@@ -37,7 +36,7 @@ ENV['TMPDIR'] = Tildeverse::Files.dir_output.to_s
 module Tildeverse
   class << self
     ##
-    # Reference to the {Tildeverse::Data} singleton instance
+    # Reference to the {Tildeverse::Data} instance
     #
     def data
       @data ||= Tildeverse::Data.new

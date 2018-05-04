@@ -17,6 +17,7 @@ module Tildeverse
     def scrape
       return false unless write_permissions?
       scrape_new_users
+      update_mod_dates
       save_tildeverse_json
       save_users_json
       copy_static_files
@@ -49,6 +50,17 @@ module Tildeverse
       Tildeverse::Sites.classes.each do |klass|
         site = klass.new
         site.users
+      end
+    end
+
+    ##
+    # Update modified date for all users.
+    #
+    def update_mod_dates
+      mod_dates = ModifiedDates.new
+      Tildeverse.data.users.each do |user|
+        date = mod_dates.for_user(user.site.name, user.name) || '-'
+        user.date_modified = date
       end
     end
 

@@ -32,6 +32,9 @@ module Tildeverse
     #
     attr_reader :tags
 
+    # TODO
+    attr_accessor :date_modified
+
     ##
     # @param [Site] site The site the user belongs to.
     # @param [String] name The name of the user.
@@ -42,15 +45,14 @@ module Tildeverse
     # @param [Array<String>] tags A list of usersite tags for the user.
     #
     def initialize(
-      site: nil,
-      name: nil,
+      site:,
+      name:,
       date_online: '-',
       date_offline: '-',
       date_modified: '-',
       date_tagged: '-',
       tags: []
     )
-      raise NoMethodError unless site && name
       @site          = site
       @name          = name
       @date_online   = date_online
@@ -120,15 +122,6 @@ module Tildeverse
     #
     def email
       site.user_email(name)
-    end
-
-    ##
-    # Return the modified date of the user page
-    #
-    # @return [String] string representation of the datetime
-    #
-    def modified_date
-      ModifiedDates.instance.for_user(site.name, name) || '-'
     end
   end
 end

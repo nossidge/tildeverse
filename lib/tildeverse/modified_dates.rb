@@ -1,22 +1,15 @@
 #!/usr/bin/env ruby
 
-require 'singleton'
-
 module Tildeverse
   ##
   # Scrape modified dates from ~insom's list,
   # http://tilde.town/~insom/modified.html.
-  #
-  # This is a singleton, in order to keep remote requests
-  # cached throughout the runtime.
   #
   # Use {#get} to overwrite the cache with a new remote scrape.
   #
   # Use {#data} to return the most recent cache.
   #
   class ModifiedDates
-    include Singleton
-
     ##
     # @return [Array<Hash{Symbol => String}>]
     #   Array of hashes that describe a user's updated time.
@@ -25,7 +18,7 @@ module Tildeverse
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02T07:18:44"
+    #       :time => "2017-04-02"
     #     }
     #   ]
     #
@@ -53,7 +46,7 @@ module Tildeverse
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02T07:18:44"
+    #       :time => "2017-04-02"
     #     }
     #   ]
     #
@@ -95,23 +88,12 @@ module Tildeverse
 
     ##
     # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
-    # Save the result to a cache file.
-    #
-    # If the list has already been scraped today, read from the cached file.
     #
     # @return [Array<String>]
     #   Array of HTML lines that describe a user's updated time.
     #
     def read_data
-      filepath = Files.dir_output + 'modified.html'
-      if Tildeverse.data.updated_today? && filepath.exist?
-        open(filepath).readlines.map(&:chomp).select { |i| i.match('<a href') }
-      else
-        [].tap do |a|
-          a.replace(remote.get.split("\n").select { |i| i.match('<a href') })
-          Files.save_array(a, filepath) if Files.dir_output.writable?
-        end
-      end
+      remote.get.split("\n").select { |i| i.match('<a href') }
     end
 
     ##
@@ -126,7 +108,7 @@ module Tildeverse
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02T07:18:44"
+    #       :time => "2017-04-02"
     #     }
     #   ]
     #
@@ -138,7 +120,7 @@ module Tildeverse
         {
           site: i.split('/')[2],
           user: i.split('/')[3].delete('~'),
-          time: i.split(' -- ')[1]
+          time: i.split(' -- ')[1].split('T').first
         }
       end
     end

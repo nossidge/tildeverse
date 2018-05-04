@@ -153,7 +153,7 @@ module Tildeverse
           # If the field does not contain a value, fill with spaces.
           index < row.count ? "%#{just}#{value}s" : ' ' * value
         end
-        format.join(' ' * 2) % row
+        (format.join(' ' * 2) % row).rstrip
       end
     end
   end
