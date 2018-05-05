@@ -32,7 +32,9 @@ module Tildeverse
         @users = con.result.split("\n").map do |i|
           members_found = true if i.strip == '<p>Current users:</p>'
           next unless members_found && i =~ /<li><a href/
-          i.split('~').last.split('<').first.strip
+          user = i.split('~').last.split('<').first.strip
+          user = 'tildesarecool' if user == 'tilesarecool'
+          user
         end.compact.sort.uniq
         puts no_user_message if @users.empty?
         @users
