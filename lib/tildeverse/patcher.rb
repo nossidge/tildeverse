@@ -14,6 +14,11 @@ module Tildeverse
     # @return [Boolean] success state.
     #
     def patch
+
+
+      raise 'TODO: In progress'
+
+
       return false unless write_permissions?
 
       # This is the JSON object that will be updated.

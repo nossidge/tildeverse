@@ -11,6 +11,11 @@ module Tildeverse
     # @return [Boolean] success state.
     #
     def fetch
+
+
+      raise 'TODO: In progress'
+
+
       return false unless write_permissions?
 
       # Set up a connection to the remote JSON file.

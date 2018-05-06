@@ -13,16 +13,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_for_output
-      serialize(@users_online, 'output')
-    end
-
-    ##
-    # Serialize the data for writing to {Files#input_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_for_input
-      serialize(@users_tagged, 'input')
+      serialize(users.select(&:online?), 'output')
     end
 
     private
@@ -30,7 +21,7 @@ module Tildeverse
     ##
     # Serialize the data
     #
-    # @param [Array<String>] users_array list of user names to display
+    # @param [Array<User>] users_array list of users to display
     # @param [String] type either 'input' or 'output'
     #
     def serialize(users_array, type)
@@ -46,7 +37,7 @@ module Tildeverse
     end
 
     ##
-    # @param [Array<String>] users_array list of user names to display
+    # @param [Array<User>] users_array list of users to display
     # @param [String] type either 'input' or 'output'
     # @return [Hash]
     #
@@ -54,7 +45,7 @@ module Tildeverse
       raise ArgumentError unless %w[input output].include?(type)
       {}.tap do |h|
         users_array.each do |user|
-          h[user] = @all_users[user].send("serialize_#{type}")
+          h[user.name] = user.send("serialize_#{type}")
         end
       end
     end

@@ -33,6 +33,8 @@ module Tildeverse
     attr_reader :tags
 
     # TODO
+    attr_reader :date_online
+    attr_accessor :date_offline
     attr_accessor :date_modified
 
     ##
@@ -60,7 +62,6 @@ module Tildeverse
       @date_modified = date_modified
       @date_tagged   = date_tagged
       @tags          = tags
-      @online        = false
     end
 
     ##
@@ -75,25 +76,17 @@ module Tildeverse
         date_modified:  @date_modified,
         date_tagged:    @date_tagged,
         tags:           @tags.join(','),
-        online:         @online,
+        online:         online?
       }.to_s
     end
 
     ##
-    # Set a boolean for the {#online?} method
+    # This is based on the values of {date_online} and {date_offline}.
     #
-    # @param [Boolean] boolean whether or not the user is online
-    #
-    def online=(boolean)
-      raise ArgumentError unless [true, false].include?(boolean)
-      @online = boolean
-    end
-
-    ##
     # @return [Boolean] whether or not the user is online
     #
     def online?
-      @online
+      @date_online != '-' && @date_offline == '-'
     end
 
     ##

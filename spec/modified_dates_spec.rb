@@ -2,7 +2,7 @@
 
 describe 'Tildeverse::ModifiedDates' do
   def instance
-    Tildeverse::ModifiedDates.instance
+    @instance ||= Tildeverse::ModifiedDates.new
   end
 
   it '#data' do
@@ -17,7 +17,7 @@ describe 'Tildeverse::ModifiedDates' do
     expect(result.first[:junk]).to be_nil
 
     result.each do |i|
-      Time.strptime(i[:time], '%Y-%m-%dT%H:%M:%S')
+      Time.strptime(i[:time], '%Y-%m-%d')
     end
   end
 

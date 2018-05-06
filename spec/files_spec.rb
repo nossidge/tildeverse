@@ -57,18 +57,6 @@ describe 'Tildeverse::Files' do
     expect(filepath).to eq check
   end
 
-  it '#input_html_template' do
-    filepath = Tildeverse::Files.input_html_template
-    check = rootpath + 'input' + 'index_template.html'
-    expect(filepath).to eq check
-  end
-
-  it '#input_json_tildeverse' do
-    filepath = Tildeverse::Files.input_json_tildeverse
-    check = rootpath + 'input' + 'tildeverse.json'
-    expect(filepath).to eq check
-  end
-
   it '#output_html_index' do
     filepath = Tildeverse::Files.output_html_index
     check = rootpath + 'output' + 'index.html'
@@ -85,18 +73,6 @@ describe 'Tildeverse::Files' do
     filepath = Tildeverse::Files.output_json_tildeverse
     check = rootpath + 'output' + 'tildeverse.json'
     expect(filepath).to eq check
-  end
-
-  it '#input_tildeverse!' do
-    data = Tildeverse::Files.input_tildeverse!
-    expect(data).to be_a Hash
-    expect(data).to_not be_empty
-
-    singleton = Tildeverse::Files.dup
-    def singleton.input_json_tildeverse
-      'foo/not_valid/sausage.json'
-    end
-    expect { singleton.input_tildeverse! }.to raise_error(Errno::ENOENT)
   end
 
   it '#output_tildeverse!' do

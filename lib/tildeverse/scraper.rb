@@ -16,8 +16,9 @@ module Tildeverse
     #
     def scrape
       return false unless write_permissions?
-      scrape_new_users
+      scrape_all_sites
       update_mod_dates
+      save_tildeverse_txt
       save_tildeverse_json
       save_users_json
       copy_static_files
@@ -44,13 +45,9 @@ module Tildeverse
 
     ##
     # Add new users to the hash, for all sites.
-    # Use existing data, or create new if necessary.
     #
-    def scrape_new_users
-      Tildeverse::Sites.classes.each do |klass|
-        site = klass.new
-        site.users
-      end
+    def scrape_all_sites
+      Tildeverse.sites.each(&:scrape)
     end
 
     ##
@@ -62,6 +59,15 @@ module Tildeverse
         date = mod_dates.for_user(user.site.name, user.name) || '-'
         user.date_modified = date
       end
+    end
+
+    ##
+    # Write the hash to 'tildeverse.txt'.
+    #
+    def save_tildeverse_txt
+      filepath = Files.dir_input + 'tildeverse.txt'
+      wsv = Tildeverse.data.serialize_tildeverse_txt
+      Files.save_array(wsv, filepath)
     end
 
     ##

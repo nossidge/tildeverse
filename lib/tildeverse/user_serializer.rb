@@ -8,18 +8,6 @@ module Tildeverse
   #
   module UserSerializer
     ##
-    # Serialize the data for writing to {Files#input_json_tildeverse}
-    #
-    # @return [Hash]
-    #
-    def serialize_input
-      {}.tap do |h|
-        h[:tagged] = date_tagged if date_tagged
-        h[:tags]   = tags        if tags
-      end
-    end
-
-    ##
     # Serialize the data for writing to {Files#output_json_tildeverse}
     #
     # @return [Hash]

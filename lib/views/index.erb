@@ -72,7 +72,8 @@
           time.setSeconds(0);
           time.setMilliseconds(0);
           let newlyUpdated = (time > tagged);
-          let noTags = (typeof siteUsers[user]["tags"] == "undefined");
+          let noTags = (typeof siteUsers[user]["tags"] == "undefined")
+                        || (siteUsers[user]["tags"].length == 0);
           if (noTags || newlyUpdated) {
             let obj = {
               index: i++,

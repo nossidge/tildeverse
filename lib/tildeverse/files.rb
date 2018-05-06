@@ -38,51 +38,56 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the template file for the HTML output.
+      # Read in the contents of 'tildeverse.txt' and parse to a Hash
+      #
+      # @return [Hash]
       # @example
-      #   'C:/Dropbox/Code/Ruby/tildeverse/input/index_template.html'
-      #
-      def input_html_template
-        dir_input + 'index_template.html'
-      end
-
-      ##
-      # @return [Pathname] the input 'tildeverse' JSON file.
-      # @example
-      #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse.json'
-      #
-      def input_json_tildeverse
-        dir_input + 'tildeverse.json'
-      end
-
-      ##
-      # @return [Hash] the contents of {Files#input_json_tildeverse}
-      #
-      def input_tildeverse!
-        @@input_tildeverse = JSON[
-          read_utf8(input_json_tildeverse)
-        ]
-      end
-
-      ##
-      # Same as {Files#input_tildeverse!}, but result is cached.
-      #
-      # @return [Hash] the contents of {Files#input_json_tildeverse}
-      #
-      def input_tildeverse
-        @@input_tildeverse ||= input_tildeverse!
-      end
-
-      ##
-      # TODO
+      #   {
+      #     'tilde.town' => {
+      #       'karlen' => {
+      #         :date_online => '2018-04-01',
+      #         :date_offline => '-',
+      #         :date_modified => '2017-12-04',
+      #         :date_tagged => '2018-03-10',
+      #         :tags => [
+      #           'art',
+      #           'audio'
+      #         ]
+      #       },
+      #       'nossidge' => {
+      #         :date_online => '2018-04-01',
+      #         :date_offline => '-',
+      #         :date_modified => '2017-04-02',
+      #         :date_tagged => '2017-08-14',
+      #         :tags => [
+      #           'art',
+      #           'audio',
+      #           'gaming',
+      #           'poetry',
+      #           'procgen',
+      #           'prose',
+      #           'tilde',
+      #           'web1.0'
+      #         ]
+      #       },
+      #       'untagged_john_doe' => {
+      #         :date_online => '2018-05-02',
+      #         :date_offline => '-',
+      #         :date_modified => '-',
+      #         :date_tagged => '-',
+      #         :tags => []
+      #       }
+      #     }
+      #   }
       #
       def input_tildeverse_txt
         return @input_tildeverse_txt if @input_tildeverse_txt
 
         filepath = dir_input + 'tildeverse.txt'
         file_contents = read_utf8(filepath)
-
         wsv = WSV.new(file_contents.split("\n"))
+
+        # Convert the 'tags' property to an array.
         hash_array = wsv.from_wsv_with_header.tap do |a|
           a.each do |i|
             i[:tags] ||= ''
@@ -90,26 +95,18 @@ module Tildeverse
           end
         end
 
-        # TODO: replace with something better.
-        # Serve the new 'tildeverse.txt' file in the same format as 'tildeverse.json'
+        # Return in the format 'hash[site][user] => { user details }'
         @input_tildeverse_txt = {}.tap do |h|
-          h['metadata'] = {
-            'url' => 'http://tilde.town/~nossidge/tildeverse/'
-          }
-          h['sites'] = {}
           hash_array.each do |i|
             site = i[:site_name]
             user = i[:user_name]
-            h['sites'][site] ||= {}
-            h['sites'][site]['users'] ||= {}
-            h['sites'][site]['users'][user] = {
+            h[site] ||= {}
+            h[site][user] = {
               :date_online => i[:date_online],
               :date_offline => i[:date_offline],
               :date_modified => i[:date_modified],
               :date_tagged => i[:date_tagged],
-              :tags => i[:tags] || [],
-              'tagged' => i[:date_tagged],
-              'tags' => i[:tags] || []
+              :tags => i[:tags] || []
             }
           end
         end

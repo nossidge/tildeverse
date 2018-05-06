@@ -151,9 +151,11 @@ module Tildeverse
       @result = page.read
       @valid_root = true
       @valid_resource = true
-    rescue StandardError
-      @result = nil
-      @valid_resource = false
+    # rescueSocketError
+    # If you are not connected to the internet
+#    rescue StandardError
+#      @result = nil
+#      @valid_resource = false
     end
 
     ##
@@ -166,8 +168,8 @@ module Tildeverse
       # We don't need the actual response, just catch it if it fails.
       open(@root, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
       @valid_root = true
-    rescue StandardError
-      @valid_root = false
+#    rescue StandardError
+#      @valid_root = false
     end
   end
 end

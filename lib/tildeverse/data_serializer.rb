@@ -32,7 +32,7 @@ module Tildeverse
     #
     def serialize_sites(sites)
       {}.tap do |site_hash|
-        sites.each do |site|
+        [*sites].each do |site|
           site_hash[site.name] = site.serialize_for_output
         end
       end
@@ -70,6 +70,22 @@ module Tildeverse
           end
         end
       end
+    end
+
+    ##
+    # Serialize all users as an array of WSV formatted strings,
+    # including a header row
+    #
+    # @return [Array<String>]
+    #
+    def serialize_tildeverse_txt
+      header = %w[
+        SITE_NAME USER_NAME DATE_ONLINE DATE_OFFLINE
+        DATE_MODIFIED DATE_TAGGED TAGS
+      ]
+      all_users = sites.map!(&:users).flatten!
+      user_table = [header] + all_users.map!(&:serialize_to_txt_array)
+      WSV.new(user_table).to_wsv
     end
   end
 end

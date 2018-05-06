@@ -43,7 +43,9 @@ module Tildeverse
 
     ##
     # Returns a new instance of Site.
-    # All parameters are immutable once initialised.
+    #
+    # User array will be initialised with the contents of 'tildeverse.txt'
+    # for that site. To get new users from remote location, run {#scrape}
     #
     # @param [String] name
     #   An identifier for the connection.
@@ -141,6 +143,43 @@ module Tildeverse
 
     ############################################################################
 
+    ##
+    # Query the remote resource to get the most up-to-date user list.
+    # Add new users and update the information of existing users.
+    #
+    def scrape
+      return unless online?
+
+      # These are the users we already know about.
+      existing_users = @all_users.keys.sort
+
+      # These are the users from the remote list.
+      remote_users = scrape_users.sort
+
+      # TODO: Remove this:
+      Files.save_array(remote_users, filepath)
+
+      # Add new user accounts to @all_users.
+      # They do not have 'tagged' or 'tags' data yet.
+      new_users = remote_users - existing_users
+      new_users.each do |user_name|
+        @all_users[user_name] = User.new(
+          site: self,
+          name: user_name,
+          date_online: Date.today.to_s,
+        )
+      end
+
+      # Flag newly dead user accounts to date_offline = today.
+      dead_users = existing_users - remote_users
+      dead_users.each do |user_name|
+        user = @all_users[user_name]
+        user.date_offline = Date.today.to_s if user.online?
+      end
+    end
+
+    ############################################################################
+
     private
 
     ##
@@ -149,14 +188,13 @@ module Tildeverse
     # @return [Hash]
     #
     def users_from_input_tildeverse
-      Tildeverse::Files.input_tildeverse_txt.dig('sites', name, 'users') || []
+      Tildeverse::Files.input_tildeverse_txt[name] || []
     end
 
     ##
     # Build up the @all_users hash, by finding user tagging data from
     # {Tildeverse::Files#input_tildeverse} and online users from the remote
-    # location. This will set the data that can be read by @users_tagged
-    # and @users_online
+    # location.
     #
     def initialize_users
       #
@@ -181,24 +219,6 @@ module Tildeverse
           )
         end
       end
-      @users_tagged = @all_users.keys.sort
-
-      # Scrape the online users, to find any new accounts.
-      new_users = scrape_online_users - @users_tagged
-
-      # Add the new users to @all_users.
-      # They do not have 'tagged' or 'tags' data yet.
-      new_users.each do |u_name|
-        @all_users[u_name] = User.new(
-          site: self,
-          name: u_name
-        )
-      end
-
-      # Set the 'online' value of each user.
-      @users_online.each do |u_name|
-        @all_users[u_name].online = true
-      end
     end
 
     ##
@@ -219,32 +239,6 @@ module Tildeverse
       @remote
     end
     alias con connection
-
-    ##
-    # Return the users of this Tilde site. In order to reduce HTTP requests,
-    # read from a cached instance variable, or from today's user list file,
-    # if either exist.
-    #
-    # @return [Array<String>] the online users of the site.
-    #
-    def scrape_online_users
-      return @users_online = [] unless online?
-      return @users_online if @users_online
-      return @users_online = read_users_from_file if filepath.exist?
-      scrape_online_users!
-    end
-
-    ##
-    # Return the users of this Tilde site. Scrape this directly from the
-    # remote server, ignoring and overwriting any existing user list data.
-    #
-    # @return [Array<String>] the online users of the site.
-    #
-    def scrape_online_users!
-      @users_online = scrape_users.sort
-      Files.save_array(@users_online, filepath)
-      @users_online
-    end
 
     ##
     # This needs to be overwritten by child classes. It should specify how
@@ -279,14 +273,6 @@ module Tildeverse
     #
     def filepath
       pathname + filename
-    end
-
-    ##
-    # Read user list from today's cached file.
-    # @return [Array] list of users.
-    #
-    def read_users_from_file
-      Files.read_utf8(filepath).split("\n")
     end
 
     ##
