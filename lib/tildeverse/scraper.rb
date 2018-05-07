@@ -18,8 +18,7 @@ module Tildeverse
       return false unless write_permissions?
       scrape_all_sites
       update_mod_dates
-      save_tildeverse_txt
-      save_tildeverse_json
+      Tildeverse.data.save
       save_users_json
       copy_static_files
       true
@@ -59,24 +58,6 @@ module Tildeverse
         date = mod_dates.for_user(user.site.name, user.name) || '-'
         user.date_modified = date
       end
-    end
-
-    ##
-    # Write the hash to 'tildeverse.txt'.
-    #
-    def save_tildeverse_txt
-      filepath = Files.dir_input + 'tildeverse.txt'
-      wsv = Tildeverse.data.serialize_tildeverse_txt
-      Files.save_array(wsv, filepath)
-    end
-
-    ##
-    # Write the hash to 'tildeverse.json'.
-    #
-    def save_tildeverse_json
-      json = Tildeverse.data.serialize_tildeverse_json
-      file = Tildeverse::Files.output_json_tildeverse
-      Tildeverse::Files.save_json(json, file)
     end
 
     ##

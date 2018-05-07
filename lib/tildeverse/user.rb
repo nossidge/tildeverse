@@ -81,6 +81,17 @@ module Tildeverse
     end
 
     ##
+    # Set the {tags} attribute
+    #
+    # @param [Array<String>] tags the array of tags
+    # @return [Array<String>] the array of tags
+    #
+    def tags=(tags)
+      @date_tagged = Date.today.to_s
+      @tags = [*tags].flatten.sort.uniq
+    end
+
+    ##
     # This is based on the values of {date_online} and {date_offline}.
     #
     # @return [Boolean] whether or not the user is online

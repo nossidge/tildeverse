@@ -86,6 +86,19 @@ module Tildeverse
       users.select! { |i| i.name == user_name }
     end
 
+    ##
+    # Serialise data to files 'tildeverse.txt' and 'tildeverse.json'
+    #
+    def save
+      wsv = serialize_tildeverse_txt
+      file = Files.dir_input + 'tildeverse.txt'
+      Files.save_array(wsv, file)
+
+      json = serialize_tildeverse_json
+      file = Files.output_json_tildeverse
+      Files.save_json(json, file)
+    end
+
     private
 
     ##
