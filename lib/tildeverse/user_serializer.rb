@@ -8,6 +8,22 @@ module Tildeverse
   #
   module UserSerializer
     ##
+    # @return [String] string representation of the contents of the instance
+    #
+    def to_s
+      {
+        site:           @site.name,
+        name:           @name,
+        date_online:    @date_online,
+        date_offline:   @date_offline,
+        date_modified:  @date_modified,
+        date_tagged:    @date_tagged,
+        tags:           @tags.join(','),
+        online:         online?
+      }.to_s
+    end
+
+    ##
     # Serialize the data for writing to {Files#output_json_tildeverse}
     #
     # @return [Hash]

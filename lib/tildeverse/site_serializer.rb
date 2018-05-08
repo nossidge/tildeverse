@@ -12,8 +12,8 @@ module Tildeverse
     #
     # @return [Hash]
     #
-    def serialize_for_output
-      serialize(users.select(&:online?), 'output')
+    def serialize_output
+      serialize(users.select(&:online?))
     end
 
     private
@@ -22,30 +22,26 @@ module Tildeverse
     # Serialize the data
     #
     # @param [Array<User>] users_array list of users to display
-    # @param [String] type either 'input' or 'output'
     #
-    def serialize(users_array, type)
-      raise ArgumentError unless %w[input output].include?(type)
+    def serialize(users_array)
       {}.tap do |h|
         h[:url_root]        = root
         h[:url_list]        = resource
         h[:url_format_user] = url_format_user
-        h[:online]          = online?           if type == 'output'
-        h[:user_count]      = users_array.count if type == 'output'
-        h[:users]           = serialize_users(users_array, type)
+        h[:online]          = online?
+        h[:user_count]      = users_array.count
+        h[:users]           = serialize_users(users_array)
       end
     end
 
     ##
     # @param [Array<User>] users_array list of users to display
-    # @param [String] type either 'input' or 'output'
     # @return [Hash]
     #
-    def serialize_users(users_array, type)
-      raise ArgumentError unless %w[input output].include?(type)
+    def serialize_users(users_array)
       {}.tap do |h|
         users_array.each do |user|
-          h[user.name] = user.send("serialize_#{type}")
+          h[user.name] = user.serialize_output
         end
       end
     end

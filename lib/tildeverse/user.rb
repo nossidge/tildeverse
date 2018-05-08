@@ -65,22 +65,6 @@ module Tildeverse
     end
 
     ##
-    # @return [String] string representation of the contents of the instance
-    #
-    def to_s
-      {
-        site:           @site.name,
-        name:           @name,
-        date_online:    @date_online,
-        date_offline:   @date_offline,
-        date_modified:  @date_modified,
-        date_tagged:    @date_tagged,
-        tags:           @tags.join(','),
-        online:         online?
-      }.to_s
-    end
-
-    ##
     # Set the {tags} attribute
     #
     # @param [Array<String>] tags the array of tags

@@ -28,12 +28,12 @@ module Tildeverse
     # then user name, then user details
     #
     # @param [Array<Site>] sites
-    # @return [Hash{String => Site#serialize_for_output}]
+    # @return [Hash{String => Site#serialize_output}]
     #
     def serialize_sites(sites)
       {}.tap do |site_hash|
         [*sites].each do |site|
-          site_hash[site.name] = site.serialize_for_output
+          site_hash[site.name] = site.serialize_output
         end
       end
     end
