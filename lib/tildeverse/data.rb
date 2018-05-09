@@ -99,6 +99,25 @@ module Tildeverse
       Files.save_json(json, file)
     end
 
+    ##
+    # Save HTML and JS files and generate data for the website output
+    #
+    def save_website
+      #
+      # Write 'users.json' for backwards compatibility.
+      # Used by http://tilde.town/~insom/modified.html
+      json = serialize_users_json
+      file = Files.output_json_users
+      Files.save_json(json, file)
+
+      # Copy all static files to the output directory.
+      Files.files_to_copy.each do |f|
+        from = Files.dir_input  + f
+        to   = Files.dir_output + f
+        FileUtils.cp(from, to)
+      end
+    end
+
     private
 
     ##
@@ -109,7 +128,7 @@ module Tildeverse
     #
     def sites_hash
       @sites_hash ||= {}.tap do |hash|
-        Tildeverse::Sites.classes.each do |klass|
+        Sites.classes.each do |klass|
           site = klass.new
           hash[site.name] = site
         end

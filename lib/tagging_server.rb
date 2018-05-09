@@ -72,7 +72,7 @@ module Tildeverse
       end
 
       # Save the state to file.
-      Tildeverse.data.save
+      Tildeverse.save
 
       # Output some user messages to the console.
       num = req.keys.inject(0) do |sum, i|

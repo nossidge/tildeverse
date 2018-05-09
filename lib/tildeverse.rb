@@ -95,5 +95,20 @@ module Tildeverse
     def fetch
       Tildeverse::Fetcher.new.fetch
     end
+
+    ##
+    # (see Tildeverse::Data#save)
+    #
+    def save
+      data.save
+    end
+
+    ##
+    # Run both {Tildeverse::Data#save} and {Tildeverse::Data#save_website}
+    #
+    def save!
+      data.save
+      data.save_website
+    end
   end
 end
