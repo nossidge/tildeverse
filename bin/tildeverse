@@ -42,8 +42,6 @@ module Tildeverse
         tildeverse_scrape
       when 'fetch'
         tildeverse_fetch
-      when 'patch'
-        tildeverse_patch
       when 'new'
         tildeverse_new
       when 'json'
@@ -73,10 +71,6 @@ module Tildeverse
 
         $ tildeverse fetch
           Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
-
-        $ tildeverse patch
-          Run this after you have done manual user tagging in the input JSON
-          It will update the output JSON without doing the full site-scrape
 
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
@@ -121,16 +115,6 @@ module Tildeverse
     #
     def tildeverse_fetch
       Tildeverse.fetch
-    end
-
-    ##
-    # $ tildeverse patch
-    #
-    # Run this after you have done manual user tagging in the input JSON
-    # It will update the output JSON without doing the full site-scrape
-    #
-    def tildeverse_patch
-      Tildeverse.patch
     end
 
     ##

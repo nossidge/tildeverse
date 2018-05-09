@@ -21,7 +21,6 @@ require_relative 'tildeverse/modified_dates'
 require_relative 'tildeverse/pfhawkins'
 require_relative 'tildeverse/scraper'
 require_relative 'tildeverse/fetcher'
-require_relative 'tildeverse/patcher'
 require_relative 'tildeverse/version'
 
 # Fixes bug with 'open-uri' not using 'tempfile' correctly.
@@ -95,13 +94,6 @@ module Tildeverse
     #
     def fetch
       Tildeverse::Fetcher.new.fetch
-    end
-
-    ##
-    # (see Tildeverse::Patcher#patch)
-    #
-    def patch
-      Tildeverse::Patcher.new.patch
     end
   end
 end

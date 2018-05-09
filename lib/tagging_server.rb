@@ -26,7 +26,6 @@ module Tildeverse
     # Run the app from a server on localhost.
     #
     def run!
-      Tildeverse.patch
       super
     end
 

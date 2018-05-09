@@ -27,10 +27,6 @@ $ tildeverse scrape
 $ tildeverse fetch
   Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
 
-$ tildeverse patch
-  Run this after you have done manual user tagging in the input JSON
-  It will update the output JSON without doing the full site-scrape
-
 $ tildeverse new
   See if there have been any additions by ~pfhawkins
 
