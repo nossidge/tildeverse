@@ -178,7 +178,7 @@ module Tildeverse
       #   ]
       #
       def files_to_copy
-        %w[index.html users.js boxes.js pie.js]
+        %w[index.html users.js boxes.js pie.js tildeverse.txt]
       end
 
       ##
@@ -192,16 +192,26 @@ module Tildeverse
       end
 
       ##
+      # @return [String] the location of the remote +tildeverse.txt+ file.
+      #   This is updated every hour.
+      # @example
+      #   'https://tilde.town/~nossidge/tildeverse/tildeverse.txt'
+      #
+      def remote_txt
+        'https://tilde.town/~nossidge/tildeverse/tildeverse.txt'
+      end
+
+      ##
       # Determine if the current user has permission to write to the files.
       #
       # Writes error message to stdout if no permission granted.
       #
-      # @param [Array<Pathname>] files
-      #   Array of files to determine permissions for.
+      # @param [Pathname, Array<Pathname>] files
+      #   File or array of files to determine permissions for.
       # @return [Boolean]
       #
       def write?(files)
-        faulty = files.reject(&:writable?)
+        faulty = [*files].reject(&:writable?)
         return true if faulty.empty?
 
         msg  = "You do not have permission to write to the output location.\n"

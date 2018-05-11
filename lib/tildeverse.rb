@@ -42,6 +42,13 @@ module Tildeverse
     end
 
     ##
+    # Force the re-initialisation of a new {Tildeverse::Data} instance
+    #
+    def data!
+      @data = Tildeverse::Data.new
+    end
+
+    ##
     # (see Tildeverse::Data#sites)
     #
     def sites

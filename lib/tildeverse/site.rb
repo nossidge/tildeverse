@@ -176,6 +176,14 @@ module Tildeverse
         user = @all_users[user_name]
         user.date_offline = Date.today.to_s if user.online?
       end
+
+      # If a 'new' account was previously marked as offline, remove the
+      # 'date_offline' attribute while keeping the existing 'date_online'.
+      # This might naturally occur if a site goes offline for a few days.
+      remote_users.each do |user_name|
+        user = @all_users[user_name]
+        user.date_offline = '-'
+      end
     end
 
     ############################################################################
