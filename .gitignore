@@ -69,3 +69,6 @@ work*.rb
 
 # Output files
 /output/
+
+# Config files
+/config/
