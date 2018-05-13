@@ -35,19 +35,10 @@ module Tildeverse
     include DataSerializer
 
     ##
-    # @return [Date] the date {Files#output_tildeverse} was last updated
-    #
-    def last_updated
-      json = Files.output_tildeverse
-      date_unix = json.dig('metadata', 'date_unix')
-      Time.at(date_unix).to_date
-    end
-
-    ##
-    # @return [Boolean] whether {Files#output_tildeverse} was updated today
+    # @return [Boolean] whether the data was updated today
     #
     def updated_today?
-      last_updated == Date.today
+      Tildeverse.config.updated_on == Date.today
     end
 
     ##
@@ -97,6 +88,8 @@ module Tildeverse
       json = serialize_tildeverse_json
       file = Files.output_json_tildeverse
       Files.save_json(json, file)
+
+      Tildeverse.config.update
     end
 
     ##

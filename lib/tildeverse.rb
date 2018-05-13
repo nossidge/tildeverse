@@ -3,8 +3,9 @@
 require 'net/http'
 require 'net/https'
 require 'open-uri'
-require 'json'
 require 'fileutils'
+require 'json'
+require 'yaml'
 
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/wsv'
@@ -35,6 +36,13 @@ ENV['TMPDIR'] = Tildeverse::Files.dir_output.to_s
 #
 module Tildeverse
   class << self
+    ##
+    # Reference to the {Tildeverse::Config} instance
+    #
+    def config
+      @config ||= Tildeverse::Config.new
+    end
+
     ##
     # Reference to the {Tildeverse::Data} instance
     #
@@ -88,6 +96,19 @@ module Tildeverse
     #
     def new?
       Tildeverse::PFHawkins.new.new?
+    end
+
+    ##
+    # Get data from remote servers.
+    # Use the config setting to choose between 'scrape' and 'fetch'
+    #
+    def get
+      case Tildeverse.config.get_type
+      when 'scrape'
+        scrape
+      when 'fetch'
+        fetch
+      end
     end
 
     ##

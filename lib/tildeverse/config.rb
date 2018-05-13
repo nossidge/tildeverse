@@ -1,19 +1,23 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
+
 module Tildeverse
   ##
-  # TODO: Document this.
+  # Config information, including date of most recent update.
+  # Reads from file 'config/config.yml'.
   #
   class Config
     ##
-    #
+    # Method to use when GETting data from the Internet.
+    # @return [String] either 'scrape' or 'fetch'
     #
     attr_reader :get_type
 
     ##
+    # @return [Date] date the data was last updated
     #
-    #
-    attr_reader :last_update
+    attr_reader :updated_on
 
     ##
     # Load data from 'config.yml' if the file exists.
@@ -22,17 +26,17 @@ module Tildeverse
     def initialize
       if filepath.exist?
         data = YAML.safe_load(filepath.read, [Date])
-        @get_type    = data['get_type']
-        @last_update = data['last_update']
+        self.get_type = data['get_type']
+        @updated_on   = data['updated_on']
       else
-        @get_type    = 'fetch'
-        @last_update = Date.new(1970, 1, 1)
-        save
+        @get_type   = 'fetch'
+        @updated_on = Date.new(1970, 1, 1)
       end
+      save
     end
 
     ##
-    #
+    # @param [String] input
     #
     def get_type=(input)
       unless types_of_get.include?(input)
@@ -43,19 +47,19 @@ module Tildeverse
     end
 
     ##
-    #
+    # Set {#updated_on} to today's date.
     #
     def update
-      @last_update = Date.today
+      @updated_on = Date.today
       save
     end
 
     ##
-    #
+    # Save config settings to file.
     #
     def save
       str = yaml_template
-      %w[get_type last_update].each do |var|
+      %w[get_type updated_on].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
       end
       Files.save_text(str, filepath)
@@ -64,7 +68,7 @@ module Tildeverse
     private
 
     ##
-    #
+    # File path of the config YAML. Creates directory if not yet existing.
     #
     def filepath
       dir_config = Files.dir_root + 'config'
@@ -73,14 +77,16 @@ module Tildeverse
     end
 
     ##
-    #
+    # @return [Array<String>]
     #
     def types_of_get
       %w[scrape fetch]
     end
 
     ##
-    #
+    # Template for the YAML output.
+    # We cannot use 'to_yaml' as it does not preserve comments.
+    # @return [String]
     #
     def yaml_template
       <<-YAML.gsub(/^ {6}/, '')
@@ -94,7 +100,7 @@ module Tildeverse
 
       # The date that the data was last updated.
       # Should be in the form: 'YYYY-MM-DD'
-      @last_update@
+      @updated_on@
       YAML
     end
   end

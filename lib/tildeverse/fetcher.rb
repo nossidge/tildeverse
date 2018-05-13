@@ -37,7 +37,7 @@ module Tildeverse
 
     ##
     # Check whether the current user has the correct OS permissions
-    # to write to overwrite the file.
+    # to overwrite the file.
     #
     # @return [Boolean]
     #

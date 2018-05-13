@@ -34,7 +34,8 @@ module Tildeverse
     attr_reader :resource
 
     ##
-    # The format that the site uses to map users to their homepage.
+    # @return [String]
+    #   the format that the site uses to map users to their homepage.
     # @example
     #   'https://tilde.town/~USER/'
     #   'https://USER.remotes.club/'
