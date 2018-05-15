@@ -15,10 +15,10 @@ module Tildeverse
     attr_reader :get_type
 
     ##
-    # @return [true, false] should new data be automatically downloaded?
+    # Frequency to GET data from the Internet.
+    # @return [String] either 'always', 'day', 'week' or 'month'
     #
-    attr_reader :get_daily
-    alias get_daily? get_daily
+    attr_reader :get_frequency
 
     ##
     # @return [true, false] should a website be generated?
@@ -39,12 +39,12 @@ module Tildeverse
       if filepath.exist?
         data = YAML.safe_load(filepath.read, [Date])
         @get_type      = validate_get_type      data['get_type']
-        @get_daily     = validate_get_daily     data['get_daily']
+        @get_frequency = validate_get_frequency data['get_frequency']
         @generate_html = validate_generate_html data['generate_html']
         @updated_on    = data['updated_on']
       else
         @get_type      = 'fetch'
-        @get_daily     = true
+        @get_frequency = 'day'
         @generate_html = false
         @updated_on    = Date.new(1970, 1, 1)
       end
@@ -65,8 +65,8 @@ module Tildeverse
     # @return [true, false] the input value
     # @raise [ArgumentError] if not valid
     #
-    def get_daily=(value)
-      with(:save) { @get_daily = validate_get_daily(value) }
+    def get_frequency=(value)
+      with(:save) { @get_frequency = validate_get_frequency(value) }
     end
 
     ##
@@ -91,7 +91,7 @@ module Tildeverse
     #
     def save
       str = yaml_template
-      %w[get_type get_daily generate_html updated_on].each do |var|
+      %w[get_type get_frequency generate_html updated_on].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
       end
       Files.save_text(str, filepath)
@@ -125,16 +125,16 @@ module Tildeverse
     # @raise [ArgumentError] if not valid
     #
     def validate_get_type(value)
-      validate_in_array(value, types_of_get)
+      validate_in_array(value, %w[scrape fetch])
     end
 
     ##
-    # Validate {#get_daily}
-    # @return [true, false] if valid
+    # Validate {#get_frequency}
+    # @return [String] if valid
     # @raise [ArgumentError] if not valid
     #
-    def validate_get_daily(value)
-      validate_in_array(value, [true, false])
+    def validate_get_frequency(value)
+      validate_in_array(value, %w[always day week month])
     end
 
     ##
@@ -156,13 +156,6 @@ module Tildeverse
     end
 
     ##
-    # @return [Array<String>]
-    #
-    def types_of_get
-      %w[scrape fetch]
-    end
-
-    ##
     # Template for the YAML output.
     # We cannot use 'to_yaml' as it does not preserve comments.
     # @return [String]
@@ -177,8 +170,12 @@ module Tildeverse
       #             results will likely be more accurate than manual scraping.
       @get_type@
 
-      # Should new data be automatically downloaded every 24 hrs?
-      @get_daily@
+      # Frequency to GET the live results from the remote servers.
+      # 'always' => (NOT RECOMMENDED) Always GET, each time the program is run.
+      # 'day'    => GET daily.
+      # 'week'   => GET weekly, on Monday.
+      # 'month'  => GET monthly, on the 1st.
+      @get_frequency@
 
       # Should a website be generated along with the JSON output?
       @generate_html@
