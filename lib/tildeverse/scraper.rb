@@ -18,7 +18,7 @@ module Tildeverse
       return false unless write_permissions?
       scrape_all_sites
       update_mod_dates
-      Tildeverse.save!
+      Tildeverse.save
       true
     end
 

@@ -47,7 +47,10 @@ module Tildeverse
     # Reference to the {Tildeverse::Data} instance
     #
     def data
-      @data ||= Tildeverse::Data.new
+      return @data if @data
+      @data = Data.new.tap do
+        get if Tildeverse.config.update_required?
+      end
     end
 
     ##
@@ -126,18 +129,14 @@ module Tildeverse
     end
 
     ##
-    # (see Tildeverse::Data#save)
+    # Run {Tildeverse::Data#save}
+    #
+    # Run {Tildeverse::Data#save_website} if the config
+    # option {Tildeverse::Config#generate_html} is true
     #
     def save
       data.save
-    end
-
-    ##
-    # Run both {Tildeverse::Data#save} and {Tildeverse::Data#save_website}
-    #
-    def save!
-      data.save
-      data.save_website
+      data.save_website if Tildeverse.config.generate_html?
     end
   end
 end

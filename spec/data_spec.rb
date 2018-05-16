@@ -7,10 +7,6 @@ describe 'Tildeverse::Data' do
     @instance ||= Tildeverse::Data.new
   end
 
-  it '#updated_today?' do
-    instance.updated_today?
-  end
-
   it '#sites' do
     instance.sites
   end

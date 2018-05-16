@@ -97,6 +97,32 @@ module Tildeverse
       Files.save_text(str, filepath)
     end
 
+    ##
+    # Consult the options to see if an update is needed today
+    # @return [true, false]
+    #
+    def update_required?
+      now = Date.today
+      upd = Tildeverse.config.updated_on
+
+      case Tildeverse.config.get_frequency
+      when 'always'
+        true
+
+      when 'day'
+        (now - upd).to_i != 0
+
+      when 'week'
+        mon_date = now - now.cwday + 1
+        sun_date = mon_date + 6
+        week_range = (mon_date..sun_date)
+        !week_range.include?(upd)
+
+      when 'month'
+        now.year != upd.year || now.month != upd.month
+      end
+    end
+
     private
 
     ##

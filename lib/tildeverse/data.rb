@@ -35,13 +35,6 @@ module Tildeverse
     include DataSerializer
 
     ##
-    # @return [Boolean] whether the data was updated today
-    #
-    def updated_today?
-      Tildeverse.config.updated_on == Date.today
-    end
-
-    ##
     # @return [Array<Site>] all sites in the Tildeverse
     #
     def sites
