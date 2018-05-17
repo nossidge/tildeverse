@@ -106,7 +106,7 @@ module Tildeverse
     # Use the config setting to choose between 'scrape' and 'fetch'
     #
     def get
-      case Tildeverse.config.get_type
+      case Tildeverse.config.update_type
       when 'scrape'
         scrape
       when 'fetch'

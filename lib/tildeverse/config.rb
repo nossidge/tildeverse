@@ -12,13 +12,13 @@ module Tildeverse
     # Method to use when GETting data from the Internet.
     # @return [String] either 'scrape' or 'fetch'
     #
-    attr_reader :get_type
+    attr_reader :update_type
 
     ##
     # Frequency to GET data from the Internet.
     # @return [String] either 'always', 'day', 'week' or 'month'
     #
-    attr_reader :get_frequency
+    attr_reader :update_frequency
 
     ##
     # @return [true, false] should a website be generated?
@@ -38,15 +38,15 @@ module Tildeverse
     def initialize
       if filepath.exist?
         data = YAML.safe_load(filepath.read, [Date])
-        @get_type      = validate_get_type      data['get_type']
-        @get_frequency = validate_get_frequency data['get_frequency']
-        @generate_html = validate_generate_html data['generate_html']
-        @updated_on    = data['updated_on']
+        @update_type      = validate_update_type      data['update_type']
+        @update_frequency = validate_update_frequency data['update_frequency']
+        @generate_html    = validate_generate_html    data['generate_html']
+        @updated_on       = data['updated_on']
       else
-        @get_type      = 'fetch'
-        @get_frequency = 'day'
-        @generate_html = false
-        @updated_on    = Date.new(1970, 1, 1)
+        @update_type      = 'fetch'
+        @update_frequency = 'day'
+        @generate_html    = false
+        @updated_on       = Date.new(1970, 1, 1)
       end
       save
     end
@@ -56,8 +56,8 @@ module Tildeverse
     # @return [String] the input value
     # @raise [ArgumentError] if not valid
     #
-    def get_type=(value)
-      with(:save) { @get_type = validate_get_type(value) }
+    def update_type=(value)
+      with(:save) { @update_type = validate_update_type(value) }
     end
 
     ##
@@ -65,8 +65,8 @@ module Tildeverse
     # @return [true, false] the input value
     # @raise [ArgumentError] if not valid
     #
-    def get_frequency=(value)
-      with(:save) { @get_frequency = validate_get_frequency(value) }
+    def update_frequency=(value)
+      with(:save) { @update_frequency = validate_update_frequency(value) }
     end
 
     ##
@@ -91,7 +91,7 @@ module Tildeverse
     #
     def save
       str = yaml_template
-      %w[get_type get_frequency generate_html updated_on].each do |var|
+      %w[update_type update_frequency generate_html updated_on].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
       end
       Files.save_text(str, filepath)
@@ -105,7 +105,7 @@ module Tildeverse
       now = Date.today
       upd = Tildeverse.config.updated_on
 
-      case Tildeverse.config.get_frequency
+      case Tildeverse.config.update_frequency
       when 'always'
         true
 
@@ -146,20 +146,20 @@ module Tildeverse
     end
 
     ##
-    # Validate {#get_type}
+    # Validate {#update_type}
     # @return [String] if valid
     # @raise [ArgumentError] if not valid
     #
-    def validate_get_type(value)
+    def validate_update_type(value)
       validate_in_array(value, %w[scrape fetch])
     end
 
     ##
-    # Validate {#get_frequency}
+    # Validate {#update_frequency}
     # @return [String] if valid
     # @raise [ArgumentError] if not valid
     #
-    def validate_get_frequency(value)
+    def validate_update_frequency(value)
       validate_in_array(value, %w[always day week month])
     end
 
@@ -194,14 +194,14 @@ module Tildeverse
       # 'fetch'  => (RECOMMENDED) Return daily pre-scraped results from the file
       #             at tilde.town. This is run every day at midnight, so the
       #             results will likely be more accurate than manual scraping.
-      @get_type@
+      @update_type@
 
       # Frequency to GET the live results from the remote servers.
       # 'always' => (NOT RECOMMENDED) Always GET, each time the program is run.
       # 'day'    => GET daily.
       # 'week'   => GET weekly, on Monday.
       # 'month'  => GET monthly, on the 1st.
-      @get_frequency@
+      @update_frequency@
 
       # Should a website be generated along with the JSON output?
       @generate_html@
