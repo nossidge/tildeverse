@@ -52,21 +52,13 @@ module Tildeverse
     alias boxes servers
 
     ##
-    # Hard-coded count of the last verified number of expected boxes.
-    # @return [Integer]
-    # @example
-    #   19
-    #
-    def count
-      19
-    end
-
-    ##
     # If there is there a new server on the ~pfhawkins list.
-    # @return [Boolean]
+    # @return [true, false]
     #
     def new?
-      servers.length != count
+      a = servers
+      b = server_list_cache
+      !(a - b | b - a).empty?
     end
 
     ##
@@ -78,6 +70,34 @@ module Tildeverse
     end
 
     private
+
+    ##
+    # List of the Tilde servers that we know about.
+    # @return [Array<String>]
+    #
+    def server_list_cache
+      %w[
+        ctrl-c.club
+        cybyte.club
+        germantil.de
+        hackers.cool
+        palvelin.club
+        pebble.ink
+        perispomeni.club
+        protocol.club
+        remotes.club
+        retronet.net
+        riotgirl.club
+        rudimentarylathe.org
+        skylab.org
+        squiggle.city
+        tilde.team
+        tilde.town
+        tilde.works
+        totallynuclear.club
+        yourtilde.com
+      ]
+    end
 
     ##
     # Fetch and return the remote JSON list of Tilde servers.
