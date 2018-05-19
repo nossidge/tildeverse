@@ -18,7 +18,7 @@ module Tildeverse
       return false unless write_permissions?
       scrape_all_sites
       update_mod_dates
-      Tildeverse.save
+      Tildeverse.data.save_with_config
       true
     end
 
@@ -32,19 +32,19 @@ module Tildeverse
     #
     def write_permissions?
       files = [
-        Tildeverse::Files.dir_output,
-        Tildeverse::Files.output_json_tildeverse,
-        Tildeverse::Files.output_json_users,
-        Tildeverse::Files.output_html_index
+        Files.dir_output,
+        Files.output_json_tildeverse,
+        Files.output_json_users,
+        Files.output_html_index
       ]
-      Tildeverse::Files.write?(files)
+      Files.write?(files)
     end
 
     ##
     # Add new users to the hash, for all sites.
     #
     def scrape_all_sites
-      Tildeverse.sites.each(&:scrape)
+      Tildeverse.data.sites.each(&:scrape)
     end
 
     ##

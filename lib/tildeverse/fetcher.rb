@@ -28,7 +28,7 @@ module Tildeverse
       Tildeverse.data!
 
       # Use the new text file to save output.
-      Tildeverse.save
+      Tildeverse.data.save_with_config
 
       true
     end

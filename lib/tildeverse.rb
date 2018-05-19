@@ -129,14 +129,10 @@ module Tildeverse
     end
 
     ##
-    # Run {Tildeverse::Data#save}
-    #
-    # Run {Tildeverse::Data#save_website} if the config
-    # option {Tildeverse::Config#generate_html} is true
+    # (see Tildeverse::Data#save_with_config)
     #
     def save
-      data.save
-      data.save_website if Tildeverse.config.generate_html?
+      data.save_with_config
     end
   end
 end
