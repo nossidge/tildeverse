@@ -118,7 +118,7 @@ module Tildeverse
     # (see Tildeverse::Scraper#scrape)
     #
     def scrape
-      Tildeverse::Scraper.new.scrape
+      Tildeverse::Scraper.new(data).scrape
     end
 
     ##

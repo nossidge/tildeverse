@@ -8,6 +8,13 @@ module Tildeverse
   #
   class Scraper
     ##
+    # @param [Data] data
+    #
+    def initialize(data)
+      @data = data
+    end
+
+    ##
     # Scrape all Tilde sites and save as JSON files.
     #
     # Return false if the user does not have the correct write permissions.
@@ -18,7 +25,7 @@ module Tildeverse
       return false unless write_permissions?
       scrape_all_sites
       update_mod_dates
-      Tildeverse.data.save_with_config
+      @data.save_with_config
       true
     end
 
@@ -44,7 +51,7 @@ module Tildeverse
     # Add new users to the hash, for all sites.
     #
     def scrape_all_sites
-      Tildeverse.data.sites.each(&:scrape)
+      @data.sites.each(&:scrape)
     end
 
     ##
@@ -52,7 +59,7 @@ module Tildeverse
     #
     def update_mod_dates
       mod_dates = ModifiedDates.new
-      Tildeverse.data.users.each do |user|
+      @data.users.each do |user|
         date = mod_dates.for_user(user.site.name, user.name) || '-'
         user.date_modified = date
       end
