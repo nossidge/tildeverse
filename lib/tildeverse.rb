@@ -54,13 +54,6 @@ module Tildeverse
     end
 
     ##
-    # Force the re-initialisation of a new {Tildeverse::Data} instance
-    #
-    def data!
-      @data = Tildeverse::Data.new
-    end
-
-    ##
     # (see Tildeverse::Data#sites)
     #
     def sites
@@ -125,7 +118,7 @@ module Tildeverse
     # (see Tildeverse::Fetcher#fetch)
     #
     def fetch
-      Tildeverse::Fetcher.new.fetch
+      Tildeverse::Fetcher.new(data).fetch
     end
 
     ##

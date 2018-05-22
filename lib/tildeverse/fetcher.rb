@@ -6,6 +6,13 @@ module Tildeverse
   #
   class Fetcher
     ##
+    # @param [Data] data
+    #
+    def initialize(data)
+      @data = data
+    end
+
+    ##
     # Fetch the up-to-date TXT file from the remote URI.
     #
     # @return [Boolean] success state.
@@ -25,10 +32,10 @@ module Tildeverse
       Files.save_text(remote.result, filepath)
 
       # Use the new text file to load input.
-      Tildeverse.data!
+      @data.clear
 
       # Use the new text file to save output.
-      Tildeverse.data.save_with_config
+      @data.save_with_config
 
       true
     end
@@ -42,7 +49,9 @@ module Tildeverse
     # @return [Boolean]
     #
     def write_permissions?
+      return false unless Files.write?(Files.dir_input)
       filepath = Files.dir_input + 'tildeverse.txt'
+      return true if !filepath.exist?
       Files.write?(filepath)
     end
   end

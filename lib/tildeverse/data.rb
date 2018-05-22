@@ -115,6 +115,13 @@ module Tildeverse
       save_website if Tildeverse.config.generate_html?
     end
 
+    ##
+    # Clear all the data.
+    #
+    def clear
+      @sites_hash = nil
+    end
+
     private
 
     ##
