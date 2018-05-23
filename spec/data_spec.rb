@@ -4,7 +4,7 @@
 
 describe 'Tildeverse::Data' do
   def instance
-    @instance ||= Tildeverse::Data.new
+    @instance ||= Tildeverse::Data.new(config)
   end
 
   it '#sites' do

@@ -48,9 +48,9 @@ module Tildeverse
     #
     def data
       return @data if @data
-      @data = Data.new.tap do
-        get if Tildeverse.config.update_required?
-      end
+      @data = Data.new(config)
+      get if config.update_required?
+      @data
     end
 
     ##
@@ -99,7 +99,7 @@ module Tildeverse
     # Use the config setting to choose between 'scrape' and 'fetch'
     #
     def get
-      case Tildeverse.config.update_type
+      case config.update_type
       when 'scrape'
         scrape
       when 'fetch'

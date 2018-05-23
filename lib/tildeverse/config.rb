@@ -103,9 +103,9 @@ module Tildeverse
     #
     def update_required?
       now = Date.today
-      upd = Tildeverse.config.updated_on
+      upd = updated_on
 
-      case Tildeverse.config.update_frequency
+      case update_frequency
       when 'always'
         true
 

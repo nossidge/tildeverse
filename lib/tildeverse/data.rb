@@ -35,6 +35,18 @@ module Tildeverse
     include DataSerializer
 
     ##
+    # @return [Config]
+    #
+    attr_reader :config
+
+    ##
+    # @param [Config] config
+    #
+    def initialize(config)
+      @config = config
+    end
+
+    ##
     # @return [Array<Site>] all sites in the Tildeverse
     #
     def sites
@@ -82,7 +94,7 @@ module Tildeverse
       file = Files.output_json_tildeverse
       Files.save_json(json, file)
 
-      Tildeverse.config.update
+      config.update
     end
 
     ##
@@ -112,7 +124,7 @@ module Tildeverse
     #
     def save_with_config
       save
-      save_website if Tildeverse.config.generate_html?
+      save_website if config.generate_html?
     end
 
     ##
