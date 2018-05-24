@@ -131,9 +131,8 @@ module Tildeverse
     #   #   "Rahim       m     "
     #   # ]
     #
-    def to_wsv(rjust: [])
-      field_count = @data.first.count
-
+    def to_wsv(rjust: [], spaces: 2)
+      #
       # Figure out max lengths, to use as the width of each column.
       max_lengths = @data.first.map(&:length)
       @data.each do |row|
@@ -153,7 +152,7 @@ module Tildeverse
           # If the field does not contain a value, fill with spaces.
           index < row.count ? "%#{just}#{value}s" : ' ' * value
         end
-        (format.join(' ' * 2) % row).rstrip
+        (format.join(' ' * spaces) % row).rstrip
       end
     end
   end
