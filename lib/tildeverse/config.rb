@@ -35,9 +35,12 @@ module Tildeverse
     # Load data from 'config.yml' if the file exists.
     # If it does not exist, create new file using default values.
     #
-    def initialize
-      if filepath.exist?
-        data = YAML.safe_load(filepath.read, [Date])
+    # @param [Pathname] filepath Path to the 'config.yml' file
+    #
+    def initialize(filepath = Files.config_yml)
+      @filepath = filepath
+      if @filepath.exist?
+        data = YAML.safe_load(@filepath.read, [Date])
         @update_type      = validate_update_type      data['update_type']
         @update_frequency = validate_update_frequency data['update_frequency']
         @generate_html    = validate_generate_html    data['generate_html']
@@ -47,8 +50,8 @@ module Tildeverse
         @update_frequency = 'day'
         @generate_html    = false
         @updated_on       = Date.new(1970, 1, 1)
+        save
       end
-      save
     end
 
     ##
@@ -94,7 +97,7 @@ module Tildeverse
       %w[update_type update_frequency generate_html updated_on].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
       end
-      Files.save_text(str, filepath)
+      Files.save_text(str, @filepath)
     end
 
     ##
@@ -170,15 +173,6 @@ module Tildeverse
     #
     def validate_generate_html(value)
       validate_in_array(value, [true, false])
-    end
-
-    ##
-    # File path of the config YAML. Creates directory if not yet existing.
-    #
-    def filepath
-      dir_config = Files.dir_root + 'config'
-      Files.makedirs(dir_config) unless dir_config.exist?
-      dir_config + 'config.yml'
     end
 
     ##

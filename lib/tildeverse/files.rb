@@ -38,6 +38,18 @@ module Tildeverse
       end
 
       ##
+      # File path of the config YAML. Creates directory if not yet existing.
+      # @return [Pathname] the file path of the config YAML
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/config/config.yml'
+      #
+      def config_yml
+        dir_config = dir_root + 'config'
+        makedirs(dir_config) unless dir_config.exist?
+        dir_config + 'config.yml'
+      end
+
+      ##
       # Read in the contents of 'tildeverse.txt' and parse to a Hash
       #
       # @return [Hash]
