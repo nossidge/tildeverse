@@ -9,6 +9,11 @@ module Tildeverse
   #
   class Config
     ##
+    # @return [Pathname] path to the 'config.yml' file
+    #
+    attr_reader :filepath
+
+    ##
     # Method to use when GETting data from the Internet.
     # @return [String] either 'scrape' or 'fetch'
     #
@@ -46,10 +51,7 @@ module Tildeverse
         @generate_html    = validate_generate_html    data['generate_html']
         @updated_on       = data['updated_on']
       else
-        @update_type      = 'fetch'
-        @update_frequency = 'day'
-        @generate_html    = false
-        @updated_on       = Date.new(1970, 1, 1)
+        apply_default_values
         save
       end
     end
@@ -60,16 +62,16 @@ module Tildeverse
     # @raise [ArgumentError] if not valid
     #
     def update_type=(value)
-      with(:save) { @update_type = validate_update_type(value) }
+      afterwards(:save) { @update_type = validate_update_type(value) }
     end
 
     ##
-    # @param [true, false] value
-    # @return [true, false] the input value
+    # @param [String] value
+    # @return [String] the input value
     # @raise [ArgumentError] if not valid
     #
     def update_frequency=(value)
-      with(:save) { @update_frequency = validate_update_frequency(value) }
+      afterwards(:save) { @update_frequency = validate_update_frequency(value) }
     end
 
     ##
@@ -78,7 +80,7 @@ module Tildeverse
     # @raise [ArgumentError] if not valid
     #
     def generate_html=(value)
-      with(:save) { @generate_html = validate_generate_html(value) }
+      afterwards(:save) { @generate_html = validate_generate_html(value) }
     end
 
     ##
@@ -86,7 +88,7 @@ module Tildeverse
     # @return [Date] today's date
     #
     def update
-      with(:save) { @updated_on = Date.today }
+      afterwards(:save) { @updated_on = date_today }
     end
 
     ##
@@ -105,7 +107,7 @@ module Tildeverse
     # @return [true, false]
     #
     def update_required?
-      now = Date.today
+      now = date_today
       upd = updated_on
 
       case update_frequency
@@ -113,7 +115,7 @@ module Tildeverse
         true
 
       when 'day'
-        (now - upd).to_i != 0
+        (now - upd).to_i > 0
 
       when 'week'
         mon_date = now - now.cwday + 1
@@ -122,6 +124,7 @@ module Tildeverse
         !week_range.include?(upd)
 
       when 'month'
+        return false if now < upd
         now.year != upd.year || now.month != upd.month
       end
     end
@@ -132,10 +135,42 @@ module Tildeverse
     # Yield to a block, run a method, and return
     # the return value of the block.
     #
-    def with(method_name)
-      output = yield
+    def afterwards(method_name, &block)
+      output = block.call
       method(method_name).call
       output
+    end
+
+    ##
+    # Today's date. Separated out to a method for ease of testing
+    # @return [Date]
+    #
+    def date_today
+      Date.today
+    end
+
+    ##
+    # Declare the default value for each config variable
+    # @return [Hash]
+    #
+    def default_values
+      {
+        update_type:      'fetch',
+        update_frequency: 'day',
+        generate_html:    false,
+        updated_on:       Date.new(1970, 1, 1)
+      }
+    end
+
+    ##
+    # Set the default value to each instance variable
+    #
+    def apply_default_values
+      dv = default_values
+      @update_type      = dv[:update_type]
+      @update_frequency = dv[:update_frequency]
+      @generate_html    = dv[:generate_html]
+      @updated_on       = dv[:updated_on]
     end
 
     ##
