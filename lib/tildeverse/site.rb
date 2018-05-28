@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'abstract_type'
+
 module Tildeverse
   ##
   # Class to store information for a particular site.
@@ -17,6 +19,9 @@ module Tildeverse
   #
   class Site
     include SiteSerializer
+
+    include AbstractType
+    abstract_method :scrape_users
 
     ##
     # (see Tildeverse::RemoteResource#name)
@@ -167,7 +172,7 @@ module Tildeverse
         @all_users[user_name] = User.new(
           site: self,
           name: user_name,
-          date_online: Date.today.to_s,
+          date_online: Date.today.to_s
         )
       end
 
@@ -211,8 +216,8 @@ module Tildeverse
       # Initially, this will be just those users from the 'input' JSON.
       @all_users = {}.tap do |hash|
         users = users_from_input_tildeverse
-        users.each do |user_name, user_hash|
-
+        users.each_key do |user_name|
+          #
           # Grab the most recent cached info from 'tildeverse.txt'
           from_input_txt = users[user_name]
 
@@ -248,16 +253,6 @@ module Tildeverse
       @remote
     end
     alias con connection
-
-    ##
-    # This needs to be overwritten by child classes. It should specify how
-    # to scrape the tilde server remote resource to return the users.
-    #
-    # @raise [NoMethodError]
-    #
-    def scrape_users
-      raise NoMethodError, 'Method should be overwritten by a child class'
-    end
 
     ##
     # @return [Pathname]
