@@ -2,15 +2,7 @@
 
 describe 'Tildeverse::PFHawkins' do
   def instance
-    @instance ||= Tildeverse::PFHawkins.new
-  end
-
-  def instance_with_new_box
-    singleton = Tildeverse::PFHawkins.new
-    def singleton.count
-      20
-    end
-    singleton
+    Tildeverse::PFHawkins.new
   end
 
   it '#url_html' do
@@ -36,23 +28,24 @@ describe 'Tildeverse::PFHawkins' do
     expect(servers).to eq boxes
   end
 
-  it '#count' do
-    count = instance.count
-    expect(count).to be_a Integer
-  end
-
   it '#new?' do
-    has_new = instance.new?
-    expect(has_new).to be false
-
-    has_new = instance_with_new_box.new?
-    expect(has_new).to be true
+    alter_servers = ->(&block) do
+      pfhawkins = Tildeverse::PFHawkins.new
+      expect(pfhawkins.new?).to be false
+      servers = pfhawkins.servers.dup
+      block.call(servers)
+      allow(pfhawkins).to receive(:server_list_cache).and_return(servers)
+      expect(pfhawkins.new?).to be true
+    end
+    alter_servers.call { |servers| servers << 'new-foo.com' }
+    alter_servers.call { |servers| servers.pop }
   end
 
   it '#puts_if_new' do
-    singleton = instance_with_new_box
-    msg = "-- New Tilde Boxes!\n" + singleton.url_html
+    pfhawkins = Tildeverse::PFHawkins.new
+    allow(pfhawkins).to receive(:new?).and_return(true)
+    msg = "-- New Tilde Boxes!\n" + pfhawkins.url_html
     expect(STDOUT).to receive(:puts).with(msg)
-    singleton.puts_if_new
+    pfhawkins.puts_if_new
   end
 end
