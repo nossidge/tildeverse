@@ -79,14 +79,10 @@ module Tildeverse
       %w[
         ctrl-c.club
         cybyte.club
-        germantil.de
         hackers.cool
-        palvelin.club
         pebble.ink
-        perispomeni.club
         protocol.club
         remotes.club
-        retronet.net
         riotgirl.club
         rudimentarylathe.org
         skylab.org
@@ -94,7 +90,6 @@ module Tildeverse
         tilde.team
         tilde.town
         tilde.works
-        totallynuclear.club
         yourtilde.com
       ]
     end
