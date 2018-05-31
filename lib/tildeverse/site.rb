@@ -202,7 +202,7 @@ module Tildeverse
     # @return [Hash]
     #
     def users_from_input_tildeverse
-      Tildeverse::Files.input_tildeverse_txt[name] || []
+      Tildeverse::Files.input_tildeverse_txt[name] || {}
     end
 
     ##
@@ -212,24 +212,19 @@ module Tildeverse
     #
     def initialize_users
       #
-      # Create the list of all users.
-      # Initially, this will be just those users from the 'input' JSON.
+      # Create a new User instance for all users, using the cached data.
+      # Initially, this will be just those users from 'tildeverse.txt'
       @all_users = {}.tap do |hash|
         users = users_from_input_tildeverse
-        users.each_key do |user_name|
-          #
-          # Grab the most recent cached info from 'tildeverse.txt'
-          from_input_txt = users[user_name]
-
-          # Create a new User instance using the cached data.
+        users.each do |user_name, user_hash|
           hash[user_name] = User.new(
-            site: self,
-            name: user_name,
-            date_online: from_input_txt[:date_online],
-            date_offline: from_input_txt[:date_offline],
-            date_modified: from_input_txt[:date_modified],
-            date_tagged: from_input_txt[:date_tagged],
-            tags: from_input_txt[:tags]
+            site:           self,
+            name:           user_name,
+            date_online:    user_hash[:date_online],
+            date_offline:   user_hash[:date_offline],
+            date_modified:  user_hash[:date_modified],
+            date_tagged:    user_hash[:date_tagged],
+            tags:           user_hash[:tags]
           )
         end
       end
