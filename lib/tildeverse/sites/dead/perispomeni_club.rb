@@ -19,6 +19,13 @@ module Tildeverse
       end
 
       ##
+      # @return [Boolean] the site's known online status.
+      #
+      def self.online?
+        false
+      end
+
+      ##
       # @return [Array<String>] all users of +perispomeni.club+
       #
       def scrape_users
