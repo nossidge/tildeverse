@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +myrtle-st.club+
     #
-    class MyrtleStClub < Tildeverse::Site
+    class MyrtleStClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +myrtle-st.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://myrtle-st.club/',
           url_format_user: 'http://myrtle-st.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

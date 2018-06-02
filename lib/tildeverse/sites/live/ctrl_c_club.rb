@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +ctrl-c.club+
     #
-    class CtrlCClub < Tildeverse::Site
+    class CtrlCClub < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +ctrl-c.club+
       #

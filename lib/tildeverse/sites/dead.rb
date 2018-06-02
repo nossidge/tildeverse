@@ -1,4 +1,25 @@
 #!/usr/bin/env ruby
 
-# Require all files in the subdirectory with the same name as this file.
-Dir["#{__FILE__.rpartition('.rb').first}/*.rb"].each { |file| require file }
+require 'abstract_type'
+
+module Tildeverse
+  class Site
+    ##
+    # Class for Tildeverse sites that are not online
+    #
+    class Dead < self
+      include AbstractType
+      abstract_method :scrape_users
+
+      ##
+      # @return [false] the site's known online status
+      #
+      def self.online?
+        false
+      end
+    end
+  end
+end
+
+# Require all files in the 'dead' subdirectory
+Dir["#{__dir__}/dead/*.rb"].each { |f| require f }

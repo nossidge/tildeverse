@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +cybyte.club+
     #
-    class CybyteClub < Tildeverse::Site
+    class CybyteClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +cybyte.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://cybyte.club/',
           url_format_user: 'http://cybyte.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

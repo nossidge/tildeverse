@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +ofmanytrades.com+
     #
-    class OfmanytradesCom < Tildeverse::Site
+    class OfmanytradesCom < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +ofmanytrades.com+
       #

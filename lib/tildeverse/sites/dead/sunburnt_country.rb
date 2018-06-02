@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +sunburnt.country+
     #
-    class SunburntCountry < Tildeverse::Site
+    class SunburntCountry < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +sunburnt.country+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://sunburnt.country/~tim/directory.html',
           url_format_user: 'http://sunburnt.country/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

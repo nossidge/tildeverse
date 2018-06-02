@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +yester.host+
     #
-    class YesterHost < Tildeverse::Site
+    class YesterHost < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +yester.host+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://yester.host/tilde.json',
           url_format_user: 'http://yester.host/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

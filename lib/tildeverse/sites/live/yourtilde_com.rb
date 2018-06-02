@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +yourtilde.com+
     #
-    class YourtildeCom < Tildeverse::Site
+    class YourtildeCom < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +yourtilde.com+
       #

@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +catbeard.city+
     #
-    class CatbeardCity < Tildeverse::Site
+    class CatbeardCity < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +catbeard.city+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://catbeard.city/',
           url_format_user: 'http://catbeard.city/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

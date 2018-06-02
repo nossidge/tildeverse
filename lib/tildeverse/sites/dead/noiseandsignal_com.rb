@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +noiseandsignal.com+
     #
-    class NoiseandsignalCom < Tildeverse::Site
+    class NoiseandsignalCom < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +noiseandsignal.com+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://noiseandsignal.com/',
           url_format_user: 'http://noiseandsignal.com/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

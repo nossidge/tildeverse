@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +oldbsd.club+
     #
-    class OldbsdClub < Tildeverse::Site
+    class OldbsdClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +oldbsd.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: '',
           url_format_user: ''
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

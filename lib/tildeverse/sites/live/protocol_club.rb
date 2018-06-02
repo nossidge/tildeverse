@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +protocol.club+
     #
-    class ProtocolClub < Tildeverse::Site
+    class ProtocolClub < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +protocol.club+
       #

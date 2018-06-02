@@ -3,31 +3,31 @@
 module Tildeverse
   module Sites
     ##
-    # Site information and user list for +crime.team+
+    # Site information and user list for +botb.club+
     #
-    class CrimeTeam < Tildeverse::Site
+    class BotbClub < Tildeverse::Site::Live
       ##
-      # Calls {Tildeverse::Site#initialize} with arg +crime.team+
+      # Calls {Tildeverse::Site#initialize} with arg +botb.club+
       #
       def initialize
         super({
-          name: 'crime.team',
-          root: 'https://crime.team/',
-          resource: 'https://crime.team/',
-          url_format_user: 'https://crime.team/~USER/'
+          name: 'botb.club',
+          root: 'https://botb.club/',
+          resource: 'https://botb.club/',
+          url_format_user: 'https://botb.club/~USER/'
         })
       end
 
       ##
-      # @return [Array<String>] all users of +crime.team+
+      # @return [Array<String>] all users of +botb.club+
       #
       def scrape_users
         return @users if @users
         return @users = [] if con.error?
 
-        # 2017/04/11  New box, user list on index.html
+        # These are the only lines on the page that begin with '<li><a href='
         @users = con.result.split("\n").map do |i|
-          next unless i.strip =~ /^<li>/
+          next unless i.strip =~ /^<li><a href=/
           user = i.first_between_two_chars('"').strip
           user.remove_trailing_slash.split('~').last.strip
         end.compact.sort.uniq

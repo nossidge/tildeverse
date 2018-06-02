@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +retronet.net+
     #
-    class RetronetNet < Tildeverse::Site
+    class RetronetNet < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +retronet.net+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://retronet.net/users.html',
           url_format_user: 'http://retronet.net/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

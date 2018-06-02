@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +tilde.center+
     #
-    class TildeCenter < Tildeverse::Site
+    class TildeCenter < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +tilde.center+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'https://tilde.center/',
           url_format_user: 'https://tilde.center/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

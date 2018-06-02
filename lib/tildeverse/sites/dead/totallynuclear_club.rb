@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +totallynuclear.club+
     #
-    class TotallynuclearClub < Tildeverse::Site
+    class TotallynuclearClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +totallynuclear.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://totallynuclear.club/',
           url_format_user: 'http://totallynuclear.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

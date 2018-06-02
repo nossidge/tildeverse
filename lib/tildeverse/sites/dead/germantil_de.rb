@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +germantil.de+
     #
-    class GermantilDe < Tildeverse::Site
+    class GermantilDe < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +germantil.de+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://germantil.de/',
           url_format_user: 'http://germantil.de/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +hypertext.website+
     #
-    class HypertextWebsite < Tildeverse::Site
+    class HypertextWebsite < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +hypertext.website+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://hypertext.website/',
           url_format_user: 'http://hypertext.website/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

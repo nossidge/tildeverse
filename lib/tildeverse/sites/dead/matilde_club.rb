@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +matilde.club+
     #
-    class MatildeClub < Tildeverse::Site
+    class MatildeClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +matilde.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://matilde.club/~mikker/users.html',
           url_format_user: 'http://matilde.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

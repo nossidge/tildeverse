@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +rudimentarylathe.org+
     #
-    class RudimentarylatheOrg < Tildeverse::Site
+    class RudimentarylatheOrg < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +rudimentarylathe.org+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://rudimentarylathe.org/',
           url_format_user: 'http://rudimentarylathe.org/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

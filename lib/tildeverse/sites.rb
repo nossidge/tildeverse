@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-# Require all files in the subdirectory with the same name as this file.
-Dir["#{__FILE__.rpartition('.rb').first}/*.rb"].each { |file| require file }
-
 module Tildeverse
   ##
   # Namespace for site classes.
@@ -11,14 +8,18 @@ module Tildeverse
   #
   module Sites
     ##
-    # Find all Tilde site classes by returning the inheritors of {Site}.
+    # Find all Tilde site classes by returning the inheritors of {Site::Live}
+    # and {Site::Dead}.
     #
     # @return [Array<Class>]
     #
     def self.classes
       ObjectSpace.each_object(Class).select do |i|
-        i < Tildeverse::Site
+        i < Site::Live || i < Site::Dead
       end.sort_by(&:name)
     end
   end
 end
+
+# Require all files in the 'sites' subdirectory
+Dir["#{__dir__}/sites/*.rb"].each { |f| require f }

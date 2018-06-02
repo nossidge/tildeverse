@@ -22,6 +22,7 @@ module Tildeverse
 
     include AbstractType
     abstract_method :scrape_users
+    abstract_method :online?
 
     ##
     # (see Tildeverse::RemoteResource#name)
@@ -74,6 +75,13 @@ module Tildeverse
       initialize_users
     end
 
+    ##
+    # @return [Boolean] the site's known online status.
+    #
+    def online?
+      self.class.online?
+    end
+
     ############################################################################
 
     ##
@@ -93,22 +101,6 @@ module Tildeverse
     #
     def users
       @all_users.values.sort_by(&:name)
-    end
-
-    ############################################################################
-
-    ##
-    # @return [Boolean] the site's known online status.
-    #
-    def self.online?
-      true
-    end
-
-    ##
-    # @return [Boolean] the site's known online status.
-    #
-    def online?
-      self.class.online?
     end
 
     ############################################################################

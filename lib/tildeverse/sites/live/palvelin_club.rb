@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +palvelin.club+
     #
-    class PalvelinClub < Tildeverse::Site
+    class PalvelinClub < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +palvelin.club+
       #

@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +losangeles.pablo.xyz+
     #
-    class LosangelesPabloXyz < Tildeverse::Site
+    class LosangelesPabloXyz < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +losangeles.pablo.xyz+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://losangeles.pablo.xyz',
           url_format_user: 'http://losangeles.pablo.xyz/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

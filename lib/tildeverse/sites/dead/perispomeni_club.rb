@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +perispomeni.club+
     #
-    class PerispomeniClub < Tildeverse::Site
+    class PerispomeniClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +perispomeni.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://perispomeni.club/',
           url_format_user: 'http://perispomeni.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +tilde.camp+
     #
-    class TildeCamp < Tildeverse::Site
+    class TildeCamp < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +tilde.camp+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://tilde.camp/',
           url_format_user: 'http://tilde.camp/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +riotgirl.club+
     #
-    class RiotgirlClub < Tildeverse::Site
+    class RiotgirlClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +riotgirl.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://riotgirl.club/~jspc/tc.result.html',
           url_format_user: 'http://riotgirl.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

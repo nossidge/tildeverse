@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +spookyscary.science+
     #
-    class SpookyscaryScience < Tildeverse::Site
+    class SpookyscaryScience < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +spookyscary.science+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'https://spookyscary.science/~',
           url_format_user: 'https://spookyscary.science/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

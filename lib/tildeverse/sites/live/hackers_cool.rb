@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +hackers.cool+
     #
-    class HackersCool < Tildeverse::Site
+    class HackersCool < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +hackers.cool+
       #

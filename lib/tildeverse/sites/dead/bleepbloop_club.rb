@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +bleepbloop.club+
     #
-    class BleepbloopClub < Tildeverse::Site
+    class BleepbloopClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +bleepbloop.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'https://bleepbloop.club/~eos/',
           url_format_user: 'https://bleepbloop.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

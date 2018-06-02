@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +drawbridge.club+
     #
-    class DrawbridgeClub < Tildeverse::Site
+    class DrawbridgeClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +drawbridge.club+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'http://drawbridge.club/',
           url_format_user: 'http://drawbridge.club/~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##

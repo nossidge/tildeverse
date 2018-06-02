@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +pebble.ink+
     #
-    class PebbleInk < Tildeverse::Site
+    class PebbleInk < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +pebble.ink+
       #

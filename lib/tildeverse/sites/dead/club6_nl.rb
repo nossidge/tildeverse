@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +club6.nl+
     #
-    class Club6Nl < Tildeverse::Site
+    class Club6Nl < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +club6.nl+
       #
@@ -16,13 +16,6 @@ module Tildeverse
           resource: 'https://club6.nl/tilde.json',
           url_format_user: 'https://club6.nl~USER/'
         })
-      end
-
-      ##
-      # @return [Boolean] the site's known online status.
-      #
-      def self.online?
-        false
       end
 
       ##
