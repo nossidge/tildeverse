@@ -134,7 +134,8 @@ module Tildeverse
     #
     def tildeverse_json
       obj = Tildeverse.data.serialize_tildeverse_json
-      puts @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+      output = @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+      puts output rescue nil
     end
 
     ##
@@ -147,8 +148,8 @@ module Tildeverse
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.root[Regexp.new(regex)] } if regex
 
-      output = output_sites(sites)
-      puts (output || sites.map(&:name))
+      output = output_sites(sites) || sites.map(&:name)
+      puts output rescue nil
     end
 
     ##
@@ -162,8 +163,8 @@ module Tildeverse
       sites.select! { |i| i.root[Regexp.new(regex)] } if regex
       users = sites.map { |i| i.users }.flatten
 
-      output = output_users(users)
-      puts (output || users.map(&:name))
+      output = output_users(users) || users.map(&:name)
+      puts output rescue nil
     end
 
     ##
@@ -178,8 +179,8 @@ module Tildeverse
       users = Tildeverse.users
       users.select! { |i| i.url[Regexp.new(regex)] } if regex
 
-      output = output_users(users)
-      puts (output || users.map(&:url))
+      output = output_users(users) || users.map(&:url)
+      puts output rescue nil
     end
 
     private
