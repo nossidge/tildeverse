@@ -152,7 +152,7 @@ module Tildeverse
       @valid_root = true
       @valid_resource = true
 
-    rescue SocketError
+    rescue SocketError, OpenURI::HTTPError, Errno::EINVAL
       @result = nil
       @valid_resource = false
     end
@@ -164,11 +164,11 @@ module Tildeverse
     def try_connection_root
       return true if valid_resource?
 
-      # We don't need the actual response, just catch it on SocketError.
+      # We don't need the actual response, just catch it on error.
       open(@root, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
       @valid_root = true
 
-    rescue SocketError
+    rescue SocketError, OpenURI::HTTPError, Errno::EINVAL
       @valid_root = false
     end
   end
