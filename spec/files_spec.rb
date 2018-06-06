@@ -57,6 +57,18 @@ describe 'Tildeverse::Files' do
     expect(filepath).to eq check
   end
 
+  it '#config_yml' do
+    filepath = Tildeverse::Files.config_yml
+    check = rootpath + 'config' + 'config.yml'
+    expect(filepath).to eq check
+  end
+
+  it '#input_tildeverse_txt' do
+    data = Tildeverse::Files.input_tildeverse_txt
+    expect(data).to be_a Hash
+    expect(data).to_not be_empty
+  end
+
   it '#output_html_index' do
     filepath = Tildeverse::Files.output_html_index
     check = rootpath + 'output' + 'index.html'
@@ -89,6 +101,12 @@ describe 'Tildeverse::Files' do
     expect(data).to be_empty
   end
 
+  it '#output_tildeverse' do
+    data1 = Tildeverse::Files.output_tildeverse
+    data2 = Tildeverse::Files.output_tildeverse!
+    expect(data1).to eq data2
+  end
+
   it '#files_to_copy' do
     files = Tildeverse::Files.files_to_copy
     expect(files).to be_a Array
@@ -101,6 +119,11 @@ describe 'Tildeverse::Files' do
   it '#remote_json' do
     url = 'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
     expect(Tildeverse::Files.remote_json).to eq url
+  end
+
+  it '#remote_txt' do
+    url = 'https://tilde.town/~nossidge/tildeverse/tildeverse.txt'
+    expect(Tildeverse::Files.remote_txt).to eq url
   end
 
   it '#write?' do

@@ -160,7 +160,7 @@ module Tildeverse
       # @return [Hash] the contents of {Files#output_json_tildeverse}
       #
       def output_tildeverse!
-        @@output_tildeverse = begin
+        @output_tildeverse = begin
           JSON[
             read_utf8(output_json_tildeverse)
           ]
@@ -175,7 +175,7 @@ module Tildeverse
       # @return [Hash] the contents of {Files#output_json_tildeverse}
       #
       def output_tildeverse
-        @@output_tildeverse ||= output_tildeverse!
+        @output_tildeverse ||= output_tildeverse!
       end
 
       ##
