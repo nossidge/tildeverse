@@ -39,6 +39,15 @@ module Tildeverse
     end
 
     ##
+    # Serialise all sites in the sites_hash
+    #
+    # @return [Hash{String => Site#serialize_output}]
+    #
+    def serialize_all_sites
+      serialize_sites(sites_hash.values)
+    end
+
+    ##
     # Serialize data in the format of {Files#output_json_tildeverse}
     #
     # @return [Hash]
@@ -51,7 +60,7 @@ module Tildeverse
           date_unix:     Time.now.to_i,
           date_timezone: Time.now.getlocal.zone
         },
-        sites: serialize_sites(sites_hash.values)
+        sites: serialize_all_sites
       }
     end
 
