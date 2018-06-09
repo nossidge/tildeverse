@@ -1,8 +1,11 @@
 require 'bundler/setup'
 Bundler.setup
 
+# Don't need to test each site's scrape code.
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter 'tildeverse/sites'
+end
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tildeverse'
