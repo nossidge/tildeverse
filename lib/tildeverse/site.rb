@@ -64,9 +64,7 @@ module Tildeverse
     # @param [String] url_format_user
     #   The format that the site uses to map users to their homepage.
     #
-    def initialize(name: nil, root: nil, resource: root, url_format_user: nil)
-      raise NoMethodError unless name
-
+    def initialize(name:, root:, resource: root, url_format_user:)
       @name            = name
       @root            = root
       @resource        = resource
@@ -80,6 +78,8 @@ module Tildeverse
     #
     def online?
       self.class.online?
+    rescue NoMethodError
+      raise NotImplementedError, '#online? class method is not implemented'
     end
 
     ############################################################################
@@ -120,7 +120,15 @@ module Tildeverse
     #   # => 'https://imt.remotes.club/'
     #
     def user_page(user)
-      @url_format_user.sub('USER', user)
+      output = @url_format_user.sub('USER', user)
+
+      # Throw error if '@url_format_user' does not contain USER substring.
+      if @url_format_user == output
+        msg  = "#url_format_user should be in the form eg: "
+        msg += "http://www.example.com/~USER/"
+        raise ArgumentError, msg
+      end
+      output
     end
 
     ##
@@ -136,7 +144,7 @@ module Tildeverse
     #   On most Tilde servers, this is valid for local email only
     #
     def user_email(user)
-      "#{user}@#{name}"
+      "#{user.to_s}@#{name}"
     end
 
     ############################################################################
