@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +tilde.works+
     #
-    class TildeWorks < Tildeverse::Site::Live
+    class TildeWorks < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +tilde.works+
       #
