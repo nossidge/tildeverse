@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email         = ['nossidge@gmail.com']
 
   s.summary       = 'Tildeverse users scraper'
-  s.description   = 'Get a list of all users in the Tildeverse.'
+  s.description   = 'A directory of all users in the Tildeverse'
   s.homepage      = 'https://github.com/nossidge/tildeverse'
 
   s.version       = Tildeverse.version_number
@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('bundler', '~> 1.13')
   s.add_development_dependency('rake',    '~> 10.0')
   s.add_development_dependency('rspec',   '~> 3.0')
-  s.add_development_dependency('sinatra', '~> 2.0', '>= 2.0.0')
+  s.add_development_dependency('sinatra', '~> 2.0', '>= 2.0.2')
   s.add_development_dependency('simplecov', '~> 0.10', '>= 0.10.2')
 end
