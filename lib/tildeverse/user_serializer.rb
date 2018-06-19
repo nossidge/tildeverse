@@ -11,16 +11,7 @@ module Tildeverse
     # @return [String] string representation of the contents of the instance
     #
     def to_s
-      {
-        site:           @site.name,
-        name:           @name,
-        date_online:    @date_online,
-        date_offline:   @date_offline,
-        date_modified:  @date_modified,
-        date_tagged:    @date_tagged,
-        tags:           @tags.join(','),
-        online:         online?
-      }.to_s
+      UserSerializerClass.new(self).to_s
     end
 
     ##
@@ -29,11 +20,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_output
-      {}.tap do |h|
-        h[:tagged] = date_tagged if date_tagged
-        h[:tags]   = tags        if tags
-        h[:time]   = date_modified
-      end
+      UserSerializerClass.new(self).serialize_output
     end
 
     ##
@@ -42,15 +29,7 @@ module Tildeverse
     # @return [Array<String>]
     #
     def serialize_to_txt_array
-      [
-        @site.name,
-        @name,
-        @date_online,
-        @date_offline,
-        @date_modified,
-        @date_tagged,
-        @tags.empty? ? '-' : @tags.join(',')
-      ]
+      UserSerializerClass.new(self).serialize_to_txt_array
     end
   end
 end

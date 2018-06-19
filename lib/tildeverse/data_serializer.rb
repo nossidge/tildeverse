@@ -15,12 +15,7 @@ module Tildeverse
     # @return [Hash{String => Hash{String => User}}]
     #
     def serialize_users(users)
-      {}.tap do |site_hash|
-        users.each do |user|
-          site_hash[user.site.name] ||= {}
-          site_hash[user.site.name][user.name] = user.serialize_output
-        end
-      end
+      DataSerializerClass.new(self).serialize_users(users)
     end
 
     ##
@@ -31,11 +26,7 @@ module Tildeverse
     # @return [Hash{String => Site#serialize_output}]
     #
     def serialize_sites(sites)
-      {}.tap do |site_hash|
-        [*sites].each do |site|
-          site_hash[site.name] = site.serialize_output
-        end
-      end
+      DataSerializerClass.new(self).serialize_sites(sites)
     end
 
     ##
@@ -44,7 +35,7 @@ module Tildeverse
     # @return [Hash{String => Site#serialize_output}]
     #
     def serialize_all_sites
-      serialize_sites(sites_hash.values)
+      DataSerializerClass.new(self).serialize_all_sites
     end
 
     ##
@@ -53,15 +44,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_tildeverse_json
-      {
-        metadata: {
-          url: 'http://tilde.town/~nossidge/tildeverse/',
-          date_human:    Time.now.strftime('%Y/%m/%d %H:%M'),
-          date_unix:     Time.now.to_i,
-          date_timezone: Time.now.getlocal.zone
-        },
-        sites: serialize_all_sites
-      }
+      DataSerializerClass.new(self).serialize_tildeverse_json
     end
 
     ##
@@ -70,15 +53,7 @@ module Tildeverse
     # @return [Hash]
     #
     def serialize_users_json
-      {}.tap do |h1|
-        sites_hash.each_value do |site|
-          h1[site.root] = {}.tap do |h2|
-            site.users.map(&:name).each do |user|
-              h2[user] = site.user_page(user)
-            end
-          end
-        end
-      end
+      DataSerializerClass.new(self).serialize_users_json
     end
 
     ##
@@ -88,13 +63,7 @@ module Tildeverse
     # @return [Array<String>]
     #
     def serialize_tildeverse_txt
-      header = %w[
-        SITE_NAME USER_NAME DATE_ONLINE DATE_OFFLINE
-        DATE_MODIFIED DATE_TAGGED TAGS
-      ]
-      all_users = sites.map!(&:users).flatten!
-      user_table = [header] + all_users.map!(&:serialize_to_txt_array)
-      WSV.new(user_table).to_wsv
+      DataSerializerClass.new(self).serialize_tildeverse_txt
     end
   end
 end
