@@ -24,8 +24,9 @@ module Tildeverse
     def serialize_users(users)
       {}.tap do |site_hash|
         users.each do |user|
+          serializer = UserSerializerClass.new(user)
           site_hash[user.site.name] ||= {}
-          site_hash[user.site.name][user.name] = user.serialize_output
+          site_hash[user.site.name][user.name] = serializer.serialize_output
         end
       end
     end
@@ -40,7 +41,8 @@ module Tildeverse
     def serialize_sites(sites)
       {}.tap do |site_hash|
         [*sites].each do |site|
-          site_hash[site.name] = site.serialize_output
+          serializer = SiteSerializerClass.new(site)
+          site_hash[site.name] = serializer.serialize_output
         end
       end
     end
@@ -100,7 +102,9 @@ module Tildeverse
         DATE_MODIFIED DATE_TAGGED TAGS
       ]
       all_users = @data.sites.map!(&:users).flatten!
-      user_table = [header] + all_users.map!(&:serialize_to_txt_array)
+      user_table = [header] + all_users.map! do |user|
+        UserSerializerClass.new(user).serialize_to_txt_array
+      end
       WSV.new(user_table).to_wsv
     end
   end

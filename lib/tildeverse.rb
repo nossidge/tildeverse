@@ -8,6 +8,10 @@ require 'json'
 require 'yaml'
 require 'abstract_type'
 
+require_relative 'tildeverse/data_serializer_class'
+require_relative 'tildeverse/site_serializer_class'
+require_relative 'tildeverse/user_serializer_class'
+
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/wsv'
 require_relative 'tildeverse/files'
