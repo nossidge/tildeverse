@@ -3,21 +3,23 @@
 describe 'Tildeverse::Data' do
 
   # Same info as Config class, but not tied to a file on the system.
-  ConfigStruct = Struct.new(
-    :update_type,
-    :update_frequency,
-    :generate_html,
-    :updated_on
-  ) do
-    def generate_html?; generate_html; end
-    def update; nil; end
+  let(:config_struct) do
+    Struct.new(
+      :update_type,
+      :update_frequency,
+      :generate_html,
+      :updated_on
+    ) do
+      def generate_html?; generate_html; end
+      def update; nil; end
+    end
   end
 
-  def config
-    ConfigStruct.new('scrape', 'week', false, '2018-06-08')
+  let(:config) do
+    config_struct.new('scrape', 'week', false, '2018-06-08')
   end
 
-  def instance
+  let(:instance) do
     Tildeverse::Data.new(config)
   end
 
@@ -104,14 +106,14 @@ describe 'Tildeverse::Data' do
   # Should only call '#save_website' if the config value is set.
   it '#save_with_config' do
     save_website = true
-    config = ConfigStruct.new('scrape', 'week', save_website, '2018-06-08')
+    config = config_struct.new('scrape', 'week', save_website, '2018-06-08')
     data = Tildeverse::Data.new(config)
     expect(data).to receive(:save)
     expect(data).to receive(:save_website)
     data.save_with_config
 
     save_website = false
-    config = ConfigStruct.new('scrape', 'week', save_website, '2018-06-08')
+    config = config_struct.new('scrape', 'week', save_website, '2018-06-08')
     data = Tildeverse::Data.new(config)
     expect(data).to receive(:save)
     expect(data).to_not receive(:save_website)
@@ -133,48 +135,5 @@ describe 'Tildeverse::Data' do
     data.clear
     user = data.user('nossidge').first
     expect(user.tags).to eq old_tags
-  end
-
-  it '#serialize_users' do
-    %w[nossidge imt foo].each do |username|
-      users = instance.user(username)
-      hash = instance.serialize_users(users)
-      users.each do |user_obj|
-        sitename = user_obj.site.name
-        %i[tagged tags time].each do |i|
-          expect(hash.dig(sitename, username, i)).to_not be nil
-        end
-      end
-    end
-  end
-
-  it '#serialize_sites' do
-    %w[pebble.ink tilde.town].each do |sitename|
-      sites = instance.site(sitename)
-      hash = instance.serialize_sites(sites)
-      %i[url_root url_list url_format_user online user_count users].each do |i|
-        expect(hash.dig(sitename, i)).to_not be nil
-      end
-    end
-  end
-
-  it '#serialize_tildeverse_json' do
-    hash = instance.serialize_tildeverse_json
-    expect(hash[:metadata]).to_not be nil
-    %i[url date_human date_unix date_timezone].each do |i|
-      expect(hash.dig(:metadata, i)).to_not be nil
-    end
-    expect(hash[:sites]).to eq instance.serialize_all_sites
-  end
-
-  it '#serialize_users_json' do
-    hash = instance.serialize_users_json
-    hash.each do |site, site_hash|
-      expect(site).to be_a String
-      site_hash.each do |user_name, user_url|
-        expect(user_name).to be_a String
-        expect(user_url).to be_a String
-      end
-    end
   end
 end

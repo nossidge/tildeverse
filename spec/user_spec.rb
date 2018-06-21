@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
 describe 'Tildeverse::User' do
-  SiteStruct = Struct.new(:name) do
-    def ==(o)
-      name == o.name
-    end
-  end
-
   def example_data
-    site = SiteStruct.new('example.com')
+    site_struct = Struct.new(:name) do
+      def ==(o)
+        name == o.name
+      end
+    end
+    site = site_struct.new('example.com')
     {
       site:           site,
       name:           'paul',
@@ -62,57 +61,5 @@ describe 'Tildeverse::User' do
     user = instance
     expect(user.site).to receive(:user_email).with(user.name)
     user.email
-  end
-
-  ##############################################################################
-
-  it '#to_s' do
-    user = instance
-    data = user.to_s
-    expect(data).to be_a String
-    expect(data).to eq ({
-      site:           example_data[:site].name,
-      name:           example_data[:name],
-      date_online:    example_data[:date_online],
-      date_offline:   example_data[:date_offline],
-      date_modified:  example_data[:date_modified],
-      date_tagged:    example_data[:date_tagged],
-      tags:           example_data[:tags].join(','),
-      online:         false
-    }.to_s)
-  end
-
-  it '#serialize_output' do
-    user = instance
-    data = user.serialize_output
-    expect(data).to be_a Hash
-    expect(data[:tagged]).to eq example_data[:date_tagged]
-    expect(data[:tags]).to eq example_data[:tags]
-    expect(data[:time]).to eq example_data[:date_modified]
-    expect(data[:junk]).to be_nil
-  end
-
-  it '#serialize_to_txt_array' do
-    user = instance
-    data = user.serialize_to_txt_array
-    expect(data).to be_an Array
-
-    expected_contents = [
-      example_data[:site].name,
-      example_data[:name],
-      example_data[:date_online],
-      example_data[:date_offline],
-      example_data[:date_modified],
-      example_data[:date_tagged],
-      example_data[:tags].join(',')
-    ]
-    expect(data).to eq expected_contents
-
-    # With empty tags, it should use '-'
-    user.tags = []
-    expected_contents[-1] = '-'
-    expected_contents[-2] = Date.today.to_s
-    data = user.serialize_to_txt_array
-    expect(data).to eq expected_contents
   end
 end
