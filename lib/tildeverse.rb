@@ -8,18 +8,14 @@ require 'json'
 require 'yaml'
 require 'abstract_type'
 
-require_relative 'tildeverse/data_serializer_class'
-require_relative 'tildeverse/site_serializer_class'
-require_relative 'tildeverse/user_serializer_class'
-
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/wsv'
 require_relative 'tildeverse/files'
 require_relative 'tildeverse/config'
 require_relative 'tildeverse/remote_resource'
-require_relative 'tildeverse/user_serializer'
-require_relative 'tildeverse/site_serializer'
-require_relative 'tildeverse/data_serializer'
+require_relative 'tildeverse/user_serializer_class'
+require_relative 'tildeverse/site_serializer_class'
+require_relative 'tildeverse/data_serializer_class'
 require_relative 'tildeverse/user'
 require_relative 'tildeverse/site'
 require_relative 'tildeverse/data'
@@ -29,10 +25,6 @@ require_relative 'tildeverse/pfhawkins'
 require_relative 'tildeverse/scraper'
 require_relative 'tildeverse/fetcher'
 require_relative 'tildeverse/version'
-
-# Fixes bug with 'open-uri' not using 'tempfile' correctly.
-# 'could not find a temporary directory (ArgumentError)'
-ENV['TMPDIR'] = Tildeverse::Files.dir_output.to_s
 
 ################################################################################
 

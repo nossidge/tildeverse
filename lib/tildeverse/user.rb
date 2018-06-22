@@ -10,8 +10,6 @@ module Tildeverse
   #       └── User   (has many)
   #
   class User
-    include UserSerializer
-
     ##
     # @return [Site] The site the user belongs to.
     #

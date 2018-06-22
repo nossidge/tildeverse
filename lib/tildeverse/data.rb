@@ -32,8 +32,6 @@ module Tildeverse
   #   # => ['dave@tilde.club', 'dave@tilde.town']
   #
   class Data
-    include DataSerializer
-
     ##
     # @return [Config]
     #

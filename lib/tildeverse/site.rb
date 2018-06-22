@@ -18,8 +18,6 @@ module Tildeverse
   # This method defines how the user list is scraped on that site.
   #
   class Site
-    include SiteSerializer
-
     include AbstractType
     abstract_method :scrape_users
     abstract_method :online?
