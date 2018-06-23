@@ -42,7 +42,7 @@ module Tildeverse
     #
     def initialize(config)
       @config = config
-      @serializer = DataSerializerClass.new(self)
+      @serializer = DataSerializer.new(self)
     end
 
     ##

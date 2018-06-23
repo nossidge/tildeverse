@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-describe 'Tildeverse::DataSerializerClass' do
+describe 'Tildeverse::DataSerializer' do
 
   # Same info as Config class, but not tied to a file on the system.
   let(:config_struct) do
@@ -27,7 +27,7 @@ describe 'Tildeverse::DataSerializerClass' do
 
   it '#serialize_users(users)' do
     data = instance
-    serializer = Tildeverse::DataSerializerClass.new(data)
+    serializer = Tildeverse::DataSerializer.new(data)
     %w[nossidge imt foo].each do |username|
       users = data.user(username)
       hash = serializer.serialize_users(users)
@@ -42,7 +42,7 @@ describe 'Tildeverse::DataSerializerClass' do
 
   it '#serialize_sites' do
     data = instance
-    serializer = Tildeverse::DataSerializerClass.new(data)
+    serializer = Tildeverse::DataSerializer.new(data)
     %w[pebble.ink tilde.town].each do |sitename|
       sites = data.site(sitename)
       hash = serializer.serialize_sites(sites)
@@ -54,7 +54,7 @@ describe 'Tildeverse::DataSerializerClass' do
 
   it '#serialize_tildeverse_json' do
     data = instance
-    serializer = Tildeverse::DataSerializerClass.new(data)
+    serializer = Tildeverse::DataSerializer.new(data)
     hash = serializer.serialize_tildeverse_json
     expect(hash[:metadata]).to_not be nil
     %i[url date_human date_unix date_timezone].each do |i|
@@ -65,7 +65,7 @@ describe 'Tildeverse::DataSerializerClass' do
 
   it '#serialize_users_json' do
     data = instance
-    serializer = Tildeverse::DataSerializerClass.new(data)
+    serializer = Tildeverse::DataSerializer.new(data)
     hash = serializer.serialize_users_json
     hash.each do |site, site_hash|
       expect(site).to be_a String

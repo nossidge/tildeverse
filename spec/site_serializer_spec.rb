@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-describe 'Tildeverse::SiteSerializerClass' do
+describe 'Tildeverse::SiteSerializer' do
   valid_params = {
     name: 'example.com',
     root: 'http://www.example.com',
@@ -16,7 +16,7 @@ describe 'Tildeverse::SiteSerializerClass' do
 
     it 'should return correct header if no users' do
       site = SiteImplementingAllMethods.new(valid_params)
-      serializer = Tildeverse::SiteSerializerClass.new(site)
+      serializer = Tildeverse::SiteSerializer.new(site)
       hash = serializer.serialize_output
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]
@@ -34,7 +34,7 @@ describe 'Tildeverse::SiteSerializerClass' do
       params = valid_params.dup
       params[:name] = 'pebble.ink'
       site = SiteImplementingAllMethods.new(params)
-      serializer = Tildeverse::SiteSerializerClass.new(site)
+      serializer = Tildeverse::SiteSerializer.new(site)
       hash = serializer.serialize_output
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]

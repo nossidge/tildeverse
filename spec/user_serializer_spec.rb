@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-describe 'Tildeverse::UserSerializerClass' do
+describe 'Tildeverse::UserSerializer' do
   def example_data
     site_struct = Struct.new(:name) do
       def ==(o)
@@ -28,7 +28,7 @@ describe 'Tildeverse::UserSerializerClass' do
   describe '#to_s' do
     it 'should correctly serialise to string' do
       user = instance
-      serializer = Tildeverse::UserSerializerClass.new(user)
+      serializer = Tildeverse::UserSerializer.new(user)
       data = serializer.to_s
       expect(data).to be_a String
       expect(data).to eq ({
@@ -47,7 +47,7 @@ describe 'Tildeverse::UserSerializerClass' do
   describe '#serialize_output' do
     it 'should correctly serialise to hash' do
       user = instance
-      serializer = Tildeverse::UserSerializerClass.new(user)
+      serializer = Tildeverse::UserSerializer.new(user)
       data = serializer.serialize_output
       expect(data).to be_a Hash
       expect(data[:tagged]).to eq example_data[:date_tagged]
@@ -60,7 +60,7 @@ describe 'Tildeverse::UserSerializerClass' do
   describe '#serialize_to_txt_array' do
     it 'should correctly serialise to array' do
       user = instance
-      serializer = Tildeverse::UserSerializerClass.new(user)
+      serializer = Tildeverse::UserSerializer.new(user)
       data = serializer.serialize_to_txt_array
       expect(data).to be_an Array
 
@@ -79,7 +79,7 @@ describe 'Tildeverse::UserSerializerClass' do
       user.tags = []
       expected_contents[-1] = '-'
       expected_contents[-2] = Date.today.to_s
-      data = user.serialize_to_txt_array
+      data = serializer.serialize_to_txt_array
       expect(data).to eq expected_contents
     end
   end

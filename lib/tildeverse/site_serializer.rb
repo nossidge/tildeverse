@@ -6,7 +6,7 @@ module Tildeverse
   #
   # To be included by the {Site} class
   #
-  class SiteSerializerClass
+  class SiteSerializer
     ##
     # @param [Site] site Site object to serialise
     #
@@ -48,7 +48,7 @@ module Tildeverse
     def serialize_users(users_array)
       {}.tap do |h|
         users_array.each do |user|
-          serializer = UserSerializerClass.new(user)
+          serializer = UserSerializer.new(user)
           h[user.name] = serializer.serialize_output
         end
       end

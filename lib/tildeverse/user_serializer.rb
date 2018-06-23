@@ -6,7 +6,7 @@ module Tildeverse
   #
   # To be included by the {User} class
   #
-  class UserSerializerClass
+  class UserSerializer
     ##
     # @param [User] user User object to serialise
     #
