@@ -63,6 +63,13 @@ module Tildeverse
     end
 
     ##
+    # @return [UserSerializer] serializer object
+    #
+    def serialize
+      UserSerializer.new(self)
+    end
+
+    ##
     # Set the {tags} attribute
     #
     # @param [Array<String>] tags the array of tags

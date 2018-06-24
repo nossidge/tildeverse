@@ -14,7 +14,7 @@ module Tildeverse
   # This class exists to be inherited from. All classes in the
   # {Tildeverse::Site} namespace should be children of this class.
   #
-  # All child classes MUST define a method named {#scrape_users}.
+  # All child classes MUST define a method named +#scrape_users+.
   # This method defines how the user list is scraped on that site.
   #
   class Site
@@ -72,6 +72,13 @@ module Tildeverse
     end
 
     ##
+    # @return [SiteSerializer] serializer object
+    #
+    def serialize
+      SiteSerializer.new(self)
+    end
+
+    ##
     # @return [Boolean] the site's known online status.
     #
     def online?
@@ -122,8 +129,8 @@ module Tildeverse
 
       # Throw error if '@url_format_user' does not contain USER substring.
       if @url_format_user == output
-        msg  = "#url_format_user should be in the form eg: "
-        msg += "http://www.example.com/~USER/"
+        msg  = '#url_format_user should be in the form eg: '
+        msg += 'http://www.example.com/~USER/'
         raise ArgumentError, msg
       end
       output
@@ -142,7 +149,7 @@ module Tildeverse
     #   On most Tilde servers, this is valid for local email only
     #
     def user_email(user)
-      "#{user.to_s}@#{name}"
+      "#{user}@#{name}"
     end
 
     ############################################################################

@@ -24,9 +24,8 @@ module Tildeverse
     def serialize_users(users)
       {}.tap do |site_hash|
         users.each do |user|
-          serializer = UserSerializer.new(user)
           site_hash[user.site.name] ||= {}
-          site_hash[user.site.name][user.name] = serializer.serialize_output
+          site_hash[user.site.name][user.name] = user.serialize.serialize_output
         end
       end
     end
@@ -41,8 +40,7 @@ module Tildeverse
     def serialize_sites(sites)
       {}.tap do |site_hash|
         [*sites].each do |site|
-          serializer = SiteSerializer.new(site)
-          site_hash[site.name] = serializer.serialize_output
+          site_hash[site.name] = site.serialize.serialize_output
         end
       end
     end
@@ -103,7 +101,7 @@ module Tildeverse
       ]
       all_users = @data.sites.map!(&:users).flatten!
       user_table = [header] + all_users.map! do |user|
-        UserSerializer.new(user).serialize_to_txt_array
+        user.serialize.serialize_to_txt_array
       end
       WSV.new(user_table).to_wsv
     end

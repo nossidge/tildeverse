@@ -51,8 +51,7 @@ module Tildeverse
     # This is given to the client as an Xreq.
     #
     get '/tildeverse.json' do
-      serializer = DataSerializer.new(Tildeverse.data)
-      serializer.serialize_tildeverse_json.to_json
+      data.serialize.serialize_tildeverse_json.to_json
     end
 
     ##

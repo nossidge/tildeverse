@@ -51,6 +51,16 @@ describe 'Tildeverse::Site' do
 
   ##############################################################################
 
+  describe '#serialize' do
+    it 'should be an instance of the correct Serializer class' do
+      obj = Class.new(Tildeverse::Site).new(valid_params)
+      serializer = obj.serialize
+      expect(serializer).to be_a Tildeverse::SiteSerializer
+    end
+  end
+
+  ##############################################################################
+
   describe 'abstract_method #scrape_users' do
     class SiteImplementingScrapeUsers < Tildeverse::Site
       def scrape_users; 'foo'; end

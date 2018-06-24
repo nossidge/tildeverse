@@ -48,8 +48,7 @@ module Tildeverse
     def serialize_users(users_array)
       {}.tap do |h|
         users_array.each do |user|
-          serializer = UserSerializer.new(user)
-          h[user.name] = serializer.serialize_output
+          h[user.name] = user.serialize.serialize_output
         end
       end
     end

@@ -25,6 +25,11 @@ describe 'Tildeverse::Data' do
 
   ##############################################################################
 
+  it '#serialize' do
+    serializer = instance.serialize
+    expect(serializer).to be_a Tildeverse::DataSerializer
+  end
+
   it '#config' do
     expect(instance.config).to eq config
   end

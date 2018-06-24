@@ -33,6 +33,11 @@ describe 'Tildeverse::User' do
     expect(user.site.name).to eq 'example.com'
   end
 
+  it '#serialize' do
+    serializer = instance.serialize
+    expect(serializer).to be_a Tildeverse::UserSerializer
+  end
+
   it '#tags=' do
     user = instance
     old_tags = user.tags
