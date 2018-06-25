@@ -133,7 +133,7 @@ module Tildeverse
     # -p switch will output in pretty format
     #
     def tildeverse_json
-      obj = Tildeverse.data.serialize_tildeverse_json
+      obj = Tildeverse.data.serialize.for_tildeverse_json
       output = @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       puts output rescue nil
     end
@@ -207,7 +207,7 @@ module Tildeverse
         WSV.new(output).to_wsv
 
       elsif @options[:json] || @options[:pretty]
-        obj = Tildeverse.data.serialize_users(users)
+        obj = Tildeverse.data.serialize.users(users)
         @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       end
     end
@@ -231,7 +231,7 @@ module Tildeverse
         WSV.new(output).to_wsv(rjust: [2])
 
       elsif @options[:json] || @options[:pretty]
-        obj = Tildeverse.data.serialize_sites(sites)
+        obj = Tildeverse.data.serialize.sites(sites)
         @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       end
     end

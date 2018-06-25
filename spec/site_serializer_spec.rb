@@ -8,7 +8,7 @@ describe 'Tildeverse::SiteSerializer' do
     url_format_user: 'http://www.example.com/~USER/'
   }
 
-  describe '#serialize_output' do
+  describe '#for_tildeverse_json' do
     class SiteImplementingAllMethods < Tildeverse::Site
       def scrape_users; 'foo'; end
       def online?; 'foo'; end
@@ -17,7 +17,7 @@ describe 'Tildeverse::SiteSerializer' do
     it 'should return correct header if no users' do
       site = SiteImplementingAllMethods.new(valid_params)
       serializer = Tildeverse::SiteSerializer.new(site)
-      hash = serializer.serialize_output
+      hash = serializer.for_tildeverse_json
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]
       expect(hash.keys).to eq keys
@@ -35,7 +35,7 @@ describe 'Tildeverse::SiteSerializer' do
       params[:name] = 'pebble.ink'
       site = SiteImplementingAllMethods.new(params)
       serializer = Tildeverse::SiteSerializer.new(site)
-      hash = serializer.serialize_output
+      hash = serializer.for_tildeverse_json
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]
       expect(hash.keys).to eq keys

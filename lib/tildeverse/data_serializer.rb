@@ -4,9 +4,9 @@ module Tildeverse
   ##
   # Methods for serialising data at a high level
   #
-  # To be included by the {Data} class
-  #
   class DataSerializer
+    attr_reader :data
+
     ##
     # @param [Data] data Data object to serialise
     #
@@ -21,11 +21,12 @@ module Tildeverse
     # @param [Array<User>] users
     # @return [Hash{String => Hash{String => User}}]
     #
-    def serialize_users(users)
+    def users(users = data.users)
       {}.tap do |site_hash|
         users.each do |user|
-          site_hash[user.site.name] ||= {}
-          site_hash[user.site.name][user.name] = user.serialize.serialize_output
+          site_name = user.site.name
+          site_hash[site_name] ||= {}
+          site_hash[site_name][user.name] = user.serialize.for_tildeverse_json
         end
       end
     end
@@ -35,23 +36,14 @@ module Tildeverse
     # then user name, then user details
     #
     # @param [Array<Site>] sites
-    # @return [Hash{String => Site#serialize_output}]
+    # @return [Hash{String => SiteSerializer#for_tildeverse_json}]
     #
-    def serialize_sites(sites)
+    def sites(sites = data.sites)
       {}.tap do |site_hash|
         [*sites].each do |site|
-          site_hash[site.name] = site.serialize.serialize_output
+          site_hash[site.name] = site.serialize.for_tildeverse_json
         end
       end
-    end
-
-    ##
-    # Serialise all sites in the sites_hash
-    #
-    # @return [Hash{String => Site#serialize_output}]
-    #
-    def serialize_all_sites
-      serialize_sites(@data.sites)
     end
 
     ##
@@ -59,7 +51,7 @@ module Tildeverse
     #
     # @return [Hash]
     #
-    def serialize_tildeverse_json
+    def for_tildeverse_json
       {
         metadata: {
           url: 'http://tilde.town/~nossidge/tildeverse/',
@@ -67,7 +59,7 @@ module Tildeverse
           date_unix:     Time.now.to_i,
           date_timezone: Time.now.getlocal.zone
         },
-        sites: serialize_all_sites
+        sites: sites(data.sites)
       }
     end
 
@@ -76,9 +68,9 @@ module Tildeverse
     #
     # @return [Hash]
     #
-    def serialize_users_json
+    def for_users_json
       {}.tap do |h1|
-        @data.sites.each do |site|
+        data.sites.each do |site|
           h1[site.root] = {}.tap do |h2|
             site.users.map(&:name).each do |user|
               h2[user] = site.user_page(user)
@@ -94,14 +86,14 @@ module Tildeverse
     #
     # @return [Array<String>]
     #
-    def serialize_tildeverse_txt
+    def for_tildeverse_txt
       header = %w[
         SITE_NAME USER_NAME DATE_ONLINE DATE_OFFLINE
         DATE_MODIFIED DATE_TAGGED TAGS
       ]
-      all_users = @data.sites.map!(&:users).flatten!
+      all_users = data.sites.map!(&:users).flatten!
       user_table = [header] + all_users.map! do |user|
-        user.serialize.serialize_to_txt_array
+        user.serialize.to_a
       end
       WSV.new(user_table).to_wsv
     end

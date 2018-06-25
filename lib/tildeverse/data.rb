@@ -91,11 +91,11 @@ module Tildeverse
     # Serialise data to files 'tildeverse.txt' and 'tildeverse.json'
     #
     def save
-      wsv = serialize.serialize_tildeverse_txt
+      wsv = serialize.for_tildeverse_txt
       file = Files.dir_input + 'tildeverse.txt'
       Files.save_array(wsv, file)
 
-      json = serialize.serialize_tildeverse_json
+      json = serialize.for_tildeverse_json
       file = Files.output_json_tildeverse
       Files.save_json(json, file)
 
@@ -109,7 +109,7 @@ module Tildeverse
       #
       # Write 'users.json' for backwards compatibility.
       # Used by http://tilde.town/~insom/modified.html
-      json = serialize.serialize_users_json
+      json = serialize.for_users_json
       file = Files.output_json_users
       Files.save_json(json, file)
 

@@ -108,6 +108,13 @@ module Tildeverse
       @all_users.values.sort_by(&:name)
     end
 
+    ##
+    # @return [Array<User>] all users that are online
+    #
+    def users_online
+      users.select(&:online?)
+    end
+
     ############################################################################
 
     ##

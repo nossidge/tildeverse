@@ -44,11 +44,11 @@ describe 'Tildeverse::UserSerializer' do
     end
   end
 
-  describe '#serialize_output' do
+  describe '#for_tildeverse_json' do
     it 'should correctly serialise to hash' do
       user = instance
       serializer = Tildeverse::UserSerializer.new(user)
-      data = serializer.serialize_output
+      data = serializer.for_tildeverse_json
       expect(data).to be_a Hash
       expect(data[:tagged]).to eq example_data[:date_tagged]
       expect(data[:tags]).to eq example_data[:tags]
@@ -57,11 +57,11 @@ describe 'Tildeverse::UserSerializer' do
     end
   end
 
-  describe '#serialize_to_txt_array' do
+  describe '#to_a' do
     it 'should correctly serialise to array' do
       user = instance
       serializer = Tildeverse::UserSerializer.new(user)
-      data = serializer.serialize_to_txt_array
+      data = serializer.to_a
       expect(data).to be_an Array
 
       expected_contents = [
@@ -79,7 +79,7 @@ describe 'Tildeverse::UserSerializer' do
       user.tags = []
       expected_contents[-1] = '-'
       expected_contents[-2] = Date.today.to_s
-      data = serializer.serialize_to_txt_array
+      data = serializer.to_a
       expect(data).to eq expected_contents
     end
   end
