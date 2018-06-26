@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +germantil.de+
       #
       def initialize
-        super({
+        super(
           name: 'germantil.de',
-          root: 'http://germantil.de/',
-          resource: 'http://germantil.de/',
-          url_format_user: 'http://germantil.de/~USER/'
-        })
+          url_root: 'http://germantil.de/',
+          url_list: 'http://germantil.de/',
+          homepage_format: 'http://germantil.de/~USER/'
+        )
       end
 
       ##

@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +hypertext.website+
       #
       def initialize
-        super({
+        super(
           name: 'hypertext.website',
-          root: 'http://hypertext.website/',
-          resource: 'http://hypertext.website/',
-          url_format_user: 'http://hypertext.website/~USER/'
-        })
+          url_root: 'http://hypertext.website/',
+          url_list: 'http://hypertext.website/',
+          homepage_format: 'http://hypertext.website/~USER/'
+        )
       end
 
       ##

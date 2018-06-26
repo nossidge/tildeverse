@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +sunburnt.country+
       #
       def initialize
-        super({
+        super(
           name: 'sunburnt.country',
-          root: 'http://sunburnt.country/',
-          resource: 'http://sunburnt.country/~tim/directory.html',
-          url_format_user: 'http://sunburnt.country/~USER/'
-        })
+          url_root: 'http://sunburnt.country/',
+          url_list: 'http://sunburnt.country/~tim/directory.html',
+          homepage_format: 'http://sunburnt.country/~USER/'
+        )
       end
 
       ##

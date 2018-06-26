@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +protocol.club+
       #
       def initialize
-        super({
+        super(
           name: 'protocol.club',
-          root: 'http://protocol.club/',
-          resource: 'http://protocol.club/~insom/protocol.24h.html',
-          url_format_user: 'http://protocol.club/~USER/'
-        })
+          url_root: 'http://protocol.club/',
+          url_list: 'http://protocol.club/~insom/protocol.24h.html',
+          homepage_format: 'http://protocol.club/~USER/'
+        )
       end
 
       ##

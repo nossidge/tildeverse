@@ -15,17 +15,15 @@ module Tildeverse
   #
   class RemoteResource
     ##
-    # Not used in the code, just for reference.
-    # @return [String]
+    # @return [String] the name of the website
     # @example
-    #   'example'
+    #   'example.com'
     #   'tilde.town'
     #
     attr_reader :name
 
     ##
-    # The root URL of the domain.
-    # @return [String]
+    # @return [String] the root URL of the domain
     # @example
     #   'http://example.com/'
     #   'https://tilde.town/'
@@ -33,8 +31,7 @@ module Tildeverse
     attr_reader :root
 
     ##
-    # The URL of the required resource.
-    # @return [String]
+    # @return [String] the URL of the required resource
     # @example
     #   'http://example.com/users.html'
     #   'https://tilde.town/~dan/users.json'

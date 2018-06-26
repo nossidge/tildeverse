@@ -20,9 +20,9 @@ module Tildeverse
     #
     def to_h(users_array = site.users_online)
       {
-        url_root:         site.root,
-        url_list:         site.resource,
-        url_format_user:  site.url_format_user,
+        url_root:         site.url_root,
+        url_list:         site.url_list,
+        url_format_user:  site.homepage_format,
         online:           site.online?,
         user_count:       users_array.count,
         users:            serialize_users(users_array)

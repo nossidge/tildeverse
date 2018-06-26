@@ -3,9 +3,9 @@
 describe 'Tildeverse::SiteSerializer' do
   valid_params = {
     name: 'example.com',
-    root: 'http://www.example.com',
-    resource: 'http://www.example.com/userlist.json',
-    url_format_user: 'http://www.example.com/~USER/'
+    url_root: 'http://www.example.com',
+    url_list: 'http://www.example.com/userlist.json',
+    homepage_format: 'http://www.example.com/~USER/'
   }
 
   describe '#for_tildeverse_json' do
@@ -21,9 +21,9 @@ describe 'Tildeverse::SiteSerializer' do
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]
       expect(hash.keys).to eq keys
-      expect(hash[:url_root]).to eq valid_params[:root]
-      expect(hash[:url_list]).to eq valid_params[:resource]
-      expect(hash[:url_format_user]).to eq valid_params[:url_format_user]
+      expect(hash[:url_root]).to eq valid_params[:url_root]
+      expect(hash[:url_list]).to eq valid_params[:url_list]
+      expect(hash[:url_format_user]).to eq valid_params[:homepage_format]
       expect(hash[:online]).to eq site.online?
       expect(hash[:users]).to be_a Hash
       expect(hash[:users].keys.count).to eq hash[:user_count]
@@ -39,9 +39,9 @@ describe 'Tildeverse::SiteSerializer' do
       expect(hash).to be_a Hash
       keys = %i[url_root url_list url_format_user online user_count users]
       expect(hash.keys).to eq keys
-      expect(hash[:url_root]).to eq params[:root]
-      expect(hash[:url_list]).to eq params[:resource]
-      expect(hash[:url_format_user]).to eq params[:url_format_user]
+      expect(hash[:url_root]).to eq params[:url_root]
+      expect(hash[:url_list]).to eq params[:url_list]
+      expect(hash[:url_format_user]).to eq params[:homepage_format]
       expect(hash[:online]).to eq site.online?
       expect(hash[:users]).to be_a Hash
       expect(hash[:users].keys.count).to eq hash[:user_count]

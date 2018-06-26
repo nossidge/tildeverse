@@ -23,19 +23,28 @@ module Tildeverse
     abstract_method :online?
 
     ##
-    # (see Tildeverse::RemoteResource#name)
-    # .
+    # @return [String] the name of the website
+    # @example
+    #   'example.com'
+    #   'tilde.town'
+    #
     attr_reader :name
 
     ##
-    # (see Tildeverse::RemoteResource#root)
-    # .
-    attr_reader :root
+    # @return [String] the root URL of the website
+    # @example
+    #   'http://example.com/'
+    #   'https://tilde.town/'
+    #
+    attr_reader :url_root
 
     ##
-    # (see Tildeverse::RemoteResource#resource)
-    # .
-    attr_reader :resource
+    # @return [String] the URL of the user list
+    # @example
+    #   'http://example.com/users.html'
+    #   'https://tilde.town/~dan/users.json'
+    #
+    attr_reader :url_list
 
     ##
     # @return [String]
@@ -44,7 +53,7 @@ module Tildeverse
     #   'https://tilde.town/~USER/'
     #   'https://USER.remotes.club/'
     #
-    attr_reader :url_format_user
+    attr_reader :homepage_format
 
     ##
     # Returns a new instance of Site.
@@ -54,19 +63,19 @@ module Tildeverse
     #
     # @param [String] name
     #   An identifier for the connection.
-    # @param [String] root
+    # @param [String] url_root
     #   The root URL of the domain.
-    # @param [String] resource
+    # @param [String] url_list
     #   The URL of the user list.
-    #   If the resource is not specified, assume it's the same as root.
-    # @param [String] url_format_user
+    #   If list URL is not specified, assume it's the same as root URL.
+    # @param [String] homepage_format
     #   The format that the site uses to map users to their homepage.
     #
-    def initialize(name:, root:, resource: root, url_format_user:)
+    def initialize(name:, url_root:, url_list: url_root, homepage_format:)
       @name            = name
-      @root            = root
-      @resource        = resource
-      @url_format_user = url_format_user
+      @url_root        = url_root
+      @url_list        = url_list
+      @homepage_format = homepage_format
 
       initialize_users
     end
@@ -118,7 +127,7 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Use {#url_format_user} to map the user to their homepage URL.
+    # Use {#homepage_format} to map the user to their homepage URL.
     #
     # @param [String] user The name of the user.
     # @return [String] user's homepage.
@@ -132,11 +141,11 @@ module Tildeverse
     #   # => 'https://imt.remotes.club/'
     #
     def user_page(user)
-      output = @url_format_user.sub('USER', user)
+      output = @homepage_format.sub('USER', user)
 
-      # Throw error if '@url_format_user' does not contain USER substring.
-      if @url_format_user == output
-        msg  = '#url_format_user should be in the form eg: '
+      # Throw error if '@homepage_format' does not contain USER substring.
+      if @homepage_format == output
+        msg  = '#homepage_format should be in the form eg: '
         msg += 'http://www.example.com/~USER/'
         raise ArgumentError, msg
       end
@@ -243,17 +252,17 @@ module Tildeverse
     end
 
     ##
-    # Create a connection to the remote {#resource}.
+    # Create a connection to the remote {#url_list}.
     # Cache results with the same info, to reduce server load.
     #
-    # @param [String] resource
+    # @param [String] url_list
     #   Optional argument to overwrite the {#resource} URL.
     # @return [RemoteResource] Connection to the remote {#resource}.
     #
-    def connection(resource = nil)
-      resource ||= @resource
-      return @remote if @remote && @remote.resource == resource
-      info = [name, @root, resource]
+    def connection(url_list = nil)
+      url_list ||= @url_list
+      return @remote if @remote && @remote.resource == url_list
+      info = [name, url_root, url_list]
       @remote = RemoteResource.new(*info)
       @remote.get
       puts @remote.msg if @remote.error?

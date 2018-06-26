@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +squiggle.city+
       #
       def initialize
-        super({
+        super(
           name: 'squiggle.city',
-          root: 'https://squiggle.city/',
-          resource: 'https://squiggle.city/tilde.json',
-          url_format_user: 'https://squiggle.city/~USER/'
-        })
+          url_root: 'https://squiggle.city/',
+          url_list: 'https://squiggle.city/tilde.json',
+          homepage_format: 'https://squiggle.city/~USER/'
+        )
       end
 
       ##

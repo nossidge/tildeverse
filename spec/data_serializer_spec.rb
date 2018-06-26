@@ -40,7 +40,7 @@ describe 'Tildeverse::DataSerializer' do
     end
   end
 
-  it '#sites' do
+  it '#sites(sites)' do
     data = instance
     serializer = Tildeverse::DataSerializer.new(data)
     %w[pebble.ink tilde.town].each do |sitename|

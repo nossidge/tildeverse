@@ -10,20 +10,20 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +ofmanytrades.com+
       #
       def initialize
-        super({
+        super(
           name: 'ofmanytrades.com',
-          root: 'https://ofmanytrades.com/',
-          resource: 'https://ofmanytrades.com/',
-          url_format_user: 'https://ofmanytrades.com/~USER/'
-        })
+          url_root: 'https://ofmanytrades.com/',
+          url_list: 'https://ofmanytrades.com/',
+          homepage_format: 'https://ofmanytrades.com/~USER/'
+        )
       end
 
       ##
       # @return [Array<String>] all users of +ofmanytrades.com+
       #
       def scrape_users
-        # Manually found 3 users, but no list.
-        %w[ajroach42 djsundog noah]
+        # Manually found some users, but no list.
+        %w[ajroach42 djsundog noah russ]
       end
     end
   end

@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tildesare.cool+
       #
       def initialize
-        super({
+        super(
           name: 'tildesare.cool',
-          root: 'http://tildesare.cool/',
-          resource: 'http://tildesare.cool/',
-          url_format_user: 'http://tildesare.cool/~USER/'
-        })
+          url_root: 'http://tildesare.cool/',
+          url_list: 'http://tildesare.cool/',
+          homepage_format: 'http://tildesare.cool/~USER/'
+        )
       end
 
       ##

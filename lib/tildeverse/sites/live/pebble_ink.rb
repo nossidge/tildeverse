@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +pebble.ink+
       #
       def initialize
-        super({
+        super(
           name: 'pebble.ink',
-          root: 'http://pebble.ink/',
-          resource: '',
-          url_format_user: 'http://pebble.ink/~USER/'
-        })
+          url_root: 'http://pebble.ink/',
+          url_list: '',
+          homepage_format: 'http://pebble.ink/~USER/'
+        )
       end
 
       ##

@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +yester.host+
       #
       def initialize
-        super({
+        super(
           name: 'yester.host',
-          root: 'http://yester.host/',
-          resource: 'http://yester.host/tilde.json',
-          url_format_user: 'http://yester.host/~USER/'
-        })
+          url_root: 'http://yester.host/',
+          url_list: 'http://yester.host/tilde.json',
+          homepage_format: 'http://yester.host/~USER/'
+        )
       end
 
       ##

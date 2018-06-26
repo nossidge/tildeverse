@@ -3,9 +3,9 @@
 describe 'Tildeverse::Site' do
   valid_params = {
     name: 'example.com',
-    root: 'http://www.example.com',
-    resource: 'http://www.example.com/userlist.json',
-    url_format_user: 'http://www.example.com/~USER/'
+    url_root: 'http://www.example.com',
+    url_list: 'http://www.example.com/userlist.json',
+    homepage_format: 'http://www.example.com/~USER/'
   }
 
   ##############################################################################
@@ -22,24 +22,24 @@ describe 'Tildeverse::Site' do
       end.to raise_error(ArgumentError, 'missing keyword: name')
     end
 
-    it "should reject if @root not specified" do
-      params = valid_params.dup.tap { |hash| hash.delete(:root) }
+    it "should reject if @url_root not specified" do
+      params = valid_params.dup.tap { |hash| hash.delete(:url_root) }
       expect do
         Class.new(Tildeverse::Site).new(params)
-      end.to raise_error(ArgumentError, 'missing keyword: root')
+      end.to raise_error(ArgumentError, 'missing keyword: url_root')
     end
 
-    it "should reject if @url_format_user not specified" do
-      params = valid_params.dup.tap { |hash| hash.delete(:url_format_user) }
+    it "should reject if @homepage_format not specified" do
+      params = valid_params.dup.tap { |hash| hash.delete(:homepage_format) }
       expect do
         Class.new(Tildeverse::Site).new(params)
-      end.to raise_error(ArgumentError, 'missing keyword: url_format_user')
+      end.to raise_error(ArgumentError, 'missing keyword: homepage_format')
     end
 
-    it "if empty, @resource should use the value of @root" do
-      params = valid_params.dup.tap { |hash| hash.delete(:resource) }
+    it "if empty, @url_list should use the value of @url_root" do
+      params = valid_params.dup.tap { |hash| hash.delete(:url_list) }
       obj = Class.new(Tildeverse::Site).new(params)
-      expect(obj.resource).to eq obj.root
+      expect(obj.url_list).to eq obj.url_root
     end
 
     it 'should correctly allow inheritance' do
@@ -137,11 +137,11 @@ describe 'Tildeverse::Site' do
   ##############################################################################
 
   describe '#user_page(user)' do
-    it 'should fail if @url_format_user template is incorrect' do
+    it 'should fail if @homepage_format template is incorrect' do
       params = valid_params.dup
-      params[:url_format_user] = 'http://www.example.com/~USfER/'
+      params[:homepage_format] = 'http://www.example.com/~USfER/'
       obj = Class.new(Tildeverse::Site).new(params)
-      msg  = "#url_format_user should be in the form eg: "
+      msg  = "#homepage_format should be in the form eg: "
       msg += "http://www.example.com/~USER/"
       expect do
         obj.user_page('nossidge')
@@ -152,7 +152,7 @@ describe 'Tildeverse::Site' do
       obj = Class.new(Tildeverse::Site).new(valid_params)
       %w[nossidge imt foobar_not_a_valid_user].each do |user_name|
         user_page = obj.user_page(user_name)
-        desired = valid_params[:url_format_user].sub('USER', user_name)
+        desired = valid_params[:homepage_format].sub('USER', user_name)
         expect(user_page).to eq desired
       end
     end

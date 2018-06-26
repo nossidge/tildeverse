@@ -10,12 +10,12 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +ctrl-c.club+
       #
       def initialize
-        super({
+        super(
           name: 'ctrl-c.club',
-          root: 'http://ctrl-c.club/',
-          resource: 'http://ctrl-c.club/tilde.json',
-          url_format_user: 'http://ctrl-c.club/~USER/'
-        })
+          url_root: 'http://ctrl-c.club/',
+          url_list: 'http://ctrl-c.club/tilde.json',
+          homepage_format: 'http://ctrl-c.club/~USER/'
+        )
       end
 
       ##
