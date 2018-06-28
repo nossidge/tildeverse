@@ -90,31 +90,17 @@ module Tildeverse
     end
 
     ##
-    # Use {Site#url_format_user} to map the user to their homepage URL
-    #
-    # @return [String] user's homepage
-    # @example
-    #   tilde_town = Site.new('tilde.town')
-    #   tilde_town.user('nossidge').url
-    #   # => 'https://tilde.town/~nossidge/'
+    # (see Tildeverse::TildeSiteURI#user_page)
     #
     def url
-      site.user_page(name)
+      site.uri.user_page(name)
     end
 
     ##
-    # Use {Site#name} to map the user to their email address
-    #
-    # @return [String] user's email address
-    # @example
-    #   tilde_town = Site.new('tilde.town')
-    #   tilde_town.user('nossidge').email
-    #   # => 'nossidge@tilde.town'
-    # @note
-    #   On most Tilde servers, this is valid for local email only
+    # (see Tildeverse::TildeSiteURI#user_email)
     #
     def email
-      site.user_email(name)
+      site.uri.user_email(name)
     end
   end
 end

@@ -107,7 +107,7 @@ module Tildeverse
         msg += 'http://www.example.com/~USER/'
         raise ArgumentError, msg
       end
-      URI(URI.escape(output))
+      output
     end
 
     ##

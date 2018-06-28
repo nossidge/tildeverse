@@ -153,7 +153,7 @@ describe 'Tildeverse::TildeSiteURI' do
       uri, = example_data.first
       obj = Tildeverse::TildeSiteURI.new(uri)
       result = obj.user_page('foobar')
-      expect(result).to be_a URI::HTTP
+      expect(result).to be_a String
       expect(result.to_s).to eq 'https://tilde.town/~foobar/'
     end
 

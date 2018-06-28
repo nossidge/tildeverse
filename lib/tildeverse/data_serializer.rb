@@ -71,9 +71,9 @@ module Tildeverse
     def for_users_json
       {}.tap do |h1|
         data.sites.each do |site|
-          h1[site.url_root] = {}.tap do |h2|
+          h1[site.uri.url_root] = {}.tap do |h2|
             site.users.map(&:name).each do |user|
-              h2[user] = site.user_page(user)
+              h2[user] = site.uri.user_page(user)
             end
           end
         end

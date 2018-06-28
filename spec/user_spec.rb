@@ -3,6 +3,9 @@
 describe 'Tildeverse::User' do
   def example_data
     site_struct = Struct.new(:name) do
+      def uri
+        @uri ||= Tildeverse::TildeSiteURI.new('http://example.com')
+      end
       def ==(o)
         name == o.name
       end
@@ -58,13 +61,13 @@ describe 'Tildeverse::User' do
 
   it '#url' do
     user = instance
-    expect(user.site).to receive(:user_page).with(user.name)
+    expect(user.site.uri).to receive(:user_page).with(user.name)
     user.url
   end
 
   it '#email' do
     user = instance
-    expect(user.site).to receive(:user_email).with(user.name)
+    expect(user.site.uri).to receive(:user_email).with(user.name)
     user.email
   end
 end

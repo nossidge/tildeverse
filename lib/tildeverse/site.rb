@@ -12,7 +12,7 @@ module Tildeverse
   #       └── User   (has many)
   #
   # This class exists to be inherited from. All classes in the
-  # {Tildeverse::Site} namespace should be children of this class.
+  # {Tildeverse::Sites} namespace should be children of this class.
   #
   # All child classes MUST define a method named +#scrape_users+.
   # This method defines how the user list is scraped on that site.
@@ -23,37 +23,16 @@ module Tildeverse
     abstract_method :online?
 
     ##
-    # @return [String] the name of the website
-    # @example
-    #   'example.com'
-    #   'tilde.town'
+    # @return [TildeSiteURI] the URI of the user list
     #
-    attr_reader :name
+    attr_reader :uri
 
     ##
-    # @return [String] the root URL of the website
-    # @example
-    #   'http://example.com/'
-    #   'https://tilde.town/'
+    # (see Tildeverse::TildeSiteURI#name)
     #
-    attr_reader :url_root
-
-    ##
-    # @return [String] the URL of the user list
-    # @example
-    #   'http://example.com/users.html'
-    #   'https://tilde.town/~dan/users.json'
-    #
-    attr_reader :url_list
-
-    ##
-    # @return [String]
-    #   the format that the site uses to map users to their homepage.
-    # @example
-    #   'https://tilde.town/~USER/'
-    #   'https://USER.remotes.club/'
-    #
-    attr_reader :homepage_format
+    def name
+      uri.name
+    end
 
     ##
     # Returns a new instance of Site.
@@ -71,11 +50,13 @@ module Tildeverse
     # @param [String] homepage_format
     #   The format that the site uses to map users to their homepage.
     #
-    def initialize(name:, url_root:, url_list: url_root, homepage_format:)
-      @name            = name
-      @url_root        = url_root
-      @url_list        = url_list
-      @homepage_format = homepage_format
+    def initialize(name:, url_root:, url_list: url_root, homepage_format:, uri: url_list)
+      @uri = TildeSiteURI.new(uri) rescue raise(TildeSiteURI::NotHTTPError)
+
+      @uri.name = name if name
+      @uri.url_root = url_root if url_root
+      @uri.url_list = url_list if url_list
+      @uri.homepage_format = homepage_format if homepage_format
 
       initialize_users
     end
@@ -122,50 +103,6 @@ module Tildeverse
     #
     def users_online
       users.select(&:online?)
-    end
-
-    ############################################################################
-
-    ##
-    # Use {#homepage_format} to map the user to their homepage URL.
-    #
-    # @param [String] user The name of the user.
-    # @return [String] user's homepage.
-    # @example
-    #   tilde_town = Site.new('tilde.town')
-    #   tilde_town.user_page('imt')
-    #   # => 'https://tilde.town/~imt/'
-    # @example
-    #   remotes_club = Site.new('remotes.club')
-    #   remotes_club.user_page('imt')
-    #   # => 'https://imt.remotes.club/'
-    #
-    def user_page(user)
-      output = @homepage_format.sub('USER', user)
-
-      # Throw error if '@homepage_format' does not contain USER substring.
-      if @homepage_format == output
-        msg  = '#homepage_format should be in the form eg: '
-        msg += 'http://www.example.com/~USER/'
-        raise ArgumentError, msg
-      end
-      output
-    end
-
-    ##
-    # Use {#name} to map the user to their email address
-    #
-    # @param [String] user The name of the user
-    # @return [String] user's email address
-    # @example
-    #   tilde_town = Site.new('tilde.town')
-    #   tilde_town.email('nossidge')
-    #   # => 'nossidge@tilde.town'
-    # @note
-    #   On most Tilde servers, this is valid for local email only
-    #
-    def user_email(user)
-      "#{user}@#{name}"
     end
 
     ############################################################################
@@ -255,14 +192,13 @@ module Tildeverse
     # Create a connection to the remote {#url_list}.
     # Cache results with the same info, to reduce server load.
     #
-    # @param [String] url_list
+    # @param [String] url
     #   Optional argument to overwrite the {#resource} URL.
     # @return [RemoteResource] Connection to the remote {#resource}.
     #
-    def connection(url_list = nil)
-      url_list ||= @url_list
-      return @remote if @remote && @remote.resource == url_list
-      info = [name, url_root, url_list]
+    def connection(url = uri.url_list)
+      return @remote if @remote && @remote.resource == url
+      info = [name, url_root, url]
       @remote = RemoteResource.new(*info)
       @remote.get
       puts @remote.msg if @remote.error?
@@ -299,7 +235,7 @@ module Tildeverse
     # @return [String] 'no users found' message.
     #
     def no_user_message
-      "ERROR: No users found for site: #{@name}"
+      "ERROR: No users found for site: #{name}"
     end
   end
 end

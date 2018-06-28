@@ -36,10 +36,10 @@ describe 'Tildeverse::Site' do
       end.to raise_error(ArgumentError, 'missing keyword: homepage_format')
     end
 
-    it "if empty, @url_list should use the value of @url_root" do
+    it "if empty, @uri#url_list should use the value of @uri#url_root" do
       params = valid_params.dup.tap { |hash| hash.delete(:url_list) }
       obj = Class.new(Tildeverse::Site).new(params)
-      expect(obj.url_list).to eq obj.url_root
+      expect(obj.uri.url_list).to eq obj.uri.url_root
     end
 
     it 'should correctly allow inheritance' do
@@ -131,43 +131,6 @@ describe 'Tildeverse::Site' do
       expect(user).to be_a Tildeverse::User
       expect(user.name).to eq 'nossidge'
       expect(user.site).to eq obj
-    end
-  end
-
-  ##############################################################################
-
-  describe '#user_page(user)' do
-    it 'should fail if @homepage_format template is incorrect' do
-      params = valid_params.dup
-      params[:homepage_format] = 'http://www.example.com/~USfER/'
-      obj = Class.new(Tildeverse::Site).new(params)
-      msg  = "#homepage_format should be in the form eg: "
-      msg += "http://www.example.com/~USER/"
-      expect do
-        obj.user_page('nossidge')
-      end.to raise_error(ArgumentError, msg)
-    end
-
-    it 'should return correct URL if given valid inputs' do
-      obj = Class.new(Tildeverse::Site).new(valid_params)
-      %w[nossidge imt foobar_not_a_valid_user].each do |user_name|
-        user_page = obj.user_page(user_name)
-        desired = valid_params[:homepage_format].sub('USER', user_name)
-        expect(user_page).to eq desired
-      end
-    end
-  end
-
-  ##############################################################################
-
-  describe '#user_email(user)' do
-    it 'should return correct email if given valid inputs' do
-      obj = Class.new(Tildeverse::Site).new(valid_params)
-      %w[nossidge imt foobar_not_a_valid_user].each do |user_name|
-        user_email = obj.user_email(user_name)
-        desired = user_name + '@' + valid_params[:name]
-        expect(user_email).to eq desired
-      end
     end
   end
 
