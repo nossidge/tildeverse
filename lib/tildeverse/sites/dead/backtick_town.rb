@@ -5,7 +5,7 @@ module Tildeverse
     ##
     # Site information and user list for +backtick.town+
     #
-    class BacktickTown < Tildeverse::Site::Live
+    class BacktickTown < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +backtick.town+
       #
