@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +matilde.club+
       #
       def initialize
-        super(
-          name: 'matilde.club',
-          url_root: 'http://matilde.club/',
-          url_list: 'http://matilde.club/~mikker/users.html',
-          homepage_format: 'http://matilde.club/~USER/'
-        )
+        super TildeSiteURI.new('http://matilde.club/~mikker/users.html')
       end
 
       ##
       # @return [Array<String>] all users of +matilde.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # This is not newline based, so need to do other stuff.
         # 2016/02/04  RIP
         @users = []

@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +perispomeni.club+
       #
       def initialize
-        super(
-          name: 'perispomeni.club',
-          url_root: 'http://perispomeni.club/',
-          url_list: 'http://perispomeni.club/',
-          homepage_format: 'http://perispomeni.club/~USER/'
-        )
+        super TildeSiteURI.new('http://perispomeni.club/')
       end
 
       ##
       # @return [Array<String>] all users of +perispomeni.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the lines on the page that begin with '<li>'
         # But only after the line '<h2>users</h2>' and before '</ul>'
         members_found = false

@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +club6.nl+
       #
       def initialize
-        super(
-          name: 'club6.nl',
-          url_root: 'https://club6.nl/',
-          url_list: 'https://club6.nl/tilde.json',
-          homepage_format: 'https://club6.nl~USER/'
-        )
+        super TildeSiteURI.new('https://club6.nl/tilde.json')
       end
 
       ##
       # @return [Array<String>] all users of +club6.nl+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # 2015/01/03  New box, a nice easy JSON format.
         # 2016/01/13  RIP
         parsed = JSON[con.result.delete("\t")]

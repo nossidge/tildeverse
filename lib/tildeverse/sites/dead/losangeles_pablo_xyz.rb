@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +losangeles.pablo.xyz+
       #
       def initialize
-        super(
-          name: 'losangeles.pablo.xyz',
-          url_root: 'http://losangeles.pablo.xyz',
-          url_list: 'http://losangeles.pablo.xyz',
-          homepage_format: 'http://losangeles.pablo.xyz/~USER/'
-        )
+        super TildeSiteURI.new('http://losangeles.pablo.xyz')
       end
 
       ##
       # @return [Array<String>] all users of +losangeles.pablo.xyz+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # 2015/01/03  New tildebox
         # 2015/01/15  User list on index.html
         # 2015/06/13  RIP

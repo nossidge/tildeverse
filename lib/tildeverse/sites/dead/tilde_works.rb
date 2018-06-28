@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tilde.works+
       #
       def initialize
-        super(
-          name: 'tilde.works',
-          url_root: 'http://tilde.works/',
-          url_list: 'http://tilde.works/',
-          homepage_format: 'http://tilde.works/~USER/'
-        )
+        super TildeSiteURI.new('http://tilde.works/')
       end
 
       ##
       # @return [Array<String>] all users of +tilde.works+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<li><a href'
         members_found = false
         @users = con.result.split("\n").map do |i|

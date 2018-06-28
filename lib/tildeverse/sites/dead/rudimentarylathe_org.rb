@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +rudimentarylathe.org+
       #
       def initialize
-        super(
-          name: 'rudimentarylathe.org',
-          url_root: 'http://rudimentarylathe.org/',
-          url_list: 'http://rudimentarylathe.org/',
-          homepage_format: 'http://rudimentarylathe.org/~USER/'
-        )
+        super TildeSiteURI.new('http://rudimentarylathe.org/')
       end
 
       ##
       # @return [Array<String>] all users of +rudimentarylathe.org+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<li><a href'
         @users = con.result.split("\n").map do |i|
           next unless i =~ /<li><a href/

@@ -10,12 +10,7 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +backtick.town+
       #
       def initialize
-        super(
-          name: 'backtick.town',
-          url_root: 'https://backtick.town/',
-          url_list: '',
-          homepage_format: 'https://backtick.town/~USER/'
-        )
+        super TildeSiteURI.new('https://backtick.town/')
       end
 
       ##

@@ -10,12 +10,7 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tilde.town+
       #
       def initialize
-        super(
-          name: 'tilde.town',
-          url_root: 'https://tilde.town/',
-          url_list: 'http://tilde.town/~dan/users.json',
-          homepage_format: 'https://tilde.town/~USER/'
-        )
+        super TildeSiteURI.new('http://tilde.town/~dan/users.json')
       end
 
       ##
@@ -23,7 +18,6 @@ module Tildeverse
       #
       def scrape_users
         # 2016/08/05  JSON is incomplete, so merge with index.html user list
-        return @users if @users
         a = read_json
         b = read_html
         @users = a.concat(b).sort.uniq

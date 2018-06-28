@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +noiseandsignal.com+
       #
       def initialize
-        super(
-          name: 'noiseandsignal.com',
-          url_root: 'http://noiseandsignal.com/',
-          url_list: 'http://noiseandsignal.com/',
-          homepage_format: 'http://noiseandsignal.com/~USER/'
-        )
+        super TildeSiteURI.new('http://noiseandsignal.com/')
       end
 
       ##
       # @return [Array<String>] all users of +noiseandsignal.com+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the lines on the page that begin with '<li>'
         # But only after the line '<div class="row" id="members">'
         # and before '</ul>'

@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +myrtle-st.club+
       #
       def initialize
-        super(
-          name: 'myrtle-st.club',
-          url_root: 'http://myrtle-st.club/',
-          url_list: 'http://myrtle-st.club/',
-          homepage_format: 'http://myrtle-st.club/~USER/'
-        )
+        super TildeSiteURI.new('http://myrtle-st.club/')
       end
 
       ##
       # @return [Array<String>] all users of +myrtle-st.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the lines on the page that include '<p> <a href'
         # 2017/11/24  RIP
         @users = con.result.split("\n").map do |i|

@@ -40,24 +40,10 @@ module Tildeverse
     # User array will be initialised with the contents of 'tildeverse.txt'
     # for that site. To get new users from remote location, run {#scrape}
     #
-    # @param [String] name
-    #   An identifier for the connection.
-    # @param [String] url_root
-    #   The root URL of the domain.
-    # @param [String] url_list
-    #   The URL of the user list.
-    #   If list URL is not specified, assume it's the same as root URL.
-    # @param [String] homepage_format
-    #   The format that the site uses to map users to their homepage.
+    # @param [URI] uri
     #
-    def initialize(name:, url_root:, url_list: url_root, homepage_format:, uri: url_list)
-      @uri = TildeSiteURI.new(uri) rescue raise(TildeSiteURI::NotHTTPError)
-
-      @uri.name = name if name
-      @uri.url_root = url_root if url_root
-      @uri.url_list = url_list if url_list
-      @uri.homepage_format = homepage_format if homepage_format
-
+    def initialize(uri)
+      @uri = uri
       initialize_users
     end
 
@@ -118,7 +104,7 @@ module Tildeverse
       existing_users = @all_users.keys.sort
 
       # These are the users from the remote list.
-      remote_users = scrape_users.sort
+      remote_users = scrape_users_cache.sort
 
       # TODO: Remove this:
       Files.save_array(remote_users, filepath)
@@ -153,6 +139,17 @@ module Tildeverse
     ############################################################################
 
     private
+
+    ##
+    # Memoize the result, or return [] if site is confirmed offline
+    #
+    # @return [Array<String>] all users of the site
+    #
+    def scrape_users_cache
+      return @scrape_users_cache if @scrape_users_cache
+      return @scrape_users_cache = [] if con.error?
+      scrape_users
+    end
 
     ##
     # Return site-specific data from {Tildeverse::Files#input_tildeverse}
@@ -190,7 +187,7 @@ module Tildeverse
 
     ##
     # Create a connection to the remote {#url_list}.
-    # Cache results with the same info, to reduce server load.
+    # Memoize results with the same info, to reduce server load.
     #
     # @param [String] url
     #   Optional argument to overwrite the {#resource} URL.
@@ -198,7 +195,7 @@ module Tildeverse
     #
     def connection(url = uri.url_list)
       return @remote if @remote && @remote.resource == url
-      info = [name, url_root, url]
+      info = [name, uri.url_root, url]
       @remote = RemoteResource.new(*info)
       @remote.get
       puts @remote.msg if @remote.error?

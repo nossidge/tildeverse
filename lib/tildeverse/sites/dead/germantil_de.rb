@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +germantil.de+
       #
       def initialize
-        super(
-          name: 'germantil.de',
-          url_root: 'http://germantil.de/',
-          url_list: 'http://germantil.de/',
-          homepage_format: 'http://germantil.de/~USER/'
-        )
+        super TildeSiteURI.new('http://germantil.de/')
       end
 
       ##
       # @return [Array<String>] all users of +germantil.de+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<li><a href'
         # 2015/03/05  RIP
         @users = con.result.split("\n").map do |i|

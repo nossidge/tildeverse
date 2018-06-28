@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +bleepbloop.club+
       #
       def initialize
-        super(
-          name: 'bleepbloop.club',
-          url_root: 'https://bleepbloop.club/',
-          url_list: 'https://bleepbloop.club/~eos/',
-          homepage_format: 'https://bleepbloop.club/~USER/'
-        )
+        super TildeSiteURI.new('https://bleepbloop.club/~eos/')
       end
 
       ##
       # @return [Array<String>] all users of +bleepbloop.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # This is straight from someone's ~user index.html.
         # I'm betting this will be the first page to break.
         # 2015/10/26  RIP

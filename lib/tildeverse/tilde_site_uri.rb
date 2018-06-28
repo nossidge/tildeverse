@@ -71,11 +71,11 @@ module Tildeverse
     ##
     # @param [String, URI] uri
     #   {URI}[https://ruby-doc.org/stdlib-2.3.3/libdoc/uri/rdoc/URI.html]
-    #   object to which this class acts as a wrapper
+    #   object to which this class acts as a wrapper. If an object other
+    #   than a URI is passed, it will attempt to convert it to one.
     #
     def initialize(uri)
-      @uri = uri
-      @uri = URI(URI.escape(uri)) unless uri.is_a?(URI::HTTP)
+      @uri = uri.is_a?(URI::HTTP) ? uri : URI(URI.escape(uri))
       validate_uri
     rescue
       raise(NotHTTPError)

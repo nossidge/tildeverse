@@ -149,7 +149,7 @@ module Tildeverse
       @valid_root = true
       @valid_resource = true
 
-    rescue SocketError, OpenURI::HTTPError, Errno::EINVAL
+    rescue StandardError
       @result = nil
       @valid_resource = false
     end
@@ -165,7 +165,7 @@ module Tildeverse
       open(@root, ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
       @valid_root = true
 
-    rescue SocketError, OpenURI::HTTPError, Errno::EINVAL
+    rescue StandardError
       @valid_root = false
     end
   end

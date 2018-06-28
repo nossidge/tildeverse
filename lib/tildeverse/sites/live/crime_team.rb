@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +crime.team+
       #
       def initialize
-        super(
-          name: 'crime.team',
-          url_root: 'https://crime.team/',
-          url_list: 'https://crime.team/',
-          homepage_format: 'https://crime.team/~USER/'
-        )
+        super TildeSiteURI.new('https://crime.team/')
       end
 
       ##
       # @return [Array<String>] all users of +crime.team+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # 2017/04/11  New box, user list on index.html
         @users = con.result.split("\n").map do |i|
           next unless i.strip =~ /^<li>/

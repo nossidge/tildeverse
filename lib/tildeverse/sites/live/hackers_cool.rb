@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +hackers.cool+
       #
       def initialize
-        super(
-          name: 'hackers.cool',
-          url_root: 'http://hackers.cool/',
-          url_list: 'http://hackers.cool/',
-          homepage_format: 'http://hackers.cool/~USER/'
-        )
+        super TildeSiteURI.new('http://hackers.cool/')
       end
 
       ##
       # @return [Array<String>] all users of +hackers.cool+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are lines on the page that include '<li><a href',
         # after the line that matches '<p>Current users:</p>'
         # There's an error with some URLs, so we need to use the anchor text.

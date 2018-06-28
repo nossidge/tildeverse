@@ -10,21 +10,15 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +remotes.club+
       #
       def initialize
-        super(
-          name: 'remotes.club',
-          url_root: 'https://www.remotes.club/',
-          url_list: 'https://www.remotes.club/',
-          homepage_format: 'https://USER.remotes.club/'
-        )
+        uri = TildeSiteURI.new('https://www.remotes.club/')
+        uri.homepage_format = 'https://USER.remotes.club/'
+        super uri
       end
 
       ##
       # @return [Array<String>] all users of +remotes.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # A bit different, this one. They don't even use Tildes!
         @users = con.result.split("\n").map do |i|
           next unless i =~ /<li data-last-update/

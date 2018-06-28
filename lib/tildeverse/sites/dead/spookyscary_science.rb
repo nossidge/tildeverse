@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +spookyscary.science+
       #
       def initialize
-        super(
-          name: 'spookyscary.science',
-          url_root: 'https://spookyscary.science/',
-          url_list: 'https://spookyscary.science/~',
-          homepage_format: 'https://spookyscary.science/~USER/'
-        )
+        super TildeSiteURI.new('https://spookyscary.science/~')
       end
 
       ##
       # @return [Array<String>] all users of +spookyscary.science+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # 2016/08/10  New box
         # 2016/11/04  Okay, something weird is going on here. Every page but
         #             the index reverts to root. I guess consider it dead?

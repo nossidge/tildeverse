@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +totallynuclear.club+
       #
       def initialize
-        super(
-          name: 'totallynuclear.club',
-          url_root: 'http://totallynuclear.club/',
-          url_list: 'http://totallynuclear.club/',
-          homepage_format: 'http://totallynuclear.club/~USER/'
-        )
+        super TildeSiteURI.new('http://totallynuclear.club/')
       end
 
       ##
       # @return [Array<String>] all users of +totallynuclear.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that begin with '<li>'
         @users = con.result.split("\n").map do |i|
           if i =~ /^<li>/

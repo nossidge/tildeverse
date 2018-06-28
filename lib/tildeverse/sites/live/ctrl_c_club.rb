@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +ctrl-c.club+
       #
       def initialize
-        super(
-          name: 'ctrl-c.club',
-          url_root: 'http://ctrl-c.club/',
-          url_list: 'http://ctrl-c.club/tilde.json',
-          homepage_format: 'http://ctrl-c.club/~USER/'
-        )
+        super TildeSiteURI.new('http://ctrl-c.club/tilde.json')
       end
 
       ##
       # @return [Array<String>] all users of +ctrl-c.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # Current as of 2015/11/13
         # Uses a nice JSON format.
         parsed = JSON[con.result.delete("\t")]

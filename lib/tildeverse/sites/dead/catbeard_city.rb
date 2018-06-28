@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +catbeard.city+
       #
       def initialize
-        super(
-          name: 'catbeard.city',
-          url_root: 'http://catbeard.city/',
-          url_list: 'http://catbeard.city/',
-          homepage_format: 'http://catbeard.city/~USER/'
-        )
+        super TildeSiteURI.new('http://catbeard.city/')
       end
 
       ##
       # @return [Array<String>] all users of +catbeard.city+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are lines on the page that include '<li><a href'
         # But only between two other lines.
         # 2015/10/26  RIP

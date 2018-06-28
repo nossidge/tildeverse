@@ -10,12 +10,7 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +squiggle.city+
       #
       def initialize
-        super(
-          name: 'squiggle.city',
-          url_root: 'https://squiggle.city/',
-          url_list: 'https://squiggle.city/tilde.json',
-          homepage_format: 'https://squiggle.city/~USER/'
-        )
+        super TildeSiteURI.new('https://squiggle.city/tilde.json')
       end
 
       ##
@@ -24,7 +19,6 @@ module Tildeverse
       def scrape_users
         # The JSON doesn't include all the users.
         # So group them together, sort and uniq.
-        return @users if @users
         a = read_json
         b = read_html
         @users = a.concat(b).sort.uniq

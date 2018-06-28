@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +sunburnt.country+
       #
       def initialize
-        super(
-          name: 'sunburnt.country',
-          url_root: 'http://sunburnt.country/',
-          url_list: 'http://sunburnt.country/~tim/directory.html',
-          homepage_format: 'http://sunburnt.country/~USER/'
-        )
+        super TildeSiteURI.new('http://sunburnt.country/~tim/directory.html')
       end
 
       ##
       # @return [Array<String>] all users of +sunburnt.country+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # 2015/06/13  RIP
         # Really easy, just read every line of the html.
         @users = con.result.split("\n").map do |i|

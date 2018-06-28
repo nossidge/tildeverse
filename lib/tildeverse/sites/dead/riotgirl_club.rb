@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +riotgirl.club+
       #
       def initialize
-        super(
-          name: 'riotgirl.club',
-          url_root: 'http://riotgirl.club',
-          url_list: 'http://riotgirl.club/~jspc/tc.result.html',
-          homepage_format: 'http://riotgirl.club/~USER/'
-        )
+        super TildeSiteURI.new('http://riotgirl.club/~jspc/tc.result.html')
       end
 
       ##
       # @return [Array<String>] all users of +riotgirl.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<a href'
         # 2017/11/24  RIP
         @users = con.result.split("\n").map do |i|

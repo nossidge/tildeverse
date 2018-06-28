@@ -10,12 +10,7 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +yester.host+
       #
       def initialize
-        super(
-          name: 'yester.host',
-          url_root: 'http://yester.host/',
-          url_list: 'http://yester.host/tilde.json',
-          homepage_format: 'http://yester.host/~USER/'
-        )
+        super TildeSiteURI.new('http://yester.host/tilde.json')
       end
 
       ##
@@ -23,7 +18,6 @@ module Tildeverse
       #
       def scrape_users
         # 2015/06/13  RIP
-        return @users if @users
         a = read_json
         b = read_html
         @users = a.concat(b).sort.uniq

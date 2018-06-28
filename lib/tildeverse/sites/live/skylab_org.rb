@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +skylab.org+
       #
       def initialize
-        super(
-          name: 'skylab.org',
-          url_root: 'http://skylab.org/',
-          url_list: 'http://skylab.org/',
-          homepage_format: 'http://skylab.org/~USER/'
-        )
+        super TildeSiteURI.new('http://skylab.org/')
       end
 
       ##
       # @return [Array<String>] all users of +skylab.org+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<a href'
         members_found = false
         @users = con.result.split("\n").map do |i|

@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +protocol.club+
       #
       def initialize
-        super(
-          name: 'protocol.club',
-          url_root: 'http://protocol.club/',
-          url_list: 'http://protocol.club/~insom/protocol.24h.html',
-          homepage_format: 'http://protocol.club/~USER/'
-        )
+        super TildeSiteURI.new('http://protocol.club/~insom/protocol.24h.html')
       end
 
       ##
       # @return [Array<String>] all users of +protocol.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # The https has expired, do use http.
         @users = con.result.split("\n").map do |i|
           next unless i =~ /^<li>/

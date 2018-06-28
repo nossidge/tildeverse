@@ -10,21 +10,13 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +drawbridge.club+
       #
       def initialize
-        super(
-          name: 'drawbridge.club',
-          url_root: 'http://drawbridge.club/',
-          url_list: 'http://drawbridge.club/',
-          homepage_format: 'http://drawbridge.club/~USER/'
-        )
+        super TildeSiteURI.new('http://drawbridge.club/')
       end
 
       ##
       # @return [Array<String>] all users of +drawbridge.club+
       #
       def scrape_users
-        return @users if @users
-        return @users = [] if con.error?
-
         # These are the only lines on the page that include '<li><a href'
         # 2015/03/05  drawbridge.club merged into tilde.town
         @users = con.result.split("\n").map do |i|
