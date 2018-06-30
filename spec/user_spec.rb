@@ -59,15 +59,15 @@ describe 'Tildeverse::User' do
     expect(user.online?).to eq false
   end
 
-  it '#url' do
+  it '#homepage' do
     user = instance
-    expect(user.site.uri).to receive(:user_page).with(user.name)
-    user.url
+    expect(user.site.uri).to receive(:homepage).with(user.name)
+    user.homepage
   end
 
   it '#email' do
     user = instance
-    expect(user.site.uri).to receive(:user_email).with(user.name)
+    expect(user.site.uri).to receive(:email).with(user.name)
     user.email
   end
 end

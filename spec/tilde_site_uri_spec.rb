@@ -5,14 +5,14 @@ describe 'Tildeverse::TildeSiteURI' do
     {
       'https://tilde.town/~dan/users.json' => {
         name:             'tilde.town',
-        url_root:         'https://tilde.town',
-        url_list:         'https://tilde.town/~dan/users.json',
+        root:             'https://tilde.town',
+        list:             'https://tilde.town/~dan/users.json',
         homepage_format:  'https://tilde.town/~USER/'
       },
       'http://example.com' => {
         name:             'example.com',
-        url_root:         'http://example.com',
-        url_list:         'http://example.com',
+        root:             'http://example.com',
+        list:             'http://example.com',
         homepage_format:  'http://example.com/~USER/'
       }
     }
@@ -112,27 +112,27 @@ describe 'Tildeverse::TildeSiteURI' do
     end
   end
 
-  describe '#url_root' do
+  describe '#root' do
     it 'should be able to overwrite and restore default values' do
       uri, expectations = example_data.first
       obj = Tildeverse::TildeSiteURI.new(uri)
-      expect(obj.url_root).to eq expectations[:url_root]
-      obj.url_root = 'foobar'
-      expect(obj.url_root).to eq 'foobar'
-      obj.url_root = nil
-      expect(obj.url_root).to eq expectations[:url_root]
+      expect(obj.root).to eq expectations[:root]
+      obj.root = 'foobar'
+      expect(obj.root).to eq 'foobar'
+      obj.root = nil
+      expect(obj.root).to eq expectations[:root]
     end
   end
 
-  describe '#url_list' do
+  describe '#list' do
     it 'should be able to overwrite and restore default values' do
       uri, expectations = example_data.first
       obj = Tildeverse::TildeSiteURI.new(uri)
-      expect(obj.url_list).to eq expectations[:url_list]
-      obj.url_list = 'foobar'
-      expect(obj.url_list).to eq 'foobar'
-      obj.url_list = nil
-      expect(obj.url_list).to eq expectations[:url_list]
+      expect(obj.list).to eq expectations[:list]
+      obj.list = 'foobar'
+      expect(obj.list).to eq 'foobar'
+      obj.list = nil
+      expect(obj.list).to eq expectations[:list]
     end
   end
 
@@ -148,11 +148,11 @@ describe 'Tildeverse::TildeSiteURI' do
     end
   end
 
-  describe '#user_page(user)' do
+  describe '#homepage(user)' do
     it 'should return the expected URI' do
       uri, = example_data.first
       obj = Tildeverse::TildeSiteURI.new(uri)
-      result = obj.user_page('foobar')
+      result = obj.homepage('foobar')
       expect(result).to be_a String
       expect(result.to_s).to eq 'https://tilde.town/~foobar/'
     end
@@ -162,16 +162,16 @@ describe 'Tildeverse::TildeSiteURI' do
       obj = Tildeverse::TildeSiteURI.new(uri)
       obj.homepage_format = 'https://tilde.town/~FOOBAR/'
       expect do
-        obj.user_page('foobar')
+        obj.homepage('foobar')
       end.to raise_error ArgumentError
     end
   end
 
-  describe '#user_email(user)' do
+  describe '#email(user)' do
     it 'should return the expected email address' do
       uri, = example_data.first
       obj = Tildeverse::TildeSiteURI.new(uri)
-      result = obj.user_email('foobar')
+      result = obj.email('foobar')
       expect(result).to be_a String
       expect(result).to eq 'foobar@tilde.town'
     end

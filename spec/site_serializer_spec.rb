@@ -5,14 +5,14 @@ describe 'Tildeverse::SiteSerializer' do
     {
       'https://tilde.town/~dan/users.json' => {
         name:             'tilde.town',
-        url_root:         'https://tilde.town',
-        url_list:         'https://tilde.town/~dan/users.json',
+        root:             'https://tilde.town',
+        list:             'https://tilde.town/~dan/users.json',
         homepage_format:  'https://tilde.town/~USER/'
       },
       'http://example.com' => {
         name:             'example.com',
-        url_root:         'http://example.com',
-        url_list:         'http://example.com',
+        root:             'http://example.com',
+        list:             'http://example.com',
         homepage_format:  'http://example.com/~USER/'
       }
     }
@@ -38,8 +38,8 @@ describe 'Tildeverse::SiteSerializer' do
         expect(hash).to be_a Hash
         keys = %i[url_root url_list url_format_user online user_count users]
         expect(hash.keys).to eq keys
-        expect(hash[:url_root]).to eq expectations[:url_root]
-        expect(hash[:url_list]).to eq expectations[:url_list]
+        expect(hash[:url_root]).to eq expectations[:root]
+        expect(hash[:url_list]).to eq expectations[:list]
         expect(hash[:url_format_user]).to eq expectations[:homepage_format]
         expect(hash[:online]).to eq site.online?
         expect(hash[:users]).to be_a Hash

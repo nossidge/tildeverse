@@ -24,14 +24,14 @@ module Tildeverse
     #   'tilde.town'
 
     ##
-    # @!attribute url_root
+    # @!attribute root
     # @return [String] the root URL of the website
     # @example
     #   'http://example.com/'
     #   'https://tilde.town/'
 
     ##
-    # @!attribute url_list
+    # @!attribute list
     # @return [String] the URL of the user list
     # @example
     #   'http://example.com/users.html'
@@ -64,8 +64,8 @@ module Tildeverse
       CODE
     end
     use_default_if_missing(:name)
-    use_default_if_missing(:url_root)
-    use_default_if_missing(:url_list)
+    use_default_if_missing(:root)
+    use_default_if_missing(:list)
     use_default_if_missing(:homepage_format)
 
     ##
@@ -90,15 +90,15 @@ module Tildeverse
     # @return [String] user's homepage.
     # @example
     #   site = TildeSiteURI.new('http://tilde.town/~dan/users.json')
-    #   site.user_page('imt')
+    #   site.homepage('imt')
     #   # => 'https://tilde.town/~imt/'
     # @example
     #   site = TildeSiteURI.new('https://www.remotes.club/')
     #   site.homepage_format = 'https://USER.remotes.club/'
-    #   site.user_page('imt')
+    #   site.homepage('imt')
     #   # => 'https://imt.remotes.club/'
     #
-    def user_page(user)
+    def homepage(user)
       output = homepage_format.sub('USER', user)
 
       # Throw error if 'homepage_format' does not contain USER substring.
@@ -117,12 +117,12 @@ module Tildeverse
     # @return [String] user's email address
     # @example
     #   site = TildeSiteURI.new('http://tilde.town/~dan/users.json')
-    #   site.user_email('nossidge')
+    #   site.email('nossidge')
     #   # => 'nossidge@tilde.town'
     # @note
     #   On most Tilde servers, this is valid for local email only
     #
-    def user_email(user)
+    def email(user)
       user.to_s + '@' + name
     end
 
@@ -131,19 +131,19 @@ module Tildeverse
     private
 
     def default_name
-      uri.host
+      uri.host.sub(/^www\./, '')
     end
 
-    def default_url_root
+    def default_root
       uri.scheme + '://' + uri.host
     end
 
-    def default_url_list
+    def default_list
       uri.to_s
     end
 
     def default_homepage_format
-      url_root + '/~USER/'
+      root + '/~USER/'
     end
 
     # Raise an error if the URI is not hte correct type

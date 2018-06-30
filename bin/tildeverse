@@ -198,7 +198,7 @@ module Tildeverse
           [
             user.site.name,
             user.name,
-            user.url,
+            user.homepage,
             user.date_modified,
             user.date_tagged || '-',
             user.tags.empty? ? '-' : user.tags.join(',')

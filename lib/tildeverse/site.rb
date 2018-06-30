@@ -195,7 +195,7 @@ module Tildeverse
     #
     def connection(url = uri.url_list)
       return @remote if @remote && @remote.resource == url
-      info = [name, uri.url_root, url]
+      info = [name, uri.root, url]
       @remote = RemoteResource.new(*info)
       @remote.get
       puts @remote.msg if @remote.error?

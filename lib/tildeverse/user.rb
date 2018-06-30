@@ -90,17 +90,17 @@ module Tildeverse
     end
 
     ##
-    # (see Tildeverse::TildeSiteURI#user_page)
+    # (see Tildeverse::TildeSiteURI#homepage)
     #
-    def url
-      site.uri.user_page(name)
+    def homepage
+      site.uri.homepage(name)
     end
 
     ##
-    # (see Tildeverse::TildeSiteURI#user_email)
+    # (see Tildeverse::TildeSiteURI#email)
     #
     def email
-      site.uri.user_email(name)
+      site.uri.email(name)
     end
   end
 end

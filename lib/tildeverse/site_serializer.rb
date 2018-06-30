@@ -20,8 +20,8 @@ module Tildeverse
     #
     def to_h(users_array = site.users_online)
       {
-        url_root:         site.uri.url_root,
-        url_list:         site.uri.url_list,
+        url_root:         site.uri.root,
+        url_list:         site.uri.list,
         url_format_user:  site.uri.homepage_format,
         online:           site.online?,
         user_count:       users_array.count,
