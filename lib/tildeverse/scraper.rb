@@ -8,6 +8,11 @@ module Tildeverse
   #
   class Scraper
     ##
+    # @return [Data] the underlying Data object
+    #
+    attr_reader :data
+
+    ##
     # @param [Data] data
     #
     def initialize(data)
@@ -25,7 +30,7 @@ module Tildeverse
       return false unless write_permissions?
       scrape_all_sites
       update_mod_dates
-      @data.save_with_config
+      data.save_with_config
       true
     end
 
@@ -51,7 +56,11 @@ module Tildeverse
     # Add new users to the hash, for all sites.
     #
     def scrape_all_sites
-      @data.sites.each(&:scrape)
+      data.sites.map do |s|
+        Thread.new(s) do |site|
+          site.scrape
+        end
+      end.each(&:join)
     end
 
     ##
@@ -59,7 +68,7 @@ module Tildeverse
     #
     def update_mod_dates
       mod_dates = ModifiedDates.new
-      @data.users.each do |user|
+      data.users.each do |user|
         date = mod_dates.for_user(user.site.name, user.name) || '-'
         user.date_modified = date
       end

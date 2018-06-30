@@ -6,6 +6,11 @@ module Tildeverse
   #
   class Fetcher
     ##
+    # @return [Data] the underlying Data object
+    #
+    attr_reader :data
+
+    ##
     # @param [Data] data
     #
     def initialize(data)
@@ -32,10 +37,10 @@ module Tildeverse
       Files.save_text(remote.result, filepath)
 
       # Use the new text file to load input.
-      @data.clear
+      data.clear
 
       # Use the new text file to save output.
-      @data.save_with_config
+      data.save_with_config
 
       true
     end
