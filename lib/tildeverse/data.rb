@@ -88,48 +88,24 @@ module Tildeverse
     end
 
     ##
-    # Serialise data to files 'tildeverse.txt' and 'tildeverse.json'
+    # (see Tildeverse::DataSaver#save)
     #
     def save
-      wsv = serialize.for_tildeverse_txt
-      file = Files.dir_input + 'tildeverse.txt'
-      Files.save_array(wsv, file)
-
-      json = serialize.for_tildeverse_json
-      file = Files.output_json_tildeverse
-      Files.save_json(json, file)
-
-      config.update
+      DataSaver.new(self).save
     end
 
     ##
-    # Save HTML and JS files and generate data for the website output
+    # (see Tildeverse::DataSaver#save_website)
     #
     def save_website
-      #
-      # Write 'users.json' for backwards compatibility.
-      # Used by http://tilde.town/~insom/modified.html
-      json = serialize.for_users_json
-      file = Files.output_json_users
-      Files.save_json(json, file)
-
-      # Copy all static files to the output directory.
-      Files.files_to_copy.each do |f|
-        from = Files.dir_input  + f
-        to   = Files.dir_output + f
-        FileUtils.cp(from, to)
-      end
+      DataSaver.new(self).save_website
     end
 
     ##
-    # Run {Tildeverse::Data#save}
-    #
-    # Run {Tildeverse::Data#save_website} if the config
-    # option {Tildeverse::Config#generate_html} is true
+    # (see Tildeverse::DataSaver#save_with_config)
     #
     def save_with_config
-      save
-      save_website if config.generate_html?
+      DataSaver.new(self).save_with_config
     end
 
     ##
