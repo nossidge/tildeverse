@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 describe 'Tildeverse::UserSerializer' do
-  def example_data
+  let(:example_data) do
     site_struct = Struct.new(:name) do
       def ==(o)
         name == o.name
@@ -19,7 +19,7 @@ describe 'Tildeverse::UserSerializer' do
     }
   end
 
-  def instance
+  let(:instance) do
     Tildeverse::User.new(example_data)
   end
 
