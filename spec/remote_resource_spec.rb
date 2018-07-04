@@ -25,45 +25,55 @@ describe 'Tildeverse::RemoteResource' do
     'https://tilde.town'
   ]
 
-  it '#get <- example.com' do
-    tc = Tildeverse::RemoteResource.new(*example)
-    expect(tc.get).to eq tc.result
-    expect(tc.result).to be_nil
-    expect(tc.error?).to be true
-    expect(tc.msg).to eq "URL is currently offline: #{example[2]}"
+  describe '#get <- example.com' do
+    it 'should be offline' do
+      tc = Tildeverse::RemoteResource.new(*example)
+      expect(tc.get).to eq tc.result
+      expect(tc.result).to be_nil
+      expect(tc.error?).to be true
+      expect(tc.msg).to eq "URL is currently offline: #{example[2]}"
+    end
   end
 
-  it '#get <- google.com' do
-    tc = Tildeverse::RemoteResource.new(*google)
-    expect(tc.get).to eq tc.result
-    expect(tc.result).to be_nil
-    expect(tc.error?).to be true
-    expect(tc.msg).to eq "URL is currently offline: #{google[2]}"
+  describe '#get <- google.com' do
+    it 'should be offline' do
+      tc = Tildeverse::RemoteResource.new(*google)
+      expect(tc.get).to eq tc.result
+      expect(tc.result).to be_nil
+      expect(tc.error?).to be true
+      expect(tc.msg).to eq "URL is currently offline: #{google[2]}"
+    end
   end
 
-  it '#get <- malformed home page' do
-    tc = Tildeverse::RemoteResource.new(*malformed)
-    expect(tc.get).to eq tc.result
-    expect(tc.result).to be_nil
-    expect(tc.error?).to be true
-    expect(tc.msg).to eq "URL is currently offline: #{malformed[1]}"
+  describe '#get <- malformed home page' do
+    it 'should be offline' do
+      tc = Tildeverse::RemoteResource.new(*malformed)
+      expect(tc.get).to eq tc.result
+      expect(tc.result).to be_nil
+      expect(tc.error?).to be true
+      expect(tc.msg).to eq "URL is currently offline: #{malformed[1]}"
+    end
   end
 
-  it '#get <- http tilde.town' do
-    tc = Tildeverse::RemoteResource.new(*http)
-    expect(tc.root).to eq tc.resource
-    expect(tc.get).to eq tc.result
-    expect(tc.result).to_not be_nil
-    expect(tc.error?).to be false
-    expect(tc.msg).to be_nil
+  describe '#get <- http tilde.town' do
+    it 'should be online' do
+      tc = Tildeverse::RemoteResource.new(*http)
+      expect(tc.root).to eq tc.resource
+      expect(tc.get).to eq tc.result
+      expect(tc.result).to_not be_nil
+      expect(tc.error?).to be false
+      expect(tc.msg).to be_nil
+    end
   end
 
-  it '#get <- https tilde.town' do
-    tc = Tildeverse::RemoteResource.new(*https)
-    expect(tc.root).to eq tc.resource
-    expect(tc.get).to eq tc.result
-    expect(tc.result).to_not be_nil
-    expect(tc.error?).to be false
-    expect(tc.msg).to be_nil
+  describe '#get <- https tilde.town' do
+    it 'should be online' do
+      tc = Tildeverse::RemoteResource.new(*https)
+      expect(tc.root).to eq tc.resource
+      expect(tc.get).to eq tc.result
+      expect(tc.result).to_not be_nil
+      expect(tc.error?).to be false
+      expect(tc.msg).to be_nil
+    end
   end
 end
