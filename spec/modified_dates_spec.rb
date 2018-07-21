@@ -1,44 +1,52 @@
 #!/usr/bin/env ruby
 
 describe 'Tildeverse::ModifiedDates' do
-  def instance
+  let (:instance) do
     @instance ||= Tildeverse::ModifiedDates.new
   end
 
-  it '#data' do
-    result = instance.data
+  describe '#data' do
+    it 'should return an array of hashes' do
+      result = instance.data
 
-    expect(result).to be_a Array
-    expect(result.first).to be_a Hash
+      expect(result).to be_a Array
+      expect(result.first).to be_a Hash
 
-    expect(result.first[:site]).to_not be_nil
-    expect(result.first[:user]).to_not be_nil
-    expect(result.first[:time]).to_not be_nil
-    expect(result.first[:junk]).to be_nil
+      expect(result.first[:site]).to_not be_nil
+      expect(result.first[:user]).to_not be_nil
+      expect(result.first[:time]).to_not be_nil
+      expect(result.first[:junk]).to be_nil
 
-    result.each do |i|
-      Time.strptime(i[:time], '%Y-%m-%d')
+      result.each do |i|
+        expect do
+          Time.strptime(i[:time], '%Y-%m-%d')
+        end.to_not raise_error
+      end
     end
   end
 
-  it '#for_user' do
-    [
-      ['tilde.town', 'nossidge'],
-      ['pebble.ink', 'imt']
-    ].each do |i|
-      result = instance.for_user(i.first, i.last)
-      expect(result).to_not be_nil
+  describe '#for_user' do
+    it 'should return a result given valid input' do
+      [
+        ['tilde.town', 'nossidge'],
+        ['pebble.ink', 'imt']
+      ].each do |i|
+        result = instance.for_user(i.first, i.last)
+        expect(result).to_not be_nil
+      end
     end
 
-    [
-      ['pebble.ink', 'foobarbazfring'],
-      ['example.com', 'imt'],
-      ['', ''],
-      ['pebble.ink', nil],
-      [nil, nil]
-    ].each do |i|
-      result = instance.for_user(i.first, i.last)
-      expect(result).to be_nil
+    it 'should return nil given invalid input' do
+      [
+        ['pebble.ink', 'foobarbazfring'],
+        ['example.com', 'imt'],
+        ['', ''],
+        ['pebble.ink', nil],
+        [nil, nil]
+      ].each do |i|
+        result = instance.for_user(i.first, i.last)
+        expect(result).to be_nil
+      end
     end
   end
 end
