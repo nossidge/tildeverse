@@ -4,6 +4,7 @@ Bundler.setup
 # Don't need to test each site's scrape code.
 require 'simplecov'
 SimpleCov.start do
+  add_filter '/spec/'
   add_filter 'tildeverse/sites'
 end
 
