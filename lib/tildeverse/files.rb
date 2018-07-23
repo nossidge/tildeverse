@@ -45,7 +45,7 @@ module Tildeverse
       #
       def config_yml
         dir_config = dir_root + 'config'
-        makedirs(dir_config) unless dir_config.exist?
+        FileUtils.makedirs(dir_config) unless dir_config.exist?
         dir_config + 'config.yml'
       end
 
@@ -272,16 +272,6 @@ module Tildeverse
             f.puts i.to_s.dup.force_encoding('UTF-8')
           end
         end
-      end
-
-      ##
-      # Make a directory, or recursively make a directory structure.
-      #
-      # @param [Pathname, String] pathname  Directory to create.
-      # @return [nil]
-      #
-      def makedirs(pathname)
-        FileUtils.makedirs pathname
       end
 
       ##

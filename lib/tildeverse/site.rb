@@ -186,14 +186,14 @@ module Tildeverse
     end
 
     ##
-    # Create a connection to the remote {#url_list}.
+    # Create a connection to the remote {#uri.list}.
     # Memoize results with the same info, to reduce server load.
     #
     # @param [String] url
     #   Optional argument to overwrite the {#resource} URL.
     # @return [RemoteResource] Connection to the remote {#resource}.
     #
-    def connection(url = uri.url_list)
+    def connection(url = uri.list)
       return @remote if @remote && @remote.resource == url
       info = [name, uri.root, url]
       @remote = RemoteResource.new(*info)
@@ -209,7 +209,7 @@ module Tildeverse
     #
     def pathname
       path = Files.dir_output + 'sites' + name
-      Files.makedirs(path) unless path.exist?
+      FileUtils.makedirs(path) unless path.exist?
       path
     end
 
