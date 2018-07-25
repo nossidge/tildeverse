@@ -1,15 +1,20 @@
 #!/usr/bin/env ruby
 
-require 'abstract_type'
-
 module Tildeverse
   class Site
     ##
     # Class for Tildeverse sites that are not online
     #
     class Dead < self
-      include AbstractType
-      abstract_method :scrape_users
+      ##
+      # Abstract method, to be implemented by inheritors
+      # @raise [NotImplementedError]
+      #
+      def scrape_users
+        msg = "Abstract method '##{__method__}' " \
+              'not implemented at this level of inheritance'
+        raise NotImplementedError, msg
+      end
 
       ##
       # @return [false] the site's known online status

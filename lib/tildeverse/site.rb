@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'abstract_type'
-
 module Tildeverse
   ##
-  # Class to store information for a particular site.
+  # Abstract class to store information for a particular site.
   #
   # Relation model is:
   #   Data
@@ -17,10 +15,31 @@ module Tildeverse
   # All child classes MUST define a method named +#scrape_users+.
   # This method defines how the user list is scraped on that site.
   #
+  # Also necessary is a class method named +#online?+.
+  # This should return the site's known online status.
+  #
   class Site
-    include AbstractType
-    abstract_method :scrape_users
-    abstract_method :online?
+    ##
+    # Abstract method, to be implemented by inheritors
+    # @raise [NotImplementedError]
+    #
+    def scrape_users
+      msg = "Abstract method '##{__method__}' " \
+            'not implemented at this level of inheritance'
+      raise NotImplementedError, msg
+    end
+
+    ##
+    # Abstract class method, to be implemented by inheritors
+    # @raise [NotImplementedError]
+    #
+    def self.online?
+      msg = "Abstract method '##{__method__}' " \
+            'not implemented at this level of inheritance'
+      raise NotImplementedError, msg
+    end
+
+    ############################################################################
 
     ##
     # @return [TildeSiteURI] the URI of the user list
@@ -112,6 +131,7 @@ module Tildeverse
       # Add new user accounts to @all_users.
       # They do not have 'tagged' or 'tags' data yet.
       new_users = remote_users - existing_users
+
       new_users.each do |user_name|
         @all_users[user_name] = User.new(
           site: self,

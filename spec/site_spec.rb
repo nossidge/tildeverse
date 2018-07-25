@@ -40,10 +40,6 @@ describe 'Tildeverse::Site' do
   ##############################################################################
 
   describe '#new' do
-    it 'should not be initialised directly, as class is abstract' do
-      expect { Tildeverse::Site.new }.to raise_error(NotImplementedError)
-    end
-
     it 'should allow inherited class to be instantiated' do
       example_uris.map do |uri|
         expect do
@@ -65,14 +61,13 @@ describe 'Tildeverse::Site' do
 
   ##############################################################################
 
-  describe 'abstract_method #scrape_users' do
+  describe 'abstract method #scrape_users' do
     it 'should fail if not implemented in the inherited class' do
-      msg = /#scrape_users is not implemented/
       example_uris.map do |uri|
         obj = Class.new(Tildeverse::Site).new(uri)
         expect do
           obj.scrape_users
-        end.to raise_error(NotImplementedError, msg)
+        end.to raise_error(NotImplementedError)
       end
     end
 
@@ -88,14 +83,13 @@ describe 'Tildeverse::Site' do
 
   ##############################################################################
 
-  describe 'abstract_method #online?' do
+  describe 'abstract method #online?' do
     it 'should fail if not implemented in the inherited class' do
-      msg = '#online? class method is not implemented'
       example_uris.map do |uri|
         obj = Class.new(Tildeverse::Site).new(uri)
         expect do
           obj.online?
-        end.to raise_error(NotImplementedError, msg)
+        end.to raise_error(NotImplementedError)
       end
     end
 
