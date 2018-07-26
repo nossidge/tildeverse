@@ -35,12 +35,67 @@ describe 'Tildeverse::User' do
       end
       expect(user.site.name).to eq 'example.com'
     end
+
+    it 'should correctly apply the defaults to unspecified parameters' do
+      user = Tildeverse::User.new(site: 'site.foo', name: 'site_foo')
+      example_data.each do |k, v|
+        next if %i[site name].include?(k)
+
+        # Defaults are in private classes named in the format 'default_ATTR'
+        default = user.send("default_#{k}")
+        expect(user.send(k)).to eq default
+      end
+      expect(user.site).to eq 'site.foo'
+      expect(user.name).to eq 'site_foo'
+    end
+
+    it 'should fail without necessary parameters' do
+      expect do
+        Tildeverse::User.new
+      end.to raise_error(ArgumentError)
+
+      expect do
+        Tildeverse::User.new(site: 'site.foo')
+      end.to raise_error(ArgumentError)
+
+      expect do
+        Tildeverse::User.new(name: 'site_foo')
+      end.to raise_error(ArgumentError)
+    end
   end
 
   describe '#serialize' do
     it 'should correctly serialize using UserSerializer' do
       serializer = instance.serialize
       expect(serializer).to be_a Tildeverse::UserSerializer
+    end
+  end
+
+  describe '#date_offline=' do
+    it 'should overwrite the attribute with a new value' do
+      user = instance
+      old_value = user.date_offline
+      new_value = 'foo'
+
+      user.date_offline = new_value
+      expect(user.date_offline).to eq new_value
+
+      user = instance
+      expect(user.date_offline).to eq old_value
+    end
+  end
+
+  describe '#date_modified=' do
+    it 'should overwrite the attribute with a new value' do
+      user = instance
+      old_value = user.date_modified
+      new_value = 'foo'
+
+      user.date_modified = new_value
+      expect(user.date_modified).to eq new_value
+
+      user = instance
+      expect(user.date_modified).to eq old_value
     end
   end
 
