@@ -51,30 +51,30 @@ module Tildeverse
     ##
     # Returns a new instance of User
     #
-    # @param [Site] site the site the user belongs to.
-    # @param [String] name the name of the user.
-    # @param [String] date_online the date the user first came online.
-    # @param [String] date_offline the date the user went offline.
-    # @param [String] date_modified the date the user site was last modified.
-    # @param [String] date_tagged the date the tags were last updated.
-    # @param [Array<String>] tags a list of usersite tags for the user.
+    # @param [Site] site the site the user belongs to
+    # @param [String] name the name of the user
+    # @option options [String] :date_online
+    #   the date the user first came online
+    # @option options [String] :date_offline
+    #   the date the user went offline
+    # @option options [String] :date_modified
+    #   the date the user site was last modified
+    # @option options [String] :date_tagged
+    #   the date the tags were last updated
+    # @option options [Array<String>] :tags
+    #   a list of usersite tags for the user
     #
-    def initialize(
-      site:,
-      name:,
-      date_online: default_date_online,
-      date_offline: default_date_offline,
-      date_modified: default_date_modified,
-      date_tagged: default_date_tagged,
-      tags: default_tags
-    )
+    def initialize(site:, name:, **options)
+      dodgy_args = invalid_options(options)
+      raise ArgumentError, dodgy_args unless dodgy_args.empty?
+
       @site          = site
       @name          = name
-      @date_online   = date_online
-      @date_offline  = date_offline
-      @date_modified = date_modified
-      @date_tagged   = date_tagged
-      @tags          = tags
+      @date_online   = validate_date_online   options[:date_online]
+      @date_offline  = validate_date_offline  options[:date_offline]
+      @date_modified = validate_date_modified options[:date_modified]
+      @date_tagged   = validate_date_tagged   options[:date_tagged]
+      @tags          = validate_tags          options[:tags]
     end
 
     ##
@@ -149,6 +149,37 @@ module Tildeverse
     end
 
     private
+
+    ##
+    # Return an array of the option keys that are not defined
+    #
+    # @param [Hash] options hash of options
+    # @return [Array<void>] array of invalid keys
+    #
+    def invalid_options(options)
+      valid = %i[date_online date_offline date_modified date_tagged tags]
+      options.keys - valid
+    end
+
+    def validate_date_online(value)
+      value || default_date_online
+    end
+
+    def validate_date_offline(value)
+      value || default_date_offline
+    end
+
+    def validate_date_modified(value)
+      value || default_date_modified
+    end
+
+    def validate_date_tagged(value)
+      value || default_date_tagged
+    end
+
+    def validate_tags(value)
+      value || default_tags
+    end
 
     def default_date_online
       '-'
