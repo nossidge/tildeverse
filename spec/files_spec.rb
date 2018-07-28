@@ -74,9 +74,9 @@ describe 'Tildeverse::Files' do
     end
   end
 
-  describe '#input_tildeverse_txt' do
+  describe '#input_tildeverse_txt_as_hash' do
     it 'should return a hash' do
-      data = Tildeverse::Files.input_tildeverse_txt
+      data = Tildeverse::Files.input_tildeverse_txt_as_hash
       expect(data).to be_a Hash
       expect(data).to_not be_empty
     end

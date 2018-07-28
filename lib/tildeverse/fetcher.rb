@@ -33,8 +33,7 @@ module Tildeverse
       puts remote.msg or return false if remote.error?
 
       # Save the remote result verbatim, overwriting the existing file.
-      filepath = Files.dir_input + 'tildeverse.txt'
-      Files.save_text(remote.result, filepath)
+      Files.save_text(remote.result, Files.input_txt_tildeverse)
 
       # Use the new text file to load input.
       data.clear
@@ -55,7 +54,7 @@ module Tildeverse
     #
     def write_permissions?
       return false unless Files.write?(Files.dir_input)
-      filepath = Files.dir_input + 'tildeverse.txt'
+      filepath = Files.input_txt_tildeverse
       return true if !filepath.exist?
       Files.write?(filepath)
     end

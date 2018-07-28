@@ -50,6 +50,15 @@ module Tildeverse
       end
 
       ##
+      # @return [Pathname] the input 'tildeverse' TXT file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse.txt'
+      #
+      def input_txt_tildeverse
+        dir_input + 'tildeverse.txt'
+      end
+
+      ##
       # Read in the contents of 'tildeverse.txt' and parse to a Hash
       #
       # @return [Hash]
@@ -92,11 +101,10 @@ module Tildeverse
       #     }
       #   }
       #
-      def input_tildeverse_txt
-        return @input_tildeverse_txt if @input_tildeverse_txt
+      def input_tildeverse_txt_as_hash
+        return @input_tildeverse_txt_as_hash if @input_tildeverse_txt_as_hash
 
-        filepath = dir_input + 'tildeverse.txt'
-        file_contents = read_utf8(filepath)
+        file_contents = read_utf8(input_txt_tildeverse)
         wsv = WSV.new(file_contents.split("\n"))
 
         # Convert the 'tags' property to an array.
@@ -108,7 +116,7 @@ module Tildeverse
         end
 
         # Return in the format 'hash[site][user] => { user details }'
-        @input_tildeverse_txt = {}.tap do |h|
+        @input_tildeverse_txt_as_hash = {}.tap do |h|
           hash_array.each do |i|
             site = i[:site_name]
             user = i[:user_name]

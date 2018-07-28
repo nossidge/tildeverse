@@ -177,7 +177,7 @@ module Tildeverse
     # @return [Hash]
     #
     def users_from_input_tildeverse
-      Tildeverse::Files.input_tildeverse_txt[name] || {}
+      Tildeverse::Files.input_tildeverse_txt_as_hash[name] || {}
     end
 
     ##

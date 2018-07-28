@@ -19,7 +19,7 @@ module Tildeverse
     #
     def save
       wsv = data.serialize.for_tildeverse_txt
-      file = Files.dir_input + 'tildeverse.txt'
+      file = Files.input_txt_tildeverse
       Files.save_array(wsv, file)
 
       json = data.serialize.for_tildeverse_json
