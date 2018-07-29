@@ -78,8 +78,6 @@ module Tildeverse
     #
     def online?
       self.class.online?
-    rescue NoMethodError
-      raise NotImplementedError, '#online? class method is not implemented'
     end
 
     ############################################################################

@@ -6,6 +6,11 @@ describe 'Tildeverse::PFHawkins' do
   end
 
   describe '#url_html' do
+    it 'should be a valid URI' do
+      expect do
+        URI(instance.url_html)
+      end.to_not raise_error
+    end
     it 'should respond correctly to HTTP GET' do
       uri = URI(instance.url_html)
       res = Net::HTTP.get_response(uri)
@@ -14,6 +19,11 @@ describe 'Tildeverse::PFHawkins' do
   end
 
   describe '#url_json' do
+    it 'should be a valid URI' do
+      expect do
+        URI(instance.url_json)
+      end.to_not raise_error
+    end
     it 'should respond correctly to HTTP GET' do
       uri = URI(instance.url_json)
       res = Net::HTTP.get_response(uri)

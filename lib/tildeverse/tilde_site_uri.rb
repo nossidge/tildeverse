@@ -146,7 +146,7 @@ module Tildeverse
       root + '/~USER/'
     end
 
-    # Raise an error if the URI is not hte correct type
+    # Raise an error if the URI is not the correct type
     def validate_uri
       return true if uri.is_a?(URI::HTTP)
       raise NotHTTPError

@@ -122,11 +122,11 @@ module Tildeverse
             user = i[:user_name]
             h[site] ||= {}
             h[site][user] = {
-              :date_online => i[:date_online],
-              :date_offline => i[:date_offline],
-              :date_modified => i[:date_modified],
-              :date_tagged => i[:date_tagged],
-              :tags => i[:tags] || []
+              date_online:   i[:date_online],
+              date_offline:  i[:date_offline],
+              date_modified: i[:date_modified],
+              date_tagged:   i[:date_tagged],
+              tags:          i[:tags] || []
             }
           end
         end
