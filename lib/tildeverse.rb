@@ -97,12 +97,14 @@ module Tildeverse
     # Use the config setting to choose between 'scrape' and 'fetch'
     #
     def get
-      case config.update_type
-      when 'scrape'
-        scrape
-      when 'fetch'
-        fetch
-      end
+      commands = {
+        scrape: -> { scrape },
+        fetch:  -> { fetch }
+      }
+      commands[config.update_type.to_sym].call
+    rescue
+      msg = "Config variable 'update_type' is not valid"
+      raise ArgumentError, msg
     end
 
     ##
