@@ -3,11 +3,7 @@
 describe 'Tildeverse::Files' do
 
   def rootpath
-    Pathname(__FILE__).dirname.parent
-  end
-
-  def specpath
-    rootpath + 'spec'
+    Tildeverse::Files.dir_root
   end
 
   def example_data
@@ -179,7 +175,7 @@ describe 'Tildeverse::Files' do
 
   describe '#save_json' do
     def filepath
-      specpath + 'tmp.json'
+      rootpath + 'tmp.json'
     end
 
     after(:all) do
@@ -202,7 +198,7 @@ describe 'Tildeverse::Files' do
 
   describe '#save_text' do
     def filepath
-      specpath + 'tmp.txt'
+      rootpath + 'tmp.txt'
     end
 
     after(:all) do
@@ -225,7 +221,7 @@ describe 'Tildeverse::Files' do
 
   describe '#save_array' do
     def filepath
-      specpath + 'tmp_list.txt'
+      rootpath + 'tmp_list.txt'
     end
 
     let(:array) do

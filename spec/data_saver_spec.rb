@@ -54,7 +54,7 @@ describe 'Tildeverse::DataSaver' do
       mod_times_hash = ->(files) do
         {}.tap do |hash|
           files.each do |f|
-            hash[f] = f.mtime
+            hash[f] = f.mtime rescue Time.at(0)
           end
         end
       end
