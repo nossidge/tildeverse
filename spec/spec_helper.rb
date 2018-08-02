@@ -11,11 +11,19 @@ end
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'tildeverse'
 
-RSpec.configure do |config|
-  config.before(:each) do
-    allow(Tildeverse::Files).to receive(:dir_root) do
+################################################################################
+
+# Remap the root directory to /spec/
+module Tildeverse::Files
+  class << self
+    def dir_root
       Pathname(__FILE__).dirname.parent + 'spec'
     end
+  end
+end
+
+RSpec.configure do |config|
+  config.before(:all) do
 
     # Ensure the directories exist
     makedirs = ->(dir) { FileUtils.makedirs(dir) unless dir.exist? }
