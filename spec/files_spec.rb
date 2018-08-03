@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 describe 'Tildeverse::Files' do
+  include_context 'before_each__seed_the_data'
 
   def rootpath
     Tildeverse::Files.dir_root

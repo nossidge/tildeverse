@@ -15,12 +15,31 @@ require 'tildeverse'
 
 # Remap the root directory to /spec/
 module Tildeverse::Files
-  class << self
-    def dir_root
-      Pathname(__FILE__).dirname.parent + 'spec'
-    end
+  def self.dir_root
+    Pathname(__FILE__).dirname.parent + 'spec'
   end
 end
+
+
+# Revert to the seed data, and rewrite the JSON file
+module RspecCustomHelpers
+  def self.seed_the_data
+    from = Tildeverse::Files.dir_root + 'seed' + 'tildeverse.txt'
+    to   = Tildeverse::Files.dir_input + 'tildeverse.txt'
+    FileUtils.cp(from, to)
+    Tildeverse.data.save
+  end
+end
+
+
+# Declare a shared context that will re-seed the data before each test
+# (This might get expensive, so we should only do it for certain tests)
+RSpec.shared_context 'before_each__seed_the_data' do
+  before(:each) do
+    RspecCustomHelpers.seed_the_data
+  end
+end
+
 
 RSpec.configure do |config|
   config.before(:all) do
@@ -31,21 +50,17 @@ RSpec.configure do |config|
     makedirs.call(Tildeverse::Files.dir_input)
     makedirs.call(Tildeverse::Files.dir_output)
 
-    # Copy over the seed file
-    from = Tildeverse::Files.dir_root + 'seed' + 'tildeverse.txt'
-    to   = Tildeverse::Files.dir_input + 'tildeverse.txt'
-    FileUtils.cp(from, to)
+    # Copy the seed data, and rewrite the JSON file
+    RspecCustomHelpers.seed_the_data
 
     # Touch the static files
-    # They can be empty, that's okay for testing
+    # (They can be empty, that's okay for testing)
     %w[index.html users.js boxes.js pie.js].each do |f|
       FileUtils.touch(Tildeverse::Files.dir_input + f)
     end
-
-    # Save to JSON file
-    Tildeverse.data.save
   end
 end
+
 
 RSpec::Matchers.define :be_boolean do
   match do |value|
