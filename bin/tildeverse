@@ -146,7 +146,7 @@ module Tildeverse
     #
     def tildeverse_sites(regex)
       sites = Tildeverse.sites.select(&:online?)
-      sites.select! { |i| i.root[Regexp.new(regex)] } if regex
+      sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
 
       output = output_sites(sites) || sites.map(&:name)
       puts output rescue nil
@@ -160,7 +160,7 @@ module Tildeverse
     #
     def tildeverse_site(regex)
       sites = Tildeverse.sites.select(&:online?)
-      sites.select! { |i| i.root[Regexp.new(regex)] } if regex
+      sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
       users = sites.map { |i| i.users }.flatten
 
       output = output_users(users) || users.map(&:name)
@@ -177,9 +177,9 @@ module Tildeverse
     #
     def tildeverse_users(regex)
       users = Tildeverse.users
-      users.select! { |i| i.url[Regexp.new(regex)] } if regex
+      users.select! { |i| i.homepage[Regexp.new(regex)] } if regex
 
-      output = output_users(users) || users.map(&:url)
+      output = output_users(users) || users.map(&:homepage)
       puts output rescue nil
     end
 
@@ -224,7 +224,7 @@ module Tildeverse
         output = [header] + sites.map do |site|
           [
             site.name,
-            site.root,
+            site.uri.root,
             site.users.count
           ]
         end
