@@ -252,5 +252,20 @@ module Tildeverse
     def no_user_message
       "ERROR: No users found for site: #{name}"
     end
+
+    ##
+    # Yield to a block, and output a message to console if the block produces
+    # an empty array. In any case, return the value of the block.
+    #
+    # @yield
+    #   code to get a list of usernames, most likely from a remote URI
+    # @yieldreturn [Array<String>] list of usernames
+    # @return [Array<String>] list of usernames (from the yielded block)
+    #
+    def validate_usernames
+      yield.tap do |usernames|
+        puts no_user_message if usernames.empty?
+      end
+    end
   end
 end

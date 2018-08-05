@@ -17,19 +17,20 @@ module Tildeverse
       # @return [Array<String>] all users of +hackers.cool+
       #
       def scrape_users
-        # These are lines on the page that include '<li><a href',
-        # after the line that matches '<p>Current users:</p>'
-        # There's an error with some URLs, so we need to use the anchor text.
-        members_found = false
-        @users = con.result.split("\n").map do |i|
-          members_found = true if i.strip == '<p>Current users:</p>'
-          next unless members_found && i =~ /<li><a href/
-          user = i.split('~').last.split('<').first.strip
-          user = 'tildesarecool' if user == 'tilesarecool'
-          user
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # These are lines on the page that include '<li><a href',
+          # after the line that matches '<p>Current users:</p>'
+          # There's an error with some URLs, so we need to use the anchor text.
+          found = false
+          con.result.split("\n").map do |i|
+            found = true if i.strip == '<p>Current users:</p>'
+            next unless found && i =~ /<li><a href/
+            user = i.split('~').last.split('<').first.strip
+            user = 'tildesarecool' if user == 'tilesarecool'
+            user
+          end.compact.sort.uniq
+        end
       end
     end
   end

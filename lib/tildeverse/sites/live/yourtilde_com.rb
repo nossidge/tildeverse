@@ -17,9 +17,10 @@ module Tildeverse
       # @return [Array<String>] all users of +yourtilde.com+
       #
       def scrape_users
+        #
         # There's a strange issue with curling this URL.
         # I'll just use a manual list for now.
-        @users = %w[
+        %w[
           Distip Hustler WL01 asvvvad ben biglysmalls caleb copart
           deepend diverger emv geoff hyperboredoubt jovan juaniman99
           khuxkm kingofobsolete login mhj msmcmickey mushmouth nozy
@@ -33,13 +34,14 @@ module Tildeverse
       # Here's the scraper code, in case the curl issue is ever fixed:
       #
       def actual_scraper_code
-        # These are lines on the page that start with '<a href'.
-        @users = con.result.split("\n").map do |i|
-          next unless i.strip =~ /^<a href/
-          i.split('~').last.split('<').first
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # These are lines on the page that start with '<a href'.
+          con.result.split("\n").map do |i|
+            next unless i.strip =~ /^<a href/
+            i.split('~').last.split('<').first
+          end.compact.sort.uniq
+        end
       end
     end
   end

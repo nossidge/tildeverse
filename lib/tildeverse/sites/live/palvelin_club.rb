@@ -17,14 +17,15 @@ module Tildeverse
       # @return [Array<String>] all users of +palvelin.club+
       #
       def scrape_users
-        # These are the only lines on the page that begin with '<li>'
-        # This is very hacky, but it fixes the string encoding problem.
-        @users = con.result[89..-1].split("\n").map do |i|
-          next unless i =~ /^<li>/
-          i.first_between_two_chars('"').split('~').last.strip
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # These are the only lines on the page that begin with '<li>'
+          # This is very hacky, but it fixes the string encoding problem.
+          con.result[89..-1].split("\n").map do |i|
+            next unless i =~ /^<li>/
+            i.first_between_two_chars('"').split('~').last.strip
+          end.compact.sort.uniq
+        end
       end
     end
   end

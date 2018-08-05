@@ -17,6 +17,7 @@ module Tildeverse
       # @return [Array<String>] all users of +tilde.city+
       #
       def scrape_users
+        #
         # Manually found 2 users, but no list.
         %w[twilde skk]
       end

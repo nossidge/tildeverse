@@ -17,6 +17,7 @@ module Tildeverse
       # @return [Array<String>] all users of +ofmanytrades.com+
       #
       def scrape_users
+        #
         # Manually found some users, but no list.
         %w[ajroach42 djsundog noah russ]
       end

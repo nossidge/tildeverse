@@ -17,14 +17,15 @@ module Tildeverse
       # @return [Array<String>] all users of +club6.nl+
       #
       def scrape_users
-        # 2015/01/03  New box, a nice easy JSON format.
-        # 2016/01/13  RIP
-        parsed = JSON[con.result.delete("\t")]
-        @users = parsed['users'].map do |i|
-          i['username']
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # 2015/01/03  New box, a nice easy JSON format.
+          # 2016/01/13  RIP
+          parsed = JSON[con.result.delete("\t")]
+          parsed['users'].map do |i|
+            i['username']
+          end.compact.sort.uniq
+        end
       end
     end
   end

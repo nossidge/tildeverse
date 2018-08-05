@@ -17,14 +17,15 @@ module Tildeverse
       # @return [Array<String>] all users of +crime.team+
       #
       def scrape_users
-        # 2017/04/11  New box, user list on index.html
-        @users = con.result.split("\n").map do |i|
-          next unless i.strip =~ /^<li>/
-          user = i.first_between_two_chars('"').strip
-          user.remove_trailing_slash.split('~').last.strip
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # 2017/04/11  New box, user list on index.html
+          con.result.split("\n").map do |i|
+            next unless i.strip =~ /^<li>/
+            user = i.first_between_two_chars('"').strip
+            user.remove_trailing_slash.split('~').last.strip
+          end.compact.sort.uniq
+        end
       end
     end
   end

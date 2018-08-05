@@ -17,19 +17,21 @@ module Tildeverse
       # @return [Array<String>] all users of +matilde.club+
       #
       def scrape_users
-        # This is not newline based, so need to do other stuff.
-        # 2016/02/04  RIP
-        @users = []
-        con.result.split("\n").each do |i|
-          next unless i =~ /<ul><li>/
-          i.split('</li><li>').each do
-            user = i.first_between_two_chars('"').strip
-            user = user.remove_trailing_slash.split('~').last.strip
-            @users << user
+        validate_usernames do
+          #
+          # This is not newline based, so need to do other stuff.
+          # 2016/02/04  RIP
+          [].tap do |users|
+            con.result.split("\n").each do |i|
+              next unless i =~ /<ul><li>/
+              i.split('</li><li>').each do
+                user = i.first_between_two_chars('"').strip
+                user = user.remove_trailing_slash.split('~').last.strip
+                users << user
+              end
+            end
           end
         end
-        puts no_user_message if @users.empty?
-        @users
       end
     end
   end

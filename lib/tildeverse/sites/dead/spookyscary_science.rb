@@ -17,18 +17,19 @@ module Tildeverse
       # @return [Array<String>] all users of +spookyscary.science+
       #
       def scrape_users
-        # 2016/08/10  New box
-        # 2016/11/04  Okay, something weird is going on here. Every page but
-        #             the index reverts to root. I guess consider it dead?
-        #             For now just use cached users. But keep a watch on it.
-        # 2017/09/04  RIP
-        @users = con.result.split("\n").map do |i|
-          next unless i =~ /^<a href/
-          user = i.first_between_two_chars('"').strip
-          user.remove_trailing_slash.split('~').last.strip
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # 2016/08/10  New box
+          # 2016/11/04  Okay, something weird is going on here. Every page but
+          #             the index reverts to root. I guess consider it dead?
+          #             For now just use cached users. But keep a watch on it.
+          # 2017/09/04  RIP
+          con.result.split("\n").map do |i|
+            next unless i =~ /^<a href/
+            user = i.first_between_two_chars('"').strip
+            user.remove_trailing_slash.split('~').last.strip
+          end.compact.sort.uniq
+        end
       end
 
       ##

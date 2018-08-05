@@ -17,16 +17,17 @@ module Tildeverse
       # @return [Array<String>] all users of +bleepbloop.club+
       #
       def scrape_users
-        # This is straight from someone's ~user index.html.
-        # I'm betting this will be the first page to break.
-        # 2015/10/26  RIP
-        @users = con.result.split("\n").map do |i|
-          next unless i =~ /<li>/
-          user = i.first_between_two_chars('"').strip
-          user.remove_trailing_slash.split('~').last.strip
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # This is straight from someone's ~user index.html.
+          # I'm betting this will be the first page to break.
+          # 2015/10/26  RIP
+          con.result.split("\n").map do |i|
+            next unless i =~ /<li>/
+            user = i.first_between_two_chars('"').strip
+            user.remove_trailing_slash.split('~').last.strip
+          end.compact.sort.uniq
+        end
       end
     end
   end

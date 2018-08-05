@@ -17,15 +17,16 @@ module Tildeverse
       # @return [Array<String>] all users of +myrtle-st.club+
       #
       def scrape_users
-        # These are the lines on the page that include '<p> <a href'
-        # 2017/11/24  RIP
-        @users = con.result.split("\n").map do |i|
-          next unless i =~ /<p> <a href=/
-          user = i.split('a href').last.first_between_two_chars('"').strip
-          user.remove_trailing_slash.split('~').last.strip
-        end.compact.sort.uniq
-        puts no_user_message if @users.empty?
-        @users
+        validate_usernames do
+          #
+          # These are the lines on the page that include '<p> <a href'
+          # 2017/11/24  RIP
+          con.result.split("\n").map do |i|
+            next unless i =~ /<p> <a href=/
+            user = i.split('a href').last.first_between_two_chars('"').strip
+            user.remove_trailing_slash.split('~').last.strip
+          end.compact.sort.uniq
+        end
       end
     end
   end
