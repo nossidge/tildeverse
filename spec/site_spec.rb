@@ -176,6 +176,36 @@ describe 'Tildeverse::Site' do
 
   ##############################################################################
 
+  describe '#no_user_message' do
+    it 'should be the correct message' do
+      site = Tildeverse.site('pebble.ink')
+      msg = site.send(:no_user_message)
+      expect(msg).to eq "ERROR: No users found for site: #{site.name}"
+    end
+  end
+
+  describe '#validate_usernames' do
+    it 'should not output error if array contains values' do
+      site = Tildeverse.site('pebble.ink')
+      msg = site.send(:no_user_message)
+      expect(STDOUT).to_not receive(:puts).with(msg)
+      site.send(:validate_usernames) do
+        %w[foo bar baz]
+      end
+    end
+
+    it 'should output error if array is empty' do
+      site = Tildeverse.site('pebble.ink')
+      msg = site.send(:no_user_message)
+      expect(STDOUT).to receive(:puts).with(msg)
+      site.send(:validate_usernames) do
+        []
+      end
+    end
+  end
+
+  ##############################################################################
+
   describe '#filepath' do
     it 'should point to the correct file' do
       Tildeverse.site('pebble.ink').send(:filepath)
