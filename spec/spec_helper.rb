@@ -15,8 +15,11 @@ require 'tildeverse'
 
 # Remap the root directory to /spec/
 module Tildeverse::Files
-  def self.dir_root
-    Pathname(__FILE__).dirname.parent + 'spec'
+  class << self
+    alias_method :old_dir_root, :dir_root
+    def dir_root
+      old_dir_root + 'spec'
+    end
   end
 end
 
