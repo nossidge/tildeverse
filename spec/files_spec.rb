@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 describe 'Tildeverse::Files' do
   include_context 'before_each__seed_the_data'

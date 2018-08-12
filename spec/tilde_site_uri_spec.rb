@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 describe 'Tildeverse::TildeSiteURI' do
   let(:example_data) do

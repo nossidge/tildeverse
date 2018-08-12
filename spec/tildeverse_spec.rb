@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-describe 'Tildeverse::Tildeverse' do
+describe 'Tildeverse' do
   describe '#config' do
     it 'should return a Config instance' do
       expect(Tildeverse.config).to be_a Tildeverse::Config

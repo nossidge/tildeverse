@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 describe 'Tildeverse::ModifiedDates' do
   let (:instance) do

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 describe 'Tildeverse::Site' do
   let(:example_data) do

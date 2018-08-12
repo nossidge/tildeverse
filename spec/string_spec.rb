@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 describe 'String' do
   describe '#remove_trailing_slash' do
