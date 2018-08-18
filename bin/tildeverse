@@ -1,41 +1,27 @@
 #!/usr/bin/env ruby
-
-require_relative '../lib/tildeverse'
+# frozen_string_literal: true
 
 require 'optparse'
+
+require_relative '../lib/tildeverse'
 
 module Tildeverse
   ##
   # Define the commands that are possible through the CLI
   #
   class Bin
-    def initialize(argv)
-      @argv = argv
-      parse!(@argv)
-    end
+    attr_reader :argv_orig, :argv, :options
 
-    ##
-    # Parse the arguments and set the boolean option switches.
-    # This is destructive to the 'args' param.
-    #
-    def parse!(args)
-      @options = {}
-      OptionParser.new do |opts|
-        opts.on('-l', '--long')   { @options[:long]   = true }
-        opts.on('-j', '--json')   { @options[:json]   = true }
-        opts.on('-p', '--pretty') { @options[:pretty] = true }
-        opts.on('-h', '--help') do
-          puts tildeverse_help
-          exit
-        end
-      end.parse!(args)
+    def initialize(argv)
+      @argv_orig = argv
+      @argv = parse(argv.dup)
     end
 
     ##
     # Use the arguments to decide which function to perform
     #
     def run
-      case @argv[0]
+      case argv[0]
       when 'help'
         tildeverse_help
       when 'scrape'
@@ -47,13 +33,13 @@ module Tildeverse
       when 'json'
         tildeverse_json
       when 'sites'
-        tildeverse_sites(@argv[1])
+        tildeverse_sites(argv[1])
       when 's', 'site'
-        tildeverse_site(@argv[1])
+        tildeverse_site(argv[1])
       when 'u', 'user', 'users'
-        tildeverse_users(@argv[1])
+        tildeverse_users(argv[1])
       else
-        tildeverse_users(@argv[0])
+        tildeverse_users(argv[0])
       end
     end
 
@@ -134,7 +120,7 @@ module Tildeverse
     #
     def tildeverse_json
       obj = Tildeverse.data.serialize.for_tildeverse_json
-      output = @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+      output = options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       puts output rescue nil
     end
 
@@ -161,7 +147,7 @@ module Tildeverse
     def tildeverse_site(regex)
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
-      users = sites.map { |i| i.users }.flatten
+      users = sites.map(&:users).flatten
 
       output = output_users(users) || users.map(&:name)
       puts output rescue nil
@@ -186,13 +172,31 @@ module Tildeverse
     private
 
     ##
+    # Parse the arguments and set the boolean option switches
+    #
+    # @return [Array<String>] remaining arguments
+    #
+    def parse(args)
+      @options = {}
+      OptionParser.new do |opts|
+        opts.on('-l', '--long')   { @options[:long]   = true }
+        opts.on('-j', '--json')   { @options[:json]   = true }
+        opts.on('-p', '--pretty') { @options[:pretty] = true }
+        opts.on('-h', '--help') do
+          puts tildeverse_help
+          exit
+        end
+      end.parse(args)
+    end
+
+    ##
     # Output a list of users in a consistant way
     #
     # @param [Array<User>] users
     # @return [String] text to be put to stdout
     #
     def output_users(users)
-      if @options[:long]
+      if options[:long]
         header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
         output = [header] + users.map do |user|
           [
@@ -206,9 +210,9 @@ module Tildeverse
         end
         WSV.new(output).to_wsv
 
-      elsif @options[:json] || @options[:pretty]
+      elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.users(users)
-        @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+        options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       end
     end
 
@@ -219,7 +223,7 @@ module Tildeverse
     # @return [String] text to be put to stdout
     #
     def output_sites(sites)
-      if @options[:long]
+      if options[:long]
         header = %w[NAME URL USERS]
         output = [header] + sites.map do |site|
           [
@@ -230,9 +234,9 @@ module Tildeverse
         end
         WSV.new(output).to_wsv(rjust: [2])
 
-      elsif @options[:json] || @options[:pretty]
+      elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.sites(sites)
-        @options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+        options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
       end
     end
   end
