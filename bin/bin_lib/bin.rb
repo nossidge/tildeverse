@@ -10,6 +10,9 @@ module Tildeverse
   class Bin
     attr_reader :argv_orig, :argv, :options
 
+    ##
+    # @param [Array<String>] argv
+    #
     def initialize(argv)
       @argv_orig = argv
       @argv = parse(argv.dup)
@@ -22,6 +25,8 @@ module Tildeverse
       case argv[0]
       when 'help'
         tildeverse_help
+      when 'version'
+        tildeverse_version
       when 'scrape'
         tildeverse_scrape
       when 'fetch'
@@ -48,13 +53,17 @@ module Tildeverse
     #
     def tildeverse_help
       puts <<-HELP.gsub(/^ {8}/, '')
+          Tildeverse: List of tilde-sites and their users
+          github.com/nossidge/tildeverse
+          Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
+
           Usage: tildeverse <command> [regex] [options]
 
         $ tildeverse scrape
           Scrape the user list of each box, and generate the JSON files
 
         $ tildeverse fetch
-          Fetch data from tilde.town/~nossidge/tildeverse/tildeverse.json
+          Fetch data from #{Files.remote_json.sub(/.*\/\//, '')}
 
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
@@ -81,6 +90,17 @@ module Tildeverse
           -j  output in JSON format
           -p  output in pretty JSON format
       HELP
+    end
+
+    ##
+    # $ tildeverse version
+    #
+    # Display version info
+    #
+    def tildeverse_version
+      number = Tildeverse.version_number
+      date   = Tildeverse.version_date
+      puts "tildeverse #{number} (#{date})"
     end
 
     ##
@@ -177,13 +197,11 @@ module Tildeverse
     def parse(args)
       @options = {}
       OptionParser.new do |opts|
-        opts.on('-l', '--long')   { @options[:long]   = true }
-        opts.on('-j', '--json')   { @options[:json]   = true }
-        opts.on('-p', '--pretty') { @options[:pretty] = true }
-        opts.on('-h', '--help') do
-          puts tildeverse_help
-          exit
-        end
+        opts.on('-l', '--long')    { @options[:long]   = true }
+        opts.on('-j', '--json')    { @options[:json]   = true }
+        opts.on('-p', '--pretty')  { @options[:pretty] = true }
+        opts.on('-h', '--help')    { tildeverse_help;    exit }
+        opts.on('-v', '--version') { tildeverse_version; exit }
       end.parse(args)
     end
 
