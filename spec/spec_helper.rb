@@ -72,3 +72,17 @@ RSpec::Matchers.define :be_boolean do
     [true, false].include? value
   end
 end
+
+
+# Method to capture and test STDOUT
+# https://stackoverflow.com/a/1496040/139299
+def capture_stdout(&block)
+  original_stdout = $stdout
+  $stdout = fake = StringIO.new
+  begin
+    yield
+  ensure
+    $stdout = original_stdout
+  end
+  fake.string
+end

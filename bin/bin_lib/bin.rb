@@ -24,9 +24,9 @@ module Tildeverse
     def run
       case argv[0]
       when 'help'
-        tildeverse_help
+        puts tildeverse_help
       when 'version'
-        tildeverse_version
+        puts tildeverse_version
       when 'scrape'
         tildeverse_scrape
       when 'fetch'
@@ -52,9 +52,9 @@ module Tildeverse
     # Display help info
     #
     def tildeverse_help
-      puts <<-HELP.gsub(/^ {8}/, '')
+      <<-HELP.gsub(/^ {8}/, '')
           Tildeverse: List of tilde-sites and their users
-          github.com/nossidge/tildeverse
+          https://github.com/nossidge/tildeverse
           Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
 
           Usage: tildeverse <command> [regex] [options]
@@ -100,7 +100,7 @@ module Tildeverse
     def tildeverse_version
       number = Tildeverse.version_number
       date   = Tildeverse.version_date
-      puts "tildeverse #{number} (#{date})"
+      "tildeverse #{number} (#{date})"
     end
 
     ##
@@ -200,8 +200,8 @@ module Tildeverse
         opts.on('-l', '--long')    { @options[:long]   = true }
         opts.on('-j', '--json')    { @options[:json]   = true }
         opts.on('-p', '--pretty')  { @options[:pretty] = true }
-        opts.on('-h', '--help')    { tildeverse_help;    exit }
-        opts.on('-v', '--version') { tildeverse_version; exit }
+        opts.on('-h', '--help')    { puts tildeverse_help;    exit }
+        opts.on('-v', '--version') { puts tildeverse_version; exit }
       end.parse(args)
     end
 
