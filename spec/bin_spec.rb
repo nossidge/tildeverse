@@ -136,20 +136,112 @@ describe 'Tildeverse::Bin' do
   ##############################################################################
 
   describe '#tildeverse_sites(regex)' do
-    it 'should TODO' do
-      # TODO
+    it 'should return the correct sites' do
+      bin = Tildeverse::Bin.new([])
+      [
+        ['foo',        []],
+        ['pebble.ink', %w[pebble.ink]],
+        ['pebb',       %w[pebble.ink]],
+        ['ink$',       %w[pebble.ink]],
+        ['ebb.*k',     %w[pebble.ink]],
+        ['tilde',      %w[tilde.club tilde.team tilde.town yourtilde.com]],
+        ['^http://p',  %w[palvelin.club pebble.ink protocol.club]],
+        ['com$',       %w[ofmanytrades.com yourtilde.com]],
+        ['pebb|town',  %w[pebble.ink tilde.town]]
+      ].each do |args|
+        output = capture_stdout do
+          bin.tildeverse_sites(args.first)
+        end.chomp
+        expect(output).to eq args.last.join("\n")
+      end
+    end
+
+    it 'should return the correct sites in long format' do
+      bin = Tildeverse::Bin.new(['--long'])
+      %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |args|
+        output = capture_stdout do
+          bin.tildeverse_sites(args)
+        end.chomp
+
+        # Just check for the headers
+        %w[NAME URL USERS].each do |header|
+          expect(output.split("\n").first).to include(header)
+        end
+      end
     end
   end
 
   describe '#tildeverse_site(regex)' do
-    it 'should TODO' do
-      # TODO
+    it 'should return the correct users' do
+      bin = Tildeverse::Bin.new([])
+      [
+        ['foo',        []],
+        ['pebble.ink', %w[pebble.ink]],
+        ['pebb',       %w[pebble.ink]],
+        ['ink$',       %w[pebble.ink]],
+        ['ebb.*k',     %w[pebble.ink]],
+        ['tilde',      %w[tilde.club tilde.team tilde.town yourtilde.com]],
+        ['^http://p',  %w[palvelin.club pebble.ink protocol.club]],
+        ['com$',       %w[ofmanytrades.com yourtilde.com]],
+        ['pebb|town',  %w[pebble.ink tilde.town]]
+      ].each do |args|
+        output = capture_stdout do
+          bin.tildeverse_site(args.first)
+        end.chomp
+
+        # Should match the users of the site(s)
+        names = args.last.map do |site_name|
+          Tildeverse.site(site_name).users.map(&:name)
+        end.flatten.compact
+        expect(output).to eq names.join("\n")
+      end
+    end
+
+    it 'should return the correct users in long format' do
+      bin = Tildeverse::Bin.new(['--long'])
+      %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |i|
+        output = capture_stdout do
+          bin.tildeverse_site(i)
+        end.chomp
+
+        # Just check for the headers
+        %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
+          expect(output.split("\n").first).to include(header)
+        end
+      end
     end
   end
 
   describe '#tildeverse_users(regex)' do
-    it 'should TODO' do
-      # TODO
+    it 'should return the correct users' do
+      bin = Tildeverse::Bin.new([])
+      [
+        ['foobarbaz', []],
+        ['noss',      %w[nossidge]],
+        ['c',         %w[clach04 contolini elzilrac]],
+      ].each do |args|
+        output = capture_stdout do
+          bin.tildeverse_users(args.first)
+        end.chomp
+
+        args.last.each do |user_name|
+          expect(output).to include(user_name)
+        end
+      end
+    end
+
+    it 'should return the correct users in long format' do
+      bin = Tildeverse::Bin.new(['--long'])
+      %w[foobarbaz noss c].each do |i|
+        output = capture_stdout do
+          bin.tildeverse_site(i)
+        end.chomp
+
+        # Just check for the headers
+        %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
+          expect(output.split("\n").first).to include(header)
+        end
+      end
     end
   end
 
