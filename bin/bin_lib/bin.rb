@@ -14,8 +14,7 @@ module Tildeverse
     # @param [Array<String>] argv
     #
     def initialize(argv)
-      @argv_orig = argv
-      @argv = parse(argv.dup)
+      parse(argv)
     end
 
     ##
@@ -190,13 +189,15 @@ module Tildeverse
     private
 
     ##
-    # Parse the arguments and set the boolean option switches
+    # Parse the arguments and set the values of
+    # {#options}, {#argv_orig}, and {#argv}
     #
     # @return [Array<String>] remaining arguments
     #
     def parse(args)
       @options = {}
-      OptionParser.new do |opts|
+      @argv_orig = args.dup
+      @argv = OptionParser.new do |opts|
         opts.on('-l', '--long')    { @options[:long]   = true }
         opts.on('-j', '--json')    { @options[:json]   = true }
         opts.on('-p', '--pretty')  { @options[:pretty] = true }

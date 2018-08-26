@@ -248,20 +248,22 @@ describe 'Tildeverse::Bin' do
   ##############################################################################
 
   describe '#parse(args)' do
-    it 'should TODO' do
-      # TODO
-    end
-  end
-
-  describe '#output_users(users)' do
-    it 'should TODO' do
-      # TODO
-    end
-  end
-
-  describe '#output_sites(sites)' do
-    it 'should TODO' do
-      # TODO
+    it 'should update the correct attributes' do
+      [
+        [%w[],                  {}],
+        [%w[foo],               {}],
+        [%w[user foo],          {}],
+        [%w[user foo -l],       {long: true}],
+        [%w[user foo -j],       {json: true}],
+        [%w[user foo -jp],      {json: true, pretty: true}],
+        [%w[user foo --pretty], {pretty: true}]
+      ].each do |args|
+        bin = Tildeverse::Bin.new([])
+        after_parse = bin.send(:parse, args.first)
+        expect(bin.options).to eq args.last
+        expect(bin.argv).to eq after_parse
+        expect(bin.argv_orig).to eq args.first
+      end
     end
   end
 end
