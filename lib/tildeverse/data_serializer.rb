@@ -47,6 +47,8 @@ module Tildeverse
       end
     end
 
+    ############################################################################
+
     ##
     # Serialize data in the format of {Files#output_json_tildeverse}
     #
@@ -97,6 +99,47 @@ module Tildeverse
         user.serialize.to_a
       end
       WSV.new(user_table).to_wsv
+    end
+
+    ############################################################################
+
+    ##
+    # Serialise an array of users to a whitespace-delimited array of strings
+    #
+    # @param [Array<User>] users
+    # @return [Array<String>] whitespace-delimited values
+    #
+    def users_as_wsv(users = data.users)
+      header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
+      output = [header] + [*users].map do |user|
+        [
+          user.site.name,
+          user.name,
+          user.homepage,
+          user.date_modified,
+          user.date_tagged || '-',
+          user.tags.empty? ? '-' : user.tags.join(',')
+        ]
+      end
+      WSV.new(output).to_wsv
+    end
+
+    ##
+    # Serialise an array of sites to a whitespace-delimited array of strings
+    #
+    # @param [Array<Site>] sites
+    # @return [Array<String>] whitespace-delimited values
+    #
+    def sites_as_wsv(sites = data.sites)
+      header = %w[NAME URL USERS]
+      output = [header] + [*sites].map do |site|
+        [
+          site.name,
+          site.uri.root,
+          site.users.count
+        ]
+      end
+      WSV.new(output).to_wsv(rjust: [2])
     end
   end
 end

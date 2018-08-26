@@ -151,7 +151,7 @@ module Tildeverse
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
 
-      output = output_sites(sites) || sites.map(&:name)
+      output = format_sites(sites) || sites.map(&:name)
       puts output rescue nil
     end
 
@@ -166,7 +166,7 @@ module Tildeverse
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
       users = sites.map(&:users).flatten
 
-      output = output_users(users) || users.map(&:name)
+      output = format_users(users) || users.map(&:name)
       puts output rescue nil
     end
 
@@ -182,7 +182,7 @@ module Tildeverse
       users = Tildeverse.users
       users.select! { |i| i.homepage[Regexp.new(regex)] } if regex
 
-      output = output_users(users) || users.map(&:homepage)
+      output = format_users(users) || users.map(&:homepage)
       puts output rescue nil
     end
 
@@ -212,20 +212,9 @@ module Tildeverse
     # @param [Array<User>] users
     # @return [String] text to be put to stdout
     #
-    def output_users(users)
+    def format_users(users)
       if options[:long]
-        header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
-        output = [header] + users.map do |user|
-          [
-            user.site.name,
-            user.name,
-            user.homepage,
-            user.date_modified,
-            user.date_tagged || '-',
-            user.tags.empty? ? '-' : user.tags.join(',')
-          ]
-        end
-        WSV.new(output).to_wsv
+        Tildeverse.data.serialize.users_as_wsv(users)
 
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.users(users)
@@ -239,17 +228,9 @@ module Tildeverse
     # @param [Array<Site>] sites
     # @return [String] text to be put to stdout
     #
-    def output_sites(sites)
+    def format_sites(sites)
       if options[:long]
-        header = %w[NAME URL USERS]
-        output = [header] + sites.map do |site|
-          [
-            site.name,
-            site.uri.root,
-            site.users.count
-          ]
-        end
-        WSV.new(output).to_wsv(rjust: [2])
+        Tildeverse.data.serialize.sites_as_wsv(sites)
 
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.sites(sites)
