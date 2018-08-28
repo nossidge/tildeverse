@@ -266,4 +266,62 @@ describe 'Tildeverse::Bin' do
       end
     end
   end
+
+  ##############################################################################
+
+  describe '#format_users(users)' do
+    let(:user) { Tildeverse.user('nossidge') }
+    let(:json) { Tildeverse.data.serialize.users(user) }
+    let(:call) { ->(options) {
+      Tildeverse::Bin.new(options).send(:format_users, user) { 'default' }
+    } }
+
+    it 'should call and return the block if no special options' do
+      options = {}
+      expect(call[options]).to eq 'default'
+    end
+
+    it 'should return a whitespace-delimited array if options[:long]' do
+      options = { long: true }
+      expect(call[options]).to eq Tildeverse.data.serialize.users_as_wsv(user)
+    end
+
+    it 'should return a JSON string if options[:json]' do
+      options = { json: true }
+      expect(call[options]).to eq json.to_json
+    end
+
+    it 'should return a pretty JSON string if options[:pretty]' do
+      options = { pretty: true }
+      expect(call[options]).to eq JSON.pretty_generate(json)
+    end
+  end
+
+  describe '#format_sites(sites)' do
+    let(:site) { Tildeverse.site('pebble.ink') }
+    let(:json) { Tildeverse.data.serialize.sites(site) }
+    let(:call) { ->(options) {
+      Tildeverse::Bin.new(options).send(:format_sites, site) { 'default' }
+    } }
+
+    it 'should call and return the block if no special options' do
+      options = {}
+      expect(call[options]).to eq 'default'
+    end
+
+    it 'should return a whitespace-delimited array if options[:long]' do
+      options = { long: true }
+      expect(call[options]).to eq Tildeverse.data.serialize.sites_as_wsv(site)
+    end
+
+    it 'should return a JSON string if options[:json]' do
+      options = { json: true }
+      expect(call[options]).to eq json.to_json
+    end
+
+    it 'should return a pretty JSON string if options[:pretty]' do
+      options = { pretty: true }
+      expect(call[options]).to eq JSON.pretty_generate(json)
+    end
+  end
 end

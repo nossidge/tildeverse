@@ -11,10 +11,20 @@ module Tildeverse
     attr_reader :argv_orig, :argv, :options
 
     ##
-    # @param [Array<String>] argv
+    # The parameter should be an Array in the same format as the ARGV variable.
+    # This will then be parsed to determine the 'options' hash.
+    # Alternatively (mostly for testing purposes) a Hash can be given.
+    # This will be used directly as the 'options' hash.
     #
-    def initialize(argv)
-      parse(argv)
+    # @param [Array<String>, Hash] argv
+    #
+    def initialize(argv = [])
+      case argv
+      when Array
+        parse(argv)
+      when Hash
+        @options = argv
+      end
     end
 
     ##
@@ -62,7 +72,7 @@ module Tildeverse
           Scrape the user list of each box, and generate the JSON files
 
         $ tildeverse fetch
-          Fetch data from #{Files.remote_json.sub(/.*\/\//, '')}
+          Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
 
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
@@ -137,8 +147,7 @@ module Tildeverse
     #
     def tildeverse_json
       obj = Tildeverse.data.serialize.for_tildeverse_json
-      output = options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
-      puts output rescue nil
+      to_stdout options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
     end
 
     ##
@@ -150,9 +159,7 @@ module Tildeverse
     def tildeverse_sites(regex)
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
-
-      output = format_sites(sites) || sites.map(&:name)
-      puts output rescue nil
+      to_stdout format_sites(sites) { sites.map(&:name) }
     end
 
     ##
@@ -165,9 +172,7 @@ module Tildeverse
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
       users = sites.map(&:users).flatten
-
-      output = format_users(users) || users.map(&:name)
-      puts output rescue nil
+      to_stdout format_users(users) { users.map(&:name) }
     end
 
     ##
@@ -181,9 +186,7 @@ module Tildeverse
     def tildeverse_users(regex)
       users = Tildeverse.users
       users.select! { |i| i.homepage[Regexp.new(regex)] } if regex
-
-      output = format_users(users) || users.map(&:homepage)
-      puts output rescue nil
+      to_stdout format_users(users) { users.map(&:homepage) }
     end
 
     private
@@ -210,6 +213,8 @@ module Tildeverse
     # Output a list of users in a consistant way
     #
     # @param [Array<User>] users
+    # @param [Hash] options
+    # @yield a default value, if no 'options' specifications are met
     # @return [String] text to be put to stdout
     #
     def format_users(users)
@@ -219,6 +224,9 @@ module Tildeverse
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.users(users)
         options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+
+      else
+        yield
       end
     end
 
@@ -226,6 +234,8 @@ module Tildeverse
     # Output a list of sites in a consistant way
     #
     # @param [Array<Site>] sites
+    # @param [Hash] options
+    # @yield a default value, if no 'options' specifications are met
     # @return [String] text to be put to stdout
     #
     def format_sites(sites)
@@ -235,7 +245,22 @@ module Tildeverse
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.sites(sites)
         options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+
+      else
+        yield
       end
+    end
+
+    ##
+    # Output a string to console. I had a weird bug that caused output to
+    # error when piped to another command on MinGW. Using 'rescue' fixed it.
+    #
+    # @param [String] string to output
+    #
+    def to_stdout(output)
+      puts output
+    rescue StandardError
+      nil
     end
   end
 end
