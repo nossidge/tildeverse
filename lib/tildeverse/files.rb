@@ -105,7 +105,9 @@ module Tildeverse
       def input_tildeverse_txt_as_hash
         return @input_tildeverse_txt_as_hash if @input_tildeverse_txt_as_hash
 
-        file_contents = read_utf8(input_txt_tildeverse)
+        file = input_txt_tildeverse
+        FileUtils.touch(file) unless file.exist?
+        file_contents = read_utf8(file)
         wsv = WSV.new(file_contents.split("\n"))
 
         # Convert the 'tags' property to an array.

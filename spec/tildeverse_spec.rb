@@ -15,14 +15,14 @@ describe 'Tildeverse' do
   end
 
   describe '#sites' do
-    it 'should delegate to Tildeverse::Data#sites' do
+    it 'should delegate to Data#sites' do
       expect_any_instance_of(Tildeverse::Data).to receive(:sites)
       Tildeverse.sites
     end
   end
 
   describe '#site' do
-    it 'should delegate to Tildeverse::Data#site' do
+    it 'should delegate to Data#site' do
       site = 'pebble.ink'
       expect_any_instance_of(Tildeverse::Data).to receive(:site).with(site)
       Tildeverse.site(site)
@@ -47,7 +47,7 @@ describe 'Tildeverse' do
   end
 
   describe '#new?' do
-    it 'should delegate to Tildeverse::PFHawkins#new?' do
+    it 'should delegate to PFHawkins#new?' do
       expect_any_instance_of(Tildeverse::PFHawkins).to receive(:new?)
       Tildeverse.new?
     end
@@ -88,7 +88,7 @@ describe 'Tildeverse' do
   end
 
   describe '#scrape' do
-    it 'should delegate to Tildeverse::Scraper#scrape' do
+    it 'should delegate to Scraper#scrape' do
       allow_any_instance_of(Tildeverse::Scraper).to(
         receive(:scrape).and_return('I have scraped')
       )
@@ -97,7 +97,7 @@ describe 'Tildeverse' do
   end
 
   describe '#fetch' do
-    it 'should delegate to Tildeverse::Fetcher#fetch' do
+    it 'should delegate to Fetcher#fetch' do
       allow_any_instance_of(Tildeverse::Fetcher).to(
         receive(:fetch).and_return('I have fetched')
       )
@@ -106,7 +106,7 @@ describe 'Tildeverse' do
   end
 
   describe '#save' do
-    it 'should delegate to Tildeverse::Data#save_with_config' do
+    it 'should delegate to Data#save_with_config' do
       allow_any_instance_of(Tildeverse::Data).to(
         receive(:save_with_config).and_return('I have saved')
       )
