@@ -67,11 +67,16 @@ module Tildeverse
     ##
     # Update modified date for all users.
     #
+    # If the user is no longer on the {ModifiedDates} list, then keep the
+    # previous value.
+    #
     def update_mod_dates
       mod_dates = ModifiedDates.new
       data.users.each do |user|
-        date = mod_dates.for_user(user.site.name, user.name) || '-'
-        user.date_modified = date
+        mod_date = mod_dates.for_user(user.site.name, user.name)
+        if mod_date
+          user.date_modified = mod_date
+        end
       end
     end
   end
