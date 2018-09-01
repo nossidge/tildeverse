@@ -57,8 +57,78 @@ describe 'Tildeverse::Bin' do
   ##############################################################################
 
   describe '#run' do
-    it 'should TODO' do
-      # TODO
+    let(:instance) do
+      ->(argv) do
+        Tildeverse::Bin.new(argv).tap do |bin|
+          allow(bin).to receive(:tildeverse_help)
+          allow(bin).to receive(:tildeverse_version)
+          allow(bin).to receive(:tildeverse_scrape)
+          allow(bin).to receive(:tildeverse_fetch)
+          allow(bin).to receive(:tildeverse_new)
+          allow(bin).to receive(:tildeverse_json)
+          allow(bin).to receive(:tildeverse_sites)
+          allow(bin).to receive(:tildeverse_site)
+          allow(bin).to receive(:tildeverse_users)
+        end
+      end
+    end
+
+    it 'should output help message' do
+      bin = instance.call(['help'])
+      expect(bin).to receive(:tildeverse_help)
+      bin.run
+    end
+
+    it 'should output version' do
+      bin = instance.call(['version'])
+      expect(bin).to receive(:tildeverse_version)
+      bin.run
+    end
+
+    it 'should scrape from remote' do
+      bin = instance.call(['scrape'])
+      expect(bin).to receive(:tildeverse_scrape)
+      bin.run
+    end
+
+    it 'should fetch from remote' do
+      bin = instance.call(['fetch'])
+      expect(bin).to receive(:tildeverse_fetch)
+      bin.run
+    end
+
+    it 'should check for new Tilde sites' do
+      bin = instance.call(['new'])
+      expect(bin).to receive(:tildeverse_new)
+      bin.run
+    end
+
+    it 'should output the JSON file' do
+      bin = instance.call(['json'])
+      expect(bin).to receive(:tildeverse_json)
+      bin.run
+    end
+
+    it 'should list the Tilde sites' do
+      bin = instance.call(['sites'])
+      expect(bin).to receive(:tildeverse_sites)
+      bin.run
+    end
+
+    it 'should list users for the site' do
+      %w[s site].each do |arg|
+        bin = instance.call([arg])
+        expect(bin).to receive(:tildeverse_site)
+        bin.run
+      end
+    end
+
+    it 'should list users by URL' do
+      %w[u user' users].each do |arg|
+        bin = instance.call([arg])
+        expect(bin).to receive(:tildeverse_users)
+        bin.run
+      end
     end
   end
 
