@@ -33,9 +33,9 @@ module Tildeverse
     def run
       case argv[0]
       when 'help'
-        puts tildeverse_help
+        tildeverse_help
       when 'version'
-        puts tildeverse_version
+        tildeverse_version
       when 'scrape'
         tildeverse_scrape
       when 'fetch'
@@ -61,44 +61,7 @@ module Tildeverse
     # Display help info
     #
     def tildeverse_help
-      <<-HELP.gsub(/^ {8}/, '')
-          Tildeverse: List of tilde-sites and their users
-          https://github.com/nossidge/tildeverse
-          Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
-
-          Usage: tildeverse <command> [regex] [options]
-
-        $ tildeverse scrape
-          Scrape the user list of each box, and generate the JSON files
-
-        $ tildeverse fetch
-          Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
-
-        $ tildeverse new
-          See if there have been any additions by ~pfhawkins
-
-        $ tildeverse json [-p]
-          Write the full JSON file to standard out
-
-        $ tildeverse sites [regex] [-l] [-j -p]
-          List all online sites in the Tildeverse
-          'regex' argument filters URLs by regex
-
-        $ tildeverse site [regex] [-l] [-j -p]
-          List all users for the specified Tildebox
-          'regex' argument filters URLs by regex
-
-        $ tildeverse user [regex] [-l] [-j -p]
-          or
-        $ tildeverse [regex] [-l] [-j -p]
-          List all the users by URL
-          'regex' argument filters URLs by regex
-
-        [options]
-          -l  output in long listing format
-          -j  output in JSON format
-          -p  output in pretty JSON format
-      HELP
+      to_stdout help_text
     end
 
     ##
@@ -107,9 +70,7 @@ module Tildeverse
     # Display version info
     #
     def tildeverse_version
-      number = Tildeverse.version_number
-      date   = Tildeverse.version_date
-      "tildeverse #{number} (#{date})"
+      to_stdout version_text
     end
 
     ##
@@ -192,6 +153,59 @@ module Tildeverse
     private
 
     ##
+    # @return [String] help info
+    #
+    def help_text
+      <<-HELP.gsub(/^ {8}/, '')
+          Tildeverse: List of tilde-sites and their users
+          https://github.com/nossidge/tildeverse
+          Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
+
+          Usage: tildeverse <command> [regex] [options]
+
+        $ tildeverse scrape
+          Scrape the user list of each box, and generate the JSON files
+
+        $ tildeverse fetch
+          Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
+
+        $ tildeverse new
+          See if there have been any additions by ~pfhawkins
+
+        $ tildeverse json [-p]
+          Write the full JSON file to standard out
+
+        $ tildeverse sites [regex] [-l] [-j -p]
+          List all online sites in the Tildeverse
+          'regex' argument filters URLs by regex
+
+        $ tildeverse site [regex] [-l] [-j -p]
+          List all users for the specified Tildebox
+          'regex' argument filters URLs by regex
+
+        $ tildeverse user [regex] [-l] [-j -p]
+          or
+        $ tildeverse [regex] [-l] [-j -p]
+          List all the users by URL
+          'regex' argument filters URLs by regex
+
+        [options]
+          -l  output in long listing format
+          -j  output in JSON format
+          -p  output in pretty JSON format
+      HELP
+    end
+
+    ##
+    # @return [String] version info
+    #
+    def version_text
+      number = Tildeverse.version_number
+      date   = Tildeverse.version_date
+      "tildeverse #{number} (#{date})"
+    end
+
+    ##
     # Parse the arguments and set the values of
     # {#options}, {#argv_orig}, and {#argv}
     #
@@ -204,8 +218,8 @@ module Tildeverse
         opts.on('-l', '--long')    { @options[:long]   = true }
         opts.on('-j', '--json')    { @options[:json]   = true }
         opts.on('-p', '--pretty')  { @options[:pretty] = true }
-        opts.on('-h', '--help')    { puts tildeverse_help;    exit }
-        opts.on('-v', '--version') { puts tildeverse_version; exit }
+        opts.on('-h', '--help')    { tildeverse_help;    exit }
+        opts.on('-v', '--version') { tildeverse_version; exit }
       end.parse(args)
     end
 
