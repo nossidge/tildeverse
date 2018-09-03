@@ -137,7 +137,9 @@ describe 'Tildeverse::Bin' do
   describe '#tildeverse_help' do
     it 'should return a multi-line string' do
       bin = Tildeverse::Bin.new([])
-      help = bin.tildeverse_help
+      help = capture_stdout do
+        bin.tildeverse_help
+      end.chomp
       expect(help).to be_a String
       expect(help.split("\n").count).to be >= 10
     end
@@ -146,7 +148,9 @@ describe 'Tildeverse::Bin' do
   describe '#tildeverse_version' do
     it 'should contain the version number and date' do
       bin = Tildeverse::Bin.new([])
-      version = bin.tildeverse_version
+      version = capture_stdout do
+        bin.tildeverse_version
+      end.chomp
       expect(version).to be_a String
       expect(version).to include(Tildeverse.version_number)
       expect(version).to include(Tildeverse.version_date)
