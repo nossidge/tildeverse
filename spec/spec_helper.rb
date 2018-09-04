@@ -76,7 +76,7 @@ end
 
 # Method to capture and test STDOUT
 # https://stackoverflow.com/a/1496040/139299
-def capture_stdout(&block)
+def capture_stdout
   original_stdout = $stdout
   $stdout = fake = StringIO.new
   begin
@@ -84,5 +84,5 @@ def capture_stdout(&block)
   ensure
     $stdout = original_stdout
   end
-  fake.string
+  fake.string.chomp
 end

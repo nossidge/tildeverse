@@ -139,7 +139,7 @@ describe 'Tildeverse::Bin' do
       bin = Tildeverse::Bin.new([])
       help = capture_stdout do
         bin.tildeverse_help
-      end.chomp
+      end
       expect(help).to be_a String
       expect(help.split("\n").count).to be >= 10
     end
@@ -150,7 +150,7 @@ describe 'Tildeverse::Bin' do
       bin = Tildeverse::Bin.new([])
       version = capture_stdout do
         bin.tildeverse_version
-      end.chomp
+      end
       expect(version).to be_a String
       expect(version).to include(Tildeverse.version_number)
       expect(version).to include(Tildeverse.version_date)
@@ -194,7 +194,7 @@ describe 'Tildeverse::Bin' do
       bin = Tildeverse::Bin.new([])
       output = capture_stdout do
         bin.tildeverse_json
-      end.chomp
+      end
       expect(output).to eq serialized_json.to_json
     end
 
@@ -202,7 +202,7 @@ describe 'Tildeverse::Bin' do
       bin = Tildeverse::Bin.new(['--pretty'])
       output = capture_stdout do
         bin.tildeverse_json
-      end.chomp
+      end
       expect(output).to eq JSON.pretty_generate(serialized_json)
     end
   end
@@ -225,7 +225,7 @@ describe 'Tildeverse::Bin' do
       ].each do |args|
         output = capture_stdout do
           bin.tildeverse_sites(args.first)
-        end.chomp
+        end
         expect(output).to eq args.last.join("\n")
       end
     end
@@ -235,7 +235,7 @@ describe 'Tildeverse::Bin' do
       %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |args|
         output = capture_stdout do
           bin.tildeverse_sites(args)
-        end.chomp
+        end
 
         # Just check for the headers
         %w[NAME URL USERS].each do |header|
@@ -261,7 +261,7 @@ describe 'Tildeverse::Bin' do
       ].each do |args|
         output = capture_stdout do
           bin.tildeverse_site(args.first)
-        end.chomp
+        end
 
         # Should match the users of the site(s)
         names = args.last.map do |site_name|
@@ -276,7 +276,7 @@ describe 'Tildeverse::Bin' do
       %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |i|
         output = capture_stdout do
           bin.tildeverse_site(i)
-        end.chomp
+        end
 
         # Just check for the headers
         %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
@@ -296,7 +296,7 @@ describe 'Tildeverse::Bin' do
       ].each do |args|
         output = capture_stdout do
           bin.tildeverse_users(args.first)
-        end.chomp
+        end
 
         args.last.each do |user_name|
           expect(output).to include(user_name)
@@ -309,7 +309,7 @@ describe 'Tildeverse::Bin' do
       %w[foobarbaz noss c].each do |i|
         output = capture_stdout do
           bin.tildeverse_site(i)
-        end.chomp
+        end
 
         # Just check for the headers
         %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
