@@ -137,9 +137,7 @@ describe 'Tildeverse::Bin' do
   describe '#tildeverse_help' do
     it 'should return a multi-line string' do
       bin = Tildeverse::Bin.new([])
-      help = capture_stdout do
-        bin.tildeverse_help
-      end
+      help = capture_stdout { bin.tildeverse_help }
       expect(help).to be_a String
       expect(help.split("\n").count).to be >= 10
     end
@@ -148,9 +146,7 @@ describe 'Tildeverse::Bin' do
   describe '#tildeverse_version' do
     it 'should contain the version number and date' do
       bin = Tildeverse::Bin.new([])
-      version = capture_stdout do
-        bin.tildeverse_version
-      end
+      version = capture_stdout { bin.tildeverse_version }
       expect(version).to be_a String
       expect(version).to include(Tildeverse.version_number)
       expect(version).to include(Tildeverse.version_date)
@@ -192,17 +188,13 @@ describe 'Tildeverse::Bin' do
 
     it 'should output the unprettified JSON' do
       bin = Tildeverse::Bin.new([])
-      output = capture_stdout do
-        bin.tildeverse_json
-      end
+      output = capture_stdout { bin.tildeverse_json }
       expect(output).to eq serialized_json.to_json
     end
 
     it 'should output the prettified JSON' do
       bin = Tildeverse::Bin.new(['--pretty'])
-      output = capture_stdout do
-        bin.tildeverse_json
-      end
+      output = capture_stdout { bin.tildeverse_json }
       expect(output).to eq JSON.pretty_generate(serialized_json)
     end
   end
@@ -223,9 +215,7 @@ describe 'Tildeverse::Bin' do
         ['com$',       %w[ofmanytrades.com yourtilde.com]],
         ['pebb|town',  %w[pebble.ink tilde.town]]
       ].each do |args|
-        output = capture_stdout do
-          bin.tildeverse_sites(args.first)
-        end
+        output = capture_stdout { bin.tildeverse_sites(args.first) }
         expect(output).to eq args.last.join("\n")
       end
     end
@@ -233,9 +223,7 @@ describe 'Tildeverse::Bin' do
     it 'should return the correct sites in long format' do
       bin = Tildeverse::Bin.new(['--long'])
       %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |args|
-        output = capture_stdout do
-          bin.tildeverse_sites(args)
-        end
+        output = capture_stdout { bin.tildeverse_sites(args) }
 
         # Just check for the headers
         %w[NAME URL USERS].each do |header|
@@ -259,9 +247,7 @@ describe 'Tildeverse::Bin' do
         ['com$',       %w[ofmanytrades.com yourtilde.com]],
         ['pebb|town',  %w[pebble.ink tilde.town]]
       ].each do |args|
-        output = capture_stdout do
-          bin.tildeverse_site(args.first)
-        end
+        output = capture_stdout { bin.tildeverse_site(args.first) }
 
         # Should match the users of the site(s)
         names = args.last.map do |site_name|
@@ -274,9 +260,7 @@ describe 'Tildeverse::Bin' do
     it 'should return the correct users in long format' do
       bin = Tildeverse::Bin.new(['--long'])
       %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |i|
-        output = capture_stdout do
-          bin.tildeverse_site(i)
-        end
+        output = capture_stdout { bin.tildeverse_site(i) }
 
         # Just check for the headers
         %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
@@ -294,9 +278,7 @@ describe 'Tildeverse::Bin' do
         ['noss',      %w[nossidge]],
         ['c',         %w[clach04 contolini elzilrac]],
       ].each do |args|
-        output = capture_stdout do
-          bin.tildeverse_users(args.first)
-        end
+        output = capture_stdout { bin.tildeverse_users(args.first) }
 
         args.last.each do |user_name|
           expect(output).to include(user_name)
@@ -307,9 +289,7 @@ describe 'Tildeverse::Bin' do
     it 'should return the correct users in long format' do
       bin = Tildeverse::Bin.new(['--long'])
       %w[foobarbaz noss c].each do |i|
-        output = capture_stdout do
-          bin.tildeverse_site(i)
-        end
+        output = capture_stdout { bin.tildeverse_site(i) }
 
         # Just check for the headers
         %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
