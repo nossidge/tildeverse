@@ -378,4 +378,27 @@ describe 'Tildeverse::Bin' do
       expect(call[options]).to eq JSON.pretty_generate(json)
     end
   end
+
+  ##############################################################################
+
+  describe '#to_stdout' do
+    let(:bin) { Tildeverse::Bin.new([]) }
+    let(:msg) { 'foo bar' }
+
+    it 'should return nil from the ordinary puts method' do
+      expect(STDOUT).to receive(:puts).with(msg)
+      expect do
+        result = bin.send(:to_stdout, msg)
+        expect(result).to be nil
+      end.not_to raise_error
+    end
+
+    it 'should rescue from StandardError and still return nil' do
+      allow(bin).to receive(:puts).and_raise(StandardError)
+      expect do
+        result = bin.send(:to_stdout, msg)
+        expect(result).to be nil
+      end.not_to raise_error
+    end
+  end
 end
