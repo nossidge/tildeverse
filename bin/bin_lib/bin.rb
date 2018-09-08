@@ -61,7 +61,7 @@ module Tildeverse
     # Display help info
     #
     def tildeverse_help
-      to_stdout help_text
+      puts help_text
     end
 
     ##
@@ -70,7 +70,7 @@ module Tildeverse
     # Display version info
     #
     def tildeverse_version
-      to_stdout version_text
+      puts version_text
     end
 
     ##
@@ -108,7 +108,7 @@ module Tildeverse
     #
     def tildeverse_json
       obj = Tildeverse.data.serialize.for_tildeverse_json
-      to_stdout options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
+      puts options[:pretty] ? JSON.pretty_generate(obj) : obj.to_json
     end
 
     ##
@@ -120,7 +120,7 @@ module Tildeverse
     def tildeverse_sites(regex)
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
-      to_stdout format_sites(sites) { sites.map(&:name) }
+      puts format_sites(sites) { sites.map(&:name) }
     end
 
     ##
@@ -133,7 +133,7 @@ module Tildeverse
       sites = Tildeverse.sites.select(&:online?)
       sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
       users = sites.map(&:users).flatten
-      to_stdout format_users(users) { users.map(&:name) }
+      puts format_users(users) { users.map(&:name) }
     end
 
     ##
@@ -147,7 +147,7 @@ module Tildeverse
     def tildeverse_users(regex)
       users = Tildeverse.users
       users.select! { |i| i.homepage[Regexp.new(regex)] } if regex
-      to_stdout format_users(users) { users.map(&:homepage) }
+      puts format_users(users) { users.map(&:homepage) }
     end
 
     private
@@ -271,8 +271,8 @@ module Tildeverse
     #
     # @param [String] string to output
     #
-    def to_stdout(output)
-      puts output
+    def puts(output)
+      super output
     rescue StandardError
       nil
     end
