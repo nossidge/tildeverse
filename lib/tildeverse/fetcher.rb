@@ -12,10 +12,18 @@ module Tildeverse
     attr_reader :data
 
     ##
-    # @param [Data] data
+    # @return [RemoteResource] a connection to the remote TXT file
     #
-    def initialize(data)
+    attr_reader :remote
+
+    ##
+    # @param [Data] data
+    # @param [RemoteResource] remote
+    #
+    def initialize(data, remote = nil)
       @data = data
+      @remote = remote
+      @remote ||= RemoteResource.new('remote_txt', Files.remote_txt)
     end
 
     ##
@@ -26,12 +34,12 @@ module Tildeverse
     def fetch
       return false unless write_permissions?
 
-      # Set up a connection to the remote TXT file.
-      remote = RemoteResource.new('remote_txt', Files.remote_txt)
-
       # Try to get via HTTP, and return on failure.
       remote.get
-      puts remote.msg or return false if remote.error?
+      if remote.error?
+        puts remote.msg
+        return false
+      end
 
       # Save the remote result verbatim, overwriting the existing file.
       Files.save_text(remote.result, Files.input_txt_tildeverse)
@@ -56,7 +64,7 @@ module Tildeverse
     def write_permissions?
       return false unless Files.write?(Files.dir_input)
       filepath = Files.input_txt_tildeverse
-      return true if !filepath.exist?
+      return true unless filepath.exist?
       Files.write?(filepath)
     end
   end
