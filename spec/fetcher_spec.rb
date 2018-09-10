@@ -4,18 +4,31 @@
 describe 'Tildeverse::Fetcher' do
 
   # Implement the bare minimum to quack like a Data object
-  def data_duck
-    Class.new do
-      def save_with_config; end
-      def clear; end
-    end
+  let(:data_duck) do
+    double('Data', :save_with_config => nil, :clear => nil)
   end
 
+  ##############################################################################
+
   describe '#fetch' do
-    it 'should correctly run if all necessary methods are available' do
-      data = data_duck.new
-      fetcher = Tildeverse::Fetcher.new(data)
-      expect{ fetcher.fetch }.to_not raise_error
+    it 'should return true if valid URL' do
+      fetcher = Tildeverse::Fetcher.new(data_duck)
+
+      results = nil
+      expect { results = fetcher.fetch }.to_not raise_error
+      expect(results).to eq true
+    end
+
+    it 'should return false if invalid URL' do
+      url = 'http://example.com/foo'
+      msg = "URL is currently offline: #{url}"
+      remote = Tildeverse::RemoteResource.new('foo', url)
+      fetcher = Tildeverse::Fetcher.new(data_duck, remote)
+
+      results = nil
+      expect(STDOUT).to receive(:puts).with(msg)
+      expect { results = fetcher.fetch }.to_not raise_error
+      expect(results).to eq false
     end
   end
 end
