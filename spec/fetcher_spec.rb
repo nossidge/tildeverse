@@ -29,42 +29,52 @@ describe 'Tildeverse::Fetcher' do
   ##############################################################################
 
   describe '#fetch' do
-    it 'should return true if valid URL' do
-      fetcher = Tildeverse::Fetcher.new(data, remote_resource_no_error)
-
-      results = nil
-      expect(STDOUT).to_not receive(:puts)
-      expect { results = fetcher.fetch }.to_not raise_error
-      expect(results).to eq true
-    end
-
-    it 'should return false if invalid URL' do
+    it 'should return false and output a message if invalid URL' do
       fetcher = Tildeverse::Fetcher.new(data, remote_resource_error)
       msg = remote_resource_error.msg
-
-      results = nil
       expect(STDOUT).to receive(:puts).with(msg)
-      expect { results = fetcher.fetch }.to_not raise_error
-      expect(results).to eq false
+      expect(fetcher.fetch).to eq false
+    end
+
+    let(:result) do
+      fetcher = Tildeverse::Fetcher.new(data, remote_resource_no_error)
+      fetcher.fetch
+    end
+
+    it 'should return true if valid URL' do
+      expect(STDOUT).to_not receive(:puts)
+      expect(result).to eq true
+    end
+
+    it 'should call Data#clear' do
+      expect(data).to receive(:clear)
+      result
+    end
+
+    it 'should call Data#save_with_config' do
+      expect(data).to receive(:save_with_config)
+      result
     end
   end
 
+  ##############################################################################
+
   describe '#write_permissions?' do
-    let(:results) do
+    let(:result) do
       fetcher = Tildeverse::Fetcher.new(data, remote_resource_no_error)
       fetcher.send(:write_permissions?)
     end
 
     it 'should return false if invalid write permissions' do
       allow(Tildeverse::Files).to receive(:write?).and_return(false)
-      expect(results).to eq false
+      expect(result).to eq false
     end
 
     it 'should return false if invalid write permissions' do
       dbl = double('input_txt_tildeverse', :exist? => true, :writable? => false)
       allow(Tildeverse::Files).to receive(:input_txt_tildeverse).and_return(dbl)
       expect(STDOUT).to receive(:puts)
-      expect(results).to eq false
+      expect(result).to eq false
     end
 
     it 'should return true if valid write permissions' do
@@ -75,7 +85,7 @@ describe 'Tildeverse::Fetcher' do
       ].each do |args|
         dbl = double('input_txt_tildeverse', args)
         allow(Tildeverse::Files).to receive(:input_txt_tildeverse).and_return(dbl)
-        expect(results).to eq true
+        expect(result).to eq true
       end
     end
   end
