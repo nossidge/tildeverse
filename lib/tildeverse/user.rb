@@ -87,6 +87,13 @@ module Tildeverse
     end
 
     ##
+    # @return [String] string representation of the object
+    #
+    def to_s
+      serialize.to_s
+    end
+
+    ##
     # Set the {date_offline} attribute
     #
     # @param [String] value the date the user first went offline
