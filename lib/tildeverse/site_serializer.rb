@@ -16,6 +16,21 @@ module Tildeverse
     end
 
     ##
+    # @return [String] string representation of the contents of the instance
+    #
+    def to_s
+      {
+        name:             site.name,
+        root:             site.uri.root,
+        list:             site.uri.list,
+        homepage_format:  site.uri.homepage_format,
+        online?:          site.online?,
+        users:            site.users.count,
+        users_online:     site.users_online.count
+      }.to_s
+    end
+
+    ##
     # @param [Array<User>] users_array list of users to include in the output
     # @return [Hash]
     #

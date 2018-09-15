@@ -75,6 +75,13 @@ module Tildeverse
     end
 
     ##
+    # @return [String] string representation of the object
+    #
+    def to_s
+      serialize.to_s
+    end
+
+    ##
     # @return [Boolean] the site's known online status.
     #
     def online?
