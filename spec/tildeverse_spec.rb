@@ -53,7 +53,9 @@ describe 'Tildeverse' do
     end
   end
 
-  describe '#get' do
+  ##############################################################################
+
+  describe '#get!' do
     it 'should call the correct method based on Config#update_type' do
       config_with_scrape = Class.new do
         def update_type
@@ -69,10 +71,10 @@ describe 'Tildeverse' do
       allow(Tildeverse).to receive(:fetch).and_return('I will fetch')
 
       allow(Tildeverse).to receive(:config).and_return(config_with_scrape.new)
-      expect(Tildeverse.get).to eq 'I will scrape'
+      expect(Tildeverse.get!).to eq 'I will scrape'
 
       allow(Tildeverse).to receive(:config).and_return(config_with_fetch.new)
-      expect(Tildeverse.get).to eq 'I will fetch'
+      expect(Tildeverse.get!).to eq 'I will fetch'
     end
 
     it 'should error if Config#update_type is not implemented' do
@@ -83,9 +85,35 @@ describe 'Tildeverse' do
       end
       allow(Tildeverse).to receive(:config).and_return(config_with_dodgy.new)
       msg = "Config variable 'update_type' is not valid"
-      expect{ Tildeverse.get }.to raise_error(ArgumentError, msg)
+      expect{ Tildeverse.get! }.to raise_error(ArgumentError, msg)
     end
   end
+
+  describe '#get' do
+    it 'should call #get! if necessary' do
+      config_dbl = Class.new do
+        def update_required?
+          true
+        end
+      end
+      allow(Tildeverse).to receive(:config).and_return(config_dbl.new)
+      expect(Tildeverse).to receive(:get!)
+      Tildeverse.get
+    end
+
+    it 'should not call #get! if not necessary' do
+      config_dbl = Class.new do
+        def update_required?
+          false
+        end
+      end
+      allow(Tildeverse).to receive(:config).and_return(config_dbl.new)
+      expect(Tildeverse).to_not receive(:get!)
+      Tildeverse.get
+    end
+  end
+
+  ##############################################################################
 
   describe '#scrape' do
     it 'should delegate to Scraper#scrape' do
