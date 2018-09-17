@@ -46,10 +46,7 @@ module Tildeverse
     # Reference to the {Tildeverse::Data} instance
     #
     def data
-      return @data if @data
-      @data = Data.new(config)
-      get if config.update_required?
-      @data
+      @data ||= Data.new(config)
     end
 
     ##
@@ -94,10 +91,17 @@ module Tildeverse
     end
 
     ##
+    # Run {#get!} if it has not yet been run according to the YML settings.
+    #
+    def get
+      get! if config.update_required?
+    end
+
+    ##
     # Get data from remote servers.
     # Use the config setting to choose between 'scrape' and 'fetch'
     #
-    def get
+    def get!
       commands = {
         scrape: -> { scrape },
         fetch:  -> { fetch }
