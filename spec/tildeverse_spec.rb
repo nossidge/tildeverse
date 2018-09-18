@@ -57,33 +57,22 @@ describe 'Tildeverse' do
 
   describe '#get!' do
     it 'should call the correct method based on Config#update_type' do
-      config_with_scrape = Class.new do
-        def update_type
-          :scrape
-        end
-      end
-      config_with_fetch = Class.new do
-        def update_type
-          :fetch
-        end
-      end
+      config_with_scrape = double('Config', :update_type => :scrape)
+      config_with_fetch  = double('Config', :update_type => :fetch)
+
       allow(Tildeverse).to receive(:scrape).and_return('I will scrape')
       allow(Tildeverse).to receive(:fetch).and_return('I will fetch')
 
-      allow(Tildeverse).to receive(:config).and_return(config_with_scrape.new)
+      allow(Tildeverse).to receive(:config).and_return(config_with_scrape)
       expect(Tildeverse.get!).to eq 'I will scrape'
 
-      allow(Tildeverse).to receive(:config).and_return(config_with_fetch.new)
+      allow(Tildeverse).to receive(:config).and_return(config_with_fetch)
       expect(Tildeverse.get!).to eq 'I will fetch'
     end
 
     it 'should error if Config#update_type is not implemented' do
-      config_with_dodgy = Class.new do
-        def update_type
-          :dodgy
-        end
-      end
-      allow(Tildeverse).to receive(:config).and_return(config_with_dodgy.new)
+      config_with_dodgy = double('Config', :update_type => :dodgy)
+      allow(Tildeverse).to receive(:config).and_return(config_with_dodgy)
       msg = "Config variable 'update_type' is not valid"
       expect{ Tildeverse.get! }.to raise_error(ArgumentError, msg)
     end
@@ -91,23 +80,15 @@ describe 'Tildeverse' do
 
   describe '#get' do
     it 'should call #get! if necessary' do
-      config_dbl = Class.new do
-        def update_required?
-          true
-        end
-      end
-      allow(Tildeverse).to receive(:config).and_return(config_dbl.new)
+      config_dbl = double('Config', :update_required? => true)
+      allow(Tildeverse).to receive(:config).and_return(config_dbl)
       expect(Tildeverse).to receive(:get!)
       Tildeverse.get
     end
 
     it 'should not call #get! if not necessary' do
-      config_dbl = Class.new do
-        def update_required?
-          false
-        end
-      end
-      allow(Tildeverse).to receive(:config).and_return(config_dbl.new)
+      config_dbl = double('Config', :update_required? => false)
+      allow(Tildeverse).to receive(:config).and_return(config_dbl)
       expect(Tildeverse).to_not receive(:get!)
       Tildeverse.get
     end
