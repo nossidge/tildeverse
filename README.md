@@ -1,25 +1,24 @@
-# Tildeverse Users Scraper
+# Tildeverse Users
 
 by Paul Thompson - nossidge@gmail.com
 
-Generate a list of all users in the Tildeverse.
+Generate a list of all users in the [Tildeverse][pfhawkins].
 
-Mostly done using HTML scraping, but there are few JSON feeds.
+The code will scrape the HTML or JSON user lists served by each site, and collate them together in one place.
 
-Output to JSON, with web front-end to view data in table form.
+There's also a manual component, where I attempt to categorise each user's public HTML page.
 
+Output to [JSON][json], with [web front-end][web] to view data in table form.
 
-## Output
-
-https://tilde.town/~nossidge/tildeverse/
-
-https://tilde.town/~nossidge/tildeverse/tildeverse.json
+[pfhawkins]: http://tilde.club/~pfhawkins/othertildes.html
+[web]: https://tilde.town/~nossidge/tildeverse/
+[json]: https://tilde.town/~nossidge/tildeverse/tildeverse.json
 
 
 ## CLI Usage
 
-````
-Usage: tildeverse <command> [subcommand]
+```
+  Usage: tildeverse <command> [regex] [options]
 
 $ tildeverse scrape
   Scrape the user list of each box, and generate the JSON files
@@ -30,28 +29,35 @@ $ tildeverse fetch
 $ tildeverse new
   See if there have been any additions by ~pfhawkins
 
-$ tildeverse json ['pretty']
-  Write the JSON file to standard out
-  'pretty' subcommand adds new lines
+$ tildeverse json [-p]
+  Write the full JSON file to standard out
 
-$ tildeverse sites|boxes|servers
-  List all the sites in the Tildeverse
+$ tildeverse sites [regex] [-l] [-j -p]
+  List all online sites in the Tildeverse
+  'regex' argument filters URLs by regex
 
-$ tildeverse [site name] ['json']
+$ tildeverse site [regex] [-l] [-j -p]
   List all users for the specified Tildebox
-  'json' subcommand outputs as JSON
+  'regex' argument filters URLs by regex
 
-$ tildeverse user|users [regex]
+$ tildeverse user [regex] [-l] [-j -p]
+  or
+$ tildeverse [regex] [-l] [-j -p]
   List all the users by URL
-  'regex' subcommand filters by regex
-````
+  'regex' argument filters URLs by regex
+
+[options]
+  -l  output in long listing format
+  -j  output in JSON format
+  -p  output in pretty JSON format
+```
 
 
 ## User Page Tags
 
 Each site in the Tildeverse has been tagged with the approximate content of the site. This was all done by hand by me, not the users themselves.
 
-````
+```
 empty      No content / default index.html
 brief      Not a lot of content
 redirect   No content; page just links to elsewhere on the Web
@@ -71,9 +77,9 @@ procgen    Procedurally generated art/poetry/music/whatever
 web1.0     Early web aesthetic
 unix       Unix and terminal
 tilde      Meta stuff, to do with the Tildeverse
-````
+```
 
-To add or edit these tags you can manually alter `data/tildeverse.json`, but I have also created a browser-based GUI to help with this. It looks like [this](https://i.imgur.com/WmARw0C.jpg).
+To add or edit these tags you can manually alter `data/tildeverse.txt`, but I have also created a browser-based GUI to help with this. It looks like [this](https://i.imgur.com/WmARw0C.jpg).
 
 If you run `rackup`, a single-page web app will be created. Point your browser to `localhost:4567` and scroll through the sites. The tags are displayed as toggle-able buttons on the left-hand side. Click the 'save' button to save changes back to the JSON file.
 
