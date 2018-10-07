@@ -53,9 +53,22 @@ describe 'Tildeverse::Site' do
   ##############################################################################
 
   describe '#serialize' do
-    it 'should be an instance of the correct Serializer class' do
+    it 'should be an instance of SiteSerializer' do
       instances.each do |obj|
         expect(obj.serialize).to be_a Tildeverse::SiteSerializer
+      end
+    end
+  end
+
+  describe '#to_s' do
+    it 'should return a string' do
+      instances.each do |obj|
+        expect(obj.to_s).to be_a String
+      end
+    end
+    it 'should delegate the method to the #serialize SiteSerializer' do
+      instances.each do |obj|
+        expect(obj.to_s).to eq obj.serialize.to_s
       end
     end
   end
