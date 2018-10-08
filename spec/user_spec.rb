@@ -65,12 +65,25 @@ describe 'Tildeverse::User' do
     end
   end
 
+  ##############################################################################
+
   describe '#serialize' do
-    it 'should correctly serialize using UserSerializer' do
+    it 'should be an instance of UserSerializer' do
       serializer = instance.serialize
       expect(serializer).to be_a Tildeverse::UserSerializer
     end
   end
+
+  describe '#to_s' do
+    it 'should return a string' do
+      expect(instance.to_s).to be_a String
+    end
+    it 'should delegate the method to the #serialize UserSerializer' do
+      expect(instance.to_s).to eq instance.serialize.to_s
+    end
+  end
+
+  ##############################################################################
 
   describe '#date_offline=' do
     it 'should overwrite the attribute with a new value' do
