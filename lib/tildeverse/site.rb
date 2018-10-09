@@ -131,9 +131,6 @@ module Tildeverse
       # These are the users from the remote list.
       remote_users = scrape_users_cache.sort
 
-      # TODO: Remove this:
-      Files.save_array(remote_users, filepath)
-
       # Add new user accounts to @all_users.
       # They do not have 'tagged' or 'tags' data yet.
       new_users = remote_users - existing_users
