@@ -26,15 +26,50 @@ describe 'Tildeverse::SiteSerializer' do
     end
   end
 
+  let(:site_from_uri) { ->(uri) {
+    tilde_site_uri = Tildeverse::TildeSiteURI.new(uri)
+    klass.new(tilde_site_uri)
+  } }
+
+  let(:serializer_from_site) { ->(site) {
+    Tildeverse::SiteSerializer.new(site)
+  } }
+
+  ##############################################################################
+
+  describe '#to_s' do
+    let(:uri)          { example_data.first.first }
+    let(:expectations) { example_data.first.last }
+    let(:site)         { site_from_uri[uri] }
+    let(:serializer)   { serializer_from_site[site] }
+
+    it 'should return a string' do
+      expect(serializer.to_s).to be_a String
+    end
+
+    it 'should return correct data' do
+      expect(serializer.to_s).to eq ({
+        name:             site.name,
+        root:             site.uri.root,
+        list:             site.uri.list,
+        homepage_format:  site.uri.homepage_format,
+        online?:          site.online?,
+        users:            site.users.count,
+        users_online:     site.users_online.count
+      }.to_s)
+    end
+  end
+
+  ##############################################################################
+
   describe '#for_tildeverse_json' do
     it 'should return correct data' do
       example_data.each do |uri, expectations|
-        tilde_site_uri = Tildeverse::TildeSiteURI.new(uri)
-        site = klass.new(tilde_site_uri)
+        site = site_from_uri[uri]
+        serializer = serializer_from_site[site]
         expectations.each do |message, result|
           expect(site.uri.send(message)).to eq result
         end
-        serializer = Tildeverse::SiteSerializer.new(site)
         hash = serializer.for_tildeverse_json
         expect(hash).to be_a Hash
         keys = %i[url_root url_list url_format_user online user_count users]
