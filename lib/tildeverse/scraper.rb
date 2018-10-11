@@ -57,11 +57,9 @@ module Tildeverse
     # Add new users to the hash, for all sites.
     #
     def scrape_all_sites
-      data.sites.map do |s|
-        Thread.new(s) do |site|
-          site.scrape
-        end
-      end.each(&:join)
+      data.sites.map do |site|
+        site.scrape
+      end
     end
 
     ##
