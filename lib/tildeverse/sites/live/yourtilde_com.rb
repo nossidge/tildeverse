@@ -22,10 +22,11 @@ module Tildeverse
         # There's a strange issue with curling this URL.
         # I'll just use a manual list for now.
         %w[
-          Distip Hustler WL01 asvvvad ben biglysmalls caleb copart
-          deepend diverger emv geoff hyperboredoubt jovan juaniman99
-          khuxkm kingofobsolete login mhj msmcmickey mushmouth nozy
-          oak_tree sebboh tiasum ubergeek zenoil
+          anizawa arung asvvvad ben biglysmalls brendantcc caleb copart
+          deepend distip diverger emv envican geoff hustler hyperboredoubt
+          jovan juaniman99 khuxkm kingofobsolete login mhj msmcmickey mspe
+          mushmouth nozy oak_tree petegozz rileyjb rofopaje rostovripper
+          sebboh silbern slip tiasum ubergeek wl01 zenoil zin
         ]
       end
 
