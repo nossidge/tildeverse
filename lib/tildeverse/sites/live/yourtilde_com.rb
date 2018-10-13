@@ -33,6 +33,14 @@ module Tildeverse
       private
 
       ##
+      # HTTP requests from tilde.town to yourtilde.com fail for some reason,
+      # so don't check for 'con.error?' on the URI.
+      #
+      def scrape_users_cache
+        scrape_users
+      end
+
+      ##
       # Here's the scraper code, in case the curl issue is ever fixed:
       #
       def actual_scraper_code
