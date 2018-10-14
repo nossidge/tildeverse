@@ -168,6 +168,15 @@ module Tildeverse
       end
 
       ##
+      # @return [Pathname] the output 'tildeverse' TXT file.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.txt'
+      #
+      def output_txt_tildeverse
+        dir_output + 'tildeverse.txt'
+      end
+
+      ##
       # @return [Hash] the contents of {Files#output_json_tildeverse}
       #
       def output_tildeverse!

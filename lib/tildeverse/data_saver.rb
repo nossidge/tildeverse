@@ -23,6 +23,9 @@ module Tildeverse
       file = Files.input_txt_tildeverse
       Files.save_array(wsv, file)
 
+      file = Files.output_txt_tildeverse
+      Files.save_array(wsv, file)
+
       json = data.serialize.for_tildeverse_json
       file = Files.output_json_tildeverse
       Files.save_json(json, file)
