@@ -50,13 +50,19 @@ function pie(tildeverseJSON) {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       animation: false,
       legend: {
-        display: true,
-        position: 'bottom',
+        display: false
       },
       legendCallback: function(){
         let html = '<table>';
+        html += '<tr>';
+        html += '<th></th>';
+        html += '<th>Site name</th>';
+        html += '<th>Users</th>';
+        html += '</tr>';
+
         for (let i = 0; i < data.length; i++) {
           let url = tildeverseJSON['sites'][labels[i]]['url_root'];
           html += '<tr>';
