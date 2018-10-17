@@ -1,2 +1,2 @@
-require_relative 'lib/tagging_server'
+require_relative 'lib/server'
 Tildeverse::App.run!

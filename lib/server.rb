@@ -37,12 +37,22 @@ module Tildeverse
     # Home page, index.html
     #
     get '/' do
+      erb :index
+    end
+
+    ##
+    # @method get_tagging
+    # @overload GET '/tagging'
+    #
+    # Page for the user tagging app.
+    #
+    get '/tagging' do
       @tags = %w[
         empty brief redirect links blog
         poetry prose art photo audio video gaming
         tutorial app code procgen web1.0 unix tilde
       ]
-      erb :index
+      erb :tagging
     end
 
     ##
@@ -52,7 +62,7 @@ module Tildeverse
     # This is given to the client as an Xreq.
     #
     get '/tildeverse.json' do
-      data.serialize.for_tildeverse_json.to_json
+      Tildeverse.data.serialize.for_tildeverse_json.to_json
     end
 
     ##
@@ -81,6 +91,13 @@ module Tildeverse
       end
       logger.info "#{num} users updated:"
       logger.info req
+    end
+
+    # Also send the contents of /output/, for debugging.
+    Files.dir_output.children.each do |file|
+      get '/' + file.basename.to_s do
+        send_file file
+      end
     end
   end
 end

@@ -10,6 +10,6 @@ task test: :spec
 
 desc 'Open server for user site tagging'
 task :server do
-  require_relative 'lib/tagging_server'
+  require_relative 'lib/server'
   Tildeverse::App.run!
 end
