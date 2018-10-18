@@ -43,11 +43,9 @@ module Tildeverse
     #   ]
     #
     def servers
-      return @servers if @servers
-      @servers = json.values.map do |i|
-        i = i[0...-1] if i[-1] == '/'
-        i.split('//').last
-      end
+      @servers ||= json.values.map do |i|
+        URI(i).host.sub('www.', '')
+      end.sort
     end
     alias sites servers
     alias boxes servers
@@ -88,6 +86,7 @@ module Tildeverse
         rudimentarylathe.org
         skylab.org
         squiggle.city
+        thunix.org
         tilde.team
         tilde.town
         tilde.works
