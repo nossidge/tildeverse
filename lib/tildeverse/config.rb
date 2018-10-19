@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require 'etc'
 require 'yaml'
 
 module Tildeverse
@@ -13,6 +14,12 @@ module Tildeverse
     # @return [Pathname] path to the 'config.yml' file
     #
     attr_reader :filepath
+
+    ##
+    # Users authorised to run GET requests.
+    # @return [Array<String>] list of system user names.
+    #
+    attr_reader :authorised_users
 
     ##
     # Method to use when GETting data from the Internet.
@@ -47,6 +54,7 @@ module Tildeverse
       @filepath = filepath
       if @filepath.exist?
         data = YAML.safe_load(@filepath.read, [Date])
+        @authorised_users = validate_authorised_users data['authorised_users']
         @update_type      = validate_update_type      data['update_type']
         @update_frequency = validate_update_frequency data['update_frequency']
         @generate_html    = validate_generate_html    data['generate_html']
@@ -55,6 +63,15 @@ module Tildeverse
         apply_default_values
         save
       end
+    end
+
+    ##
+    # @param [Array<String>] value
+    # @return [Array<String>] the input value
+    # @raise [ArgumentError] if not valid
+    #
+    def authorised_users=(value)
+      afterwards(:save) { @authorised_users = validate_authorised_users(value) }
     end
 
     ##
@@ -97,9 +114,25 @@ module Tildeverse
     #
     def save
       str = yaml_template
-      %w[update_type update_frequency generate_html updated_on].each do |var|
+
+      # 'authorised_users' is an array, so use the nice YAML hyphen notation.
+      %w[
+        authorised_users
+      ].each do |var|
+        val = send(var).map { |i| "\n  - #{i}" }.join
+        str.sub!("@#{var}@", "#{var}:#{val}")
+      end
+
+      # These are scalar, so no problem.
+      %w[
+        update_type
+        update_frequency
+        generate_html
+        updated_on
+      ].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
       end
+
       Files.save_text(str, @filepath)
     end
 
@@ -127,7 +160,19 @@ module Tildeverse
       when 'month'
         return false if now < upd
         now.year != upd.year || now.month != upd.month
+
+      else
+        raise ArgumentError, 'Value must be one of: always, day, week, month'
       end
+    end
+
+    ##
+    # Is the logged-in user authorised to alter data?
+    # @return [Boolean]
+    #
+    def authorised?(current_user = Etc.getlogin)
+      return true if authorised_users.empty?
+      authorised_users.include?(current_user)
     end
 
     private
@@ -136,10 +181,10 @@ module Tildeverse
     # Yield to a block, run a method, and return
     # the return value of the block.
     #
-    def afterwards(method_name, &block)
-      output = block.call
-      method(method_name).call
-      output
+    def afterwards(method_name)
+      yield.tap do
+        method(method_name).call
+      end
     end
 
     ##
@@ -156,6 +201,7 @@ module Tildeverse
     #
     def default_values
       {
+        authorised_users: [],
         update_type:      'fetch',
         update_frequency: 'day',
         generate_html:    false,
@@ -167,11 +213,24 @@ module Tildeverse
     # Set the default value to each instance variable
     #
     def apply_default_values
-      dv = default_values
-      @update_type      = dv[:update_type]
-      @update_frequency = dv[:update_frequency]
-      @generate_html    = dv[:generate_html]
-      @updated_on       = dv[:updated_on]
+      default_values.tap do |dv|
+        @authorised_users = dv[:authorised_users]
+        @update_type      = dv[:update_type]
+        @update_frequency = dv[:update_frequency]
+        @generate_html    = dv[:generate_html]
+        @updated_on       = dv[:updated_on]
+      end
+    end
+
+    ##
+    # Validate {#authorised_users}. Convert whatever input into a String array
+    # @return [Array<String>] if valid
+    # @raise [ArgumentError] if not valid
+    #
+    def validate_authorised_users(value)
+      [*value].map(&:to_s)
+    rescue StandardError
+      raise ArgumentError, 'Value must be an array of Strings'
     end
 
     ##
@@ -218,12 +277,20 @@ module Tildeverse
     #
     def yaml_template
       <<-YAML.gsub(/^ {6}/, '')
+      # Array of users that are authorised to run scrape or fetch requests.
+      # This is not a substitute for system administration; it will not prevent
+      #   data loss by malicious actors. It is intended to protect against
+      #   well-intentioned users that may not be aware of the full effects of
+      #   overwriting the data.
+      # An empty array indicates that any user can update the data.
+      @authorised_users@
+
       # Determines how data is gathered from the remote servers.
       # Can be either 'scrape' or 'fetch'.
       # 'scrape' => Return live results by scraping each site in the Tildeverse.
       # 'fetch'  => (RECOMMENDED) Return daily pre-scraped results from the file
-      #             at tilde.town. This is run every day at midnight, so the
-      #             results will likely be more accurate than manual scraping.
+      #             at tilde.town. This is run hourly, so the results will
+      #             likely be more accurate than manual scraping.
       @update_type@
 
       # Frequency to GET the live results from the remote servers.
@@ -233,10 +300,11 @@ module Tildeverse
       # 'month'  => GET monthly, on the 1st.
       @update_frequency@
 
-      # Should a website be generated along with the JSON output?
+      # Should a website be generated along with the TXT and JSON output?
       @generate_html@
 
-      # The date that the data was last updated.
+      # The date that the data was last updated. This is updated automatically,
+      #   and will be overwritten on the next GET request.
       # Should be in the form: 'YYYY-MM-DD'
       @updated_on@
       YAML

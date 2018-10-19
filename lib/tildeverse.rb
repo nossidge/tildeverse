@@ -7,6 +7,7 @@ require 'open-uri'
 require 'fileutils'
 require 'json'
 require 'yaml'
+require 'etc'
 
 require_relative 'tildeverse/core_extensions/string'
 require_relative 'tildeverse/wsv'

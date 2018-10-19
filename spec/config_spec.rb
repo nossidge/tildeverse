@@ -17,6 +17,7 @@ describe 'Tildeverse::Config' do
 
   let(:default_values_hash) do
     {
+      authorised_users: [],
       update_type:      'fetch',
       update_frequency: 'day',
       generate_html:    false,
@@ -69,8 +70,28 @@ describe 'Tildeverse::Config' do
     end
   end
 
+  # Only stipulation is that '#to_s' must be implemented.
+  describe '#authorised_users=' do
+    let(:no_to_s) do
+      Class.new do
+        undef :to_s
+      end
+    end
+
+    it 'should validate to String array' do
+      valid = [%w[paul joe], ['paul', :joe], 'paul', 123, nil]
+      invalid = [no_to_s.new]
+      test_raise_error(valid, invalid) do |i|
+        instance.send(:validate_authorised_users, i)
+      end
+      test_raise_error(valid, invalid) do |i|
+        instance.authorised_users = i
+      end
+    end
+  end
+
   describe '#update_type=' do
-    it 'should correctly validate input' do
+    it 'should validate from array: scrape fetch' do
       valid = %w[scrape fetch]
       invalid = [123, nil, Integer, true, 'always', 'day', 'week', 'month']
       test_raise_error(valid, invalid) do |i|
@@ -83,7 +104,7 @@ describe 'Tildeverse::Config' do
   end
 
   describe '#update_frequency=' do
-    it 'should correctly validate input' do
+    it 'should validate from array: always day week month' do
       valid = %w[always day week month]
       invalid = [123, nil, Integer, true, 'scrape', 'fetch']
       test_raise_error(valid, invalid) do |i|
@@ -96,7 +117,7 @@ describe 'Tildeverse::Config' do
   end
 
   describe '#generate_html=' do
-    it 'should correctly validate input' do
+    it 'should validate from array: true false' do
       valid = [true, false]
       invalid = [123, nil, Integer, 'scrape', 'always']
       test_raise_error(valid, invalid) do |i|
@@ -206,6 +227,45 @@ describe 'Tildeverse::Config' do
       expect(config.update_required?).to eq false
       allow(config).to receive(:updated_on).and_return(Date.new(2018, 7, 1))
       expect(config.update_required?).to eq false
+    end
+
+    it 'should error when update_frequency is invalid' do
+      config = Tildeverse::Config.new(temp_file)
+      config.instance_variable_set(:@update_frequency, 'foo')
+      expect { config.update_required? }.to raise_error(ArgumentError)
+    end
+  end
+
+  ##############################################################################
+
+  describe '#authorised?' do
+    let(:config) { Tildeverse::Config.new(temp_file) }
+
+    it 'should correctly compare logged-in user with @authorised_users' do
+      config.authorised_users = Etc.getlogin
+      expect(config.authorised?).to eq true
+      expect(config.authorised?('invalid_user')).to eq false
+
+      config.authorised_users = 'user_1'
+      expect(config.authorised?('user_1')).to eq true
+      expect(config.authorised?('invalid_user')).to eq false
+
+      config.authorised_users = %w[user_1 user_2]
+      expect(config.authorised?('user_1')).to eq true
+      expect(config.authorised?('user_2')).to eq true
+      expect(config.authorised?('invalid_user')).to eq false
+
+      config.authorised_users << Etc.getlogin
+      expect(config.authorised?).to eq true
+      expect(config.authorised?('user_1')).to eq true
+      expect(config.authorised?('user_2')).to eq true
+      expect(config.authorised?('invalid_user')).to eq false
+    end
+
+    it 'should return true when @authorised_users = []' do
+      config.authorised_users = []
+      expect(config.authorised?).to eq true
+      expect(config.authorised?('invalid_user')).to eq true
     end
   end
 end
