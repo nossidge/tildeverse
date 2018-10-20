@@ -20,10 +20,11 @@ module Tildeverse
       def scrape_users
         validate_usernames do
           #
-          # These are lines on the page that start with '<h5'.
+          # These are the lines that contain '<a href="/~'
+          needle = '<a href="/~'
           con.result.split("\n").map do |i|
-            next unless i.strip =~ /^<h5/
-            i.split('~').last.split('<').first
+            next unless i.include?(needle)
+            i.split(needle).last.split('"').first.remove_trailing_slash
           end.compact.sort.uniq
         end
       end
