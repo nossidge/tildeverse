@@ -6,6 +6,9 @@ module Tildeverse
   # Methods for serialising data at a high level
   #
   class DataSerializer
+    ##
+    # @return [Data] Data object to serialise
+    #
     attr_reader :data
 
     ##

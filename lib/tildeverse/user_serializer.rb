@@ -6,6 +6,9 @@ module Tildeverse
   # Class for serialising an individual User
   #
   class UserSerializer
+    ##
+    # @return [User] User object to serialise
+    #
     attr_reader :user
 
     ##

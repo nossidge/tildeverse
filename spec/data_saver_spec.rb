@@ -51,21 +51,22 @@ describe 'Tildeverse::DataSaver' do
       end
       files_to_update << Tildeverse::Files.output_json_users
 
-      # Get hash of files to modified times.
-      mod_times_hash = ->(files) do
-        {}.tap do |hash|
-          files.each do |f|
-            hash[f] = f.mtime rescue Time.at(0)
-          end
-        end
-      end
-      old_mod_times = mod_times_hash.call(files_to_update)
-      instance.save_website
-      new_mod_times = mod_times_hash.call(files_to_update)
-
-      # Make sure the mod times are newer.
+      # Kill the existing files.
       files_to_update.each do |f|
-        expect(old_mod_times[f]).to be < new_mod_times[f]
+        f.delete if f.exist?
+      end
+
+      # Ensure the files do not exist.
+      files_to_update.each do |f|
+        expect(f.exist?).to be false
+      end
+
+      # Run the method to create the files.
+      instance.save_website
+
+      # Ensure the files DO exist.
+      files_to_update.each do |f|
+        expect(f.exist?).to be true
       end
     end
   end

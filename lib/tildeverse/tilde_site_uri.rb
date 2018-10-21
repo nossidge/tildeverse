@@ -54,8 +54,10 @@ module Tildeverse
     # Because the code is using ||, a variable can be restored to the
     # default by setting its value to nil.
     #
+    # @param [Symbol] attr The name of the attribute
+    #
     def self.use_default_if_missing(attr)
-      class_eval(<<-CODE, __FILE__, __LINE__ + 1)
+      class_eval(<<~CODE, __FILE__, __LINE__ + 1)
         def #{attr}=(val)
           @#{attr} = val
         end
@@ -76,10 +78,10 @@ module Tildeverse
     #   than a URI is passed, it will attempt to convert it to one.
     #
     def initialize(uri)
-      @uri = uri.is_a?(URI::HTTP) ? uri : URI(URI.escape(uri))
+      @uri = uri.is_a?(URI::HTTP) ? uri : URI(uri)
       validate_uri
-    rescue
-      raise(NotHTTPError)
+    rescue StandardError
+      raise NotHTTPError
     end
 
     ############################################################################
@@ -100,15 +102,13 @@ module Tildeverse
     #   # => 'https://imt.remotes.club/'
     #
     def homepage(user)
-      output = homepage_format.sub('USER', user)
-
-      # Throw error if 'homepage_format' does not contain USER substring.
-      if homepage_format == output
-        msg  = '#homepage_format should replace USER in the format eg: '
-        msg += 'http://www.example.com/~USER/'
-        raise ArgumentError, msg
+      homepage_format.sub('USER', user).tap do |output|
+        if homepage_format == output
+          msg  = '#homepage_format should replace USER in the format eg: '
+          msg += 'http://www.example.com/~USER/'
+          raise ArgumentError, msg
+        end
       end
-      output
     end
 
     ##
@@ -161,16 +161,16 @@ module Tildeverse
     end
 
     # Delegate unknown methods to the {#uri} instance
-    def method_missing(method, *args)
+    def method_missing(method, *args, &block)
       if uri.respond_to?(method)
-        uri.send(method, *args)
+        uri.send(method, *args, &block)
       else
-        raise NoMethodError, method
+        super
       end
     end
 
     # Respond to unknown methods as the {#uri} instance
-    def respond_to_missing?(method, include_private = false)
+    def respond_to_missing?(method, *args)
       return true if uri.respond_to?(method)
       super
     end

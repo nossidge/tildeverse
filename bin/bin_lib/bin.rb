@@ -156,7 +156,7 @@ module Tildeverse
     # @return [String] help info
     #
     def help_text
-      <<-HELP.gsub(/^ {8}/, '')
+      <<~HELP
           Tildeverse: List of tilde-sites and their users
           https://github.com/nossidge/tildeverse
           Version #{Tildeverse.version_number} - #{Tildeverse.version_date}

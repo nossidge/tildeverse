@@ -1,0 +1,30 @@
+AllCops:
+  TargetRubyVersion: 2.3
+  Include:
+    - '**/*.rb'
+  Exclude:
+    - doc/**/*
+    - docs/**/*
+    - examples/**/*
+    - rcov/**/*
+    - spec/**/*
+    - Changelog
+    - Guardfile
+    - Gemfile
+    - LICENSE
+    - Rakefile
+    - README.rdoc
+    - '**/*.bat'
+    - '**/*.gem'
+    - '**/*.md'
+    - '**/*.yml'
+    - '.gitignore/**/*'
+    - '.yardoc/**/*'
+    - '.yardopts/**/*'
+    - lib/work*.rb
+    - ~/*
+
+Style/AsciiComments:
+  Enabled: false
+Layout/EmptyLinesAroundExceptionHandlingKeywords:
+  Enabled: false

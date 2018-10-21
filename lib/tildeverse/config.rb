@@ -113,7 +113,7 @@ module Tildeverse
     # Save config settings to file.
     #
     def save
-      str = yaml_template
+      str = yaml_template.dup
 
       # 'authorised_users' is an array, so use the nice YAML hyphen notation.
       %w[
@@ -149,7 +149,7 @@ module Tildeverse
         true
 
       when 'day'
-        (now - upd).to_i > 0
+        (now - upd).to_i.positive?
 
       when 'week'
         mon_date = now - now.cwday + 1
@@ -276,7 +276,8 @@ module Tildeverse
     # @return [String]
     #
     def yaml_template
-      <<-YAML.gsub(/^ {6}/, '')
+      # rubocop:disable Layout/IndentHeredoc
+      <<~YAML
       # Array of users that are authorised to run scrape or fetch requests.
       # This is not a substitute for system administration; it will not prevent
       #   data loss by malicious actors. It is intended to protect against
@@ -308,6 +309,7 @@ module Tildeverse
       # Should be in the form: 'YYYY-MM-DD'
       @updated_on@
       YAML
+      # rubocop:enable Layout/IndentHeredoc
     end
   end
 end

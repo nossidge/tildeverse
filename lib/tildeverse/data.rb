@@ -34,12 +34,12 @@ module Tildeverse
   #
   class Data
     ##
-    # @return [Config]
+    # @return [Config] Config object to use for certain decisions
     #
     attr_reader :config
 
     ##
-    # @param [Config] config
+    # @param [Config] config Config object to use for certain decisions
     #
     def initialize(config)
       @config = config

@@ -92,7 +92,8 @@ module Tildeverse
     end
 
     ##
-    # Run {#get!} if it has not yet been run according to the YML settings.
+    # Run {Tildeverse#get!} if it has not yet been run, according to the
+    # settings in 'config.yml'
     #
     def get
       get! if config.update_required?
@@ -108,7 +109,7 @@ module Tildeverse
         fetch:  -> { fetch }
       }
       commands[config.update_type.to_sym].call
-    rescue
+    rescue StandardError
       msg = "Config variable 'update_type' is not valid"
       raise ArgumentError, msg
     end

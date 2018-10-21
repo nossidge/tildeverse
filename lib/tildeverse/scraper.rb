@@ -57,9 +57,7 @@ module Tildeverse
     # Add new users to the hash, for all sites.
     #
     def scrape_all_sites
-      data.sites.map do |site|
-        site.scrape
-      end
+      data.sites.map(&:scrape)
     end
 
     ##
@@ -71,9 +69,7 @@ module Tildeverse
     def update_mod_dates(mod_dates = ModifiedDates.new)
       data.users.each do |user|
         mod_date = mod_dates.for_user(user.site.name, user.name)
-        if mod_date
-          user.date_modified = mod_date
-        end
+        user.date_modified = mod_date if mod_date
       end
     end
   end

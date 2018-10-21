@@ -3,13 +3,16 @@
 
 module Tildeverse
   ##
-  # Class for saving a Data class to file
+  # Class for saving the contents of a Data object to file
   #
   class DataSaver
+    ##
+    # @return [Data] Data object to save to file
+    #
     attr_reader :data
 
     ##
-    # @param [Data] data Data object to serialise
+    # @param [Data] data Data object to save to file
     #
     def initialize(data)
       @data = data
@@ -53,9 +56,9 @@ module Tildeverse
     end
 
     ##
-    # Run {#save}
+    # Run {DataSaver#save}
     #
-    # Run {#save_website} if the config option
+    # Run {DataSaver#save_website} if the config option
     # {Tildeverse::Config#generate_html} is true
     #
     def save_with_config

@@ -6,6 +6,9 @@ module Tildeverse
   # Class for serialising a Site full of Users
   #
   class SiteSerializer
+    ##
+    # @return [Site] Site object to serialise
+    #
     attr_reader :site
 
     ##
@@ -32,7 +35,7 @@ module Tildeverse
 
     ##
     # @param [Array<User>] users_array list of users to include in the output
-    # @return [Hash]
+    # @return [Hash] internal Site data in a hash format
     #
     def to_h(users_array = site.users_online)
       {
