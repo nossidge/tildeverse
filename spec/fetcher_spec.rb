@@ -3,9 +3,14 @@
 
 describe 'Tildeverse::Fetcher' do
 
+  # Implement the bare minimum to quack like a Config object
+  let(:config) do
+    double('Config', :authorised? => true)
+  end
+
   # Implement the bare minimum to quack like a Data object
   let(:data) do
-    double('Data', :save_with_config => nil, :clear => nil)
+    double('Data', :config => config, :save_with_config => nil, :clear => nil)
   end
 
   # Implement the bare minimum to quack like a RemoteResource object
@@ -36,14 +41,12 @@ describe 'Tildeverse::Fetcher' do
       expect(fetcher.fetch).to eq false
     end
 
-    let(:result) do
-      fetcher = Tildeverse::Fetcher.new(data, remote_resource_no_error)
-      fetcher.fetch
-    end
+    let(:fetcher) { Tildeverse::Fetcher.new(data, remote_resource_no_error) }
+    let(:result) { fetcher.fetch }
 
-    it 'should return true if valid URL' do
+    it 'should correctly return if valid URL' do
       expect(STDOUT).to_not receive(:puts)
-      expect(result).to eq true
+      expect { result }.to_not raise_error
     end
 
     it 'should call Data#clear' do
@@ -55,15 +58,23 @@ describe 'Tildeverse::Fetcher' do
       expect(data).to receive(:save_with_config)
       result
     end
+
+    it 'should raise error if user not authorised by OS' do
+      allow(fetcher).to receive(:write_permissions?).and_return(false)
+      expect { result }.to raise_error(Tildeverse::Error::DeniedByOS)
+    end
+
+    it 'should raise error if user not authorised by config' do
+      allow(data.config).to receive(:authorised?).and_return(false)
+      expect { result }.to raise_error(Tildeverse::Error::DeniedByConfig)
+    end
   end
 
   ##############################################################################
 
   describe '#write_permissions?' do
-    let(:result) do
-      fetcher = Tildeverse::Fetcher.new(data, remote_resource_no_error)
-      fetcher.send(:write_permissions?)
-    end
+    let(:fetcher) { Tildeverse::Fetcher.new(data, remote_resource_no_error) }
+    let(:result) { fetcher.send(:write_permissions?) }
 
     it 'should return false if invalid write permissions' do
       allow(Tildeverse::Files).to receive(:write?).and_return(false)

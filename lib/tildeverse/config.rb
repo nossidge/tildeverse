@@ -113,6 +113,8 @@ module Tildeverse
     # Save config settings to file.
     #
     def save
+      raise Error::DeniedByConfig unless authorised?
+
       str = yaml_template.dup
 
       # 'authorised_users' is an array, so use the nice YAML hyphen notation.

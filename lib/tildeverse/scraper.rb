@@ -23,16 +23,22 @@ module Tildeverse
     ##
     # Scrape all Tilde sites and save as JSON files.
     #
-    # Return false if the user does not have the correct write permissions.
+    # Requires write-access to the underlying data files, so raises an error
+    # if permission is denied.
     #
-    # @return [Boolean] success state.
+    # @raise [Error::DeniedByOS]
+    # @raise [Error::DeniedByConfig]
+    #
+    # @todo Remove the 'return false' statement.
+    #   This should be replaced with a raised exception.
     #
     def scrape
-      return false unless write_permissions?
+      raise Error::DeniedByOS     unless write_permissions?
+      raise Error::DeniedByConfig unless data.config.authorised?
+
       scrape_all_sites
       update_mod_dates
       data.save_with_config
-      true
     end
 
     private

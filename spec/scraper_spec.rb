@@ -4,9 +4,14 @@
 describe 'Tildeverse::Scraper' do
   let(:site_name) { 'site.foo' }
 
+  # Implement the bare minimum to quack like a Config object
+  let(:config) do
+    double('Config', :authorised? => true)
+  end
+
   # Implement the bare minimum to quack like a Data object
-  let(:data_duck) do
-    double('Data', :save_with_config => nil).tap do |dbl|
+  let(:data) do
+    double('Data', :config => config, :save_with_config => nil).tap do |dbl|
       allow(dbl).to receive(:sites).and_return(
         3.times.map { site_duck }
       )
@@ -23,14 +28,25 @@ describe 'Tildeverse::Scraper' do
 
   ##############################################################################
 
-  let(:instance) { Tildeverse::Scraper.new(data_duck) }
+  let(:scraper) { Tildeverse::Scraper.new(data) }
+  let(:result) { scraper.scrape }
 
   describe '#scrape' do
     it 'should correctly run if all necessary methods are available' do
-      expect{ instance.scrape }.to_not raise_error
-      data_duck.users.each do |user|
+      expect{ result }.to_not raise_error
+      data.users.each do |user|
         expect(user.date_modified).to eq '-'
       end
+    end
+
+    it 'should raise error if user not authorised by OS' do
+      allow(scraper).to receive(:write_permissions?).and_return(false)
+      expect { result }.to raise_error(Tildeverse::Error::DeniedByOS)
+    end
+
+    it 'should raise error if user not authorised by config' do
+      allow(data.config).to receive(:authorised?).and_return(false)
+      expect { result }.to raise_error(Tildeverse::Error::DeniedByConfig)
     end
   end
 
@@ -40,8 +56,8 @@ describe 'Tildeverse::Scraper' do
     it 'should update the modified date if necessary' do
       mod_dates = Tildeverse::ModifiedDates.new
       allow(mod_dates).to receive(:for_user).and_return(mod_date)
-      instance.send(:update_mod_dates, mod_dates)
-      data_duck.users.each do |user|
+      scraper.send(:update_mod_dates, mod_dates)
+      data.users.each do |user|
         expect(user.date_modified).to eq mod_date
       end
     end

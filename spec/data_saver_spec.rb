@@ -13,22 +13,18 @@ describe 'Tildeverse::DataSaver' do
     ) do
       def generate_html?; generate_html; end
       def update; nil; end
+      def authorised?; true; end
     end
   end
 
-  let(:config) do
-    config_struct.new('scrape', 'week', false, '2018-06-08')
-  end
-
-  let(:instance) do
-    Tildeverse::Data.new(config)
-  end
+  let(:config) { config_struct.new('scrape', 'week', false, '2018-06-08') }
+  let(:data)   { Tildeverse::Data.new(config) }
+  let(:saver)  { Tildeverse::DataSaver.new(data) }
 
   ##############################################################################
 
   describe '#save' do
     it 'should save to file and be loaded back' do
-      data = instance
       user = data.user('nossidge').first
       old_tags = user.tags
       new_tags = %w[bar foo]
@@ -41,6 +37,11 @@ describe 'Tildeverse::DataSaver' do
       data.save
       user = data.user('nossidge').first
       expect(user.tags).to eq old_tags
+    end
+
+    it 'should raise error if user not authorised by config' do
+      allow(config).to receive(:authorised?).and_return(false)
+      expect { data.save }.to raise_error(Tildeverse::Error::DeniedByConfig)
     end
   end
 
@@ -62,34 +63,42 @@ describe 'Tildeverse::DataSaver' do
       end
 
       # Run the method to create the files.
-      instance.save_website
+      data.save_website
 
       # Ensure the files DO exist.
       files_to_update.each do |f|
         expect(f.exist?).to be true
       end
     end
+
+    it 'should raise error if user not authorised by config' do
+      allow(config).to receive(:authorised?).and_return(false)
+      expect do
+        data.save_website
+      end.to raise_error(Tildeverse::Error::DeniedByConfig)
+    end
   end
 
   describe '#save_with_config' do
     it 'should always call #save' do
-      save_website = true
-      config = config_struct.new('scrape', 'week', save_website, '2018-06-08')
-      data = Tildeverse::Data.new(config)
-      saver = Tildeverse::DataSaver.new(data)
+      allow(config).to receive(:generate_html?).and_return(true)
       expect(saver).to receive(:save)
       expect(saver).to receive(:save_website)
       saver.save_with_config
     end
 
     it 'Should only call #save_website if the config value is set' do
-      save_website = false
-      config = config_struct.new('scrape', 'week', save_website, '2018-06-08')
-      data = Tildeverse::Data.new(config)
-      saver = Tildeverse::DataSaver.new(data)
+      allow(config).to receive(:generate_html?).and_return(false)
       expect(saver).to receive(:save)
       expect(saver).to_not receive(:save_website)
       saver.save_with_config
+    end
+
+    it 'should raise error if user not authorised by config' do
+      allow(config).to receive(:authorised?).and_return(false)
+      expect do
+        data.save_with_config
+      end.to raise_error(Tildeverse::Error::DeniedByConfig)
     end
   end
 end

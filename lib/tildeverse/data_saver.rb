@@ -22,6 +22,8 @@ module Tildeverse
     # Serialise data to files 'tildeverse.txt' and 'tildeverse.json'
     #
     def save
+      raise Error::DeniedByConfig unless data.config.authorised?
+
       wsv = data.serialize.for_tildeverse_txt
       file = Files.input_txt_tildeverse
       Files.save_array(wsv, file)
@@ -40,7 +42,8 @@ module Tildeverse
     # Save HTML and JS files and generate data for the website output
     #
     def save_website
-      #
+      raise Error::DeniedByConfig unless data.config.authorised?
+
       # Write 'users.json' for backwards compatibility
       # Used by http://tilde.town/~insom/modified.html
       json = data.serialize.for_users_json
@@ -62,6 +65,8 @@ module Tildeverse
     # {Tildeverse::Config#generate_html} is true
     #
     def save_with_config
+      raise Error::DeniedByConfig unless data.config.authorised?
+
       save
       save_website if data.config.generate_html?
     end

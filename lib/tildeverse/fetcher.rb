@@ -29,10 +29,18 @@ module Tildeverse
     ##
     # Fetch the up-to-date TXT file from the remote URI.
     #
-    # @return [Boolean] success state.
+    # Requires write-access to the underlying data files, so raises an error
+    # if permission is denied.
+    #
+    # @raise [Error::DeniedByOS]
+    # @raise [Error::DeniedByConfig]
+    #
+    # @todo Remove the 'return false' statement.
+    #   This should be replaced with a raised exception.
     #
     def fetch
-      return false unless write_permissions?
+      raise Error::DeniedByOS     unless write_permissions?
+      raise Error::DeniedByConfig unless data.config.authorised?
 
       # Try to get via HTTP, and return on failure.
       remote.get
@@ -49,8 +57,6 @@ module Tildeverse
 
       # Use the new text file to save output.
       data.save_with_config
-
-      true
     end
 
     private

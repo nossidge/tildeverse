@@ -10,6 +10,7 @@ require 'yaml'
 require 'etc'
 
 require_relative 'tildeverse/core_extensions/string'
+require_relative 'tildeverse/error'
 require_relative 'tildeverse/wsv'
 require_relative 'tildeverse/files'
 require_relative 'tildeverse/config'
