@@ -79,9 +79,9 @@ module Tildeverse
     #
     def initialize(uri)
       @uri = uri.is_a?(URI::HTTP) ? uri : URI(uri)
-      validate_uri
-    rescue StandardError
-      raise NotHTTPError
+      raise Error::NotHTTPError, uri unless validate_uri
+    rescue ArgumentError
+      raise Error::NotHTTPError, uri
     end
 
     ############################################################################
@@ -147,17 +147,9 @@ module Tildeverse
       root + '/~USER/'
     end
 
-    # Raise an error if the URI is not the correct type
+    # Return boolean on whether the URI is the correct type
     def validate_uri
-      return true if uri.is_a?(URI::HTTP)
-      raise NotHTTPError
-    end
-
-    # Exception to raise on invalid URI input
-    class NotHTTPError < URI::InvalidURIError
-      def initialize(msg = 'Tilde URI must be HTTP or HTTPS')
-        super msg
-      end
+      uri.is_a?(URI::HTTP)
     end
 
     # Delegate unknown methods to the {#uri} instance
