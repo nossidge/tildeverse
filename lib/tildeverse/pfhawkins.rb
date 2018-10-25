@@ -79,6 +79,7 @@ module Tildeverse
         ctrl-c.club
         cybyte.club
         hackers.cool
+        nand.club
         pebble.ink
         protocol.club
         remotes.club

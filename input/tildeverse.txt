@@ -96,6 +96,8 @@ ctrl-c.club       AbhiramRavi                      2018-04-01   -             - 
 ctrl-c.club       Alessio79                        2018-04-01   -             -              2018-03-10   empty
 ctrl-c.club       Amalgam                          2018-04-01   -             -              2017-08-25   empty
 ctrl-c.club       Azmo                             2018-04-01   -             -              2017-08-25   app,blog,code,gaming
+ctrl-c.club       CrypticSocket                    2018-10-20   -             -              -            -
+ctrl-c.club       ExistingDeath                    2018-10-18   -             -              -            -
 ctrl-c.club       H4rsh                            2018-08-25   -             -              -            -
 ctrl-c.club       Iwastheturkey3                   2018-04-01   -             -              2017-08-25   empty
 ctrl-c.club       Kharma                           2018-05-17   -             -              -            -
@@ -122,6 +124,7 @@ ctrl-c.club       andy                             2018-04-01   -             - 
 ctrl-c.club       anth                             2018-04-01   -             -              2017-08-25   empty
 ctrl-c.club       apiarian                         2018-04-01   -             -              2018-03-10   empty
 ctrl-c.club       archimedespi                     2018-04-01   -             -              2017-08-25   empty
+ctrl-c.club       artl                             2018-10-24   -             -              -            -
 ctrl-c.club       asa                              2018-04-01   -             2016-02-11     2017-08-25   empty
 ctrl-c.club       ashnwill                         2018-04-01   -             -              2017-08-25   empty
 ctrl-c.club       asio                             2018-04-01   -             -              2017-08-25   art,web1.0
@@ -146,6 +149,7 @@ ctrl-c.club       caasi                            2018-04-01   -             - 
 ctrl-c.club       caff                             2018-04-01   -             -              2017-08-25   audio
 ctrl-c.club       calamitous                       2018-04-01   -             -              2017-08-25   blog,code,tutorial,unix
 ctrl-c.club       caleb                            2018-04-01   -             -              2018-04-28   empty
+ctrl-c.club       calypso                          2018-10-20   -             -              -            -
 ctrl-c.club       campari                          2018-04-01   -             -              2017-08-25   empty
 ctrl-c.club       carb0nsec                        2018-05-17   -             -              -            -
 ctrl-c.club       caster                           2018-04-01   -             -              2017-08-25   empty
@@ -483,6 +487,13 @@ hackers.cool      zunayed                          2018-04-01   -             20
 myrtle-st.club    Jacques                          -            -             -              2017-09-02   empty
 myrtle-st.club    francuz                          -            -             -              2017-09-02   tilde
 myrtle-st.club    mmorena                          -            -             -              2017-09-02   links
+nand.club         khuxkm                           2018-10-22   -             -              -            -
+nand.club         mhj                              2018-10-22   -             -              -            -
+nand.club         phcordner                        2018-10-22   -             -              -            -
+nand.club         phreaker0x90                     2018-10-22   -             -              -            -
+nand.club         skynebula                        2018-10-22   -             -              -            -
+nand.club         thekopz                          2018-10-22   -             -              -            -
+nand.club         vidak6502                        2018-10-22   -             -              -            -
 ofmanytrades.com  ajroach42                        2018-04-01   -             2017-11-16     2017-11-21   links,tilde
 ofmanytrades.com  djsundog                         2018-04-01   -             2017-11-23     2018-02-24   audio
 ofmanytrades.com  noah                             2018-04-01   -             2018-01-19     2018-03-10   empty
@@ -634,7 +645,7 @@ protocol.club     whitequark                       2018-04-01   -             20
 protocol.club     william                          2018-04-01   -             2015-03-05     2017-08-29   redirect
 protocol.club     xan                              2018-04-01   -             2018-04-11     2018-04-28   empty
 protocol.club     xmc                              2018-04-01   -             2015-01-02     2017-08-29   links
-protocol.club     yipdw                            2018-04-01   -             2018-10-18     2018-04-28   brief,tilde
+protocol.club     yipdw                            2018-04-01   -             2018-10-25     2018-04-28   brief,tilde
 protocol.club     yomimono                         2018-04-01   -             2014-11-02     2017-08-29   empty
 protocol.club     zatnosk                          2018-04-01   -             2014-12-05     2017-08-29   audio,code,links
 remotes.club      abeestrada                       2018-04-01   -             -              2017-08-27   photo
@@ -659,6 +670,7 @@ remotes.club      bng                              2018-05-15   -             - 
 remotes.club      brad                             2018-04-01   -             -              2017-08-27   links
 remotes.club      brock                            2018-04-01   -             -              2017-08-27   empty
 remotes.club      btubbs                           2018-04-01   -             -              2017-08-27   empty
+remotes.club      calypso                          2018-10-21   -             -              -            -
 remotes.club      carbis                           2018-04-01   -             -              2017-08-27   empty
 remotes.club      chovy                            2018-04-01   -             -              2017-08-27   empty
 remotes.club      ciara                            2018-04-01   -             -              2017-08-27   empty
@@ -953,7 +965,7 @@ squiggle.city     glowworm                         2018-04-01   -             20
 squiggle.city     heather                          2018-04-01   -             2014-12-24     2017-08-29   empty
 squiggle.city     hord                             2018-04-01   -             2014-12-23     2017-08-29   blog,links
 squiggle.city     imt                              2018-04-01   -             2015-01-09     2017-08-29   blog,links,tilde
-squiggle.city     jbd                              2018-04-01   -             2018-10-18     2018-04-28   procgen
+squiggle.city     jbd                              2018-04-01   -             2018-10-25     2018-04-28   procgen
 squiggle.city     jenleelind                       2018-04-01   -             2014-11-11     2017-08-29   broken,photo
 squiggle.city     jimblom                          2018-04-01   -             2015-01-07     2017-08-29   app
 squiggle.city     jjesse                           2018-04-01   -             2014-12-17     2017-08-29   empty
@@ -1319,7 +1331,7 @@ tilde.club        joegermuska                      2018-04-01   -             20
 tilde.club        joeld                            2018-04-01   -             2017-11-08     2017-11-21   blog,code,links,tilde,video
 tilde.club        joelj                            2018-04-01   -             2014-10-12     2017-08-24   art,procgen
 tilde.club        joethedough                      2018-04-01   -             2014-10-01     2017-08-24   redirect
-tilde.club        john                             2018-04-01   -             2018-10-17     2018-04-28   art,empty
+tilde.club        john                             2018-04-01   -             2018-10-24     2018-04-28   art,empty
 tilde.club        jomc                             2018-04-01   -             2014-09-30     2017-08-24   empty
 tilde.club        jon                              2018-04-01   -             2014-10-01     2017-08-24   tilde
 tilde.club        jonathan                         2018-04-01   -             2014-10-31     2017-08-24   links,tilde,tutorial,unix
@@ -1480,7 +1492,7 @@ tilde.club        petedavies                       2018-04-01   -             20
 tilde.club        peter                            2018-04-01   -             2014-10-06     2017-08-24   empty
 tilde.club        petermhoward                     2018-04-01   -             2014-10-15     2017-08-24   redirect
 tilde.club        pfhawkins                        2018-04-01   -             2016-08-14     2017-08-24   blog,code,links,tilde,tutorial,unix
-tilde.club        phcordner                        2018-04-01   -             2018-10-16     2017-08-24   tutorial,web1.0
+tilde.club        phcordner                        2018-04-01   -             2018-10-22     2017-08-24   tutorial,web1.0
 tilde.club        pheezy                           2018-04-01   -             2014-10-01     2017-08-24   empty
 tilde.club        phooky                           2018-04-01   -             2014-10-11     2017-08-24   links,tilde,unix
 tilde.club        piepen                           2018-04-01   -             2014-10-05     2017-08-24   audio,web1.0
@@ -1661,7 +1673,9 @@ tilde.club        zycom                            2018-04-01   -             20
 tilde.team        a1                               2018-04-01   -             2018-03-29     2018-04-28   empty
 tilde.team        aewens                           2018-07-05   -             -              -            -
 tilde.team        alex                             2018-04-01   2018-06-14    -              2017-08-31   empty
+tilde.team        amcclure                         2018-10-22   -             -              -            -
 tilde.team        angel                            2018-09-02   -             -              -            -
+tilde.team        annieschu                        2018-10-23   -             -              -            -
 tilde.team        arne                             2018-08-08   -             -              -            -
 tilde.team        artyszak                         2018-04-01   -             2017-12-02     2018-03-10   empty
 tilde.team        atte1nmos                        2018-07-24   -             2018-07-23     -            -
@@ -1682,6 +1696,7 @@ tilde.team        bizzarosanti                     2018-08-28   -             - 
 tilde.team        boo                              2018-04-01   -             2017-12-13     2018-03-10   tutorial
 tilde.team        brendantcc                       2018-06-08   -             -              -            -
 tilde.team        bw                               2018-06-14   -             -              -            -
+tilde.team        calypso                          2018-10-20   -             -              -            -
 tilde.team        cdmnky                           2018-07-11   -             -              -            -
 tilde.team        charlesjeask                     2018-04-01   -             -              2018-04-28   empty
 tilde.team        clone                            2018-08-08   -             2018-08-27     -            -
@@ -1696,16 +1711,19 @@ tilde.team        deastl                           2018-09-08   -             - 
 tilde.team        deepend                          2018-06-25   -             2018-06-28     -            -
 tilde.team        desvox                           2018-08-24   -             -              -            -
 tilde.team        dhg                              2018-06-11   -             2018-07-10     -            -
+tilde.team        dokuja                           2018-10-24   -             -              -            -
 tilde.team        donvino                          2018-05-07   -             -              -            -
 tilde.team        doug                             2018-06-20   -             -              -            -
 tilde.team        dozens                           2018-09-25   -             -              -            -
 tilde.team        dpc                              2018-09-06   -             2018-09-05     -            -
 tilde.team        dperrigo18                       2018-08-09   -             -              -            -
+tilde.team        edwardthefma                     2018-10-23   -             -              -            -
 tilde.team        emma                             2018-04-01   -             2017-06-03     2017-08-31   empty
 tilde.team        erxeto                           2018-08-14   -             -              -            -
 tilde.team        exezin                           2018-04-01   -             -              2018-04-28   empty
 tilde.team        fessus                           2018-07-12   -             -              -            -
 tilde.team        flaneurette                      2018-09-25   -             -              -            -
+tilde.team        fosslinux                        2018-10-20   -             2018-10-24     -            -
 tilde.team        fred                             2018-04-01   -             -              2018-03-10   empty
 tilde.team        freeappsw                        2018-04-01   -             -              2018-03-10   empty
 tilde.team        gappleto97                       2018-04-01   -             -              2017-08-31   empty
@@ -1729,7 +1747,7 @@ tilde.team        josh                             2018-04-01   -             - 
 tilde.team        jovan                            2018-04-01   -             2018-05-18     2018-03-10   blog
 tilde.team        juaniman99                       2018-05-07   -             -              -            -
 tilde.team        jusdepatate                      2018-07-26   -             -              -            -
-tilde.team        justin                           2018-10-11   -             -              -            -
+tilde.team        justin                           2018-10-11   -             2018-10-20     -            -
 tilde.team        kadin                            2018-08-22   -             -              -            -
 tilde.team        kaitengiri                       2018-07-27   -             -              -            -
 tilde.team        kasey                            2018-04-01   2018-06-14    2017-06-15     2017-08-31   empty
@@ -1737,12 +1755,14 @@ tilde.team        khuxkm                           2018-06-08   -             - 
 tilde.team        khuxkmtest                       2018-09-25   -             -              -            -
 tilde.team        kilic                            2018-07-31   -             -              -            -
 tilde.team        kirch                            2018-07-20   -             2018-10-09     -            -
+tilde.team        kuriz                            2018-10-24   -             -              -            -
 tilde.team        kurtimusmaximus                  2018-08-21   -             -              -            -
 tilde.team        l4p1n                            2018-06-08   -             -              -            -
 tilde.team        lempamo                          2018-09-18   -             -              -            -
 tilde.team        lily                             2018-04-01   -             2018-02-17     2018-03-10   redirect
 tilde.team        login                            2018-04-01   -             -              2018-03-10   empty
 tilde.team        mastergeek                       2018-10-16   -             -              -            -
+tilde.team        mhj                              2018-10-21   -             -              -            -
 tilde.team        micaiah                          2018-04-01   -             2018-07-22     2017-08-31   brief
 tilde.team        midlow                           2018-04-01   -             2017-12-09     2018-03-10   brief,video
 tilde.team        miloteza                         -            -             -              2017-08-31   empty
@@ -1767,6 +1787,7 @@ tilde.team        refragable                       2018-09-11   -             - 
 tilde.team        retr0                            2018-06-08   -             -              -            -
 tilde.team        sarah                            -            -             -              2017-08-31   empty
 tilde.team        schro                            2018-04-01   -             -              2017-08-31   empty
+tilde.team        scifi                            2018-10-20   -             -              -            -
 tilde.team        sebboh                           2018-06-08   -             2018-07-12     -            -
 tilde.team        shahbz                           2018-04-01   2018-06-14    -              2017-08-31   empty
 tilde.team        silversaurus                     2018-04-01   -             -              2017-08-31   empty
@@ -1776,6 +1797,7 @@ tilde.team        sl2c                             2018-04-01   -             - 
 tilde.team        slayer                           2018-04-01   -             2017-06-19     2017-08-31   brief,web1.0
 tilde.team        slip                             2018-07-15   -             2018-09-11     -            -
 tilde.team        smt                              2018-04-01   -             -              2018-04-28   empty
+tilde.team        somsubhra1                       2018-10-23   -             -              -            -
 tilde.team        sose                             2018-09-15   -             -              -            -
 tilde.team        spacecadet                       2018-09-13   -             -              -            -
 tilde.team        sukas99                          2018-08-06   -             -              -            -
@@ -1783,13 +1805,16 @@ tilde.team        supercock789                     2018-04-01   -             20
 tilde.team        tab                              2018-06-23   -             -              -            -
 tilde.team        ten                              2018-04-01   -             2017-11-27     2018-03-10   art,brief,web1.0
 tilde.team        th3str3ak                        2018-08-04   -             -              -            -
+tilde.team        thekopz                          2018-10-22   -             2018-10-23     -            -
 tilde.team        threkk                           2018-09-21   -             -              -            -
 tilde.team        tiasum                           2018-06-08   -             -              -            -
+tilde.team        tildebeast                       2018-10-21   -             -              -            -
 tilde.team        tomasino                         2018-07-13   -             -              -            -
 tilde.team        tots                             2018-04-01   -             -              2018-03-10   empty
 tilde.team        tref                             2018-04-01   -             -              2017-08-31   empty
 tilde.team        trifex                           2018-04-01   -             -              2018-03-10   empty
 tilde.team        tripoli                          2018-04-01   -             -              2018-04-28   empty
+tilde.team        tunas                            2018-10-24   -             -              -            -
 tilde.team        ubergeek                         2018-08-04   -             2018-09-15     -            -
 tilde.team        vantablack                       2018-06-10   -             -              -            -
 tilde.team        vendeteria                       2018-04-01   -             -              2017-08-31   empty
@@ -1797,6 +1822,7 @@ tilde.team        virtual                          2018-06-08   -             - 
 tilde.team        walruslord01                     2018-04-01   -             -              2018-03-10   empty
 tilde.team        weatherconrol                    2018-08-21   -             -              -            -
 tilde.team        willeh                           2018-04-01   -             -              2017-08-31   empty
+tilde.team        xdrixxyz                         2018-10-19   -             -              -            -
 tilde.team        xpotatoes                        2018-04-01   -             2017-06-02     2017-08-31   empty
 tilde.team        zin                              2018-07-17   -             -              -            -
 tilde.team        zyeri                            2018-06-24   -             -              -            -
@@ -1813,7 +1839,7 @@ tilde.town        ac                               2018-04-01   -             20
 tilde.town        acab                             2018-04-01   -             2018-03-16     2018-04-28   brief
 tilde.town        acarter                          2018-04-01   -             2018-03-06     2018-03-10   empty
 tilde.town        accelerat0r                      2018-04-01   -             2017-11-14     2017-11-21   empty
-tilde.town        acdw                             2018-09-30   -             2018-09-29     -            -
+tilde.town        acdw                             2018-09-30   -             2018-10-19     -            -
 tilde.town        aceawan                          2018-05-21   -             2018-05-22     -            -
 tilde.town        adambredenberg                   2018-04-01   -             2017-08-16     2017-09-03   empty
 tilde.town        adamj                            2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -1852,7 +1878,7 @@ tilde.town        alexisju                         2018-05-21   -             20
 tilde.town        alexpetralia                     2018-04-01   -             2017-05-23     2017-08-14   empty
 tilde.town        alfpog                           2018-04-01   -             2014-12-07     2017-08-14   web1.0
 tilde.town        alias5100                        2018-04-01   2018-06-30    2018-01-05     2018-03-10   empty
-tilde.town        aliasless                        2018-07-22   -             2018-10-18     -            -
+tilde.town        aliasless                        2018-07-22   -             2018-10-19     -            -
 tilde.town        alice                            2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        alilja                           2018-04-01   -             2014-12-06     2017-08-14   brief
 tilde.town        alistair                         2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -1862,6 +1888,7 @@ tilde.town        aloosefruit                      2018-09-07   -             20
 tilde.town        alvin                            2018-04-01   -             2016-04-09     2017-08-14   empty
 tilde.town        amandolin0                       2018-04-01   -             2017-08-14     2017-09-03   empty
 tilde.town        amaras                           2018-05-21   -             2018-05-20     -            -
+tilde.town        amcclure                         2018-10-19   -             2018-10-25     -            -
 tilde.town        amd                              2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        amongoose                        2018-08-23   -             2018-08-22     -            -
 tilde.town        an                               2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -1991,7 +2018,7 @@ tilde.town        brangor                          2018-04-01   -             20
 tilde.town        bregil                           2018-04-01   -             2016-04-26     2017-08-14   empty
 tilde.town        breizh                           2018-05-21   -             2018-07-25     -            -
 tilde.town        brendan                          2018-04-01   -             2014-10-12     2017-08-14   empty
-tilde.town        brendantcc                       2018-06-19   -             2018-10-15     -            -
+tilde.town        brendantcc                       2018-06-19   -             2018-10-21     -            -
 tilde.town        brennen                          2018-04-01   -             2018-01-20     2018-03-10   redirect
 tilde.town        brentnewhall                     2018-04-01   -             2014-10-26     2017-08-14   redirect
 tilde.town        breshonegen                      2018-04-01   -             2018-01-05     2018-03-10   empty
@@ -2019,10 +2046,12 @@ tilde.town        cabbage                          2018-04-01   -             20
 tilde.town        caff                             2018-04-01   -             2018-10-17     2018-03-10   blog,code
 tilde.town        calamitous                       2018-04-01   -             2017-03-20     2017-08-14   empty
 tilde.town        calmbit                          2018-06-14   -             2018-09-13     -            -
+tilde.town        calypso                          2018-10-24   -             2018-10-24     -            -
 tilde.town        camellirite                      2018-04-01   -             2018-02-23     2018-03-10   empty
 tilde.town        camilian                         2018-04-01   -             2018-01-19     2018-03-10   empty
 tilde.town        cammikebrown                     2018-04-01   -             2014-12-11     2017-08-14   empty
 tilde.town        camoyoshi                        2018-04-01   -             2016-09-18     2017-08-14   brief,web1.0
+tilde.town        campari                          2018-10-24   -             2018-10-24     -            -
 tilde.town        canadaduane                      2018-04-01   -             2018-02-15     2018-03-10   links,photo,procgen
 tilde.town        captainchaos                     2018-04-01   -             2017-11-05     2017-11-21   empty
 tilde.town        capy                             2018-04-24   -             2018-04-23     2018-04-28   empty
@@ -2077,6 +2106,7 @@ tilde.town        code                             2018-04-01   -             20
 tilde.town        codeawayhaley                    2018-04-01   -             2017-09-25     2017-11-21   empty
 tilde.town        codemac                          2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        colby                            2018-04-01   -             2015-04-28     2017-08-14   blog,prose
+tilde.town        coma                             2018-10-19   -             2018-10-19     -            -
 tilde.town        computerality                    2018-04-01   -             2016-11-30     2017-08-14   brief,unix
 tilde.town        condelezzarice                   2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        conor                            2018-04-01   -             2014-11-07     2017-08-14   empty
@@ -2176,6 +2206,7 @@ tilde.town        doeyo                            2018-05-21   -             20
 tilde.town        dogoken                          2018-04-01   -             2017-11-12     2017-11-22   empty
 tilde.town        dogwonder                        2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        donkey_pong                      2018-05-21   -             2018-05-20     -            -
+tilde.town        donohoe                          2018-10-19   -             2018-10-19     -            -
 tilde.town        doshirae                         2018-05-21   2018-05-24    2018-05-20     -            -
 tilde.town        dotwee                           2018-04-01   -             2018-03-20     2018-04-28   empty
 tilde.town        doug                             2018-06-19   -             2018-06-18     -            -
@@ -2208,6 +2239,7 @@ tilde.town        edma2                            2018-04-01   -             20
 tilde.town        eeeeeeee                         2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        eeeeeta                          2018-04-05   -             2018-06-14     2018-04-28   redirect
 tilde.town        eft                              2018-05-03   -             2018-10-15     -            -
+tilde.town        egon                             2018-10-19   -             2018-10-19     -            -
 tilde.town        eientei95                        2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        eileen                           2018-05-11   -             2018-05-15     -            -
 tilde.town        eitshal                          2018-07-22   -             2018-07-22     -            -
@@ -2230,14 +2262,14 @@ tilde.town        emilis                           2018-04-01   -             20
 tilde.town        emiltayl                         2018-04-01   -             2018-01-28     2018-03-10   art,gaming,poetry,web1.0
 tilde.town        emily                            2018-04-01   -             2014-12-07     2017-08-14   empty
 tilde.town        emkay                            2018-04-01   -             2014-10-12     2017-08-14   empty
-tilde.town        emma                             2018-04-01   -             2018-09-30     2017-08-14   art,audio,code,gaming,links,prose
+tilde.town        emma                             2018-04-01   -             2018-10-21     2017-08-14   art,audio,code,gaming,links,prose
 tilde.town        emv                              2018-04-01   -             2018-01-17     2018-03-10   empty
 tilde.town        endorphant                       2018-04-01   -             2016-05-22     2017-08-14   blog,code,poetry
 tilde.town        englishm                         2018-04-01   -             2014-10-14     2017-08-14   brief,poetry
 tilde.town        ensis                            2018-05-21   -             2018-07-17     -            -
 tilde.town        enyc                             2018-05-23   -             2018-05-22     -            -
 tilde.town        epalm                            2018-04-01   -             2014-12-17     2017-08-14   brief
-tilde.town        epicmorphism                     2018-04-01   -             2018-10-15     2017-08-14   brief,gaming,links
+tilde.town        epicmorphism                     2018-04-01   -             2018-10-24     2017-08-14   brief,gaming,links
 tilde.town        epowerj                          2018-04-01   -             2017-09-28     2018-02-24   empty
 tilde.town        equa                             2018-04-01   -             2018-08-31     2018-04-28   redirect
 tilde.town        erat                             2018-04-01   -             2014-12-05     2017-08-14   empty
@@ -2303,7 +2335,7 @@ tilde.town        freshpots                        2018-04-01   -             20
 tilde.town        fribmendes                       2018-04-01   -             2018-03-10     2018-04-28   empty
 tilde.town        frizz                            2018-04-01   -             2016-12-22     2017-08-14   empty
 tilde.town        frog                             2018-04-01   -             2018-05-13     2018-03-10   links,procgen
-tilde.town        frs                              2018-04-01   -             2018-10-18     2018-04-28   art,blog,code,links,tilde,tutorial,web1.0
+tilde.town        frs                              2018-04-01   -             2018-10-25     2018-04-28   art,blog,code,links,tilde,tutorial,web1.0
 tilde.town        fulv                             2018-04-01   -             2017-05-20     2017-08-14   empty
 tilde.town        funey                            2018-08-29   -             2018-09-08     -            -
 tilde.town        funwhilelost                     2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -2342,7 +2374,7 @@ tilde.town        gobbldyg00k                      2018-04-01   -             20
 tilde.town        graffx                           2018-05-21   -             2018-05-20     -            -
 tilde.town        grahf                            2018-04-01   -             2017-06-19     2017-08-14   empty
 tilde.town        grb                              2018-04-01   -             2015-01-06     2017-08-14   blog
-tilde.town        greely                           2018-04-01   -             2018-10-16     2017-11-22   audio,blog,gaming,tilde
+tilde.town        greely                           2018-04-01   -             2018-10-19     2017-11-22   audio,blog,gaming,tilde
 tilde.town        greg                             2018-04-01   -             2017-10-23     2017-11-22   empty
 tilde.town        groxeille                        2018-08-30   -             2018-08-29     -            -
 tilde.town        gub                              2018-05-21   -             2018-05-20     -            -
@@ -2364,6 +2396,7 @@ tilde.town        hbig                             2018-04-01   -             20
 tilde.town        hckiang                          2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        hdh                              2018-04-01   -             2014-11-15     2017-08-14   redirect
 tilde.town        heather_cat                      2018-10-03   -             2018-10-02     -            -
+tilde.town        hedwar                           2018-10-19   -             2018-10-19     -            -
 tilde.town        heliarc                          2018-04-13   -             2018-04-11     2018-04-28   empty
 tilde.town        helix                            2018-05-21   -             2018-05-20     -            -
 tilde.town        hella                            2018-04-13   -             2018-04-11     2018-04-28   empty
@@ -2439,6 +2472,7 @@ tilde.town        jadepearl1                       2018-04-01   -             20
 tilde.town        jaffry                           2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        jakejakejake                     2018-07-07   -             2018-07-08     -            -
 tilde.town        jakeonline                       2018-04-05   -             2018-04-04     2018-04-28   empty
+tilde.town        jakew                            2018-10-24   -             2018-10-24     -            -
 tilde.town        jakob                            2018-04-05   -             2018-06-24     2018-04-28   empty
 tilde.town        james                            2018-04-01   -             2015-01-06     2017-08-14   brief,code
 tilde.town        jammerwoch                       2018-04-01   -             2016-12-14     2017-08-14   audio,links,poetry,prose
@@ -2513,11 +2547,12 @@ tilde.town        justin                           2018-04-01   -             20
 tilde.town        jynx                             2018-04-01   -             2018-01-27     2018-03-10   redirect
 tilde.town        k2l8m11n2                        2018-04-01   -             2017-11-13     2017-11-22   brief
 tilde.town        kaborso                          2018-04-01   -             2017-04-21     2017-08-14   procgen
-tilde.town        kadin                            2018-04-01   -             2018-10-18     2017-11-22   prose
+tilde.town        kadin                            2018-04-01   -             2018-10-24     2017-11-22   prose
 tilde.town        kaeliya                          2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        kaftoot                          2018-04-01   -             2017-08-24     2017-09-03   empty
 tilde.town        kairiemerson                     2018-06-22   -             2018-06-21     -            -
 tilde.town        kake                             2018-04-01   -             2014-10-12     2017-08-14   empty
+tilde.town        kalium                           2018-10-24   -             2018-10-24     -            -
 tilde.town        karasinski                       2018-04-01   -             2014-12-07     2017-08-14   empty
 tilde.town        karl                             2018-04-01   -             2014-12-08     2017-08-14   empty
 tilde.town        karlen                           2018-04-01   -             2017-12-04     2018-03-10   art,audio
@@ -2527,7 +2562,7 @@ tilde.town        kawen                            2018-05-03   -             20
 tilde.town        kaylin                           2018-04-01   -             2017-09-25     2017-11-22   empty
 tilde.town        kaz                              2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        kbp                              2018-04-01   -             2017-10-24     2017-11-22   empty
-tilde.town        kc                               2018-04-01   -             2018-10-18     2018-04-28   audio,photo,poetry,prose
+tilde.town        kc                               2018-04-01   -             2018-10-25     2018-04-28   audio,photo,poetry,prose
 tilde.town        kdelwat                          2018-04-01   -             2018-03-10     2018-04-28   empty
 tilde.town        kebek                            2018-06-08   -             2018-05-24     -            -
 tilde.town        keks                             2018-04-01   -             2017-08-06     2017-08-14   empty
@@ -2622,7 +2657,7 @@ tilde.town        louiscntr                        2018-04-01   -             20
 tilde.town        louson                           2018-05-21   -             2018-05-22     -            -
 tilde.town        lovebeam                         2018-04-01   -             2017-04-06     2017-08-14   empty
 tilde.town        lowtec                           2018-04-01   -             2014-10-12     2017-08-14   empty
-tilde.town        lucidiot                         2018-04-01   -             2018-10-17     2018-04-28   blog,links
+tilde.town        lucidiot                         2018-04-01   -             2018-10-24     2018-04-28   blog,links
 tilde.town        lucither                         2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        luclu7                           2018-04-01   -             2017-08-01     2017-08-14   brief,web1.0
 tilde.town        lugus35                          2018-04-01   -             2017-11-18     2017-11-22   empty
@@ -2637,7 +2672,7 @@ tilde.town        lur                              2018-09-04   -             20
 tilde.town        lvb                              2018-04-01   -             2017-05-21     2017-08-14   empty
 tilde.town        lycaon                           2018-04-01   -             2017-06-16     2017-08-14   gaming,procgen,redirect
 tilde.town        lykakspars                       2018-04-01   -             2017-12-08     2018-03-10   blog,brief
-tilde.town        m455                             2018-04-01   -             2018-10-08     2018-04-28   art,blog,links,poetry,tutorial,unix
+tilde.town        m455                             2018-04-01   -             2018-10-20     2018-04-28   art,blog,links,poetry,tutorial,unix
 tilde.town        m4c                              2018-04-01   -             2017-07-25     2017-08-14   empty
 tilde.town        mabo                             2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        macsim                           2018-05-21   -             2018-05-20     -            -
@@ -2730,7 +2765,7 @@ tilde.town        motdiem                          2018-04-01   -             20
 tilde.town        moth                             2018-04-01   -             2018-03-14     2018-04-28   empty
 tilde.town        mountainman                      2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        mouthcoach                       2018-04-01   -             2017-12-23     2018-03-10   empty
-tilde.town        mox                              2018-08-14   -             2018-10-17     -            -
+tilde.town        mox                              2018-08-14   -             2018-10-23     -            -
 tilde.town        moxie                            2018-04-01   -             2017-12-14     2018-03-10   empty
 tilde.town        mr_black                         2018-04-01   -             2017-10-09     2017-11-22   empty
 tilde.town        mr_me                            2018-04-01   -             2017-05-28     2017-08-14   empty
@@ -2776,7 +2811,8 @@ tilde.town        nemocorp                         2018-05-21   -             20
 tilde.town        neonace                          2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        nereus                           2018-04-01   -             2016-07-05     2017-08-14   empty
 tilde.town        nether                           2018-08-29   -             2018-10-02     -            -
-tilde.town        neufv                            2018-06-30   -             2018-08-29     -            -
+tilde.town        netscape_navigator               2018-10-24   -             2018-10-24     -            -
+tilde.town        neufv                            2018-06-30   -             2018-10-23     -            -
 tilde.town        neurobashing                     2018-04-01   -             2017-07-30     2017-08-14   redirect
 tilde.town        neverbolt                        2018-04-01   -             2014-12-05     2017-08-14   empty
 tilde.town        newbold                          2018-04-01   -             2015-10-13     2017-08-14   empty
@@ -2803,6 +2839,7 @@ tilde.town        nnja                             2018-04-01   -             20
 tilde.town        noirsette                        2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        noisecapella                     2018-04-01   -             2018-01-28     2018-03-10   empty
 tilde.town        nolan                            2018-04-01   -             2017-12-18     2018-03-10   empty
+tilde.town        nomand                           2018-10-24   -             2018-10-24     -            -
 tilde.town        nomikos                          2018-10-06   -             2018-10-05     -            -
 tilde.town        nonlinear                        2018-04-01   -             2017-09-21     2017-11-22   empty
 tilde.town        nonononononono                   2018-04-01   -             2016-06-29     2017-08-14   empty
@@ -2858,6 +2895,7 @@ tilde.town        pagrus                           2018-04-01   -             20
 tilde.town        paladinjack                      2018-04-01   -             2017-04-17     2017-08-14   empty
 tilde.town        palmni                           2018-05-21   -             2018-05-30     -            -
 tilde.town        pandroid                         2018-04-01   -             2014-10-12     2017-08-14   empty
+tilde.town        panikode                         2018-10-24   -             2018-10-24     -            -
 tilde.town        papa                             2018-04-01   -             2017-10-06     2018-03-10   blog,links,tilde,web1.0
 tilde.town        papyrus                          2018-09-16   -             2018-09-16     -            -
 tilde.town        park                             2018-04-01   -             2017-08-04     2017-08-14   empty
@@ -2866,10 +2904,12 @@ tilde.town        parrot                           2018-04-01   -             20
 tilde.town        partridge                        2018-06-08   -             2018-05-24     -            -
 tilde.town        parx333                          2018-04-01   -             2017-04-04     2017-08-14   empty
 tilde.town        patroklos                        2018-04-01   -             2014-10-12     2017-08-14   empty
+tilde.town        pattiz                           2018-10-24   -             2018-10-24     -            -
 tilde.town        paul                             2018-04-01   -             2014-12-07     2017-08-14   empty
 tilde.town        paultag                          2018-04-01   -             2016-01-06     2017-08-14   empty
 tilde.town        payphone                         2018-05-21   -             2018-05-20     -            -
 tilde.town        pb                               2018-04-01   -             2015-09-21     2017-08-14   brief,poetry
+tilde.town        pch                              2018-10-19   -             2018-10-19     -            -
 tilde.town        pea                              2018-05-11   -             2018-05-09     -            -
 tilde.town        pecorino                         2018-05-21   -             2018-05-20     -            -
 tilde.town        pedraum                          2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -2878,13 +2918,14 @@ tilde.town        pentaconsix                      2018-04-01   -             20
 tilde.town        periappi                         2018-05-21   -             2018-05-20     -            -
 tilde.town        perleone                         2018-04-01   -             2016-04-27     2017-08-14   empty
 tilde.town        peteaj                           2018-04-01   -             2014-10-12     2017-08-14   empty
-tilde.town        petegozz                         2018-10-11   -             2018-10-16     -            -
+tilde.town        petegozz                         2018-10-11   -             2018-10-25     -            -
 tilde.town        peter                            2018-04-01   -             2014-10-27     2017-08-14   art,photo
 tilde.town        pethel                           2018-04-01   -             2016-05-23     2017-08-14   empty
 tilde.town        petit-dejeuner                   2018-04-01   -             2018-10-08     2018-03-10   links
 tilde.town        petitours                        2018-05-21   -             2018-05-20     -            -
 tilde.town        pgst                             2018-04-01   -             2014-11-11     2017-08-14   blog,brief
 tilde.town        phantummm                        2018-04-01   -             2014-12-09     2017-08-14   empty
+tilde.town        phcordner                        2018-10-19   -             2018-10-24     -            -
 tilde.town        phil8086                         2018-07-14   -             2018-07-13     -            -
 tilde.town        phildini                         2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        philipp                          2018-04-01   -             2016-01-05     2017-08-14   empty
@@ -2921,7 +2962,7 @@ tilde.town        poproar                          2018-04-01   -             20
 tilde.town        postpunkjustin                   2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        pounce                           2018-07-07   -             2018-07-24     -            -
 tilde.town        ppin                             2018-05-21   -             2018-05-20     -            -
-tilde.town        prin                             2018-09-07   -             2018-10-05     -            -
+tilde.town        prin                             2018-09-07   -             2018-10-20     -            -
 tilde.town        princess                         2018-04-01   -             2018-03-26     2018-04-28   empty
 tilde.town        princessfunhead                  2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        prism019                         2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -2965,6 +3006,7 @@ tilde.town        reg                              2018-05-21   -             20
 tilde.town        regini                           2018-04-01   -             2018-08-21     2018-04-28   blog,brief
 tilde.town        regresssion                      2018-04-01   -             2016-06-22     2017-08-14   empty
 tilde.town        reid                             2018-04-01   -             2014-12-08     2017-08-14   gaming,tutorial
+tilde.town        remiel                           2018-10-24   -             2018-10-24     -            -
 tilde.town        renon                            2018-05-21   -             2018-05-22     -            -
 tilde.town        reppard                          2018-04-01   -             2016-05-15     2017-08-14   blog,code,tilde
 tilde.town        resir014                         2018-04-01   -             2018-08-17     2018-03-10   gaming,links,photo
@@ -2975,7 +3017,7 @@ tilde.town        rezo                             2018-05-23   -             20
 tilde.town        rhea_starstorm                   2018-04-01   -             2017-05-31     2017-08-14   empty
 tilde.town        ricbent                          2018-04-01   -             2017-07-18     2017-08-14   empty
 tilde.town        richo                            2018-04-01   -             2014-11-14     2017-08-14   redirect
-tilde.town        rickcogley                       2018-04-01   -             2018-10-17     2018-04-28   blog,links
+tilde.town        rickcogley                       2018-04-01   -             2018-10-24     2018-04-28   blog,links
 tilde.town        ridgeback                        2018-04-01   -             2017-05-22     2017-08-14   empty
 tilde.town        rimedio                          2018-04-01   -             2017-05-21     2017-08-14   empty
 tilde.town        rjt                              2018-04-01   -             2018-07-11     2018-03-10   links,tilde,tutorial,unix
@@ -2989,10 +3031,10 @@ tilde.town        robbymeals                       2018-04-01   -             20
 tilde.town        robert                           2018-04-01   -             2014-10-24     2017-08-14   photo,web1.0
 tilde.town        robinchan33                      2018-04-01   -             2017-08-18     2017-09-03   empty
 tilde.town        robotops                         2018-04-01   -             2014-12-12     2017-08-14   blog,links,tutorial
-tilde.town        robrtsql                         2018-04-01   -             2018-10-18     2018-04-28   audio
+tilde.town        robrtsql                         2018-04-01   -             2018-10-25     2018-04-28   audio
 tilde.town        roburt                           2018-04-01   -             2016-04-20     2017-08-14   empty
 tilde.town        robyn                            2018-04-01   -             2017-12-21     2018-03-10   empty
-tilde.town        rogbeer                          2018-04-01   -             2018-10-16     2018-04-28   audio,prose
+tilde.town        rogbeer                          2018-04-01   -             2018-10-23     2018-04-28   audio,prose
 tilde.town        rogerroger                       2018-04-01   -             2017-08-24     2017-09-03   empty
 tilde.town        romechco                         2018-09-30   -             2018-09-29     -            -
 tilde.town        ron_of_taarth                    2018-04-01   -             2017-07-31     2017-08-14   empty
@@ -3042,7 +3084,7 @@ tilde.town        sbarre                           2018-04-01   -             20
 tilde.town        sbstjn                           2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        scafas                           2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        scellef                          2018-04-01   -             2014-10-12     2017-08-14   empty
-tilde.town        scifi                            2018-09-04   -             2018-10-04     -            -
+tilde.town        scifi                            2018-09-04   -             2018-10-24     -            -
 tilde.town        scott                            2018-04-01   -             2016-12-09     2017-08-14   brief
 tilde.town        scottrking                       2018-04-01   -             2017-02-22     2017-08-14   blog,brief
 tilde.town        scrivenimus                      2018-04-01   -             2017-05-18     2017-08-14   redirect
@@ -3251,7 +3293,7 @@ tilde.town        tkapias                          2018-05-21   -             20
 tilde.town        tng                              2018-09-15   -             2018-09-14     -            -
 tilde.town        toaster                          2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        todgobblins                      2018-04-01   -             2017-10-09     2018-03-10   empty
-tilde.town        toffee                           2018-04-01   -             2018-09-12     2018-04-28   blog,code,links
+tilde.town        toffee                           2018-04-01   -             2018-10-22     2018-04-28   blog,code,links
 tilde.town        togemet2                         2018-04-01   -             2018-06-04     2018-04-28   gaming
 tilde.town        tom                              2018-04-01   -             2014-11-01     2017-08-14   gaming
 tilde.town        tomasino                         2018-04-01   -             2018-01-20     2018-03-10   blog
@@ -3276,7 +3318,7 @@ tilde.town        trev                             2018-04-01   -             20
 tilde.town        trevorb                          2018-04-01   -             2018-02-21     2018-03-10   blog,photo,web1.0
 tilde.town        tripoli                          2018-04-01   -             2018-04-20     2018-04-28   brief
 tilde.town        trishotz                         2018-05-11   -             2018-05-09     -            -
-tilde.town        trm                              2018-10-03   -             2018-10-16     -            -
+tilde.town        trm                              2018-10-03   -             2018-10-20     -            -
 tilde.town        troido                           2018-04-01   -             2018-01-01     2018-03-10   art,code,gaming,links,tilde,web1.0
 tilde.town        troublemoney                     2018-04-01   -             2017-11-10     2018-03-10   empty
 tilde.town        trueboolean                      2018-04-01   -             2014-10-12     2017-08-14   empty
@@ -3292,6 +3334,7 @@ tilde.town        ttadmin                          2018-04-01   -             20
 tilde.town        tuck                             2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        tude                             2018-04-01   -             2017-09-30     2018-02-24   empty
 tilde.town        tullyhansen                      2018-04-01   -             2015-07-18     2017-08-14   empty
+tilde.town        tunas                            2018-10-24   -             2018-10-24     -            -
 tilde.town        tundrajimmy                      2018-04-01   -             2018-02-08     2018-03-10   empty
 tilde.town        turnstile_sai                    2018-04-28   -             2018-04-27     2018-04-28   empty
 tilde.town        tuugcw1s1gyfwj9f                 2018-07-04   -             2018-07-03     -            -
@@ -3354,6 +3397,7 @@ tilde.town        wangofett                        2018-04-01   -             20
 tilde.town        wap                              2018-04-01   -             2017-05-20     2017-08-14   empty
 tilde.town        wargor                           2018-05-21   -             2018-05-20     -            -
 tilde.town        warp                             2018-04-01   -             2017-09-18     2018-03-10   empty
+tilde.town        wastebin                         2018-10-24   -             2018-10-24     -            -
 tilde.town        wavez                            2018-04-01   -             2014-10-12     2017-08-14   empty
 tilde.town        waxworker                        2018-04-05   -             2018-04-04     2018-04-28   empty
 tilde.town        wedaly                           2018-04-01   -             2017-05-20     2017-08-14   empty
