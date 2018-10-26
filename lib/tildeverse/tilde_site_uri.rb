@@ -79,9 +79,9 @@ module Tildeverse
     #
     def initialize(uri)
       @uri = uri.is_a?(URI::HTTP) ? uri : URI(uri)
-      raise Error::NotHTTPError, uri unless validate_uri
+      raise Error::InvalidURIError, uri unless validate_uri
     rescue ArgumentError
-      raise Error::NotHTTPError, uri
+      raise Error::InvalidURIError, uri
     end
 
     ############################################################################

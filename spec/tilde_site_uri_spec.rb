@@ -31,10 +31,7 @@ describe 'Tildeverse::TildeSiteURI' do
       ].each do |uri|
         expect do
           Tildeverse::TildeSiteURI.new(uri)
-        end.to raise_error(
-          URI::InvalidURIError,
-          'Tilde URI must be HTTP or HTTPS'
-        )
+        end.to raise_error(Tildeverse::Error::InvalidURIError)
       end
     end
 

@@ -56,7 +56,10 @@ module Tildeverse
     # generating the output webpage files, or altering the 'config.yml'
     #
     class PermissionDeniedError < Error
-      #
+      def initialize(msg = message)
+        super msg
+      end
+
       # (see Tildeverse::Error::Error#message)
       def message
         %(Current user is not authorised to perform this task)
@@ -106,7 +109,7 @@ module Tildeverse
     ##
     # Exception to raise on invalid URI input
     #
-    class NotHTTPError < Error
+    class InvalidURIError < Error
       #
       # Invalid URI that was attempted
       attr_reader :uri
