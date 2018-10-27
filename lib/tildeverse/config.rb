@@ -68,7 +68,7 @@ module Tildeverse
     ##
     # @param [Array<String>] value
     # @return [Array<String>] the input value
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::AuthorisedUsersError] if not valid
     #
     def authorised_users=(value)
       afterwards(:save) { @authorised_users = validate_authorised_users(value) }
@@ -77,7 +77,7 @@ module Tildeverse
     ##
     # @param [String] value
     # @return [String] the input value
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::UpdateTypeError] if not valid
     #
     def update_type=(value)
       afterwards(:save) { @update_type = validate_update_type(value) }
@@ -86,7 +86,7 @@ module Tildeverse
     ##
     # @param [String] value
     # @return [String] the input value
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::UpdateFrequencyError] if not valid
     #
     def update_frequency=(value)
       afterwards(:save) { @update_frequency = validate_update_frequency(value) }
@@ -95,7 +95,7 @@ module Tildeverse
     ##
     # @param [true, false] value
     # @return [true, false] the input value
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::GenerateHtmlError] if not valid
     #
     def generate_html=(value)
       afterwards(:save) { @generate_html = validate_generate_html(value) }
@@ -227,49 +227,51 @@ module Tildeverse
     ##
     # Validate {#authorised_users}. Convert whatever input into a String array
     # @return [Array<String>] if valid
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::AuthorisedUsersError] if not valid
     #
     def validate_authorised_users(value)
       [*value].map(&:to_s)
     rescue StandardError
-      raise ArgumentError, 'Value must be an array of Strings'
-    end
-
-    ##
-    # Validate that a value is within an array
-    # @return [value] if valid
-    # @raise [ArgumentError] if not valid
-    #
-    def validate_in_array(value, array)
-      return value if array.include?(value)
-      raise ArgumentError, "Value must be one of: #{array.join(', ')}"
+      raise Error::AuthorisedUsersError
     end
 
     ##
     # Validate {#update_type}
     # @return [String] if valid
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::UpdateTypeError] if not valid
     #
-    def validate_update_type(value)
-      validate_in_array(value, %w[scrape fetch])
+    def validate_update_type(input)
+      input.tap do |value|
+        valid = %w[scrape fetch]
+        error = Error::UpdateTypeError
+        raise error unless valid.include?(value)
+      end
     end
 
     ##
     # Validate {#update_frequency}
     # @return [String] if valid
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::UpdateFrequencyError] if not valid
     #
-    def validate_update_frequency(value)
-      validate_in_array(value, %w[always day week month])
+    def validate_update_frequency(input)
+      input.tap do |value|
+        valid = %w[always day week month]
+        error = Error::UpdateFrequencyError
+        raise error unless valid.include?(value)
+      end
     end
 
     ##
     # Validate {#generate_html}
     # @return [true, false] if valid
-    # @raise [ArgumentError] if not valid
+    # @raise [Error::GenerateHtmlError] if not valid
     #
-    def validate_generate_html(value)
-      validate_in_array(value, [true, false])
+    def validate_generate_html(input)
+      input.tap do |value|
+        valid = [true, false]
+        error = Error::GenerateHtmlError
+        raise error unless valid.include?(value)
+      end
     end
 
     ##

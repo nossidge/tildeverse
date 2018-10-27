@@ -6,4 +6,8 @@ require 'optparse'
 require_relative '../lib/tildeverse'
 require_relative 'bin_lib/bin'
 
-Tildeverse::Bin.new(ARGV).run
+begin
+  Tildeverse::Bin.new(ARGV).run
+rescue Tildeverse::Error => e
+  puts e.console_message
+end

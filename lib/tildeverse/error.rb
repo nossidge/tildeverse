@@ -5,45 +5,38 @@ module Tildeverse
   ##
   # Namespace module for the Tildeverse exception hierarchy
   #
-  # All exceptions are descendants of class {Tildeverse::Error::Error}
+  # All exceptions are descendants of this class
   #
   # All errors should have short messages
-  # {Tildeverse::Error::Error#message}
+  # {Tildeverse::Error#message}
   # for developers using the gem, and longer messages
-  # {Tildeverse::Error::Error#console_message}
+  # {Tildeverse::Error#console_message}
   # for end users who will be using the bin through the console
   #
   # If accessing through a console, all these errors are cause to exit
   #
-  module Error
-    ##
-    # Class to inherit for all Tildeverse exception classes
-    #
-    class Error < StandardError
-      def initialize(msg)
-        super msg
-      end
+  class Error < StandardError
+    def initialize(msg)
+      super msg
+    end
 
-      # @method message
-      # @return [String] short message for developers
+    # @method message
+    # @return [String] short message for developers
 
-      # @return [String] longer message for command line output
-      def console_message
-        %(ERROR: #{message})
-      end
+    # @return [String] longer message for command line output
+    def console_message
+      %(ERROR: #{message})
+    end
 
-      private
-
-      # Message to append to console output if the error is all my fault
-      def developer_error
-        <<-MSG.gsub(/^ {10}/, '')
-                 Developer error! You should not be seeing this!
-                 I'd be very grateful if you'd log this issue at:
-                 https://github.com/nossidge/tildeverse/issues
-                 Thanks,
-                   ~nossidge
-        MSG
-      end
+    # Message to append to console output if the error is all my fault
+    def developer_error
+      <<-MSG.gsub(/^ {8}/, '')
+               Developer error! You should not be seeing this!
+               I'd be very grateful if you'd log this issue at:
+               https://github.com/nossidge/tildeverse/issues
+               Thanks,
+                 ~nossidge
+      MSG
     end
 
     ############################################################################
@@ -60,7 +53,7 @@ module Tildeverse
         super msg
       end
 
-      # (see Tildeverse::Error::Error#message)
+      # (see Tildeverse::Error#message)
       def message
         %(Current user is not authorised to perform this task)
       end
@@ -74,7 +67,7 @@ module Tildeverse
         super msg
       end
 
-      # (see Tildeverse::Error::Error#console_message)
+      # (see Tildeverse::Error#console_message)
       def console_message
         <<~MSG
           ERROR: The current user is not authorised to perform this task.
@@ -93,7 +86,7 @@ module Tildeverse
         super msg
       end
 
-      # (see Tildeverse::Error::Error#console_message)
+      # (see Tildeverse::Error#console_message)
       def console_message
         <<~MSG
           ERROR: The current user is not authorised to perform this task.
@@ -107,7 +100,7 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Exception to raise on invalid URI input
+    # Error class raised on invalid URI input
     #
     class InvalidURIError < Error
       #
@@ -119,17 +112,75 @@ module Tildeverse
         super message
       end
 
-      # (see Tildeverse::Error::Error#message)
+      # (see Tildeverse::Error#message)
       def message
         %(Tilde URI must be HTTP or HTTPS: "#{uri}")
       end
 
-      # (see Tildeverse::Error::Error#console_message)
+      # (see Tildeverse::Error#console_message)
       def console_message
         <<~MSG + developer_error
           ERROR: Invalid URL encounted for Tilde site:
                    "#{uri}"
         MSG
+      end
+    end
+
+    ############################################################################
+
+    ##
+    # Error class raised when a 'config.yml' file is read incorrectly
+    #
+    class ConfigError < Error
+      def console_message
+        super + "\n" + <<-MSG.gsub(/^ {10}/, '')
+                 Update the file 'config.yml' and correct this field
+        MSG
+      end
+    end
+
+    ##
+    # Error class raised when {Config#authorised_users} is invalid
+    #
+    class AuthorisedUsersError < ConfigError
+      def initialize
+        super %('authorised_users' must be a valid list of users)
+      end
+    end
+
+    ##
+    # Error class raised when {Config#update_type} is invalid
+    #
+    class UpdateTypeError < ConfigError
+      def initialize
+        super %('update_type' must be one of: scrape, fetch)
+      end
+    end
+
+    ##
+    # Error class raised when {Config#update_frequency} is invalid
+    #
+    class UpdateFrequencyError < ConfigError
+      def initialize
+        super %('update_frequency' must be one of: always, day, week, month)
+      end
+    end
+
+    ##
+    # Error class raised when {Config#generate_html} is invalid
+    #
+    class GenerateHtmlError < ConfigError
+      def initialize
+        super %('generate_html' must be one of: true, false)
+      end
+    end
+
+    ##
+    # todo
+    #
+    class UpdatedOnError < ConfigError
+      def initialize
+        super %(todo)
       end
     end
   end

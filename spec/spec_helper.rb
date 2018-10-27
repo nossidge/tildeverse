@@ -47,7 +47,7 @@ end
 
 
 RSpec.configure do |config|
-  config.before(:all) do
+  config.before(:suite) do
 
     # Ensure the directories exist
     makedirs = ->(dir) { FileUtils.makedirs(dir) unless dir.exist? }
@@ -63,6 +63,13 @@ RSpec.configure do |config|
     %w[index.html users.js boxes.js pie.js].each do |f|
       FileUtils.touch(Tildeverse::Files.dir_input + f)
     end
+  end
+
+  # Kill temporary directories
+  config.after(:suite) do
+    FileUtils.rm_rf(Tildeverse::Files.dir_root + 'config')
+    FileUtils.rm_rf(Tildeverse::Files.dir_input)
+    FileUtils.rm_rf(Tildeverse::Files.dir_output)
   end
 end
 

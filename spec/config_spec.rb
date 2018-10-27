@@ -11,6 +11,8 @@ describe 'Tildeverse::Config' do
     File.delete(temp_file) if File.exist?(temp_file)
   end
 
+  let(:terror) { Tildeverse::Error }
+
   let(:instance) do
     Tildeverse::Config.new(temp_file)
   end
@@ -60,13 +62,13 @@ describe 'Tildeverse::Config' do
   ##############################################################################
 
   # Given valid and invalid data, confirm that the block raises or
-  #   doesn't raise an ArgumentError
-  def test_raise_error(valid, invalid, &code)
+  #   doesn't raise the exception 'exception'
+  def test_raise_error(valid, invalid, exception, &code)
     valid.each do |i|
       expect { code.call(i) }.not_to raise_error
     end
     invalid.each do |i|
-      expect { code.call(i) }.to raise_error(ArgumentError)
+      expect { code.call(i) }.to raise_error(exception)
     end
   end
 
@@ -85,10 +87,10 @@ describe 'Tildeverse::Config' do
 
       valid = [%w[paul joe], ['paul', :joe], 'paul', 123, nil]
       invalid = [no_to_s.new]
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::AuthorisedUsersError) do |i|
         instance.send(:validate_authorised_users, i)
       end
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::AuthorisedUsersError) do |i|
         instance.authorised_users = i
       end
     end
@@ -98,10 +100,10 @@ describe 'Tildeverse::Config' do
     it 'should validate from array: scrape fetch' do
       valid = %w[scrape fetch]
       invalid = [123, nil, Integer, true, 'always', 'day', 'week', 'month']
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::UpdateTypeError) do |i|
         instance.send(:validate_update_type, i)
       end
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::UpdateTypeError) do |i|
         instance.update_type = i
       end
     end
@@ -111,10 +113,10 @@ describe 'Tildeverse::Config' do
     it 'should validate from array: always day week month' do
       valid = %w[always day week month]
       invalid = [123, nil, Integer, true, 'scrape', 'fetch']
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::UpdateFrequencyError) do |i|
         instance.send(:validate_update_frequency, i)
       end
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::UpdateFrequencyError) do |i|
         instance.update_frequency, = i
       end
     end
@@ -124,10 +126,10 @@ describe 'Tildeverse::Config' do
     it 'should validate from array: true false' do
       valid = [true, false]
       invalid = [123, nil, Integer, 'scrape', 'always']
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::GenerateHtmlError) do |i|
         instance.send(:validate_generate_html, i)
       end
-      test_raise_error(valid, invalid) do |i|
+      test_raise_error(valid, invalid, terror::GenerateHtmlError) do |i|
         instance.generate_html = i
       end
     end
