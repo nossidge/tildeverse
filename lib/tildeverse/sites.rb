@@ -16,7 +16,7 @@ module Tildeverse
     #
     def self.classes
       ObjectSpace.each_object(Class).select do |i|
-        i < Site::Live || i < Site::Dead
+        [Site::Live, Site::Dead].include?(i.superclass)
       end.sort_by(&:name)
     end
   end

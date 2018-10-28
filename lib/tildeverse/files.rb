@@ -136,6 +136,17 @@ module Tildeverse
       end
 
       ##
+      # @return [Pathname]
+      #   the temporary backup file that is created and deleted when a
+      #   {Fetcher#fetch} operation is performed.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse_fetch_backup.txt'
+      #
+      def input_txt_tildeverse_fetch_backup
+        dir_input + 'tildeverse_fetch_backup.txt'
+      end
+
+      ##
       # @return [Pathname] the HTML output file.
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/index.html'

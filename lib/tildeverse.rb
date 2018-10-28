@@ -28,6 +28,7 @@ require_relative 'tildeverse/modified_dates'
 require_relative 'tildeverse/pfhawkins'
 require_relative 'tildeverse/scraper'
 require_relative 'tildeverse/fetcher'
+require_relative 'tildeverse/tag_merger'
 require_relative 'tildeverse/version'
 
 ################################################################################

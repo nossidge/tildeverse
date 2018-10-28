@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
     `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
+  s.required_ruby_version = '>= 2.3'
+
   s.add_development_dependency('bundler',   '~> 1.13')
   s.add_development_dependency('rake',      '~> 10.0')
   s.add_development_dependency('rspec',     '~> 3.0')

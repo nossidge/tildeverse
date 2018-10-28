@@ -26,12 +26,14 @@ module Tildeverse::Files
 end
 
 
-# Revert to the seed data, and rewrite the JSON file
+# Copy the /seed/ data to /input/, and run {Data#save}
 module RspecCustomHelpers
   def self.seed_the_data
-    from = Tildeverse::Files.dir_root + 'seed' + 'tildeverse.txt'
-    to   = Tildeverse::Files.dir_input + 'tildeverse.txt'
-    FileUtils.cp(from, to)
+    dir_seed = Tildeverse::Files.dir_root + 'seed'
+    dir_seed.children.each do |from|
+      to = Tildeverse::Files.dir_input + from.basename
+      FileUtils.cp(from, to)
+    end
     Tildeverse.data.save
   end
 end
