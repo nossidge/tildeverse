@@ -46,6 +46,7 @@ describe 'Tildeverse::Fetcher' do
 
     it 'should correctly return if valid URL' do
       expect(STDOUT).to_not receive(:puts)
+      allow_any_instance_of(Tildeverse::TagMerger).to receive(:merge)
       expect { result }.to_not raise_error
     end
 

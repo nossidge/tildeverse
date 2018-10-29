@@ -49,11 +49,22 @@ module Tildeverse
         return false
       end
 
+      # Copy the existing 'tildeverse.txt' file as a backup.
+      original = Files.input_txt_tildeverse
+      backup   = Files.input_txt_tildeverse_fetch_backup
+      FileUtils.cp(original, backup) if original.exist?
+
       # Save the remote result verbatim, overwriting the existing file.
       Files.save_text(remote.result, Files.input_txt_tildeverse)
 
       # Use the new text file to load input.
       data.clear
+
+      # Update to include any local tags.
+      TagMerger.new(data, backup).merge if backup.exist?
+
+      # Remove the backup file.
+      FileUtils.rm(backup) if backup.exist?
 
       # Use the new text file to save output.
       data.save_with_config

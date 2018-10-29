@@ -20,10 +20,11 @@ module Tildeverse
     attr_reader :filepath
 
     ##
+    # @param [Data] data
     # @param [Pathname] filepath
     #   File in the same format as 'tildeverse.txt' containing newer user tags
     #
-    def initialize(data, filepath = Files.input_txt_tildeverse_fetch_backup)
+    def initialize(data, filepath)
       @data = data
       @filepath = filepath
     end

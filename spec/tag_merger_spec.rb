@@ -4,7 +4,8 @@
 describe 'Tildeverse::TagMerger' do
   let(:config) { double('Config') }
   let(:data) { Tildeverse::Data.new(config) }
-  let(:tag_merger) { Tildeverse::TagMerger.new(data) }
+  let(:filepath) { Tildeverse::Files.input_txt_tildeverse_fetch_backup }
+  let(:tag_merger) { Tildeverse::TagMerger.new(data, filepath) }
   let(:result) { tag_merger.merge }
 
   describe '#merge' do
