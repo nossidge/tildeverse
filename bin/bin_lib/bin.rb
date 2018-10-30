@@ -36,6 +36,8 @@ module Tildeverse
         tildeverse_help
       when 'version'
         tildeverse_version
+      when 'get'
+        tildeverse_get
       when 'scrape'
         tildeverse_scrape
       when 'fetch'
@@ -71,6 +73,16 @@ module Tildeverse
     #
     def tildeverse_version
       puts version_text
+    end
+
+    ##
+    # $ tildeverse get
+    #
+    # Get data from remote servers.
+    # Use the config setting to choose between 'scrape' and 'fetch'
+    #
+    def tildeverse_get
+      Tildeverse.get
     end
 
     ##
@@ -163,8 +175,13 @@ module Tildeverse
 
           Usage: tildeverse <command> [regex] [options]
 
+        $ tildeverse get
+          Get data from remote servers
+          Set config 'update_type' to choose download type
+          Set config 'update_frequency' to avoid repeated download
+
         $ tildeverse scrape
-          Scrape the user list of each box, and generate the JSON files
+          Scrape the user list of each box, and save to file
 
         $ tildeverse fetch
           Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
@@ -227,8 +244,7 @@ module Tildeverse
     # Output a list of users in a consistant way
     #
     # @param [Array<User>] users
-    # @param [Hash] options
-    # @yield a default value, if no 'options' specifications are met
+    # @yield a default value, if no {#options} specifications are met
     # @return [String] text to be put to stdout
     #
     def format_users(users)
@@ -248,8 +264,7 @@ module Tildeverse
     # Output a list of sites in a consistant way
     #
     # @param [Array<Site>] sites
-    # @param [Hash] options
-    # @yield a default value, if no 'options' specifications are met
+    # @yield a default value, if no {#options} specifications are met
     # @return [String] text to be put to stdout
     #
     def format_sites(sites)

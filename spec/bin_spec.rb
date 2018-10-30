@@ -85,6 +85,12 @@ describe 'Tildeverse::Bin' do
       bin.run
     end
 
+    it 'should get from remote' do
+      bin = instance.call(['get'])
+      expect(bin).to receive(:tildeverse_get)
+      bin.run
+    end
+
     it 'should scrape from remote' do
       bin = instance.call(['scrape'])
       expect(bin).to receive(:tildeverse_scrape)
@@ -154,6 +160,14 @@ describe 'Tildeverse::Bin' do
   end
 
   ##############################################################################
+
+  describe '#tildeverse_get' do
+    it 'should delegate to Tildeverse#get' do
+      allow(Tildeverse).to receive(:get).and_return(nil)
+      expect(Tildeverse).to receive(:get)
+      Tildeverse::Bin.new([]).tildeverse_get
+    end
+  end
 
   describe '#tildeverse_scrape' do
     it 'should delegate to Tildeverse#scrape' do
