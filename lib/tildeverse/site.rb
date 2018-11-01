@@ -139,7 +139,7 @@ module Tildeverse
         @all_users[user_name] = User.new(
           site: self,
           name: user_name,
-          date_online: Date.today.to_s
+          date_online: Date.today
         )
       end
 
@@ -147,7 +147,7 @@ module Tildeverse
       dead_users = existing_users - remote_users
       dead_users.each do |user_name|
         user = @all_users[user_name]
-        user.date_offline = Date.today.to_s if user.online?
+        user.date_offline = Date.today if user.online?
       end
 
       # If a 'new' account was previously marked as offline, remove the
@@ -155,7 +155,7 @@ module Tildeverse
       # This might naturally occur if a site goes offline for a few days.
       remote_users.each do |user_name|
         user = @all_users[user_name]
-        user.date_offline = '-'
+        user.date_offline = TildeDate.new(nil)
       end
     end
 

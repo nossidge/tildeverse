@@ -42,8 +42,8 @@ module Tildeverse
         next unless user
 
         # Determine if the tagged date is newer than the current.
-        current = Date.parse(user.date_tagged) rescue Date.new(1970, 1, 1)
-        newer   = Date.parse(i[:date_tagged])  rescue Date.new(1970, 1, 1)
+        current = TildeDate.new(user.date_tagged)
+        newer   = TildeDate.new(i[:date_tagged])
         tags_are_newer = current < newer
 
         # Update if necessary.

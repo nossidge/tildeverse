@@ -184,7 +184,7 @@ describe 'Tildeverse::Site' do
       expect(deleted_user.online?).to eq false
 
       # Confirm that the offline date is correct.
-      expect(deleted_user.date_offline).to eq Date.today.to_s
+      expect(deleted_user.date_offline).to eq Date.today
     end
   end
 

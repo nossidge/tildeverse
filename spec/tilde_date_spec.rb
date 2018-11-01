@@ -32,13 +32,17 @@ describe 'Tildeverse::TildeDate' do
         input:   Date.new(1970, 1, 1),
         to_s:    '-',
         to_date: Date.new(1970, 1, 1)
+      }, {
+        input:   nil,
+        to_s:    '-',
+        to_date: Date.new(1970, 1, 1)
       }
     ]
   end
 
   describe '#new' do
     it 'should fail on invalid input' do
-      ['2018-99-31', 'foo', 1, nil, String].each do |i|
+      ['2018-99-31', 'foo', 1, String].each do |i|
         expect do
           Tildeverse::TildeDate.new(i)
         end.to raise_error(ArgumentError)

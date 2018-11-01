@@ -25,10 +25,10 @@ module Tildeverse
       {
         site:          user.site.name,
         name:          user.name,
-        date_online:   user.date_online,
-        date_offline:  user.date_offline,
-        date_modified: user.date_modified,
-        date_tagged:   user.date_tagged,
+        date_online:   user.date_online.to_s,
+        date_offline:  user.date_offline.to_s,
+        date_modified: user.date_modified.to_s,
+        date_tagged:   user.date_tagged.to_s,
         tags:          user.tags.join(','),
         online:        user.online?
       }.to_s

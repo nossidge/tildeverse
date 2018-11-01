@@ -22,17 +22,17 @@ module Tildeverse
     attr_reader :name
 
     ##
-    # @return [String] the date the user first came online
+    # @return [TildeDate] the date the user first came online
     #
     attr_reader :date_online
 
     ##
-    # @return [String] the date the user first went offline
+    # @return [TildeDate] the date the user went offline
     #
     attr_reader :date_offline
 
     ##
-    # @return [String] the date the user's homepage was last modified
+    # @return [TildeDate] the date the user's homepage was last modified
     #
     attr_reader :date_modified
 
@@ -40,7 +40,7 @@ module Tildeverse
     # The date the tags were last updated.
     # This is updated to today's date whenever {tags=} is called
     #
-    # @return [String] the date the tags were last updated
+    # @return [TildeDate] the date the tags were last updated
     #
     attr_reader :date_tagged
 
@@ -54,13 +54,13 @@ module Tildeverse
     #
     # @param [Site] site the site the user belongs to
     # @param [String] name the name of the user
-    # @option options [String] :date_online
+    # @option options [String, Date, TildeDate] :date_online
     #   the date the user first came online
-    # @option options [String] :date_offline
+    # @option options [String, Date, TildeDate] :date_offline
     #   the date the user went offline
-    # @option options [String] :date_modified
+    # @option options [String, Date, TildeDate] :date_modified
     #   the date the user site was last modified
-    # @option options [String] :date_tagged
+    # @option options [String, Date, TildeDate] :date_tagged
     #   the date the tags were last updated
     # @option options [Array<String>] :tags
     #   a list of usersite tags for the user
@@ -71,11 +71,11 @@ module Tildeverse
 
       @site          = site
       @name          = name
-      @date_online   = validate_date_online   options[:date_online]
-      @date_offline  = validate_date_offline  options[:date_offline]
-      @date_modified = validate_date_modified options[:date_modified]
-      @date_tagged   = validate_date_tagged   options[:date_tagged]
-      @tags          = validate_tags          options[:tags]
+      @date_online   = TildeDate.new options[:date_online]
+      @date_offline  = TildeDate.new options[:date_offline]
+      @date_modified = TildeDate.new options[:date_modified]
+      @date_tagged   = TildeDate.new options[:date_tagged]
+      @tags          = validate_tags options[:tags]
     end
 
     ##
@@ -96,21 +96,25 @@ module Tildeverse
     ##
     # Set the {date_offline} attribute
     #
-    # @param [String] value the date the user first went offline
-    # @return [String] the date the user first went offline
+    # @param [String, Date, TildeDate] value
+    #   the date the user first went offline
+    # @return [TildeDate]
+    #   input value parsed as {TildeDate}
     #
     def date_offline=(value)
-      @date_offline = value
+      @date_offline = TildeDate.new(value)
     end
 
     ##
     # Set the {date_modified} attribute
     #
-    # @param [String] value the date the user's homepage was last modified
-    # @return [String] the date the user's homepage was last modified
+    # @param [String, Date, TildeDate] value
+    #   the date the user's homepage was last modified
+    # @return [TildeDate]
+    #   input value parsed as {TildeDate}
     #
     def date_modified=(value)
-      @date_modified = value
+      @date_modified = TildeDate.new(value)
     end
 
     ##
@@ -121,7 +125,7 @@ module Tildeverse
     # @return [Array<String>] the array of tags
     #
     def tags=(tags)
-      @date_tagged = Date.today.to_s
+      @date_tagged = TildeDate.new(Date.today)
       @tags = [*tags].flatten.sort.uniq
     end
 
@@ -133,8 +137,8 @@ module Tildeverse
     # @return [Boolean] whether or not the user is online
     #
     def online?
-      is_online      = @date_online  != default_date_online
-      is_not_offline = @date_offline == default_date_offline
+      is_online      = date_online  != TildeDate::EPOCH
+      is_not_offline = date_offline == TildeDate::EPOCH
       is_online && is_not_offline
     end
 
@@ -169,40 +173,8 @@ module Tildeverse
       options.keys - valid
     end
 
-    def validate_date_online(value)
-      value || default_date_online
-    end
-
-    def validate_date_offline(value)
-      value || default_date_offline
-    end
-
-    def validate_date_modified(value)
-      value || default_date_modified
-    end
-
-    def validate_date_tagged(value)
-      value || default_date_tagged
-    end
-
     def validate_tags(value)
-      value || default_tags
-    end
-
-    def default_date_online
-      '-'
-    end
-
-    def default_date_offline
-      '-'
-    end
-
-    def default_date_modified
-      '-'
-    end
-
-    def default_date_tagged
-      '-'
+      [*value] || default_tags
     end
 
     def default_tags

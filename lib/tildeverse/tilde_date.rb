@@ -49,13 +49,13 @@ module Tildeverse
       ##
       # Convert an input into a {TildeDate} object.
       # If the input already responds to {#to_date}, then use that date.
-      # If the input is +-+, use the Date of the Unix Epoch.
+      # If the input is nil or +-+, use the Date of the Unix Epoch.
       # Else, apply +input#to_s+ and send to +Date#parse+
       #
       # @param [Date, String] input
       # @return [TildeDate]
       #
-      def new(input)
+      def new(input = nil)
         d = parse(input)
         super(d.year, d.month, d.day)
       end
@@ -63,7 +63,7 @@ module Tildeverse
       ##
       # Convert an input into a +Date+ object.
       # If the input already responds to {#to_date}, then return it unchanged.
-      # If the input is +-+, return the Date of the Unix Epoch.
+      # If the input is nil or +-+, return the Date of the Unix Epoch.
       # Else, apply +input#to_s+ and send to +Date#parse+
       #
       # @param [Date, String] input
@@ -72,6 +72,7 @@ module Tildeverse
       def parse(input)
         return input if input.respond_to?(:to_date)
         return EPOCH if input.to_s == EMPTY
+        return EPOCH if input.nil?
         super(input.to_s)
       end
     end

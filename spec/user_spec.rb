@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 describe 'Tildeverse::User' do
-  def example_data
-    site_struct = Struct.new(:name) do
+  let(:site_struct) do
+    Struct.new(:name) do
       def uri
         @uri ||= Tildeverse::TildeSiteURI.new('http://example.com')
       end
@@ -11,6 +11,9 @@ describe 'Tildeverse::User' do
         name == o.name
       end
     end
+  end
+
+  let(:example_data) do
     {
       site:           site_struct.new('example.com'),
       name:           'paul',
@@ -22,7 +25,7 @@ describe 'Tildeverse::User' do
     }
   end
 
-  def instance
+  let(:user) do
     Tildeverse::User.new(example_data)
   end
 
@@ -30,7 +33,6 @@ describe 'Tildeverse::User' do
 
   describe '#new' do
     it 'should correctly apply the input parameters hash' do
-      user = instance
       example_data.each do |k, v|
         expect(user.send(k)).to eq v
       end
@@ -39,15 +41,13 @@ describe 'Tildeverse::User' do
 
     it 'should correctly apply the defaults to unspecified parameters' do
       user = Tildeverse::User.new(site: 'site.foo', name: 'site_foo')
-      example_data.each do |k, v|
-        next if %i[site name].include?(k)
-
-        # Defaults are in private classes named in the format 'default_ATTR'
-        default = user.send("default_#{k}")
-        expect(user.send(k)).to eq default
-      end
-      expect(user.site).to eq 'site.foo'
-      expect(user.name).to eq 'site_foo'
+      expect(user.date_online).to   eq Tildeverse::TildeDate.new(nil)
+      expect(user.date_offline).to  eq Tildeverse::TildeDate.new(nil)
+      expect(user.date_modified).to eq Tildeverse::TildeDate.new(nil)
+      expect(user.date_tagged).to   eq Tildeverse::TildeDate.new(nil)
+      expect(user.tags).to          eq user.send(:default_tags)
+      expect(user.site).to          eq 'site.foo'
+      expect(user.name).to          eq 'site_foo'
     end
 
     it 'should fail without necessary parameters' do
@@ -69,75 +69,99 @@ describe 'Tildeverse::User' do
 
   describe '#serialize' do
     it 'should be an instance of UserSerializer' do
-      serializer = instance.serialize
+      serializer = user.serialize
       expect(serializer).to be_a Tildeverse::UserSerializer
     end
   end
 
   describe '#to_s' do
     it 'should return a string' do
-      expect(instance.to_s).to be_a String
+      expect(user.to_s).to be_a String
     end
     it 'should delegate the method to the #serialize UserSerializer' do
-      expect(instance.to_s).to eq instance.serialize.to_s
+      expect(user.to_s).to eq user.serialize.to_s
     end
   end
 
   ##############################################################################
 
-  describe '#date_offline=' do
-    it 'should overwrite the attribute with a new value' do
-      user = instance
-      old_value = user.date_offline
-      new_value = 'foo'
+  describe_date_writer_method = proc do |attribute|
+    describe "##{attribute}=" do
+      it 'should accept String(YYYY-MM-DD), Date, or TildeDate' do
+        [
+          '1970-01-01',
+          '1984-01-01',
+          '2018-11-01',
+          '2022-07-19'
+        ].each do |date_string|
+          expectation = Tildeverse::TildeDate.new(date_string)
+          [
+            date_string,
+            Date.parse(date_string),
+            Tildeverse::TildeDate.new(date_string)
+          ].each do |date|
+            user.send("#{attribute}=", date)
+            expect(user.send(attribute)).to eq expectation
+          end
+        end
+      end
 
-      user.date_offline = new_value
-      expect(user.date_offline).to eq new_value
+      it "should accept String containing '-', and Nil" do
+        expectation = Tildeverse::TildeDate.new(nil)
+        ['-', nil].each do |i|
+          user.send("#{attribute}=", i)
+          expect(user.send(attribute)).to eq expectation
+        end
+      end
 
-      user = instance
-      expect(user.date_offline).to eq old_value
+      it 'should reject otherwise' do
+        ['foo', String, (0..4), true, false, {}].each do |junk|
+          expect do
+            user.send("#{attribute}=", junk)
+          end.to raise_error(ArgumentError)
+        end
+      end
     end
   end
-
-  describe '#date_modified=' do
-    it 'should overwrite the attribute with a new value' do
-      user = instance
-      old_value = user.date_modified
-      new_value = 'foo'
-
-      user.date_modified = new_value
-      expect(user.date_modified).to eq new_value
-
-      user = instance
-      expect(user.date_modified).to eq old_value
-    end
-  end
+  describe_date_writer_method.call(:date_offline)
+  describe_date_writer_method.call(:date_modified)
 
   describe '#tags=' do
     it 'should reset the tags array to a new value' do
-      user = instance
-      old_tags = user.tags
       new_tags = %w[bar foo]
 
       user.tags = new_tags
       expect(user.tags).to eq new_tags
-      expect(user.date_tagged).to eq Date.today.to_s
-
-      user = instance
-      expect(user.tags).to eq old_tags
+      expect(user.date_tagged).to eq Date.today
     end
   end
 
   describe '#online?' do
     it 'should return a boolean value' do
-      user = instance
       expect(user.online?).to eq false
+    end
+
+    let(:test_with_dates) do
+      proc do |expectation, str_online, str_offline|
+        date_online  = Tildeverse::TildeDate.new(str_online)
+        date_offline = Tildeverse::TildeDate.new(str_offline)
+        allow(user).to receive(:date_online).and_return(date_online)
+        allow(user).to receive(:date_offline).and_return(date_offline)
+        expect(user.online?).to eq expectation
+      end
+    end
+
+    it 'should work as expected' do
+      test_with_dates.call(true,  '2018-11-01', '-')
+      test_with_dates.call(false, '2018-11-01', '2018-11-01')
+      test_with_dates.call(false, '2018-11-01', '2070-01-02')
+      test_with_dates.call(false, '-',          '-')
+      test_with_dates.call(false, '-',          '2018-11-01')
     end
   end
 
   describe '#homepage' do
     it 'should delegate the method to a TildeSiteURI object' do
-      user = instance
       expect(user.site.uri).to receive(:homepage).with(user.name)
       user.homepage
     end
@@ -145,7 +169,6 @@ describe 'Tildeverse::User' do
 
   describe '#email' do
     it 'should delegate the method to a TildeSiteURI object' do
-      user = instance
       expect(user.site.uri).to receive(:email).with(user.name)
       user.email
     end

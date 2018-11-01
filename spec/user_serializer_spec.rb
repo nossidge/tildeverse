@@ -12,10 +12,10 @@ describe 'Tildeverse::UserSerializer' do
     {
       site:           site,
       name:           'paul',
-      date_online:    Date.new(2016, 1, 2),
-      date_offline:   Date.new(2018, 6, 10),
-      date_modified:  Date.new(2017, 2, 9),
-      date_tagged:    Date.new(2017, 3, 25),
+      date_online:    Tildeverse::TildeDate.new('2016-01-02'),
+      date_offline:   Tildeverse::TildeDate.new('2018-06-10'),
+      date_modified:  Tildeverse::TildeDate.new('2017-02-09'),
+      date_tagged:    Tildeverse::TildeDate.new('2017-03-25'),
       tags:           %w[foo bar baz]
     }
   end
@@ -35,10 +35,10 @@ describe 'Tildeverse::UserSerializer' do
       expect(data).to eq ({
         site:           example_data[:site].name,
         name:           example_data[:name],
-        date_online:    example_data[:date_online],
-        date_offline:   example_data[:date_offline],
-        date_modified:  example_data[:date_modified],
-        date_tagged:    example_data[:date_tagged],
+        date_online:    example_data[:date_online].to_s,
+        date_offline:   example_data[:date_offline].to_s,
+        date_modified:  example_data[:date_modified].to_s,
+        date_tagged:    example_data[:date_tagged].to_s,
         tags:           example_data[:tags].join(','),
         online:         false
       }.to_s)
@@ -79,7 +79,7 @@ describe 'Tildeverse::UserSerializer' do
       # With empty tags, it should use '-'
       user.tags = []
       expected_contents[-1] = '-'
-      expected_contents[-2] = Date.today.to_s
+      expected_contents[-2] = Date.today
       data = serializer.to_a
       expect(data).to eq expected_contents
     end
