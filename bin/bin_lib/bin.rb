@@ -31,26 +31,27 @@ module Tildeverse
     # Use the arguments to decide which function to perform
     #
     def run
-      case argv[0]
-      when 'help'
+      command = argv[0]
+      case
+      when %w[help].include?(command)
         tildeverse_help
-      when 'version'
+      when %w[version].include?(command)
         tildeverse_version
-      when 'get'
+      when %w[get].include?(command) && authorised?
         tildeverse_get
-      when 'scrape'
+      when %w[scrape].include?(command) && authorised?
         tildeverse_scrape
-      when 'fetch'
+      when %w[fetch].include?(command) && authorised?
         tildeverse_fetch
-      when 'new'
+      when %w[new].include?(command)
         tildeverse_new
-      when 'json'
+      when %w[json].include?(command)
         tildeverse_json
-      when 'sites'
+      when %w[sites].include?(command)
         tildeverse_sites(argv[1])
-      when 's', 'site'
+      when %w[s site].include?(command)
         tildeverse_site(argv[1])
-      when 'u', 'user', 'users'
+      when %w[u user users].include?(command)
         tildeverse_users(argv[1])
       else
         tildeverse_users(argv[0])
@@ -165,26 +166,21 @@ module Tildeverse
     private
 
     ##
+    # Return the console help info. If the current system user is not
+    # authorised for write access, the options 'get, scrape, fetch' will
+    # not be shown
+    #
     # @return [String] help info
     #
     def help_text
-      <<~HELP
+      main_doc = <<~HELP
           Tildeverse: List of tilde-sites and their users
           https://github.com/nossidge/tildeverse
           Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
 
           Usage: tildeverse <command> [regex] [options]
 
-        $ tildeverse get
-          Get data from remote servers
-          Set config 'update_type' to choose download type
-          Set config 'update_frequency' to avoid repeated download
-
-        $ tildeverse scrape
-          Scrape the user list of each box, and save to file
-
-        $ tildeverse fetch
-          Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
+        @authorised_doc@
 
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
@@ -211,6 +207,25 @@ module Tildeverse
           -j  output in JSON format
           -p  output in pretty JSON format
       HELP
+
+      authorised_doc = <<~HELP
+        $ tildeverse get
+          Get data from remote servers
+          Set config 'update_type' to choose download type
+          Set config 'update_frequency' to avoid repeated download
+
+        $ tildeverse scrape
+          Scrape the user list of each box, and save to file
+
+        $ tildeverse fetch
+          Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
+      HELP
+
+      if authorised?
+        main_doc.sub("@authorised_doc@\n", authorised_doc)
+      else
+        main_doc.sub("\n@authorised_doc@\n", '')
+      end
     end
 
     ##
@@ -278,6 +293,16 @@ module Tildeverse
       else
         yield
       end
+    end
+
+    ##
+    # Is the logged-in user authorised to alter data?
+    # We'll hide the potentially destructive commands if not
+    #
+    # @return [Boolean]
+    #
+    def authorised?
+      Tildeverse.config.authorised?
     end
 
     ##

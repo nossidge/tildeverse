@@ -91,15 +91,36 @@ describe 'Tildeverse::Bin' do
       bin.run
     end
 
+    it 'should fail to call get when unauthorised' do
+      bin = instance.call(['get'])
+      allow(bin).to receive(:authorised?).and_return(false)
+      expect(bin).to_not receive(:tildeverse_get)
+      bin.run
+    end
+
     it 'should scrape from remote' do
       bin = instance.call(['scrape'])
       expect(bin).to receive(:tildeverse_scrape)
       bin.run
     end
 
+    it 'should fail to call scrape when unauthorised' do
+      bin = instance.call(['scrape'])
+      allow(bin).to receive(:authorised?).and_return(false)
+      expect(bin).to_not receive(:tildeverse_scrape)
+      bin.run
+    end
+
     it 'should fetch from remote' do
       bin = instance.call(['fetch'])
       expect(bin).to receive(:tildeverse_fetch)
+      bin.run
+    end
+
+    it 'should fail to call fetch when unauthorised' do
+      bin = instance.call(['fetch'])
+      allow(bin).to receive(:authorised?).and_return(false)
+      expect(bin).to_not receive(:tildeverse_fetch)
       bin.run
     end
 
@@ -147,6 +168,24 @@ describe 'Tildeverse::Bin' do
       expect(help).to be_a String
       expect(help.split("\n").count).to be >= 10
     end
+
+    show_get = proc do |is_authorised, expectation|
+      i = is_authorised ? '' : 'not '
+      it "should #{i}display info about data gets if #{i}authorised" do
+        bin = Tildeverse::Bin.new([])
+        allow(bin).to receive(:authorised?).and_return(is_authorised)
+        help = capture_stdout { bin.tildeverse_help }
+        [
+          '$ tildeverse get',
+          '$ tildeverse scrape',
+          '$ tildeverse fetch'
+        ].each do |i|
+          expect(help).send(expectation, include(i))
+        end
+      end
+    end
+    show_get.call(true,  :to)
+    show_get.call(false, :to_not)
   end
 
   describe '#tildeverse_version' do
@@ -161,29 +200,18 @@ describe 'Tildeverse::Bin' do
 
   ##############################################################################
 
-  describe '#tildeverse_get' do
-    it 'should delegate to Tildeverse#get' do
-      allow(Tildeverse).to receive(:get).and_return(nil)
-      expect(Tildeverse).to receive(:get)
-      Tildeverse::Bin.new([]).tildeverse_get
+  tildeverse_delegate = proc do |get_type|
+    describe "#tildeverse_#{get_type}" do
+      it "should delegate to Tildeverse##{get_type}" do
+        allow(Tildeverse).to receive(get_type).and_return(nil)
+        expect(Tildeverse).to receive(get_type)
+        Tildeverse::Bin.new([]).send("tildeverse_#{get_type}")
+      end
     end
   end
-
-  describe '#tildeverse_scrape' do
-    it 'should delegate to Tildeverse#scrape' do
-      allow(Tildeverse).to receive(:scrape).and_return(nil)
-      expect(Tildeverse).to receive(:scrape)
-      Tildeverse::Bin.new([]).tildeverse_scrape
-    end
-  end
-
-  describe '#tildeverse_fetch' do
-    it 'should delegate to Tildeverse#fetch' do
-      allow(Tildeverse).to receive(:fetch).and_return(nil)
-      expect(Tildeverse).to receive(:fetch)
-      Tildeverse::Bin.new([]).tildeverse_fetch
-    end
-  end
+  tildeverse_delegate.call(:get)
+  tildeverse_delegate.call(:scrape)
+  tildeverse_delegate.call(:fetch)
 
   describe '#tildeverse_new' do
     it 'should delegate to Tildeverse::PFHawkins#puts_if_new' do
