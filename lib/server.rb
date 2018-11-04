@@ -95,7 +95,17 @@ module Tildeverse
 
     # Also send the contents of /output/, for debugging.
     Files.dir_output.children.each do |file|
+      next unless file.file?
       get '/' + file.basename.to_s do
+        send_file file
+      end
+    end
+
+    # Also send the contents of /output/browser/.
+    browser = Files.dir_output + 'browser'
+    browser.children.each do |file|
+      next unless file.file?
+      get '/browser/' + file.basename.to_s do
         send_file file
       end
     end

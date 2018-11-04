@@ -1,0 +1,80 @@
+body {
+  min-height: 100vh;
+}
+input {
+  text-align: center;
+}
+.header_div {
+  margin: 10px;
+}
+.header_left {
+  flex: 0 0 414px;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+.header_right {
+  flex: 0 0 614px;
+  margin-left: 8px;
+  margin-right: 0px;
+  display: flex;
+}
+#text_counter {
+  width: 130px;
+  margin-left: 8px;
+}
+.top_button {
+  width: 100px;
+}
+.col_left {
+  flex: 0 0 322px;
+}
+.col_middle {
+  background-color: white;
+  padding: 0px;
+}
+#save , .btn_top_left {
+  margin: 0px 0px 8px 0px;
+}
+.btn_tags {
+  height: 44px;
+}
+.btn_glyph {
+  height: 44px;
+}
+.tag_button_desc {
+  height: 44px;
+  width: 196px;
+}
+.tag_header {
+  background-color: #F2F2F2;
+  color: #555;
+}
+
+/* options for a group of button groups */
+.btn_group_group  {
+  margin-bottom: -10px;
+}
+.btn_group_group div:first-child {
+  margin-bottom: -1px;
+}
+.btn_group_group div:first-child * {
+  border-radius: 6px 6px 0px 0px;
+}
+.btn_group_group div:not(:first-child):not(:last-child) {
+  margin-top: 0px;
+  margin-bottom: -1px;
+}
+.btn_group_group div:not(:first-child):not(:last-child) * {
+  border-radius: 0px;
+}
+.btn_group_group div:last-child {
+  margin-top: 0px;
+}
+.btn_group_group div:last-child * {
+  border-radius: 0px 0px 6px 6px;
+}
+
+/* these are not buttons, they just look like buttons */
+.tag_button_desc {
+  pointer-events: none;
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>Tildeverse Browser</title>
+    <script src="https://tilde.town/~nossidge/jquery/src/jquery.js"></script>
+    <script src="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://tilde.town/~nossidge/jquery/src/jquery.dataTables.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://tilde.town/~nossidge/zelda/holy_grail.css">
+    <link rel="stylesheet" href="browser.css">
+    <script src="browser.js"></script>
+    <script language="javascript">
+
+      $(document).ready( function() {
+
+        // Create the DOM elements for each tag.
+        TAG_DOM.createTagElements();
+
+        // Setup keyboard-based clicks for tab-able elements.
+        ACCESSIBILITY.tabNavClicks();
+
+        // Wait for the external JSON file to load.
+        $.getJSON("tildeverse.json", function(data) {
+
+          // Load the JSON data to the USERS module.
+          USERS.initialize(data);
+
+          // By default, filter excluding the 'empty' tag.
+          TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
+
+          // Navigate to a random URL.
+          URL_NAVIGATION.randomUrl();
+
+        });
+
+      });
+
+    </script>
+  </head>
+  <body class="border">
+    <header class="border">
+      <div class="header_div">
+        <div class="header_left">
+          <div class="btn-group btn-group-lg">
+            <a tabindex="1" title="Previous user"
+                class="btn btn-default top_button"
+                onclick="URL_NAVIGATION.previousUrl()">
+              <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+            <a tabindex="2" title="Next user"
+                class="btn btn-default top_button"
+                onclick="URL_NAVIGATION.nextUrl()">
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+            <a tabindex="3" title="Random user"
+                class="btn btn-default top_button"
+                onclick="URL_NAVIGATION.randomUrl()">
+              <span class="glyphicon glyphicon-random"></span>
+            </a>
+          </div>
+            <a tabindex="4" title="Open user homepage in new tab"
+                class="btn btn-default top_button btn-lg"
+                onclick="USERS.openCurrentInNewTab()">
+              <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+        </div>
+        <div class="header_title input-group-lg">
+          <input tabindex="5" id="text_user"
+                 class="form-control"
+                 type="text" readonly="readonly"
+                 onfocus="this.focus();this.select()">
+          <a hidden id="url_iframe_link" target="tildesite"></a>
+          <a hidden id="url_blank_link" target="_blank"></a>
+        </div>
+        <div class="header_right">
+          <select tabindex="6" id="url_dropdown"
+                  class="form-control input-lg"
+                  onchange="URL_NAVIGATION.gotoUrlIndex(this.value)">
+          </select>
+          <input tabindex="7" id="text_counter"
+                 class="form-control input-lg"
+                 type="text" readonly="readonly"
+                 onfocus="this.focus();this.select()">
+        </div>
+      </div>
+    </header>
+    <div class="contents">
+      <div id="col_left" class="col_left border">
+        <div id="col_left_content">
+          <div id="tag_area">
+            <div id="tag_area_left">
+              <div class="btn-group btn-block btn_top_left">
+                <a tabindex="8" id="toggle_all_unchecked"
+                   title="Select/deselect all"
+                   class="btn btn-default btn-lg btn_glyph"
+                   onclick="TAG_MASS_SELECT.toggleAllUnchecked(this)">
+                  <div class="glyphicon glyphicon-remove"></div>
+                </a>
+                <a tabindex="9" id="toggle_all_checked"
+                   title="Select/deselect all"
+                   class="btn btn-default btn-lg btn_glyph"
+                   onclick="TAG_MASS_SELECT.toggleAllChecked(this)">
+                  <div class="glyphicon glyphicon-ok"></div>
+                </a>
+                <div class="btn btn-default btn-lg tag_button_desc tag_header">
+                  homepage tags
+                </div>
+              </div>
+              <div id="tag_buttons" class="btn_group_group"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <iframe id="col_middle" class="col_middle border" name="tildesite"></iframe>
+    </div>
+  </body>
+</html>
