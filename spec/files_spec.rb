@@ -165,26 +165,6 @@ describe 'Tildeverse::Files' do
     end
   end
 
-  describe '#write?' do
-    it 'should return true if user has correct permissions' do
-      files = Tildeverse::Files.files_to_copy
-      files.map! { |f| Tildeverse::Files.dir_input + f }
-      can_write = Tildeverse::Files.write?(files)
-      expect(can_write).to be true
-    end
-
-    it 'should return false if user does not have permission' do
-      files = Tildeverse::Files.files_to_copy
-      files.map! { |f| Pathname('foo/not_valid') + f }
-      msg  = "You do not have permission to write to the output location.\n"
-      msg += "Please contact your admin to get write access to:\n"
-      msg += files.map(&:to_s).join("\n")
-      expect(STDOUT).to receive(:puts).with(msg)
-      can_write = Tildeverse::Files.write?(files)
-      expect(can_write).to be false
-    end
-  end
-
   describe '#save_json' do
     def filepath
       rootpath + 'tmp.json'

@@ -38,11 +38,6 @@ describe 'Tildeverse::Scraper' do
       end
     end
 
-    it 'should raise error if user not authorised by OS' do
-      allow(scraper).to receive(:write_permissions?).and_return(false)
-      expect { result }.to raise_error(Tildeverse::Error::DeniedByOS)
-    end
-
     it 'should raise error if user not authorised by config' do
       allow(data.config).to receive(:authorised?).and_return(false)
       expect { result }.to raise_error(Tildeverse::Error::DeniedByConfig)

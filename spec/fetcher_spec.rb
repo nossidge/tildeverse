@@ -60,45 +60,9 @@ describe 'Tildeverse::Fetcher' do
       result
     end
 
-    it 'should raise error if user not authorised by OS' do
-      allow(fetcher).to receive(:write_permissions?).and_return(false)
-      expect { result }.to raise_error(Tildeverse::Error::DeniedByOS)
-    end
-
     it 'should raise error if user not authorised by config' do
       allow(data.config).to receive(:authorised?).and_return(false)
       expect { result }.to raise_error(Tildeverse::Error::DeniedByConfig)
-    end
-  end
-
-  ##############################################################################
-
-  describe '#write_permissions?' do
-    let(:fetcher) { Tildeverse::Fetcher.new(data, remote_resource_no_error) }
-    let(:result) { fetcher.send(:write_permissions?) }
-
-    it 'should return false if invalid write permissions' do
-      allow(Tildeverse::Files).to receive(:write?).and_return(false)
-      expect(result).to eq false
-    end
-
-    it 'should return false if invalid write permissions' do
-      dbl = double('input_txt_tildeverse', :exist? => true, :writable? => false)
-      allow(Tildeverse::Files).to receive(:input_txt_tildeverse).and_return(dbl)
-      expect(STDOUT).to receive(:puts)
-      expect(result).to eq false
-    end
-
-    it 'should return true if valid write permissions' do
-      [
-        { exist?: false, writable?: true },
-        { exist?: false, writable?: false },
-        { exist?: true,  writable?: true },
-      ].each do |args|
-        dbl = double('input_txt_tildeverse', args)
-        allow(Tildeverse::Files).to receive(:input_txt_tildeverse).and_return(dbl)
-        expect(result).to eq true
-      end
     end
   end
 end

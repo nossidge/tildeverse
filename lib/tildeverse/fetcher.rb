@@ -32,14 +32,13 @@ module Tildeverse
     # Requires write-access to the underlying data files, so raises an error
     # if permission is denied.
     #
-    # @raise [Error::DeniedByOS]
     # @raise [Error::DeniedByConfig]
+    #   if user is not authorised for write-access by the config
     #
     # @todo Remove the 'return false' statement.
     #   This should be replaced with a raised exception.
     #
     def fetch
-      raise Error::DeniedByOS     unless write_permissions?
       raise Error::DeniedByConfig unless data.config.authorised?
 
       # Try to get via HTTP, and return on failure.
@@ -68,21 +67,6 @@ module Tildeverse
 
       # Use the new text file to save output.
       data.save_with_config
-    end
-
-    private
-
-    ##
-    # Check whether the current user has the correct OS permissions
-    # to overwrite the file.
-    #
-    # @return [Boolean]
-    #
-    def write_permissions?
-      return false unless Files.write?(Files.dir_input)
-      filepath = Files.input_txt_tildeverse
-      return true unless filepath.exist?
-      Files.write?(filepath)
     end
   end
 end

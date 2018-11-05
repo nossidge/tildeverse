@@ -245,26 +245,6 @@ module Tildeverse
       end
 
       ##
-      # Determine if the current user has permission to write to the files.
-      #
-      # Writes error message to stdout if no permission granted.
-      #
-      # @param [Pathname, Array<Pathname>] files
-      #   File or array of files to determine permissions for.
-      # @return [Boolean]
-      #
-      def write?(files)
-        faulty = [*files].reject(&:writable?)
-        return true if faulty.empty?
-
-        msg  = "You do not have permission to write to the output location.\n"
-        msg += "Please contact your admin to get write access to:\n"
-        msg += faulty.map(&:to_s).join("\n")
-        puts msg
-        false
-      end
-
-      ##
       # Save an object to a JSON file.
       #
       # @param [Hash, Array] obj  Object to write to file.

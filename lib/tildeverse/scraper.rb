@@ -26,14 +26,10 @@ module Tildeverse
     # Requires write-access to the underlying data files, so raises an error
     # if permission is denied.
     #
-    # @raise [Error::DeniedByOS]
     # @raise [Error::DeniedByConfig]
-    #
-    # @todo Remove the 'return false' statement.
-    #   This should be replaced with a raised exception.
+    #   if user is not authorised for write-access by the config
     #
     def scrape
-      raise Error::DeniedByOS     unless write_permissions?
       raise Error::DeniedByConfig unless data.config.authorised?
 
       scrape_all_sites
@@ -42,22 +38,6 @@ module Tildeverse
     end
 
     private
-
-    ##
-    # Check whether the current user has the correct OS permissions
-    # to write to the output files.
-    #
-    # @return [Boolean]
-    #
-    def write_permissions?
-      files = [
-        Files.dir_output,
-        Files.output_json_tildeverse,
-        Files.output_json_users,
-        Files.output_html_index
-      ]
-      Files.write?(files)
-    end
 
     ##
     # Add new users to the hash, for all sites.
