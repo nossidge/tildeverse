@@ -50,12 +50,10 @@ module Tildeverse
       file = Files.output_json_users
       Files.save_json(json, file)
 
-      # Copy all static files to the output directory
-      Files.files_to_copy.each do |f|
-        from = Files.dir_input  + f
-        to   = Files.dir_output + f
-        FileUtils.cp(from, to)
-      end
+      # Copy all static files from /input/ to /output/
+      from = Files.dir_input.to_s + '/.'
+      to   = Files.dir_output
+      FileUtils.cp_r(from, to)
     end
 
     ##

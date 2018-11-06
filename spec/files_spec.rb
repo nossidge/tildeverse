@@ -140,17 +140,6 @@ describe 'Tildeverse::Files' do
     end
   end
 
-  describe '#files_to_copy' do
-    it 'should contain an array of valid filepaths' do
-      files = Tildeverse::Files.files_to_copy
-      expect(files).to be_a Array
-      files.each do |f|
-        file = Tildeverse::Files.dir_input + f
-        expect(file.exist?).to be true
-      end
-    end
-  end
-
   describe '#remote_json' do
     it 'should resolve to the correct URL' do
       url = 'https://tilde.town/~nossidge/tildeverse/tildeverse.json'
