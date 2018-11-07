@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 describe 'Tildeverse::Error' do
+  let(:dev_error_msg) { 'Developer error! You should not be seeing this!' }
+  let(:issue_link_msg) { 'https://github.com/nossidge/tildeverse/issues' }
 
   # Base class to inherit for all Tildeverse exception classes
   describe 'Error' do
@@ -67,13 +69,14 @@ describe 'Tildeverse::Error' do
     end
     it "should declare a 'developer_error' #console_message" do
       expect(error).to receive(:developer_error).and_call_original
-      error.console_message
+      console_message = error.console_message
+      expect(console_message).to include(dev_error_msg)
+      expect(console_message).to include(issue_link_msg)
     end
   end
 
   ##############################################################################
 
-  # Developer error that should never be seen by console users
   describe 'ConfigError' do
     let(:error) { Tildeverse::Error::ConfigError.new('foo') }
     let(:msg) { 'foo' }
@@ -146,6 +149,39 @@ describe 'Tildeverse::Error' do
     end
     it 'should declare a meaningful #message' do
       expect(error.message).to eq msg
+    end
+  end
+
+  ##############################################################################
+
+  # Base class to inherit for ScrapeError exception classes
+  describe 'ScrapeError' do
+    let(:site_name) { 'example.com' }
+    let(:msg) { 'foo bar baz' }
+    let(:error) { Tildeverse::Error::ScrapeError.new(site_name, msg) }
+    it 'should be a Tildeverse::Error' do
+      expect(error).to be_a Tildeverse::Error
+    end
+    it 'should return initialize param as #message' do
+      expect(error.message).to eq msg
+    end
+  end
+
+  describe 'DeniedByConfig' do
+    let(:site_name) { 'example.com' }
+    let(:error) { Tildeverse::Error::NoUsersFoundError.new(site_name) }
+    let(:msg) { %(No users found for site: #{site_name}) }
+    it 'should be a Tildeverse::Error::ScrapeError' do
+      expect(error).to be_a Tildeverse::Error::ScrapeError
+    end
+    it 'should declare a meaningful #message' do
+      expect(error.message).to eq msg
+    end
+    it "should declare a 'developer_issue' #console_message" do
+      expect(error).to receive(:developer_issue).and_call_original
+      console_message = error.console_message
+      expect(console_message).to_not include(dev_error_msg)
+      expect(console_message).to include(issue_link_msg)
     end
   end
 end

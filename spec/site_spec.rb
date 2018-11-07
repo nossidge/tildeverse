@@ -190,31 +190,23 @@ describe 'Tildeverse::Site' do
 
   ##############################################################################
 
-  describe '#no_user_message' do
-    it 'should be the correct message' do
-      site = Tildeverse.site('pebble.ink')
-      msg = site.send(:no_user_message)
-      expect(msg).to eq "ERROR: No users found for site: #{site.name}"
-    end
-  end
-
   describe '#validate_usernames' do
+    let(:site) { Tildeverse.site('pebble.ink') }
+
     it 'should not output error if array contains values' do
-      site = Tildeverse.site('pebble.ink')
-      msg = site.send(:no_user_message)
-      expect(STDOUT).to_not receive(:puts).with(msg)
-      site.send(:validate_usernames) do
-        %w[foo bar baz]
-      end
+      expect do
+        site.send(:validate_usernames) do
+          %w[foo bar baz]
+        end
+      end.not_to raise_error
     end
 
     it 'should output error if array is empty' do
-      site = Tildeverse.site('pebble.ink')
-      msg = site.send(:no_user_message)
-      expect(STDOUT).to receive(:puts).with(msg)
-      site.send(:validate_usernames) do
-        []
-      end
+      expect do
+        site.send(:validate_usernames) do
+          []
+        end
+      end.to raise_error(Tildeverse::Error::NoUsersFoundError)
     end
   end
 

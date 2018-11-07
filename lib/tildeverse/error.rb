@@ -30,8 +30,15 @@ module Tildeverse
 
     # Message to append to console output if the error is all my fault
     def developer_error
-      <<-MSG.gsub(/^ {8}/, '')
+      <<-MSG.gsub(/^ {8}/, '') + developer_issue
                Developer error! You should not be seeing this!
+      MSG
+    end
+
+    # Message to append to console output if the error is not my fault,
+    # but does need my coding attention
+    def developer_issue
+      <<-MSG.gsub(/^ {8}/, '')
                I'd be very grateful if you'd log this issue at:
                https://github.com/nossidge/tildeverse/issues
                Thanks,
@@ -181,6 +188,44 @@ module Tildeverse
     class UpdatedOnError < ConfigError
       def initialize
         super %(todo)
+      end
+    end
+
+    ############################################################################
+
+    ##
+    # Error class raised when the scraping of a site's user list
+    # returns invalid data
+    #
+    class ScrapeError < Error
+      #
+      # The name of the site that produced the error
+      attr_reader :site_name
+
+      def initialize(site_name, msg = message)
+        @site_name = site_name
+        super msg
+      end
+    end
+
+    ##
+    # Error class raised when a site scrape returns an empty array
+    #
+    class NoUsersFoundError < ScrapeError
+
+      # (see Tildeverse::Error#message)
+      def message
+        %(No users found for site: #{site_name})
+      end
+
+      # (see Tildeverse::Error#console_message)
+      def console_message
+        <<~MSG + developer_issue
+          ERROR: No users found for site:
+                   "#{site_name}"
+                 The URL is online and accessible, but the code
+                 to scrape the list of users needs updating.
+        MSG
       end
     end
   end
