@@ -23,10 +23,11 @@ module Tildeverse
         # I'll just use a manual list for now.
         %w[
           anizawa arung asvvvad ben biglysmalls brendantcc caleb copart
-          deepend distip diverger emv envican geoff hustler hyperboredoubt
-          jovan juaniman99 khuxkm kingofobsolete login mhj msmcmickey mspe
-          mushmouth nozy oak_tree petegozz rileyjb rofopaje rostovripper
-          sebboh silbern slip tiasum ubergeek wl01 zenoil zin
+          deepend distip diverger edwardthefma emv envican fosslinux geoff
+          hustler hyperboredoubt jovan juaniman99 khuxkm kingofobsolete
+          login mhj msmcmickey mspe mushmouth nozy oak_tree petegozz
+          rileyjb rofopaje rostovripper sebboh silbern slip snowdusk tiasum
+          tunas ubergeek valdebrick wl01 worldwide xdrixxyz zenoil zin
         ]
       end
 
