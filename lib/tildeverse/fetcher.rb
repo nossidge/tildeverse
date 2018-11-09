@@ -35,18 +35,11 @@ module Tildeverse
     # @raise [Error::DeniedByConfig]
     #   if user is not authorised for write-access by the config
     #
-    # @todo Remove the 'return false' statement.
-    #   This should be replaced with a raised exception.
-    #
     def fetch
       raise Error::DeniedByConfig unless data.config.authorised?
 
-      # Try to get via HTTP, and return on failure.
+      # Try to get the remote file via HTTP.
       remote.get
-      if remote.error?
-        puts remote.msg
-        return false
-      end
 
       # Copy the existing 'tildeverse.txt' file as a backup.
       original = Files.input_txt_tildeverse

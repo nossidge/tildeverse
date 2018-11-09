@@ -219,10 +219,9 @@ module Tildeverse
     def connection(url = uri.list)
       return @remote if @remote && @remote.resource == url
       info = [name, uri.root, url]
-      @remote = RemoteResource.new(*info)
-      @remote.get
-      puts @remote.msg if @remote.error?
-      @remote
+      @remote = RemoteResource.new(*info).tap do |remote|
+        remote.get
+      end
     end
     alias con connection
 
@@ -231,9 +230,9 @@ module Tildeverse
     #   location of the site directory within the {Files#dir_output}.
     #
     def pathname
-      path = Files.dir_output + 'sites' + name
-      FileUtils.makedirs(path) unless path.exist?
-      path
+      (Files.dir_output + 'sites' + name).tap do |path|
+        FileUtils.makedirs(path) unless path.exist?
+      end
     end
 
     ##

@@ -57,12 +57,25 @@ describe 'Tildeverse::Error' do
 
   ##############################################################################
 
+  # Base class to inherit for URIError exception classes
+  describe 'URIError' do
+    let(:uri) { 'http://example.com' }
+    let(:msg) { 'foo bar baz' }
+    let(:error) { Tildeverse::Error::URIError.new(uri, msg) }
+    it 'should be a Tildeverse::Error' do
+      expect(error).to be_a Tildeverse::Error
+    end
+    it 'should return initialize param as #message' do
+      expect(error.message).to eq msg
+    end
+  end
+
   # Developer error that should never be seen by console users
   describe 'InvalidURIError' do
     let(:error) { Tildeverse::Error::InvalidURIError.new('foo') }
     let(:msg) { %(Tilde URI must be HTTP or HTTPS: "foo") }
-    it 'should be a Tildeverse::Error' do
-      expect(error).to be_a Tildeverse::Error
+    it 'should be a Tildeverse::Error::URIError' do
+      expect(error).to be_a Tildeverse::Error::URIError
     end
     it 'should declare a meaningful #message' do
       expect(error.message).to eq msg
@@ -71,6 +84,23 @@ describe 'Tildeverse::Error' do
       expect(error).to receive(:developer_error).and_call_original
       console_message = error.console_message
       expect(console_message).to include(dev_error_msg)
+      expect(console_message).to include(issue_link_msg)
+    end
+  end
+
+  describe 'OfflineURIError' do
+    let(:error) { Tildeverse::Error::OfflineURIError.new('foo') }
+    let(:msg) { %(URI is offline: "foo") }
+    it 'should be a Tildeverse::Error::URIError' do
+      expect(error).to be_a Tildeverse::Error::URIError
+    end
+    it 'should declare a meaningful #message' do
+      expect(error.message).to eq msg
+    end
+    it "should declare a 'developer_issue' #console_message" do
+      expect(error).to receive(:developer_issue).and_call_original
+      console_message = error.console_message
+      expect(console_message).to_not include(dev_error_msg)
       expect(console_message).to include(issue_link_msg)
     end
   end

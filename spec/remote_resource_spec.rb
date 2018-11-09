@@ -26,33 +26,29 @@ describe 'Tildeverse::RemoteResource' do
     'https://tilde.town'
   ]
 
+  let(:error) { Tildeverse::Error::OfflineURIError }
+
   describe '#get <- example.com' do
-    it 'should be offline' do
+    it 'should raise Error::OfflineURIError' do
       tc = Tildeverse::RemoteResource.new(*example)
-      expect(tc.get).to eq tc.result
-      expect(tc.result).to be_nil
-      expect(tc.error?).to be true
-      expect(tc.msg).to eq "URL is currently offline: #{example[2]}"
+      msg = %(URI is offline: "#{example[2]}")
+      expect{ tc.get }.to raise_error(error, msg)
     end
   end
 
   describe '#get <- google.com' do
-    it 'should be offline' do
+    it 'should raise Error::OfflineURIError' do
       tc = Tildeverse::RemoteResource.new(*google)
-      expect(tc.get).to eq tc.result
-      expect(tc.result).to be_nil
-      expect(tc.error?).to be true
-      expect(tc.msg).to eq "URL is currently offline: #{google[2]}"
+      msg = %(URI is offline: "#{google[2]}")
+      expect{ tc.get }.to raise_error(error, msg)
     end
   end
 
   describe '#get <- malformed home page' do
-    it 'should be offline' do
+    it 'should raise Error::OfflineURIError' do
       tc = Tildeverse::RemoteResource.new(*malformed)
-      expect(tc.get).to eq tc.result
-      expect(tc.result).to be_nil
-      expect(tc.error?).to be true
-      expect(tc.msg).to eq "URL is currently offline: #{malformed[1]}"
+      msg = %(URI is offline: "#{malformed[1]}")
+      expect{ tc.get }.to raise_error(error, msg)
     end
   end
 
@@ -63,7 +59,6 @@ describe 'Tildeverse::RemoteResource' do
       expect(tc.get).to eq tc.result
       expect(tc.result).to_not be_nil
       expect(tc.error?).to be false
-      expect(tc.msg).to be_nil
     end
   end
 
@@ -74,7 +69,6 @@ describe 'Tildeverse::RemoteResource' do
       expect(tc.get).to eq tc.result
       expect(tc.result).to_not be_nil
       expect(tc.error?).to be false
-      expect(tc.msg).to be_nil
     end
   end
 end

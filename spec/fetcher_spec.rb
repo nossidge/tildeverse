@@ -22,25 +22,10 @@ describe 'Tildeverse::Fetcher' do
       :result => nil
     )
   end
-  let(:remote_resource_error) do
-    double('RemoteResource',
-      :get => nil,
-      :error? => true,
-      :msg => 'Cannot find resource',
-      :result => nil
-    )
-  end
 
   ##############################################################################
 
   describe '#fetch' do
-    it 'should return false and output a message if invalid URL' do
-      fetcher = Tildeverse::Fetcher.new(data, remote_resource_error)
-      msg = remote_resource_error.msg
-      expect(STDOUT).to receive(:puts).with(msg)
-      expect(fetcher.fetch).to eq false
-    end
-
     let(:fetcher) { Tildeverse::Fetcher.new(data, remote_resource_no_error) }
     let(:result) { fetcher.fetch }
 
@@ -62,7 +47,8 @@ describe 'Tildeverse::Fetcher' do
 
     it 'should raise error if user not authorised by config' do
       allow(data.config).to receive(:authorised?).and_return(false)
-      expect { result }.to raise_error(Tildeverse::Error::DeniedByConfig)
+      e = Tildeverse::Error::DeniedByConfig
+      expect { result }.to raise_error(e)
     end
   end
 end

@@ -107,17 +107,23 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Error class raised on invalid URI input
+    # Error class raised when a URI is invalid
     #
-    class InvalidURIError < Error
+    class URIError < Error
       #
       # Invalid URI that was attempted
       attr_reader :uri
 
-      def initialize(uri)
+      def initialize(uri, msg = nil)
         @uri = uri
-        super message
+        super msg || message
       end
+    end
+
+    ##
+    # Error class raised on invalid URI input
+    #
+    class InvalidURIError < URIError
 
       # (see Tildeverse::Error#message)
       def message
@@ -128,6 +134,25 @@ module Tildeverse
       def console_message
         <<~MSG + developer_error
           ERROR: Invalid URL encounted for Tilde site:
+                   "#{uri}"
+        MSG
+      end
+    end
+
+    ##
+    # Error class raised when a URI is offline
+    #
+    class OfflineURIError < URIError
+
+      # (see Tildeverse::Error#message)
+      def message
+        %(URI is offline: "#{uri}")
+      end
+
+      # (see Tildeverse::Error#console_message)
+      def console_message
+        <<~MSG + developer_issue
+          ERROR: Tilde site apears to be offline:
                    "#{uri}"
         MSG
       end
@@ -202,9 +227,9 @@ module Tildeverse
       # The name of the site that produced the error
       attr_reader :site_name
 
-      def initialize(site_name, msg = message)
+      def initialize(site_name, msg = nil)
         @site_name = site_name
-        super msg
+        super msg || message
       end
     end
 
