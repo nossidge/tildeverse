@@ -80,9 +80,9 @@ var ACCESSIBILITY = ( function(mod) {
 //##############################################################################
 
 // Module to store the info on each tag.
-var TAGS = ( function(mod) {
+var INFO = ( function(mod) {
 
-  mod.data = {
+  mod.tags = {
     empty:    "No content / default index.html",
     brief:    "Not a lot of content",
     redirect: "No content; page just links to elsewhere on the Web",
@@ -104,8 +104,11 @@ var TAGS = ( function(mod) {
     tilde:    "Meta stuff, to do with the Tildeverse"
   };
 
+  // These sites have 'X-Frame-Options' set to 'sameorigin'
+  mod.banned = ["tilde.team"];
+
   return mod;
-}(TAGS || {}));
+}(INFO || {}));
 
 //##############################################################################
 
@@ -128,7 +131,7 @@ var TAG_DOM = ( function(mod) {
     let elem = $("#tag_buttons");
     elem.empty();
     let index = 2;
-    $.each(TAGS.data, function(tag, desc) {
+    $.each(INFO.tags, function(tag, desc) {
       let tagHtml = html;
       tagHtml = tagHtml.replace(/@TAG@/g, tag);
       tagHtml = tagHtml.replace(/@DESC@/g, desc);
@@ -136,7 +139,7 @@ var TAG_DOM = ( function(mod) {
       elem.append(tagHtml);
       index++;
     });
-  }
+  };
 
   // Return the status of the tags selected on the UI.
   mod.getDesc = function() {
@@ -161,10 +164,10 @@ var TAG_DOM = ( function(mod) {
 
   // Handle the header 'select all' buttons.
   mod.allChecked = function() {
-    return (mod.getChecked().length == Object.keys(TAGS.data).length);
+    return (mod.getChecked().length == Object.keys(INFO.tags).length);
   };
   mod.allUnchecked = function() {
-    return (mod.getUnchecked().length == Object.keys(TAGS.data).length);
+    return (mod.getUnchecked().length == Object.keys(INFO.tags).length);
   };
   mod.handleSelectAllButtons = function() {
     if (mod.allUnchecked()) {
@@ -200,7 +203,7 @@ var TAG_DOM = ( function(mod) {
     let opposite = $(element).parent().find(".tag_button_" + thatFilter);
     $(opposite).removeClass("active");
     $(element).toggleClass("active");
-    USERS.filterByTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
   };
 
   return mod;
@@ -208,9 +211,9 @@ var TAG_DOM = ( function(mod) {
 
 //##############################################################################
 
-// Module to store and filter users.
+// Module to store user arrays.
 var USERS = ( function(mod) {
-  let all = null;
+  let all = [];
   let filtered = null;
 
   // Set the underlying user array from the JSON object.
@@ -224,10 +227,14 @@ var USERS = ( function(mod) {
       let siteUsers = allSites[site]["users"];
       for (let user in siteUsers) {
         let tags = siteUsers[user]["tags"];
+        let date_tagged   = new Date(siteUsers[user]["tagged"]);
+        let date_modified = new Date(siteUsers[user]["time"]);
         let obj = {
           site: site,
           user: user,
           url: url.replace("USER", user),
+          date_tagged: date_tagged,
+          date_modified: date_modified,
           tags: tags
         };
         all.push(obj);
@@ -251,50 +258,9 @@ var USERS = ( function(mod) {
     if (typeof value !== 'undefined') {
       filtered = value;
       URL_NAVIGATION.data(value);
+      populateDropdownURLs();
     }
     return filtered;
-  };
-
-  // Filter the homepage list by specific tags.
-  // Also updates the page elements.
-  // @param tagsInclude [Array<String>]
-  // @param tagsExclude [Array<String>]
-  mod.filterByTag = function(tagsInclude = [], tagsExclude = []) {
-    let originalUser = mod.currentUser();
-
-    TAG_DOM.handleSelectAllButtons();
-    let newList = toIterator(all);
-    if (tagsInclude != [] || tagsExclude != []) {
-      newList = toIterator(
-        newList.all().filter( function(user) {
-          return tagsInclude.diff(user.tags).length === 0;
-        })
-      );
-      newList = toIterator(
-        newList.all().filter( function(user) {
-          let diff = user.tags.diff(tagsExclude);
-          return JSON.stringify(diff) == JSON.stringify(user.tags)
-        })
-      );
-    }
-    mod.filtered(newList);
-    populateDropdownURLs();
-
-    // If the original user still exists in the filtered dataset,
-    // then keep them selected.
-    // Else, go to the first URL.
-    if (originalUser) {
-      let found = newList.all().find( function(user) {
-        return user.url == originalUser.url;
-      });
-      if (typeof found !== "undefined") {
-        URL_NAVIGATION.gotoUrlOfUser(found);
-      } else {
-        URL_NAVIGATION.nextUrl();
-      }
-    } else {
-      URL_NAVIGATION.nextUrl();
-    }
   };
 
   // Display all the user's info on screen.
@@ -342,10 +308,102 @@ var USERS = ( function(mod) {
       let url = obj.url.substring(obj.url.search("//") + 2);
       elem.append("<option value='" + index + "'>" + url + "</option>");
     });
-  }
+  };
 
   return mod;
 }(USERS || {}));
+
+//##############################################################################
+
+// Module to filter USER arrays by various means.
+var FILTER_USERS = ( function(mod) {
+
+  // Filter the homepage list by specific tags.
+  // Also updates the page elements.
+  // @param tagsInclude [Array<String>]
+  // @param tagsExclude [Array<String>]
+  mod.byTag = function(tagsInclude = [], tagsExclude = []) {
+    let originalUser = USERS.currentUser();
+
+    TAG_DOM.handleSelectAllButtons();
+    let newList = toIterator(USERS.all());
+    if (tagsInclude != [] || tagsExclude != []) {
+      newList = toIterator(
+        newList.all().filter( function(user) {
+          return tagsInclude.diff(user.tags).length === 0;
+        })
+      );
+      newList = toIterator(
+        newList.all().filter( function(user) {
+          let diff = user.tags.diff(tagsExclude);
+          return JSON.stringify(diff) == JSON.stringify(user.tags)
+        })
+      );
+    }
+    USERS.filtered(newList);
+    gotoOriginal(newList, originalUser);
+  };
+
+  // Return users whose modified date is greater than their tagged date.
+  mod.byNewlyUpdated = function() {
+    let originalUser = USERS.currentUser();
+    let newList = toIterator(
+      USERS.all().filter( function(user) {
+        return (user.date_modified > user.date_tagged);
+      })
+    );
+    USERS.filtered(newList);
+    gotoOriginal(newList, originalUser);
+  };
+
+  // Return users who have never been tagged.
+  mod.byNeverTagged = function() {
+    let originalUser = USERS.currentUser();
+    let newList = toIterator(
+      USERS.all().filter( function(user) {
+        return (JSON.stringify(user.tags) == JSON.stringify(["-"]));
+      })
+    );
+    USERS.filtered(newList);
+    gotoOriginal(newList, originalUser);
+  };
+
+  // poo
+  // Return users who are not banned from cross-origin iframe.
+  // Also, tilde.town is over HTTPS, so exclude all sites that are HTTP.
+  mod.byExcludingBanned = function() {
+    let originalUser = USERS.currentUser();
+    let newList = toIterator(
+      USERS.all().filter( function(user) {
+        let isBannedSite = INFO.banned.includes(user.site);
+        let isHTTP = user.url.startsWith("http://");
+        return (!isBannedSite && !isHTTP);
+      })
+    );
+    USERS.filtered(newList);
+    gotoOriginal(newList, originalUser);
+  };
+
+  // If the original user still exists in the filtered dataset,
+  // then keep them selected.
+  // Else, go to the first URL.
+  function gotoOriginal(newList, originalUser) {
+    if (originalUser) {
+      let found = newList.all().find( function(user) {
+        return user.url == originalUser.url;
+      });
+      if (typeof found !== "undefined") {
+        URL_NAVIGATION.gotoUrlOfUser(found);
+      } else {
+        URL_NAVIGATION.nextUrl();
+      }
+    } else {
+      URL_NAVIGATION.nextUrl();
+    }
+  }
+
+  return mod;
+}(FILTER_USERS || {}));
 
 //##############################################################################
 
@@ -363,58 +421,135 @@ var URL_NAVIGATION = ( function(mod) {
     let user = data.next().value;
     if (!user) data.previous().value;
     USERS.displayCurrentUser();
-  }
+  };
   mod.previousUrl = function() {
     let user = data.previous().value;
     if (!user) data.next().value;
     USERS.displayCurrentUser();
-  }
+  };
   mod.randomUrl = function() {
     data.random();
     USERS.displayCurrentUser();
-  }
+  };
   mod.gotoUrlIndex = function(index) {
     data.gotoIndex(index);
     USERS.displayCurrentUser();
-  }
+  };
   mod.gotoUrlOfUser = function(user) {
     data.gotoValue(user);
     USERS.displayCurrentUser();
-  }
+  };
 
   return mod;
 }(URL_NAVIGATION || {}));
 
 //##############################################################################
 
-// Module to control the tag select/deselect all buttons.
-var TAG_MASS_SELECT = ( function(mod) {
+// Module to handle buttons that act like option groups.
+var TOGGLE_GROUPS = ( function(mod) {
 
+  // Handle the tag select/deselect all buttons.
   mod.toggleAllUnchecked = function(self) {
-    if ($(self).hasClass("active")) {
-      removeActive(".tag_button_unchecked");
-    } else {
-      addActive(".tag_button_unchecked");
-      removeActive(".tag_button_checked");
-    }
-    USERS.filterByTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
-  }
+    toggleEither(self, ".tag_button_unchecked", ".tag_button_checked");
+    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+  };
   mod.toggleAllChecked = function(self) {
+    toggleEither(self, ".tag_button_checked", ".tag_button_unchecked");
+    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+  };
+  function toggleEither(self, activeElements, linkedElements) {
     if ($(self).hasClass("active")) {
-      removeActive(".tag_button_checked");
+      MASS_CLASS.remove(activeElements, "active");
     } else {
-      addActive(".tag_button_checked");
-      removeActive(".tag_button_unchecked");
+      MASS_CLASS.add(activeElements, "active");
+      MASS_CLASS.remove(linkedElements, "active");
     }
-    USERS.filterByTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
   }
 
-  function addActive(className) {
-    $(className).each( function() { $(this).addClass("active"); })
+  // Handle the filter by tag/moddate buttons.
+  mod.toggleNeverTagged = function() {
+    MASS_CLASS.add("#filter_by_never_tagged", "active");
+    MASS_CLASS.remove("#filter_by_newly_updated", "active");
+    FILTER_USERS.byNeverTagged();
+  };
+  mod.toggleNewlyUpdated = function() {
+    MASS_CLASS.add("#filter_by_newly_updated", "active");
+    MASS_CLASS.remove("#filter_by_never_tagged", "active");
+    FILTER_USERS.byNewlyUpdated();
+  };
+
+  return mod;
+}(TOGGLE_GROUPS || {}));
+
+//##############################################################################
+
+// Module to add/remove class for many elements at once.
+var MASS_CLASS = ( function(mod) {
+
+  mod.add = function(domIdentifier, className) {
+    $(domIdentifier).each( function() { $(this).addClass(className); })
   }
-  function removeActive(className) {
-    $(className).each( function() { $(this).removeClass("active"); })
+  mod.remove = function(domIdentifier, className) {
+    $(domIdentifier).each( function() { $(this).removeClass(className); })
   }
 
   return mod;
-}(TAG_MASS_SELECT || {}));
+}(MASS_CLASS || {}));
+
+//##############################################################################
+
+// Module to control the tag states for the Tagger site
+var TAG_STATE = ( function(mod) {
+  let savedTags = {};
+
+  // Toggle a tag button active state, and save to state
+  mod.toggleTag = function(element) {
+    if (USERS.currentUser()) {
+      $(element).toggleClass("active");
+      mod.saveTagsToState();
+      saveDirty();
+
+      // Add to {savedTags}
+      let tildee = USERS.currentUser();
+      if (typeof(savedTags[tildee.site]) === "undefined") {
+        savedTags[tildee.site] = {};
+      }
+      savedTags[tildee.site][tildee.user] = tildee.tags;
+    }
+  };
+
+  // Save the current tag layout to the current user
+  mod.saveTagsToState = function() {
+    if (USERS.currentUser()) {
+      let tags = [];
+      $("#tag_buttons a").each( function() {
+        if ($(this).hasClass("active")) {
+          let tagName = $(this).attr("data-tag-name");
+          tags.push(tagName);
+        }
+      });
+      USERS.currentUser().tags = tags;
+    }
+  };
+
+  // Post the {savedTags} hash to '/save_tags' route
+  mod.saveTagsToFile = function() {
+    $.post("save_tags", JSON.stringify(savedTags));
+    savedTags = {};
+    saveClean();
+  };
+
+  // Change the glyphicon floppy disk of the 'save tags' button
+  function saveDirty() {
+    let elem = $("#save_glyphicon");
+    elem.removeClass("glyphicon-floppy-saved");
+    elem.addClass("glyphicon-floppy-disk");
+  }
+  function saveClean() {
+    let elem = $("#save_glyphicon");
+    elem.removeClass("glyphicon-floppy-disk");
+    elem.addClass("glyphicon-floppy-saved");
+  }
+
+  return mod;
+}(TAG_STATE || {}));

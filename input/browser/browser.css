@@ -32,7 +32,7 @@ input {
   background-color: white;
   padding: 0px;
 }
-#save , .btn_top_left {
+.btn_top_left {
   margin: 0px 0px 8px 0px;
 }
 .btn_tags {
