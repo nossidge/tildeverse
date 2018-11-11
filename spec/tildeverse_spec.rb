@@ -73,8 +73,8 @@ describe 'Tildeverse' do
     it 'should error if Config#update_type is not implemented' do
       config_with_dodgy = double('Config', :update_type => :dodgy)
       allow(Tildeverse).to receive(:config).and_return(config_with_dodgy)
-      msg = "Config variable 'update_type' is not valid"
-      expect{ Tildeverse.get! }.to raise_error(ArgumentError, msg)
+      e = Tildeverse::Error::UpdateTypeError
+      expect{ Tildeverse.get! }.to raise_error(e)
     end
   end
 

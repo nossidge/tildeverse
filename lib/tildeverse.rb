@@ -107,15 +107,15 @@ module Tildeverse
     # Get data from remote servers.
     # Use the config setting to choose between 'scrape' and 'fetch'
     #
+    # @raise [Error::UpdateTypeError] if {Config#update_type} is invalid
+    #
     def get!
-      commands = {
+      {
         scrape: -> { scrape },
         fetch:  -> { fetch }
-      }
-      commands[config.update_type.to_sym].call
-    rescue StandardError
-      msg = "Config variable 'update_type' is not valid"
-      raise ArgumentError, msg
+      }.fetch(config.update_type.to_sym) do
+        raise Error::UpdateTypeError
+      end.call
     end
 
     ##
