@@ -49,9 +49,9 @@ module Tildeverse
     #   # ]
     #
     def from_wsv
-      @data
-        .map!(&:strip)
-        .map! { |i| i.split(/\s+/) }
+      data
+        .map(&:strip)
+        .map { |i| i.split(/\s+/) }
     end
 
     ##
@@ -135,8 +135,8 @@ module Tildeverse
     def to_wsv(rjust: [], spaces: 2)
       #
       # Figure out max lengths, to use as the width of each column.
-      max_lengths = @data.first.map(&:length)
-      @data.each do |row|
+      max_lengths = data.first.map(&:length)
+      data.each do |row|
         row.each_with_index do |e, i|
           next if max_lengths.size == i
           s = e.to_s.size
@@ -145,7 +145,7 @@ module Tildeverse
       end
 
       # Format each row as one long string.
-      @data.map do |row|
+      data.map do |row|
         format = max_lengths.map.with_index do |value, index|
           just = rjust.include?(index) ? '' : '-'
 
