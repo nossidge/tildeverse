@@ -12,8 +12,15 @@ input {
   margin-top: 0px;
   margin-left: 0px;
 }
+#filters {
+  width: 165px;
+  margin: 0px;
+}
+.top_button {
+  height: 46px;
+}
 .header_right {
-  flex: 0 0 614px;
+  flex: 0 0 700px;
   margin-left: 8px;
   margin-right: 0px;
   display: flex;
@@ -21,11 +28,15 @@ input {
 #text_counter {
   width: 130px;
   margin-left: 8px;
+  margin-right: 8px;
 }
-.top_button {
+.top_button_left {
   width: 100px;
 }
-.col_left {
+.col_left_thin {
+  flex: 0 0 223px;
+}
+.col_left_wide {
   flex: 0 0 322px;
 }
 .col_middle {
@@ -41,7 +52,7 @@ input {
 .btn_glyph {
   height: 44px;
 }
-.tag_button_desc {
+.tag_button, .tag_button_desc {
   height: 44px;
   width: 196px;
 }
@@ -49,11 +60,18 @@ input {
   background-color: #F2F2F2;
   color: #555;
 }
-
-/* options for a group of button groups */
-.btn_group_group  {
+#tag_buttons {
   margin-bottom: -10px;
 }
+#tag_area_top {
+  margin: 0px 0px 3px 0px;
+}
+#save {
+  margin: 0px -1px 0px 0px;
+  width: 199px;
+}
+
+/* options for a group of button groups */
 .btn_group_group div:first-child {
   margin-bottom: -1px;
 }
@@ -75,6 +93,6 @@ input {
 }
 
 /* these are not buttons, they just look like buttons */
-.tag_button_desc {
+.no_pointer_events {
   pointer-events: none;
 }

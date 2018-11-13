@@ -13,6 +13,9 @@
 
       $(document).ready( function() {
 
+        // Create the DOM elements for each tag.
+        TAG_DOM.createTagElementsTagging();
+
         // Wait for the external JSON file to load.
         $.getJSON("tildeverse.json", function(data) {
 
@@ -30,21 +33,6 @@
       });
 
     </script>
-    <style type="text/css">
-      .col_left {
-        flex: 0 0 223px;
-      }
-      #tag_area_top {
-        margin: 0px 0px 3px 0px;
-      }
-      #save {
-        margin: 0px -1px 0px 0px;
-        width: 88px;
-      }
-      .tag_button_desc {
-        pointer-events: auto;
-      }
-    </style>
   </head>
   <body class="border">
     <header class="border">
@@ -61,25 +49,25 @@
         </div>
         <div class="header_left">
           <div class="btn-group btn-group-lg">
-            <a class="btn btn-default top_button"
-                title="Previous user"
-                onclick="URL_NAVIGATION.previousUrl()">
+            <a class="btn btn-default top_button top_button_left"
+               title="Previous user"
+               onclick="URL_NAVIGATION.previousUrl()">
               <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
-            <a class="btn btn-default top_button"
-                title="Next user"
-                onclick="URL_NAVIGATION.nextUrl()">
+            <a class="btn btn-default top_button top_button_left"
+               title="Next user"
+               onclick="URL_NAVIGATION.nextUrl()">
               <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
-            <a class="btn btn-default top_button"
-                title="Random user"
-                onclick="URL_NAVIGATION.randomUrl()">
+            <a class="btn btn-default top_button top_button_left"
+               title="Random user"
+               onclick="URL_NAVIGATION.randomUrl()">
               <span class="glyphicon glyphicon-random"></span>
             </a>
           </div>
-          <a class="btn btn-default top_button btn-lg"
-              title="Open user homepage in new tab"
-              onclick="USERS.openCurrentInNewTab()">
+          <a class="btn btn-default top_button top_button_left btn-lg"
+             title="Open user homepage in new tab"
+             onclick="USERS.openCurrentInNewTab()">
             <span class="glyphicon glyphicon-eye-open"></span>
           </a>
         </div>
@@ -94,40 +82,35 @@
                  readonly="readonly"
                  onfocus="this.focus();this.select()"
           />
+          <div id="filters" class="btn-group btn-group-lg">
+            <a id="filter_by_never_tagged"
+               title="Filter for users who have never been tagged"
+               class="btn btn-default btn-lg top_button top_button_right"
+               onclick="TOGGLE_GROUPS.toggleNeverTagged()">
+              <span class="glyphicon glyphicon-inbox"></span>
+            </a>
+            <a id="filter_by_newly_updated"
+               title="Filter for users who have modified their pages since last being tagged"
+               class="btn btn-default btn-lg top_button top_button_right"
+               onclick="TOGGLE_GROUPS.toggleNewlyUpdated()">
+              <span class="glyphicon glyphicon-time"></span>
+            </a>
+          </div>
         </div>
       </div>
     </header>
     <div class="contents">
-      <div id="col_left" class="col_left border">
+      <div id="col_left" class="col_left col_left_thin border">
         <div id="col_left_content">
           <div id="tag_area">
             <div id="tag_area_left">
               <div id="tag_area_top" class="btn-block">
-                <div class="btn-group">
-                  <a id="filter_by_never_tagged" title="Filter for users who have never been tagged"
-                      class="btn btn-default btn-lg btn_tags" onclick="TOGGLE_GROUPS.toggleNeverTagged()">
-                    <span class="glyphicon glyphicon-inbox"></span>
-                  </a>
-                  <a id="filter_by_newly_updated" title="Filter for users who have modified their pages since last being tagged"
-                      class="btn btn-default btn-lg btn_tags" onclick="TOGGLE_GROUPS.toggleNewlyUpdated()">
-                    <span class="glyphicon glyphicon-time"></span>
-                  </a>
-                </div>
                 <a id="save" title="Save changes to user tags"
-                    class="btn btn-default btn-lg btn_tags" onclick="TAG_STATE.saveTagsToFile()">
+                   class="btn btn-default btn-lg btn_tags" onclick="TAG_STATE.saveTagsToFile()">
                   <span id="save_glyphicon" class="glyphicon glyphicon-floppy-saved"></span>
                 </a>
               </div>
-              <div id="tag_buttons" class="btn-group-vertical btn-block">
-                <% @tags.each do |tag| %>
-                  <a id="tag_button_<%= tag %>"
-                      class="btn btn-default btn-lg btn_tags tag_button_desc"
-                      data-tag-name="<%= tag %>"
-                      onclick="TAG_STATE.toggleTag(this);">
-                    <%= tag %>
-                  </a>
-                <% end %>
-              </div>
+              <div id="tag_buttons" class="btn-group-vertical btn-block"></div>
             </div>
           </div>
         </div>

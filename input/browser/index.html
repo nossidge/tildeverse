@@ -14,7 +14,7 @@
       $(document).ready( function() {
 
         // Create the DOM elements for each tag.
-        TAG_DOM.createTagElements();
+        TAG_DOM.createTagElementsBrowser();
 
         // Setup keyboard-based clicks for tab-able elements.
         ACCESSIBILITY.tabNavClicks();
@@ -43,23 +43,23 @@
         <div class="header_left">
           <div class="btn-group btn-group-lg">
             <a tabindex="1" title="Previous user"
-                class="btn btn-default top_button"
+                class="btn btn-default top_button top_button_left"
                 onclick="URL_NAVIGATION.previousUrl()">
               <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
             <a tabindex="2" title="Next user"
-                class="btn btn-default top_button"
+                class="btn btn-default top_button top_button_left"
                 onclick="URL_NAVIGATION.nextUrl()">
               <span class="glyphicon glyphicon-arrow-right"></span>
             </a>
             <a tabindex="3" title="Random user"
-                class="btn btn-default top_button"
+                class="btn btn-default top_button top_button_left"
                 onclick="URL_NAVIGATION.randomUrl()">
               <span class="glyphicon glyphicon-random"></span>
             </a>
           </div>
             <a tabindex="4" title="Open user homepage in new tab"
-                class="btn btn-default top_button btn-lg"
+                class="btn btn-default top_button top_button_left btn-lg"
                 onclick="USERS.openCurrentInNewTab()">
               <span class="glyphicon glyphicon-eye-open"></span>
             </a>
@@ -81,11 +81,19 @@
                  class="form-control input-lg"
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
+          <div id="buttons_right" class="btn-group btn-group-lg">
+            <a id="filter_by_newly_updated"
+               title="Only list users that are capable of being displayed in the iframe viewer.&#013;This excludes all that are HTTP only, or have blocked cross-origin requests."
+               class="btn btn-default btn-lg top_button top_button_right"
+               onclick="FILTER_USERS.byExcludingBanned()">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </div>
         </div>
       </div>
     </header>
     <div class="contents">
-      <div id="col_left" class="col_left border">
+      <div id="col_left" class="col_left col_left_wide border">
         <div id="col_left_content">
           <div id="tag_area">
             <div id="tag_area_left">

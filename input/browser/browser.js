@@ -115,8 +115,9 @@ var INFO = ( function(mod) {
 // Module to read and set tag info.
 var TAG_DOM = ( function(mod) {
 
+  // For the 'browser' webapp:
   // Create and append the HTML elements for the tag buttons.
-  mod.createTagElements = function() {
+  mod.createTagElementsBrowser = function() {
     let html = `
       <div class="btn-group btn-block" data-tag-name="@TAG@" title="@DESC@">
         <a tabindex="@INDEX@1" title="Exclude the '@TAG@' tag" id="tag_button_unchecked_@TAG@" data-filter-type="unchecked" class="btn btn-default btn-lg btn_glyph tag_button_unchecked" onclick="TAG_DOM.toggleTagFilter(this);">
@@ -125,8 +126,32 @@ var TAG_DOM = ( function(mod) {
         <a tabindex="@INDEX@2" title="Include the '@TAG@' tag" id="tag_button_checked_@TAG@" data-filter-type="checked" class="btn btn-default btn-lg btn_glyph tag_button_checked" onclick="TAG_DOM.toggleTagFilter(this);">
           <div class="glyphicon glyphicon-ok"></div>
         </a>
-        <div title="(This is not actually a button)" id="tag_button_desc_@TAG@" data-tag-name="@TAG@" class="btn btn-default btn-lg tag_button_desc">@TAG@</div>
+        <div title="(This is not actually a button)" id="tag_button_desc_@TAG@" data-tag-name="@TAG@" class="btn btn-default btn-lg tag_button_desc no_pointer_events">@TAG@</div>
       </div>
+    `;
+    let elem = $("#tag_buttons");
+    elem.empty();
+    let index = 2;
+    $.each(INFO.tags, function(tag, desc) {
+      let tagHtml = html;
+      tagHtml = tagHtml.replace(/@TAG@/g, tag);
+      tagHtml = tagHtml.replace(/@DESC@/g, desc);
+      tagHtml = tagHtml.replace(/@INDEX@/g, index + 2);
+      elem.append(tagHtml);
+      index++;
+    });
+  };
+
+  // For the 'tagging' webapp:
+  // Create and append the HTML elements for the tag buttons.
+  mod.createTagElementsTagging = function() {
+    let html = `
+      <a id="tag_button_@TAG@" title="Add/remove the '@TAG@' tag"
+          class="btn btn-default btn-lg btn_tags tag_button_desc tag_button"
+          data-tag-name="@TAG@"
+          onclick="TAG_STATE.toggleTag(this);">
+        @TAG@
+      </a>
     `;
     let elem = $("#tag_buttons");
     elem.empty();
@@ -308,7 +333,7 @@ var USERS = ( function(mod) {
       let url = obj.url.substring(obj.url.search("//") + 2);
       elem.append("<option value='" + index + "'>" + url + "</option>");
     });
-  };
+  }
 
   return mod;
 }(USERS || {}));

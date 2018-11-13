@@ -47,11 +47,6 @@ module Tildeverse
     # Page for the user tagging app.
     #
     get '/tagging' do
-      @tags = %w[
-        empty brief redirect links blog
-        poetry prose art photo audio video gaming
-        tutorial app code procgen web1.0 unix tilde
-      ]
       erb :tagging
     end
 
