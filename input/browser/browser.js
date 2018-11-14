@@ -352,12 +352,14 @@ var FILTER_USERS = ( function(mod) {
 
     TAG_DOM.handleSelectAllButtons();
     let newList = toIterator(USERS.all());
-    if (tagsInclude != [] || tagsExclude != []) {
+    if (tagsInclude != []) {
       newList = toIterator(
         newList.all().filter( function(user) {
           return tagsInclude.diff(user.tags).length === 0;
         })
       );
+    }
+    if (tagsExclude != []) {
       newList = toIterator(
         newList.all().filter( function(user) {
           let diff = user.tags.diff(tagsExclude);
@@ -370,44 +372,62 @@ var FILTER_USERS = ( function(mod) {
   };
 
   // Return users whose modified date is greater than their tagged date.
-  mod.byNewlyUpdated = function() {
-    let originalUser = USERS.currentUser();
-    let newList = toIterator(
-      USERS.all().filter( function(user) {
+  let getNewlyUpdatedMemo = null;
+  mod.getNewlyUpdated = function() {
+    return addMemo("getNewlyUpdatedMemo", function(user) {
+      return USERS.all().filter( function(user) {
         return (user.date_modified > user.date_tagged);
-      })
-    );
-    USERS.filtered(newList);
-    gotoOriginal(newList, originalUser);
+      });
+    });
+  };
+  mod.byNewlyUpdated = function() {
+    performUIUpdates( function() {
+      return toIterator(mod.getNewlyUpdated());
+    });
   };
 
   // Return users who have never been tagged.
-  mod.byNeverTagged = function() {
-    let originalUser = USERS.currentUser();
-    let newList = toIterator(
-      USERS.all().filter( function(user) {
+  let getNeverTaggedMemo = null;
+  mod.getNeverTagged = function() {
+    return addMemo("getNeverTaggedMemo", function(user) {
+      return USERS.all().filter( function(user) {
         return (JSON.stringify(user.tags) == JSON.stringify(["-"]));
-      })
-    );
-    USERS.filtered(newList);
-    gotoOriginal(newList, originalUser);
+      });
+    });
+  };
+  mod.byNeverTagged = function() {
+    performUIUpdates( function() {
+      return toIterator(mod.getNeverTagged());
+    });
   };
 
-  // poo
   // Return users who are not banned from cross-origin iframe.
   // Also, tilde.town is over HTTPS, so exclude all sites that are HTTP.
-  mod.byExcludingBanned = function() {
-    let originalUser = USERS.currentUser();
-    let newList = toIterator(
-      USERS.all().filter( function(user) {
+  let getExcludingBannedMemo = null;
+  mod.getExcludingBanned = function() {
+    return addMemo("getExcludingBannedMemo", function(user) {
+      return USERS.all().filter( function(user) {
         let isBannedSite = INFO.banned.includes(user.site);
         let isHTTP = user.url.startsWith("http://");
         return (!isBannedSite && !isHTTP);
-      })
-    );
+      });
+    });
+  };
+  mod.byExcludingBanned = function() {
+    performUIUpdates( function() {
+      return toIterator(mod.getExcludingBanned());
+    });
+  };
+
+  // Assign the result of the callback to 'USERS.filtered'.
+  // Also update the UI to match.
+  // @param callback [Function] should return a 'toIterator(array)'
+  function performUIUpdates(callback) {
+    let originalUser = USERS.currentUser();
+    let newList = callback();
     USERS.filtered(newList);
     gotoOriginal(newList, originalUser);
-  };
+  }
 
   // If the original user still exists in the filtered dataset,
   // then keep them selected.
@@ -425,6 +445,15 @@ var FILTER_USERS = ( function(mod) {
     } else {
       URL_NAVIGATION.nextUrl();
     }
+  }
+
+  // Add memoization to the callback function.
+  function addMemo(memoVar, callback) {
+    let memo = eval(memoVar);
+    if (memo) return memo;
+    let output = callback();
+    eval(memoVar + " = output;");
+    return output;
   }
 
   return mod;
