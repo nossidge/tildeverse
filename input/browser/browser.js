@@ -105,7 +105,7 @@ var INFO = ( function(mod) {
   };
 
   // These sites have 'X-Frame-Options' set to 'sameorigin'
-  mod.banned = ["tilde.team"];
+  mod.banned = ["tilde.team", "thunix.org"];
 
   return mod;
 }(INFO || {}));
@@ -228,7 +228,7 @@ var TAG_DOM = ( function(mod) {
     let opposite = $(element).parent().find(".tag_button_" + thatFilter);
     $(opposite).removeClass("active");
     $(element).toggleClass("active");
-    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+    FILTER.setTags(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
   };
 
   return mod;
@@ -340,18 +340,67 @@ var USERS = ( function(mod) {
 
 //##############################################################################
 
+// Store which filter settings are currently in place.
+var FILTER = ( function(mod) {
+  let filterName = "all"
+  let tagsInclude = [];
+  let tagsExclude = [];
+
+  mod.setAll = function() {
+    filterName = "all";
+    apply();
+  };
+  mod.setNewlyUpdated = function() {
+    filterName = "newly_updated";
+    apply();
+  };
+  mod.setNeverTagged = function() {
+    filterName = "never_tagged";
+    apply();
+  };
+  mod.setExcludingBanned = function() {
+    filterName = "excluding_banned";
+    apply();
+  };
+  mod.setTags = function(include, exclude) {
+    tagsInclude = include;
+    tagsExclude = exclude;
+    apply();
+  };
+
+  // Apply the given filters to the user list.
+  function apply() {
+    let baseArray = USERS.all();
+    switch (filterName) {
+      case "newly_updated":
+        baseArray = FILTER_FUNCTIONS.getNewlyUpdated();
+        break;
+      case "never_tagged":
+        baseArray = FILTER_FUNCTIONS.getNeverTagged();
+        break;
+      case "excluding_banned":
+        baseArray = FILTER_FUNCTIONS.getExcludingBanned();
+    }
+    FILTER_FUNCTIONS.byTag(baseArray, tagsInclude, tagsExclude);
+  }
+
+  return mod;
+}(FILTER || {}));
+
+//##############################################################################
+
 // Module to filter USER arrays by various means.
-var FILTER_USERS = ( function(mod) {
+var FILTER_FUNCTIONS = ( function(mod) {
 
   // Filter the homepage list by specific tags.
   // Also updates the page elements.
   // @param tagsInclude [Array<String>]
   // @param tagsExclude [Array<String>]
-  mod.byTag = function(tagsInclude = [], tagsExclude = []) {
+  mod.byTag = function(baseArray, tagsInclude = [], tagsExclude = []) {
     let originalUser = USERS.currentUser();
 
     TAG_DOM.handleSelectAllButtons();
-    let newList = toIterator(USERS.all());
+    let newList = toIterator(baseArray);
     if (tagsInclude != []) {
       newList = toIterator(
         newList.all().filter( function(user) {
@@ -380,11 +429,6 @@ var FILTER_USERS = ( function(mod) {
       });
     });
   };
-  mod.byNewlyUpdated = function() {
-    performUIUpdates( function() {
-      return toIterator(mod.getNewlyUpdated());
-    });
-  };
 
   // Return users who have never been tagged.
   let getNeverTaggedMemo = null;
@@ -393,11 +437,6 @@ var FILTER_USERS = ( function(mod) {
       return USERS.all().filter( function(user) {
         return (JSON.stringify(user.tags) == JSON.stringify(["-"]));
       });
-    });
-  };
-  mod.byNeverTagged = function() {
-    performUIUpdates( function() {
-      return toIterator(mod.getNeverTagged());
     });
   };
 
@@ -413,21 +452,6 @@ var FILTER_USERS = ( function(mod) {
       });
     });
   };
-  mod.byExcludingBanned = function() {
-    performUIUpdates( function() {
-      return toIterator(mod.getExcludingBanned());
-    });
-  };
-
-  // Assign the result of the callback to 'USERS.filtered'.
-  // Also update the UI to match.
-  // @param callback [Function] should return a 'toIterator(array)'
-  function performUIUpdates(callback) {
-    let originalUser = USERS.currentUser();
-    let newList = callback();
-    USERS.filtered(newList);
-    gotoOriginal(newList, originalUser);
-  }
 
   // If the original user still exists in the filtered dataset,
   // then keep them selected.
@@ -457,7 +481,7 @@ var FILTER_USERS = ( function(mod) {
   }
 
   return mod;
-}(FILTER_USERS || {}));
+}(FILTER_FUNCTIONS || {}));
 
 //##############################################################################
 
@@ -505,11 +529,11 @@ var TOGGLE_GROUPS = ( function(mod) {
   // Handle the tag select/deselect all buttons.
   mod.toggleAllUnchecked = function(self) {
     toggleEither(self, ".tag_button_unchecked", ".tag_button_checked");
-    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+    FILTER.setTags(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
   };
   mod.toggleAllChecked = function(self) {
     toggleEither(self, ".tag_button_checked", ".tag_button_unchecked");
-    FILTER_USERS.byTag(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+    FILTER.setTags(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
   };
   function toggleEither(self, activeElements, linkedElements) {
     if ($(self).hasClass("active")) {
@@ -520,16 +544,28 @@ var TOGGLE_GROUPS = ( function(mod) {
     }
   }
 
+  // Handle the exclude cross requests button.
+  mod.toggleExcludingBanned = function() {
+    let elem = $("#filter_by_excluding_banned");
+    if (elem.hasClass("active")) {
+      elem.removeClass("active");
+      FILTER.setAll();
+    } else {
+      elem.addClass("active");
+      FILTER.setExcludingBanned();
+    }
+  };
+
   // Handle the filter by tag/moddate buttons.
   mod.toggleNeverTagged = function() {
     MASS_CLASS.add("#filter_by_never_tagged", "active");
     MASS_CLASS.remove("#filter_by_newly_updated", "active");
-    FILTER_USERS.byNeverTagged();
+    FILTER.setNeverTagged();
   };
   mod.toggleNewlyUpdated = function() {
     MASS_CLASS.add("#filter_by_newly_updated", "active");
     MASS_CLASS.remove("#filter_by_never_tagged", "active");
-    FILTER_USERS.byNewlyUpdated();
+    FILTER.setNewlyUpdated();
   };
 
   return mod;

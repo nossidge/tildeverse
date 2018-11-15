@@ -25,7 +25,10 @@
           // Load the JSON data to the USERS module.
           USERS.initialize(data);
 
-          // By default, filter excluding the 'empty' tag.
+          // By default, filter by:
+          //   - excluding denied XReqs.
+          //   - excluding the 'empty' tag.
+          TOGGLE_GROUPS.toggleExcludingBanned();
           TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
 
           // Navigate to a random URL.
@@ -82,10 +85,10 @@
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
           <div id="buttons_right" class="btn-group btn-group-lg">
-            <a id="filter_by_newly_updated"
+            <a id="filter_by_excluding_banned"
                title="Only list users that are capable of being displayed in the iframe viewer.&#013;This excludes all that are HTTP only, or have blocked cross-origin requests."
                class="btn btn-default btn-lg top_button top_button_right"
-               onclick="FILTER_USERS.byExcludingBanned()">
+               onclick="TOGGLE_GROUPS.toggleExcludingBanned()">
               <span class="glyphicon glyphicon-remove"></span>
             </a>
           </div>
