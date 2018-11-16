@@ -58,9 +58,9 @@ module Tildeverse
     #
     def for_tildeverse_json
       {}.tap do |h|
-        h[:tagged] = user.date_tagged if user.date_tagged
-        h[:tags]   = user.tags        if user.tags
-        h[:time]   = user.date_modified
+        h[:date_modified] = user.date_modified
+        h[:date_tagged]   = user.date_tagged if user.date_tagged
+        h[:tags]          = user.tags        if user.tags
       end
     end
   end

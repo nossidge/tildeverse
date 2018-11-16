@@ -35,7 +35,7 @@ describe 'Tildeverse::DataSerializer' do
         hash = serializer.users(users)
         users.each do |user_obj|
           sitename = user_obj.site.name
-          %i[tagged tags time].each do |i|
+          %i[date_modified date_tagged tags].each do |i|
             expect(hash.dig(sitename, username, i)).to_not be nil
           end
         end

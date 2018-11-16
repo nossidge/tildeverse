@@ -15,12 +15,12 @@ describe 'Tildeverse::ModifiedDates' do
 
       expect(result.first[:site]).to_not be_nil
       expect(result.first[:user]).to_not be_nil
-      expect(result.first[:time]).to_not be_nil
+      expect(result.first[:date]).to_not be_nil
       expect(result.first[:junk]).to be_nil
 
       result.each do |i|
         expect do
-          Time.strptime(i[:time], '%Y-%m-%d')
+          Time.strptime(i[:date], '%Y-%m-%d')
         end.to_not raise_error
       end
     end

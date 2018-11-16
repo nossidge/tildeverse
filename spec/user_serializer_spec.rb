@@ -51,9 +51,9 @@ describe 'Tildeverse::UserSerializer' do
       serializer = Tildeverse::UserSerializer.new(user)
       data = serializer.for_tildeverse_json
       expect(data).to be_a Hash
-      expect(data[:tagged]).to eq example_data[:date_tagged]
-      expect(data[:tags]).to eq example_data[:tags]
-      expect(data[:time]).to eq example_data[:date_modified]
+      expect(data[:date_modified]).to eq example_data[:date_modified]
+      expect(data[:date_tagged]).to   eq example_data[:date_tagged]
+      expect(data[:tags]).to          eq example_data[:tags]
       expect(data[:junk]).to be_nil
     end
   end

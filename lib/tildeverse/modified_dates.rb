@@ -13,13 +13,13 @@ module Tildeverse
   class ModifiedDates
     ##
     # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated time.
+    #   Array of hashes that describe a user's updated date.
     # @example
     #   [
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02"
+    #       :date => "2017-04-02"
     #     }
     #   ]
     #
@@ -41,13 +41,13 @@ module Tildeverse
     # This overwrites {#data} with updated information.
     #
     # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated time.
+    #   Array of hashes that describe a user's updated date.
     # @example
     #   [
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02"
+    #       :date => "2017-04-02"
     #     }
     #   ]
     #
@@ -60,14 +60,14 @@ module Tildeverse
     #
     # @param [String] site  Name of the server.
     # @param [String] user  Name of the user.
-    # @return [String] string representation of the datetime.
+    # @return [String] string representation of the date.
     # @return [nil] if not found.
     #
     def for_user(site, user)
       result = @data.select do |i|
         i[:site] == site && i[:user] == user
       end.first
-      result ? result[:time] : nil
+      result ? result[:date] : nil
     end
 
     private
@@ -91,7 +91,7 @@ module Tildeverse
     # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
     #
     # @return [Array<String>]
-    #   Array of HTML lines that describe a user's updated time.
+    #   Array of HTML lines that describe a user's updated date.
     #
     def read_data
       remote.get.split("\n").select { |i| i.match('<a href') }
@@ -101,15 +101,15 @@ module Tildeverse
     # Parse ~insom's HTML formatted lines to a usable hash.
     #
     # @param [Array<String>] input_data
-    #   Array of HTML lines that describe a user's updated time.
+    #   Array of HTML lines that describe a user's updated date.
     # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated time.
+    #   Array of hashes that describe a user's updated date.
     # @example
     #   [
     #     {
     #       :site => "tilde.town",
     #       :user => "nossidge",
-    #       :time => "2017-04-02"
+    #       :date => "2017-04-02"
     #     }
     #   ]
     #
@@ -121,7 +121,7 @@ module Tildeverse
         {
           site: i.split('/')[2],
           user: i.split('/')[3].delete('~'),
-          time: i.split(' -- ')[1].split('T').first
+          date: i.split(' -- ')[1].split('T').first
         }
       end
     end

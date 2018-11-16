@@ -252,8 +252,8 @@ var USERS = ( function(mod) {
       let siteUsers = allSites[site]["users"];
       for (let user in siteUsers) {
         let tags = siteUsers[user]["tags"];
-        let date_tagged   = new Date(siteUsers[user]["tagged"]);
-        let date_modified = new Date(siteUsers[user]["time"]);
+        let date_tagged   = new Date(siteUsers[user]["date_tagged"]);
+        let date_modified = new Date(siteUsers[user]["date_modified"]);
         let obj = {
           site: site,
           user: user,

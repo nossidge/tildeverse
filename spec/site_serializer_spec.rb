@@ -84,7 +84,7 @@ describe 'Tildeverse::SiteSerializer' do
         hash[:users].each do |user_name, user_hash|
           expect(user_name).to be_a String
           expect(user_hash).to be_a Hash
-          expect(user_hash.keys).to eq %i[tagged tags time]
+          expect(user_hash.keys).to eq %i[date_modified date_tagged tags]
         end
       end
     end
