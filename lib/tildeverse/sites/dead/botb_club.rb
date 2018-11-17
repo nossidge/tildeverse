@@ -6,7 +6,7 @@ module Tildeverse
     ##
     # Site information and user list for +botb.club+
     #
-    class BotbClub < Tildeverse::Site::Live
+    class BotbClub < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +botb.club+
       #
