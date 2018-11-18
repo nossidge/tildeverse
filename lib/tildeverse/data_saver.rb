@@ -49,11 +49,6 @@ module Tildeverse
       json = data.serialize.for_users_json
       file = Files.output_json_users
       Files.save_json(json, file)
-
-      # Copy all static files from /input/ to /output/
-      from = Files.dir_input.to_s + '/.'
-      to   = Files.dir_output
-      FileUtils.cp_r(from, to)
     end
 
     ##

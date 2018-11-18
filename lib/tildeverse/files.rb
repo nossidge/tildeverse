@@ -21,21 +21,30 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the directory for input data files.
+      # @return [Pathname] the directory for data files.
       # @example
-      #   'C:/Dropbox/Code/Ruby/tildeverse/input'
+      #   'C:/Dropbox/Code/Ruby/tildeverse/data'
       #
-      def dir_input
-        dir_root + 'input'
+      def dir_data
+        dir_root + 'data'
       end
 
       ##
-      # @return [Pathname] the directory for output data files.
+      # @return [Pathname] the directory for web files.
       # @example
-      #   'C:/Dropbox/Code/Ruby/tildeverse/output'
+      #   'C:/Dropbox/Code/Ruby/tildeverse/web'
       #
-      def dir_output
-        dir_root + 'output'
+      def dir_web
+        dir_root + 'web'
+      end
+
+      ##
+      # @return [Pathname] the directory for public web files.
+      # @example
+      #   'C:/Dropbox/Code/Ruby/tildeverse/web/public'
+      #
+      def dir_public
+        dir_web + 'public'
       end
 
       ##
@@ -56,7 +65,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse.txt'
       #
       def input_txt_tildeverse
-        dir_input + 'tildeverse.txt'
+        dir_data + 'tildeverse.txt'
       end
 
       ##
@@ -143,7 +152,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse_fetch_backup.txt'
       #
       def input_txt_tildeverse_fetch_backup
-        dir_input + 'tildeverse_fetch_backup.txt'
+        dir_data + 'tildeverse_fetch_backup.txt'
       end
 
       ##
@@ -152,7 +161,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/index.html'
       #
       def output_html_index
-        dir_output + 'index.html'
+        dir_public + 'index.html'
       end
 
       ##
@@ -166,7 +175,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/users.json'
       #
       def output_json_users
-        dir_output + 'users.json'
+        dir_public + 'users.json'
       end
 
       ##
@@ -175,7 +184,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.json'
       #
       def output_json_tildeverse
-        dir_output + 'tildeverse.json'
+        dir_public + 'tildeverse.json'
       end
 
       ##
@@ -184,7 +193,7 @@ module Tildeverse
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.txt'
       #
       def output_txt_tildeverse
-        dir_output + 'tildeverse.txt'
+        dir_public + 'tildeverse.txt'
       end
 
       ##

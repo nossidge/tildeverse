@@ -11,8 +11,8 @@ module Tildeverse
   def self.version_number
     major = 0
     minor = 0
-    tiny  = 2
-    pre   = 'pre'
+    tiny  = 3
+    pre   = nil
 
     [major, minor, tiny, pre].compact.join('.')
   end
@@ -23,6 +23,6 @@ module Tildeverse
   #   '2017-07-28'
   #
   def self.version_date
-    '2018-11-01'
+    '2018-11-18'
   end
 end

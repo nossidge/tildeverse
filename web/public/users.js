@@ -14,7 +14,7 @@ function users(tildeverseJSON) {
     $.each(site["users"], function(user, hash) {
       let url = site["url_format_user"].replace("USER", user);
       let tidy = url.substring(url.indexOf("//") + 2);
-      let date = hash["modified_date"].substring(0, 10);
+      let date = hash["date_modified"];
       let out = row;
       let tags = "";
       if (hash["tags"]) {

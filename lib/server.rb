@@ -12,6 +12,9 @@ Rack::Utils.key_space_limit = 2**62
 # Log output to the terminal.
 use Rack::Logger
 
+# Make sure the JSON files are up-to-date.
+Tildeverse.save
+
 ################################################################################
 
 module Tildeverse
@@ -19,6 +22,10 @@ module Tildeverse
   # Browser-based GUI to help with the tagging of user sites.
   #
   class App < Sinatra::Base
+    set :root,          Files.dir_root + 'web'
+    set :views,         Files.dir_root + 'web/views'
+    set :public_folder, Files.dir_root + 'web/public'
+
     configure :production, :development do
       enable :logging
     end
@@ -36,17 +43,27 @@ module Tildeverse
     #
     # Home page, index.html
     #
-    get '/' do
+    get '/?' do
       erb :index
     end
 
     ##
+    # @method get_browser
+    # @overload GET '/browser/?'
+    #
+    # Page for the user tag browsing app.
+    #
+    get '/browser/?' do
+      redirect '/browser/index.html'
+    end
+
+    ##
     # @method get_tagging
-    # @overload GET '/tagging'
+    # @overload GET '/tagging/?'
     #
     # Page for the user tagging app.
     #
-    get '/tagging' do
+    get '/tagging/?' do
       erb :tagging
     end
 
@@ -72,6 +89,7 @@ module Tildeverse
       req = JSON[request.body.read]
       req.each do |site_name, user_hash|
         user_hash.each do |user_name, tags|
+          next if tags.empty?
           user = Tildeverse.site(site_name).user(user_name)
           user.tags = tags
         end
@@ -86,23 +104,6 @@ module Tildeverse
       end
       logger.info "#{num} users updated:"
       logger.info req
-    end
-
-    # Also send the contents of /output/, for debugging.
-    Files.dir_output.children.each do |file|
-      next unless file.file?
-      get '/' + file.basename.to_s do
-        send_file file
-      end
-    end
-
-    # Also send the contents of /output/browser/.
-    browser = Files.dir_output + 'browser'
-    browser.children.each do |file|
-      next unless file.file?
-      get '/browser/' + file.basename.to_s do
-        send_file file
-      end
     end
   end
 end

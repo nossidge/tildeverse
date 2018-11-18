@@ -46,12 +46,8 @@ describe 'Tildeverse::DataSaver' do
   end
 
   describe '#save_website' do
-    it 'should update the users JSON file, and the static web files' do
-      input_files = Pathname.glob(Tildeverse::Files.dir_input + '**/**')
-      files_to_update = input_files.map do |i|
-        Pathname.new(i.to_s.sub('input', 'output'))
-      end
-      files_to_update << Tildeverse::Files.output_json_users
+    it 'should update the users JSON file' do
+      files_to_update = [Tildeverse::Files.output_json_users]
 
       # Kill the existing files.
       files_to_update.each do |f|

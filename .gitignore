@@ -67,8 +67,10 @@ desktop.ini
 work*.rb
 /~/
 
-# Output files
-/output/
-
 # Config files
 /config/
+
+# Generated files
+web/public/tildeverse.txt
+web/public/tildeverse.json
+web/public/users.json

@@ -227,10 +227,10 @@ module Tildeverse
 
     ##
     # @return [Pathname]
-    #   location of the site directory within the {Files#dir_output}.
+    #   location of the site directory within the {Files#dir_public}.
     #
     def pathname
-      (Files.dir_output + 'sites' + name).tap do |path|
+      (Files.dir_public + 'sites' + name).tap do |path|
         FileUtils.makedirs(path) unless path.exist?
       end
     end

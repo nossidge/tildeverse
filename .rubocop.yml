@@ -26,5 +26,9 @@ AllCops:
 
 Style/AsciiComments:
   Enabled: false
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
 Layout/EmptyLinesAroundExceptionHandlingKeywords:
   Enabled: false

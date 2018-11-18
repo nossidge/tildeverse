@@ -31,7 +31,7 @@ module RspecCustomHelpers
   def self.seed_the_data
     dir_seed = Tildeverse::Files.dir_root + 'seed'
     dir_seed.children.each do |from|
-      to = Tildeverse::Files.dir_input + from.basename
+      to = Tildeverse::Files.dir_data + from.basename
       FileUtils.cp(from, to)
     end
     Tildeverse.data.save
@@ -54,8 +54,8 @@ RSpec.configure do |config|
     # Ensure the directories exist
     makedirs = ->(dir) { FileUtils.makedirs(dir) unless dir.exist? }
     makedirs.call(Tildeverse::Files.dir_root)
-    makedirs.call(Tildeverse::Files.dir_input)
-    makedirs.call(Tildeverse::Files.dir_output)
+    makedirs.call(Tildeverse::Files.dir_data)
+    makedirs.call(Tildeverse::Files.dir_public)
 
     # Copy the seed data, and rewrite the JSON file
     RspecCustomHelpers.seed_the_data
@@ -63,15 +63,15 @@ RSpec.configure do |config|
     # Touch the static files
     # (They can be empty, that's okay for testing)
     %w[index.html users.js boxes.js pie.js].each do |f|
-      FileUtils.touch(Tildeverse::Files.dir_input + f)
+      FileUtils.touch(Tildeverse::Files.dir_data + f)
     end
   end
 
   # Kill temporary directories
   config.after(:suite) do
     FileUtils.rm_rf(Tildeverse::Files.dir_root + 'config')
-    FileUtils.rm_rf(Tildeverse::Files.dir_input)
-    FileUtils.rm_rf(Tildeverse::Files.dir_output)
+    FileUtils.rm_rf(Tildeverse::Files.dir_data)
+    FileUtils.rm_rf(Tildeverse::Files.dir_web)
   end
 end
 

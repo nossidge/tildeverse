@@ -48,18 +48,26 @@ describe 'Tildeverse::Files' do
     end
   end
 
-  describe '#dir_input' do
+  describe '#dir_data' do
     it 'should point to the correct path' do
-      filepath = Tildeverse::Files.dir_input
-      check = rootpath + 'input'
+      filepath = Tildeverse::Files.dir_data
+      check = rootpath + 'data'
       expect(filepath).to eq check
     end
   end
 
-  describe '#dir_output' do
+  describe '#dir_web' do
     it 'should point to the correct path' do
-      filepath = Tildeverse::Files.dir_output
-      check = rootpath + 'output'
+      filepath = Tildeverse::Files.dir_web
+      check = rootpath + 'web'
+      expect(filepath).to eq check
+    end
+  end
+
+  describe '#dir_public' do
+    it 'should point to the correct path' do
+      filepath = Tildeverse::Files.dir_public
+      check = rootpath + 'web' + 'public'
       expect(filepath).to eq check
     end
   end
@@ -83,7 +91,7 @@ describe 'Tildeverse::Files' do
   describe '#output_html_index' do
     it 'should point to the correct path' do
       filepath = Tildeverse::Files.output_html_index
-      check = rootpath + 'output' + 'index.html'
+      check = rootpath + 'web' + 'public' + 'index.html'
       expect(filepath).to eq check
     end
   end
@@ -91,7 +99,7 @@ describe 'Tildeverse::Files' do
   describe '#output_json_users' do
     it 'should point to the correct path' do
       filepath = Tildeverse::Files.output_json_users
-      check = rootpath + 'output' + 'users.json'
+      check = rootpath + 'web' + 'public' + 'users.json'
       expect(filepath).to eq check
     end
   end
@@ -99,7 +107,7 @@ describe 'Tildeverse::Files' do
   describe '#output_json_tildeverse' do
     it 'should point to the correct path' do
       filepath = Tildeverse::Files.output_json_tildeverse
-      check = rootpath + 'output' + 'tildeverse.json'
+      check = rootpath + 'web' + 'public' + 'tildeverse.json'
       expect(filepath).to eq check
     end
   end
