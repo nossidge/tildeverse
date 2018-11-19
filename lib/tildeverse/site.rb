@@ -226,31 +226,6 @@ module Tildeverse
     alias con connection
 
     ##
-    # @return [Pathname]
-    #   location of the site directory within the {Files#dir_public}.
-    #
-    def pathname
-      (Files.dir_public + 'sites' + name).tap do |path|
-        FileUtils.makedirs(path) unless path.exist?
-      end
-    end
-
-    ##
-    # @return [String] name of the current day's user list file.
-    #
-    def filename
-      date_now = Time.now.strftime('%Y%m%d')
-      date_now + '.txt'
-    end
-
-    ##
-    # @return [Pathname] full path to the {#filename}.
-    #
-    def filepath
-      pathname + filename
-    end
-
-    ##
     # Yield to a block, and output a message to console if the block produces
     # an empty array. In any case, return the value of the block.
     #

@@ -209,12 +209,4 @@ describe 'Tildeverse::Site' do
       end.to raise_error(Tildeverse::Error::NoUsersFoundError)
     end
   end
-
-  ##############################################################################
-
-  describe '#filepath' do
-    it 'should point to the correct file' do
-      Tildeverse.site('pebble.ink').send(:filepath)
-    end
-  end
 end
