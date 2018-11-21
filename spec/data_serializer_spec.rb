@@ -8,16 +8,14 @@ describe 'Tildeverse::DataSerializer' do
     Struct.new(
       :update_type,
       :update_frequency,
-      :generate_html,
       :updated_on
     ) do
-      def generate_html?; generate_html; end
       def update; nil; end
     end
   end
 
   let(:config) do
-    config_struct.new('scrape', 'week', false, '2018-06-08')
+    config_struct.new('scrape', 'week', '2018-06-08')
   end
 
   let(:instance) do

@@ -133,10 +133,10 @@ module Tildeverse
     end
 
     ##
-    # (see Tildeverse::Data#save_with_config)
+    # (see Tildeverse::Data#save)
     #
     def save
-      data.save_with_config
+      data.save
     end
   end
 end

@@ -34,7 +34,7 @@ module Tildeverse
 
       scrape_all_sites
       update_mod_dates
-      data.save_with_config
+      data.save
     end
 
     private

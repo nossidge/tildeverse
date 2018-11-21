@@ -10,7 +10,7 @@ describe 'Tildeverse::Scraper' do
 
   # Implement the bare minimum to quack like a Data object
   let(:data) do
-    double('Data', :config => config, :save_with_config => nil).tap do |dbl|
+    double('Data', :config => config, :save => nil).tap do |dbl|
       allow(dbl).to receive(:sites).and_return(
         3.times.map { site_duck }
       )

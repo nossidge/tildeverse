@@ -34,12 +34,6 @@ module Tildeverse
     attr_reader :update_frequency
 
     ##
-    # @return [true, false] should a website be generated?
-    #
-    attr_reader :generate_html
-    alias generate_html? generate_html
-
-    ##
     # @return [Date] date the data was last updated
     #
     attr_reader :updated_on
@@ -57,7 +51,6 @@ module Tildeverse
         @authorised_users = validate_authorised_users data['authorised_users']
         @update_type      = validate_update_type      data['update_type']
         @update_frequency = validate_update_frequency data['update_frequency']
-        @generate_html    = validate_generate_html    data['generate_html']
         @updated_on       = data['updated_on']
       else
         apply_default_values
@@ -93,15 +86,6 @@ module Tildeverse
     end
 
     ##
-    # @param [true, false] value
-    # @return [true, false] the input value
-    # @raise [Error::GenerateHtmlError] if not valid
-    #
-    def generate_html=(value)
-      afterwards(:save) { @generate_html = validate_generate_html(value) }
-    end
-
-    ##
     # Set {#updated_on} to today's date
     # @return [Date] today's date
     #
@@ -129,7 +113,6 @@ module Tildeverse
       %w[
         update_type
         update_frequency
-        generate_html
         updated_on
       ].each do |var|
         str.sub!("@#{var}@", "#{var}:\n  #{send(var)}")
@@ -206,7 +189,6 @@ module Tildeverse
         authorised_users: [],
         update_type:      'fetch',
         update_frequency: 'day',
-        generate_html:    false,
         updated_on:       Date.new(1970, 1, 1)
       }
     end
@@ -219,7 +201,6 @@ module Tildeverse
         @authorised_users = dv[:authorised_users]
         @update_type      = dv[:update_type]
         @update_frequency = dv[:update_frequency]
-        @generate_html    = dv[:generate_html]
         @updated_on       = dv[:updated_on]
       end
     end
@@ -262,19 +243,6 @@ module Tildeverse
     end
 
     ##
-    # Validate {#generate_html}
-    # @return [true, false] if valid
-    # @raise [Error::GenerateHtmlError] if not valid
-    #
-    def validate_generate_html(input)
-      input.tap do |value|
-        valid = [true, false]
-        error = Error::GenerateHtmlError
-        raise error unless valid.include?(value)
-      end
-    end
-
-    ##
     # Template for the YAML output.
     # We cannot use 'to_yaml' as it does not preserve comments.
     # @return [String]
@@ -304,9 +272,6 @@ module Tildeverse
       # 'week'   => GET weekly, on Monday.
       # 'month'  => GET monthly, on the 1st.
       @update_frequency@
-
-      # Should a website be generated along with the TXT and JSON output?
-      @generate_html@
 
       # The date that the data was last updated. This is updated automatically,
       #   and will be overwritten on the next GET request.

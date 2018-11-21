@@ -10,7 +10,7 @@ describe 'Tildeverse::Fetcher' do
 
   # Implement the bare minimum to quack like a Data object
   let(:data) do
-    double('Data', :config => config, :save_with_config => nil, :clear => nil)
+    double('Data', :config => config, :save => nil, :clear => nil)
   end
 
   # Implement the bare minimum to quack like a RemoteResource object
@@ -40,8 +40,8 @@ describe 'Tildeverse::Fetcher' do
       result
     end
 
-    it 'should call Data#save_with_config' do
-      expect(data).to receive(:save_with_config)
+    it 'should call Data#save' do
+      expect(data).to receive(:save)
       result
     end
 

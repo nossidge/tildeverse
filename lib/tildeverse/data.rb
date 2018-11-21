@@ -96,20 +96,6 @@ module Tildeverse
     end
 
     ##
-    # (see Tildeverse::DataSaver#save_website)
-    #
-    def save_website
-      DataSaver.new(self).save_website
-    end
-
-    ##
-    # (see Tildeverse::DataSaver#save_with_config)
-    #
-    def save_with_config
-      DataSaver.new(self).save_with_config
-    end
-
-    ##
     # Clear all the data.
     #
     def clear

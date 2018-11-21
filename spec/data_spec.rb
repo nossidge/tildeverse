@@ -8,16 +8,14 @@ describe 'Tildeverse::Data' do
     Struct.new(
       :update_type,
       :update_frequency,
-      :generate_html,
       :updated_on
     ) do
-      def generate_html?; generate_html; end
       def update; nil; end
     end
   end
 
   let(:config) do
-    config_struct.new('scrape', 'week', false, '2018-06-08')
+    config_struct.new('scrape', 'week', '2018-06-08')
   end
 
   let(:instance) do
@@ -85,26 +83,6 @@ describe 'Tildeverse::Data' do
       )
       expect_any_instance_of(Tildeverse::DataSaver).to receive(:save)
       instance.save
-    end
-  end
-
-  describe '#save_website' do
-    it 'should delegate the method to a DataSaver object' do
-      expect(Tildeverse::DataSaver).to(
-        receive(:new).with(instance).and_call_original
-      )
-      expect_any_instance_of(Tildeverse::DataSaver).to receive(:save_website)
-      instance.save_website
-    end
-  end
-
-  describe '#save_with_config' do
-    it 'should delegate the method to a DataSaver object' do
-      expect(Tildeverse::DataSaver).to(
-        receive(:new).with(instance).and_call_original
-      )
-      expect_any_instance_of(Tildeverse::DataSaver).to receive(:save_with_config)
-      instance.save_with_config
     end
   end
 

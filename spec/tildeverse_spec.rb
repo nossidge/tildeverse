@@ -115,9 +115,9 @@ describe 'Tildeverse' do
   end
 
   describe '#save' do
-    it 'should delegate to Data#save_with_config' do
+    it 'should delegate to Data#save' do
       allow_any_instance_of(Tildeverse::Data).to(
-        receive(:save_with_config).and_return('I have saved')
+        receive(:save).and_return('I have saved')
       )
       expect(Tildeverse.save).to eq 'I have saved'
     end

@@ -22,7 +22,6 @@ describe 'Tildeverse::Config' do
       authorised_users: [],
       update_type:      'fetch',
       update_frequency: 'day',
-      generate_html:    false,
       updated_on:       Date.new(1970, 1, 1)
     }
   end
@@ -118,19 +117,6 @@ describe 'Tildeverse::Config' do
       end
       test_raise_error(valid, invalid, terror::UpdateFrequencyError) do |i|
         instance.update_frequency, = i
-      end
-    end
-  end
-
-  describe '#generate_html=' do
-    it 'should validate from array: true false' do
-      valid = [true, false]
-      invalid = [123, nil, Integer, 'scrape', 'always']
-      test_raise_error(valid, invalid, terror::GenerateHtmlError) do |i|
-        instance.send(:validate_generate_html, i)
-      end
-      test_raise_error(valid, invalid, terror::GenerateHtmlError) do |i|
-        instance.generate_html = i
       end
     end
   end

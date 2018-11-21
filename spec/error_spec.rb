@@ -160,17 +160,6 @@ describe 'Tildeverse::Error' do
     end
   end
 
-  describe 'GenerateHtmlError' do
-    let(:error) { Tildeverse::Error::GenerateHtmlError.new }
-    let(:msg) { %('generate_html' must be one of: true, false) }
-    it 'should be a Tildeverse::Error::ConfigError' do
-      expect(error).to be_a Tildeverse::Error::ConfigError
-    end
-    it 'should declare a meaningful #message' do
-      expect(error.message).to eq msg
-    end
-  end
-
   describe 'UpdatedOnError' do
     let(:error) { Tildeverse::Error::UpdatedOnError.new }
     let(:msg) { %(todo) }

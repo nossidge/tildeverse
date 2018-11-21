@@ -199,15 +199,6 @@ module Tildeverse
     end
 
     ##
-    # Error class raised when {Config#generate_html} is invalid
-    #
-    class GenerateHtmlError < ConfigError
-      def initialize
-        super %('generate_html' must be one of: true, false)
-      end
-    end
-
-    ##
     # todo
     #
     class UpdatedOnError < ConfigError

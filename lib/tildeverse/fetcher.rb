@@ -59,7 +59,7 @@ module Tildeverse
       FileUtils.rm(backup) if backup.exist?
 
       # Use the new text file to save output.
-      data.save_with_config
+      data.save
     end
   end
 end
