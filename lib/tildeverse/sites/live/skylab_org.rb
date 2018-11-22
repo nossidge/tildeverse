@@ -6,6 +6,9 @@ module Tildeverse
     ##
     # Site information and user list for +skylab.org+
     #
+    # @note This site serves different content for HTTPS and HTTP.
+    #   The Tildeverse homepages are only available through HTTP.
+    #
     class SkylabOrg < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +skylab.org+

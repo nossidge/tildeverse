@@ -24,7 +24,7 @@ module Tildeverse
           needle = '<a href="/~'
           con.result.split("\n").map do |i|
             next unless i.include?(needle)
-            i.split(needle).last.split('"').first.remove_trailing_slash
+            i.split(needle).last.split('/').first
           end.compact.sort.uniq
         end
       end

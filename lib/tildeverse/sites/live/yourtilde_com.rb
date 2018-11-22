@@ -6,6 +6,11 @@ module Tildeverse
     ##
     # Site information and user list for +yourtilde.com+
     #
+    # @note This site has a few URL aliases:
+    #   - +yourtilde.com+
+    #   - +tildecities.com+
+    #   - +retrodigital.net+
+    #
     class YourtildeCom < Tildeverse::Site::Live
       ##
       # Calls {Tildeverse::Site#initialize} with arg +yourtilde.com+
@@ -25,8 +30,8 @@ module Tildeverse
           anizawa arung asvvvad ben biglysmalls brendantcc caleb copart
           deepend distip diverger edwardthefma emv envican fosslinux geoff
           hustler hyperboredoubt jovan juaniman99 khuxkm kingofobsolete
-          login mhj msmcmickey mspe mushmouth nozy oak_tree petegozz
-          rileyjb rofopaje rostovripper sebboh silbern slip snowdusk tiasum
+          login mhj msmcmickey mspe mushmouth nozy oak_tree petegozz rileyjb
+          rofopaje rostovripper sebboh silbern slip snowdusk tiasum tomasino
           tunas ubergeek valdebrick wl01 worldwide xdrixxyz zenoil zin
         ]
       end

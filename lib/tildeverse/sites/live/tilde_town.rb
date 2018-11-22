@@ -11,7 +11,7 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tilde.town+
       #
       def initialize
-        super TildeSiteURI.new('http://tilde.town/~dan/users.json')
+        super TildeSiteURI.new('https://tilde.town/~dan/users.json')
       end
 
       ##
