@@ -81,7 +81,7 @@ describe 'Tildeverse::Site' do
         obj = Class.new(Tildeverse::Site).new(uri)
         expect do
           obj.scrape_users
-        end.to raise_error(NotImplementedError)
+        end.to raise_error(Tildeverse::Error::AbstractMethodError)
       end
     end
 
@@ -103,7 +103,7 @@ describe 'Tildeverse::Site' do
         obj = Class.new(Tildeverse::Site).new(uri)
         expect do
           obj.online?
-        end.to raise_error(NotImplementedError)
+        end.to raise_error(Tildeverse::Error::AbstractMethodError)
       end
     end
 

@@ -29,7 +29,7 @@ module Tildeverse
     end
 
     # Message to append to console output if the error is all my fault
-    def developer_error
+    private def developer_error
       <<-MSG.gsub(/^ {8}/, '') + developer_issue
                Developer error! You should not be seeing this!
       MSG
@@ -37,13 +37,49 @@ module Tildeverse
 
     # Message to append to console output if the error is not my fault,
     # but does need my coding attention
-    def developer_issue
+    private def developer_issue
       <<-MSG.gsub(/^ {8}/, '')
                I'd be very grateful if you'd log this issue at:
                https://github.com/nossidge/tildeverse/issues
                Thanks,
                  ~nossidge
       MSG
+    end
+
+    ############################################################################
+
+    ##
+    # Error class raised when an abstract method is called.
+    #
+    class AbstractMethodError < Error
+      #
+      # Name of the invalid method that was called
+      attr_reader :method_name
+
+      # @param method_name [String] name of the invalid method that was called
+      # @param msg [String] optional override of {#message} value
+      def initialize(method_name, msg = nil)
+        @method_name = method_name
+        super (msg || default_message)
+      end
+
+      # (see Tildeverse::Error#console_message)
+      def console_message
+        <<~MSG + developer_error
+          ERROR: Abstract method '#{method_name}' not implemented
+                 at the appropriate level of inheritance
+        MSG
+      end
+
+      private
+
+      # @return [String] default value of {#message}
+      def default_message
+        <<-MSG.squish
+          Abstract method '#{method_name}'
+          not implemented at this level of inheritance
+        MSG
+      end
     end
 
     ############################################################################

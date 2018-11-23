@@ -8,13 +8,10 @@ module Tildeverse
     #
     class Live < self
       ##
-      # Abstract method, to be implemented by inheritors
-      # @raise [NotImplementedError]
+      # (see Site#scrape_users)
       #
       def scrape_users
-        msg = "Abstract method '##{__method__}' " \
-              'not implemented at this level of inheritance'
-        raise NotImplementedError, msg
+        raise Error::AbstractMethodError, __method__
       end
 
       ##

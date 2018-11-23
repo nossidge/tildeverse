@@ -22,22 +22,22 @@ module Tildeverse
   class Site
     ##
     # Abstract method, to be implemented by inheritors
-    # @raise [NotImplementedError]
+    # @abstract
+    # @return [Array<String>] list of user names
+    # @raise [Error::AbstractMethodError]
     #
     def scrape_users
-      msg = "Abstract method '##{__method__}' " \
-            'not implemented at this level of inheritance'
-      raise NotImplementedError, msg
+      raise Error::AbstractMethodError, __method__
     end
 
     ##
     # Abstract class method, to be implemented by inheritors
-    # @raise [NotImplementedError]
+    # @abstract
+    # @return [Boolean] the site's known online status
+    # @raise [Error::AbstractMethodError]
     #
     def self.online?
-      msg = "Abstract method '##{__method__}' " \
-            'not implemented at this level of inheritance'
-      raise NotImplementedError, msg
+      raise Error::AbstractMethodError, __method__
     end
 
     ############################################################################

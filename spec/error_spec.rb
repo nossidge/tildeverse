@@ -21,6 +21,32 @@ describe 'Tildeverse::Error' do
 
   ##############################################################################
 
+  describe 'AbstractMethodError' do
+    let(:klass)          { Tildeverse::Error::AbstractMethodError }
+    let(:method_name)    { 'to_s' }
+    let(:msg)            { 'foo bar baz' }
+    let(:error_with_msg) { klass.new(method_name, msg) }
+    let(:error)          { klass.new(method_name) }
+    it 'should be a Tildeverse::Error' do
+      expect(error_with_msg).to be_a Tildeverse::Error
+      expect(error).to          be_a Tildeverse::Error
+    end
+    it 'should return initialize param as #message' do
+      expect(error_with_msg.message).to eq msg
+    end
+    it 'should include method name in default #message' do
+      expect(error.message).to include(method_name)
+    end
+    it "should declare a 'developer_error' #console_message" do
+      expect(error).to receive(:developer_error).and_call_original
+      console_message = error.console_message
+      expect(console_message).to include(dev_error_msg)
+      expect(console_message).to include(issue_link_msg)
+    end
+  end
+
+  ##############################################################################
+
   # Base class to inherit for PermissionDenied exception classes
   describe 'PermissionDeniedError' do
     let(:error) { Tildeverse::Error::PermissionDeniedError.new }
@@ -186,7 +212,7 @@ describe 'Tildeverse::Error' do
     end
   end
 
-  describe 'DeniedByConfig' do
+  describe 'NoUsersFoundError' do
     let(:site_name) { 'example.com' }
     let(:error) { Tildeverse::Error::NoUsersFoundError.new(site_name) }
     let(:msg) { %(No users found for site: #{site_name}) }
