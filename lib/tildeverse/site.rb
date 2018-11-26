@@ -170,7 +170,7 @@ module Tildeverse
     #
     def scrape_users_cache
       return @scrape_users_cache if @scrape_users_cache
-      return @scrape_users_cache = [] if con.error?
+      return @scrape_users_cache = [] if connection.error?
       scrape_users
     end
 
@@ -220,7 +220,9 @@ module Tildeverse
       return @remote if @remote && @remote.resource == url
       info = [name, uri.root, url]
       @remote = RemoteResource.new(*info).tap do |remote|
-        remote.get
+        Tildeverse.suppress.handle(Error::OfflineURIError) do
+          remote.get
+        end
       end
     end
     alias con connection

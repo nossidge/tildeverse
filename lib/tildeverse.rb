@@ -31,6 +31,7 @@ require_relative 'tildeverse/pfhawkins'
 require_relative 'tildeverse/scraper'
 require_relative 'tildeverse/fetcher'
 require_relative 'tildeverse/tag_merger'
+require_relative 'tildeverse/exception_suppressor'
 require_relative 'tildeverse/version'
 
 ################################################################################
@@ -40,6 +41,13 @@ require_relative 'tildeverse/version'
 #
 module Tildeverse
   class << self
+    ##
+    # Reference to the {Tildeverse::ExceptionSuppressor} instance
+    #
+    def suppress
+      @suppress ||= Tildeverse::ExceptionSuppressor.new
+    end
+
     ##
     # Reference to the {Tildeverse::Config} instance
     #

@@ -4,6 +4,17 @@
 require_relative File.expand_path('../../bin/bin_lib/bin', __FILE__)
 
 describe 'Tildeverse::Bin' do
+
+  describe '#new' do
+    it 'should correctly apply the -f option' do
+      expect(Tildeverse.suppress).to eq []
+      Tildeverse::Bin.new(%w[foo -f])
+      expect(Tildeverse.suppress).to eq [Tildeverse::Error::OfflineURIError]
+    end
+  end
+
+  ##############################################################################
+
   describe '#argv_orig' do
     it 'should return the original argv passed to the initializer' do
       [

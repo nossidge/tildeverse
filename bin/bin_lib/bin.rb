@@ -25,6 +25,16 @@ module Tildeverse
       when Hash
         @options = argv
       end
+      apply_options
+    end
+
+    ##
+    # Use {#options} hash to set internal Tildeverse state
+    #
+    def apply_options
+      if options[:force]
+        Tildeverse.suppress << Error::OfflineURIError
+      end
     end
 
     ##
@@ -180,7 +190,7 @@ module Tildeverse
 
           Usage: tildeverse <command> [regex] [options]
 
-        @authorised_doc@
+        @authorised_commands@
 
         $ tildeverse new
           See if there have been any additions by ~pfhawkins
@@ -206,25 +216,31 @@ module Tildeverse
           -l  output in long listing format
           -j  output in JSON format
           -p  output in pretty JSON format
+        @authorised_options@
       HELP
 
-      authorised_doc = <<~HELP
-        $ tildeverse get
+      authorised_commands = <<~HELP
+        $ tildeverse get [-f]
           Get data from remote servers
           Set config 'update_type' to choose download type
           Set config 'update_frequency' to avoid repeated download
 
-        $ tildeverse scrape
+        $ tildeverse scrape [-f]
           Scrape the user list of each box, and save to file
 
-        $ tildeverse fetch
+        $ tildeverse fetch [-f]
           Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
       HELP
 
+      authorised_options = '  -f  force continuation on error'
+
+      output = main_doc.dup
       if authorised?
-        main_doc.sub("@authorised_doc@\n", authorised_doc)
+        output.sub!("@authorised_commands@\n", authorised_commands)
+        output.sub!("@authorised_options@\n", authorised_options)
       else
-        main_doc.sub("\n@authorised_doc@\n", '')
+        output.sub!("\n@authorised_commands@\n", '')
+        output.sub!("\n@authorised_options@", '')
       end
     end
 
@@ -250,6 +266,7 @@ module Tildeverse
         opts.on('-l', '--long')    { @options[:long]   = true }
         opts.on('-j', '--json')    { @options[:json]   = true }
         opts.on('-p', '--pretty')  { @options[:pretty] = true }
+        opts.on('-f', '--force')   { @options[:force]  = true }
         opts.on('-h', '--help')    { tildeverse_help;    exit }
         opts.on('-v', '--version') { tildeverse_version; exit }
       end.parse(args)
