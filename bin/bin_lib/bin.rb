@@ -37,16 +37,14 @@ module Tildeverse
       end
     end
 
+    ############################################################################
+
     ##
     # Use the arguments to decide which function to perform
     #
     def run
       command = argv[0]
       case
-      when %w[help].include?(command)
-        tildeverse_help
-      when %w[version].include?(command)
-        tildeverse_version
       when %w[get].include?(command) && authorised?
         tildeverse_get
       when %w[scrape].include?(command) && authorised?
@@ -68,23 +66,7 @@ module Tildeverse
       end
     end
 
-    ##
-    # $ tildeverse help
-    #
-    # Display help info
-    #
-    def tildeverse_help
-      puts help_text
-    end
-
-    ##
-    # $ tildeverse version
-    #
-    # Display version info
-    #
-    def tildeverse_version
-      puts version_text
-    end
+    ############################################################################
 
     ##
     # $ tildeverse get
@@ -173,6 +155,8 @@ module Tildeverse
       puts format_users(users) { users.map(&:homepage) }
     end
 
+    ############################################################################
+
     private
 
     ##
@@ -186,7 +170,7 @@ module Tildeverse
       main_doc = <<~HELP
           Tildeverse: List of tilde-sites and their users
           https://github.com/nossidge/tildeverse
-          Version #{Tildeverse.version_number} - #{Tildeverse.version_date}
+          Version: #{Tildeverse.version_number} (#{Tildeverse.version_date})
 
           Usage: tildeverse <command> [regex] [options]
 
@@ -212,16 +196,12 @@ module Tildeverse
           List all the users by URL
           'regex' argument filters URLs by regex
 
-        [options]
-          -l  output in long listing format
-          -j  output in JSON format
-          -p  output in pretty JSON format
-        @authorised_options@
+          Options:
       HELP
 
       authorised_commands = <<~HELP
         $ tildeverse get [-f]
-          Get data from remote servers
+          Get data from remote servers, using config options
           Set config 'update_type' to choose download type
           Set config 'update_frequency' to avoid repeated download
 
@@ -232,15 +212,11 @@ module Tildeverse
           Fetch data from #{Files.remote_json.sub(%r{.*//}, '')}
       HELP
 
-      authorised_options = '  -f  force continuation on error'
-
       output = main_doc.dup
       if authorised?
         output.sub!("@authorised_commands@\n", authorised_commands)
-        output.sub!("@authorised_options@\n", authorised_options)
       else
         output.sub!("\n@authorised_commands@\n", '')
-        output.sub!("\n@authorised_options@", '')
       end
     end
 
@@ -253,6 +229,8 @@ module Tildeverse
       "tildeverse #{number} (#{date})"
     end
 
+    ############################################################################
+
     ##
     # Parse the arguments and set the values of
     # {#options}, {#argv_orig}, and {#argv}
@@ -262,15 +240,47 @@ module Tildeverse
     def parse(args)
       @options = {}
       @argv_orig = args.dup
-      @argv = OptionParser.new do |opts|
-        opts.on('-l', '--long')    { @options[:long]   = true }
-        opts.on('-j', '--json')    { @options[:json]   = true }
-        opts.on('-p', '--pretty')  { @options[:pretty] = true }
-        opts.on('-f', '--force')   { @options[:force]  = true }
-        opts.on('-h', '--help')    { tildeverse_help;    exit }
-        opts.on('-v', '--version') { tildeverse_version; exit }
-      end.parse(args)
+      optparse = OptionParser.new do |opts|
+        opts.banner = help_text
+
+        # Output options
+        opts.on('-l', '--long', 'Output in long listing format') do
+          @options[:long] = true
+        end
+        opts.on('-j', '--json', 'Output in JSON format') do
+          @options[:json] = true
+        end
+        opts.on('-p', '--pretty', 'Output in pretty JSON format') do
+          @options[:pretty] = true
+        end
+
+        # Exception handling
+        opts.on('-f', '--force', 'Force continuation on error') do
+          @options[:force] = true
+        end
+
+        # Help output
+        opts.separator nil
+        opts.on('-h', '--help', 'Display this help screen') do
+          puts opts
+          exit 0
+        end
+        opts.on('-v', '--version', 'Display the version number') do
+          puts version_text
+          exit 0
+        end
+      end
+
+      # Parse the options and show errors on failure
+      begin
+        @argv = optparse.parse(args)
+      rescue OptionParser::ParseError => e
+        puts e
+        exit 1
+      end
     end
+
+    ############################################################################
 
     ##
     # Output a list of users in a consistant way
@@ -311,6 +321,8 @@ module Tildeverse
         yield
       end
     end
+
+    ############################################################################
 
     ##
     # Is the logged-in user authorised to alter data?

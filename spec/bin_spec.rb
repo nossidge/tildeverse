@@ -71,8 +71,6 @@ describe 'Tildeverse::Bin' do
     let(:instance) do
       ->(argv) do
         Tildeverse::Bin.new(argv).tap do |bin|
-          allow(bin).to receive(:tildeverse_help)
-          allow(bin).to receive(:tildeverse_version)
           allow(bin).to receive(:tildeverse_scrape)
           allow(bin).to receive(:tildeverse_fetch)
           allow(bin).to receive(:tildeverse_new)
@@ -82,18 +80,6 @@ describe 'Tildeverse::Bin' do
           allow(bin).to receive(:tildeverse_users)
         end
       end
-    end
-
-    it 'should output help message' do
-      bin = instance.call(['help'])
-      expect(bin).to receive(:tildeverse_help)
-      bin.run
-    end
-
-    it 'should output version' do
-      bin = instance.call(['version'])
-      expect(bin).to receive(:tildeverse_version)
-      bin.run
     end
 
     it 'should get from remote' do
@@ -167,45 +153,6 @@ describe 'Tildeverse::Bin' do
         expect(bin).to receive(:tildeverse_users)
         bin.run
       end
-    end
-  end
-
-  ##############################################################################
-
-  describe '#tildeverse_help' do
-    it 'should return a multi-line string' do
-      bin = Tildeverse::Bin.new([])
-      help = capture_stdout { bin.tildeverse_help }
-      expect(help).to be_a String
-      expect(help.split("\n").count).to be >= 10
-    end
-
-    show_get = proc do |is_authorised, expectation|
-      i = is_authorised ? '' : 'not '
-      it "should #{i}display info about data gets if #{i}authorised" do
-        bin = Tildeverse::Bin.new([])
-        allow(bin).to receive(:authorised?).and_return(is_authorised)
-        help = capture_stdout { bin.tildeverse_help }
-        [
-          '$ tildeverse get',
-          '$ tildeverse scrape',
-          '$ tildeverse fetch'
-        ].each do |i|
-          expect(help).send(expectation, include(i))
-        end
-      end
-    end
-    show_get.call(true,  :to)
-    show_get.call(false, :to_not)
-  end
-
-  describe '#tildeverse_version' do
-    it 'should contain the version number and date' do
-      bin = Tildeverse::Bin.new([])
-      version = capture_stdout { bin.tildeverse_version }
-      expect(version).to be_a String
-      expect(version).to include(Tildeverse.version_number)
-      expect(version).to include(Tildeverse.version_date)
     end
   end
 
@@ -349,6 +296,45 @@ describe 'Tildeverse::Bin' do
           expect(output.split("\n").first).to include(header)
         end
       end
+    end
+  end
+
+  ##############################################################################
+
+  describe '#help_text' do
+    it 'should return a multi-line string' do
+      bin = Tildeverse::Bin.new([])
+      help = bin.send('help_text')
+      expect(help).to be_a String
+      expect(help.split("\n").count).to be >= 10
+    end
+
+    show_get = proc do |is_authorised, expectation|
+      i = is_authorised ? '' : 'not '
+      it "should #{i}display info about data gets if #{i}authorised" do
+        bin = Tildeverse::Bin.new([])
+        allow(bin).to receive(:authorised?).and_return(is_authorised)
+        help = bin.send('help_text')
+        [
+          '$ tildeverse get',
+          '$ tildeverse scrape',
+          '$ tildeverse fetch'
+        ].each do |i|
+          expect(help).send(expectation, include(i))
+        end
+      end
+    end
+    show_get.call(true,  :to)
+    show_get.call(false, :to_not)
+  end
+
+  describe '#version_text' do
+    it 'should contain the version number and date' do
+      bin = Tildeverse::Bin.new([])
+      version = bin.send('version_text')
+      expect(version).to be_a String
+      expect(version).to include(Tildeverse.version_number)
+      expect(version).to include(Tildeverse.version_date)
     end
   end
 
