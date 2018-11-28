@@ -4,12 +4,40 @@
 require_relative File.expand_path('../../bin/bin_lib/bin', __FILE__)
 
 describe 'Tildeverse::Bin' do
+  let(:bin) { Tildeverse::Bin.new([]) }
 
   describe '#new' do
     it 'should correctly apply the -f option' do
       expect(Tildeverse.suppress).to eq []
       Tildeverse::Bin.new(%w[foo -f])
       expect(Tildeverse.suppress).to eq [Tildeverse::Error::OfflineURIError]
+    end
+
+    it 'should print info and exit on --help option' do
+      expect do
+        capture_stdout { Tildeverse::Bin.new(%w[--help]) }
+      end.to raise_error(SystemExit)
+      allow_any_instance_of(Tildeverse::Bin).to receive(:exit)
+      output = capture_stdout { Tildeverse::Bin.new(%w[--help]) }
+      expect(output).to eq bin.send(:option_parser).to_s.chomp
+    end
+
+    it 'should print info and exit on --version option' do
+      expect do
+        capture_stdout { Tildeverse::Bin.new(%w[--version]) }
+      end.to raise_error(SystemExit)
+      allow_any_instance_of(Tildeverse::Bin).to receive(:exit)
+      output = capture_stdout { Tildeverse::Bin.new(%w[--version]) }
+      expect(output).to eq bin.send(:version_text).to_s.chomp
+    end
+
+    it 'should print error info and exit on incorrect option' do
+      expect do
+        capture_stdout { Tildeverse::Bin.new(%w[--foo]) }
+      end.to raise_error(SystemExit)
+      allow_any_instance_of(Tildeverse::Bin).to receive(:exit)
+      output = capture_stdout { Tildeverse::Bin.new(%w[--foo]) }
+      expect(output).to eq 'invalid option: --foo'
     end
   end
 
@@ -76,7 +104,6 @@ describe 'Tildeverse::Bin' do
           allow(bin).to receive(:tildeverse_new)
           allow(bin).to receive(:tildeverse_json)
           allow(bin).to receive(:tildeverse_sites)
-          allow(bin).to receive(:tildeverse_site)
           allow(bin).to receive(:tildeverse_users)
         end
       end
@@ -134,21 +161,15 @@ describe 'Tildeverse::Bin' do
     end
 
     it 'should list the Tilde sites' do
-      bin = instance.call(['sites'])
-      expect(bin).to receive(:tildeverse_sites)
-      bin.run
-    end
-
-    it 'should list users for the site' do
-      %w[s site].each do |arg|
+      %w[s site sites].each do |arg|
         bin = instance.call([arg])
-        expect(bin).to receive(:tildeverse_site)
+        expect(bin).to receive(:tildeverse_sites)
         bin.run
       end
     end
 
     it 'should list users by URL' do
-      %w[u user' users].each do |arg|
+      %w[u user users].each do |arg|
         bin = instance.call([arg])
         expect(bin).to receive(:tildeverse_users)
         bin.run
@@ -201,29 +222,32 @@ describe 'Tildeverse::Bin' do
 
   ##############################################################################
 
-  describe '#tildeverse_sites(regex)' do
+  describe '#tildeverse_sites' do
     it 'should return the correct sites' do
-      bin = Tildeverse::Bin.new([])
       [
-        ['foo',        []],
-        ['pebble.ink', %w[pebble.ink]],
-        ['pebb',       %w[pebble.ink]],
-        ['ink$',       %w[pebble.ink]],
-        ['ebb.*k',     %w[pebble.ink]],
-        ['tilde',      %w[tilde.club tilde.team tilde.town yourtilde.com]],
-        ['^http://p',  %w[palvelin.club pebble.ink protocol.club]],
-        ['com$',       %w[ofmanytrades.com yourtilde.com]],
-        ['pebb|town',  %w[pebble.ink tilde.town]]
+        ['-s foo',        []],
+        ['-s pebble.ink', %w[pebble.ink]],
+        ['-s pebb',       %w[pebble.ink]],
+        ['-s ink$',       %w[pebble.ink]],
+        ['-s ebb.*k',     %w[pebble.ink]],
+        ['-s tilde',      %w[tilde.club tilde.town]],
+        ['-s e',          %w[pebble.ink tilde.club tilde.town]],
+        ['-s pebb|town',  %w[pebble.ink tilde.town]],
+        ['-t blog',       %w[pebble.ink]],
+        ['-u foo',        %w[tilde.club]],
+        ['-u f',          %w[pebble.ink tilde.club]]
       ].each do |args|
-        output = capture_stdout { bin.tildeverse_sites(args.first) }
+        bin = Tildeverse::Bin.new(args.first.split)
+        output = capture_stdout { bin.tildeverse_sites }
         expect(output).to eq args.last.join("\n")
       end
     end
 
     it 'should return the correct sites in long format' do
-      bin = Tildeverse::Bin.new(['--long'])
-      %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |args|
-        output = capture_stdout { bin.tildeverse_sites(args) }
+      %w[foo pebble.ink pebb ink$ ebb.*k tilde com$].each do |regex|
+        args = ['--long', '--site', regex]
+        bin = Tildeverse::Bin.new(args)
+        output = capture_stdout { bin.tildeverse_sites }
 
         # Just check for the headers
         %w[NAME URL USERS].each do |header|
@@ -233,52 +257,17 @@ describe 'Tildeverse::Bin' do
     end
   end
 
-  describe '#tildeverse_site(regex)' do
+  describe '#tildeverse_users' do
     it 'should return the correct users' do
-      bin = Tildeverse::Bin.new([])
       [
-        ['foo',        []],
-        ['pebble.ink', %w[pebble.ink]],
-        ['pebb',       %w[pebble.ink]],
-        ['ink$',       %w[pebble.ink]],
-        ['ebb.*k',     %w[pebble.ink]],
-        ['tilde',      %w[tilde.club tilde.team tilde.town yourtilde.com]],
-        ['^http://p',  %w[palvelin.club pebble.ink protocol.club]],
-        ['com$',       %w[ofmanytrades.com yourtilde.com]],
-        ['pebb|town',  %w[pebble.ink tilde.town]]
+        ['-u foobarbaz', []],
+        ['-u noss',      %w[nossidge]],
+        ['-u c',         %w[clach04 contolini elzilrac]],
+        ['-s club',      %w[foo_user]],
+        ['-t blog',      %w[jovan phildini]]
       ].each do |args|
-        output = capture_stdout { bin.tildeverse_site(args.first) }
-
-        # Should match the users of the site(s)
-        names = args.last.map do |site_name|
-          Tildeverse.site(site_name).users.map(&:name)
-        end.flatten.compact
-        expect(output).to eq names.join("\n")
-      end
-    end
-
-    it 'should return the correct users in long format' do
-      bin = Tildeverse::Bin.new(['--long'])
-      %w[foo pebble.ink pebb ink$ ebb.*k tilde ^http://p com$].each do |i|
-        output = capture_stdout { bin.tildeverse_site(i) }
-
-        # Just check for the headers
-        %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
-          expect(output.split("\n").first).to include(header)
-        end
-      end
-    end
-  end
-
-  describe '#tildeverse_users(regex)' do
-    it 'should return the correct users' do
-      bin = Tildeverse::Bin.new([])
-      [
-        ['foobarbaz', []],
-        ['noss',      %w[nossidge]],
-        ['c',         %w[clach04 contolini elzilrac]],
-      ].each do |args|
-        output = capture_stdout { bin.tildeverse_users(args.first) }
+        bin = Tildeverse::Bin.new(args.first.split)
+        output = capture_stdout { bin.tildeverse_users }
 
         args.last.each do |user_name|
           expect(output).to include(user_name)
@@ -287,9 +276,10 @@ describe 'Tildeverse::Bin' do
     end
 
     it 'should return the correct users in long format' do
-      bin = Tildeverse::Bin.new(['--long'])
-      %w[foobarbaz noss c].each do |i|
-        output = capture_stdout { bin.tildeverse_site(i) }
+      %w[foobarbaz noss c].each do |regex|
+        args = ['--long', '--user', regex]
+        bin = Tildeverse::Bin.new(args)
+        output = capture_stdout { bin.tildeverse_users }
 
         # Just check for the headers
         %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
@@ -343,13 +333,17 @@ describe 'Tildeverse::Bin' do
   describe '#parse(args)' do
     it 'should update the correct attributes' do
       [
-        [%w[],                  {}],
-        [%w[foo],               {}],
-        [%w[user foo],          {}],
-        [%w[user foo -l],       {long: true}],
-        [%w[user foo -j],       {json: true}],
-        [%w[user foo -jp],      {json: true, pretty: true}],
-        [%w[user foo --pretty], {pretty: true}]
+        [%w[],                     {}],
+        [%w[-u foo],               {user: 'foo'}],
+        [%w[user -u foo],          {user: 'foo'}],
+        [%w[user -u foo -l],       {user: 'foo', long: true}],
+        [%w[user -u foo -j],       {user: 'foo', json: true}],
+        [%w[user -u foo -jp],      {user: 'foo', json: true, pretty: true}],
+        [%w[site -u foo --pretty], {user: 'foo', pretty: true}],
+        [%w[-t blog -s club],      {tag: 'blog', site: 'club'}],
+        [%w[-ojp],                 {offline: true, json: true, pretty: true}],
+        [%w[--offline -jp],        {offline: true, json: true, pretty: true}],
+        [%w[scrape -f],            {force: true}],
       ].each do |args|
         bin = Tildeverse::Bin.new([])
         after_parse = bin.send(:parse, args.first)

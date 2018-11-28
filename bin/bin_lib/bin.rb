@@ -20,10 +20,10 @@ module Tildeverse
     #
     def initialize(argv = [])
       case argv
-      when Array
-        parse(argv)
       when Hash
         @options = argv
+      else # assume Array
+        parse([*argv])
       end
       apply_options
     end
@@ -55,14 +55,12 @@ module Tildeverse
         tildeverse_new
       when %w[json].include?(command)
         tildeverse_json
-      when %w[sites].include?(command)
-        tildeverse_sites(argv[1])
-      when %w[s site].include?(command)
-        tildeverse_site(argv[1])
+      when %w[s site sites].include?(command)
+        tildeverse_sites
       when %w[u user users].include?(command)
-        tildeverse_users(argv[1])
+        tildeverse_users
       else
-        tildeverse_users(argv[0])
+        tildeverse_users
       end
     end
 
@@ -117,41 +115,24 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse sites [regex] [-l] [-j -p]
+    # $ tildeverse sites [-l] [-j/p] [-o] [-u/s/t 'regex']
     #
-    # List all online sites in the Tildeverse
-    # 'regex' argument filters site URLs by regex
+    # List all sites in the Tildeverse
     #
-    def tildeverse_sites(regex)
-      sites = Tildeverse.sites.select(&:online?)
-      sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
+    def tildeverse_sites
+      sites = filtered_users.map(&:site).uniq
       puts format_sites(sites) { sites.map(&:name) }
     end
 
     ##
-    # $ tildeverse site [regex] [-l] [-j -p]
-    #
-    # List all users for the specified Tildebox
-    # 'regex' argument filters site URLs by regex
-    #
-    def tildeverse_site(regex)
-      sites = Tildeverse.sites.select(&:online?)
-      sites.select! { |i| i.uri.root[Regexp.new(regex)] } if regex
-      users = sites.map(&:users).flatten
-      puts format_users(users) { users.map(&:name) }
-    end
-
-    ##
-    # $ tildeverse user [regex] [-l] [-j -p]
+    # $ tildeverse users [-l] [-j/p] [-o] [-u/s/t 'regex']
     #   or
-    # $ tildeverse [regex] [-l] [-j -p]
+    # $ tildeverse [-l] [-j/p] [-o] [-u/s/t 'regex']
     #
     # List all the users by URL
-    # 'regex' argument filters user URLs by regex
     #
-    def tildeverse_users(regex)
-      users = Tildeverse.users
-      users.select! { |i| i.homepage[Regexp.new(regex)] } if regex
+    def tildeverse_users
+      users = filtered_users
       puts format_users(users) { users.map(&:homepage) }
     end
 
@@ -172,7 +153,7 @@ module Tildeverse
           https://github.com/nossidge/tildeverse
           Version: #{Tildeverse.version_number} (#{Tildeverse.version_date})
 
-          Usage: tildeverse <command> [regex] [options]
+          Usage: tildeverse <command> [options]
 
         @authorised_commands@
 
@@ -182,19 +163,13 @@ module Tildeverse
         $ tildeverse json [-p]
           Write the full JSON file to standard out
 
-        $ tildeverse sites [regex] [-l] [-j -p]
-          List all online sites in the Tildeverse
-          'regex' argument filters URLs by regex
+        $ tildeverse sites [-l] [-j/p] [-o] [-u/s/t 'regex']
+          List sites in the Tildeverse
 
-        $ tildeverse site [regex] [-l] [-j -p]
-          List all users for the specified Tildebox
-          'regex' argument filters URLs by regex
-
-        $ tildeverse user [regex] [-l] [-j -p]
+        $ tildeverse users [-l] [-j/p] [-o] [-u/s/t 'regex']
           or
-        $ tildeverse [regex] [-l] [-j -p]
-          List all the users by URL
-          'regex' argument filters URLs by regex
+        $ tildeverse [-l] [-j/p] [-o] [-u/s/t 'regex']
+          List users in the Tildeverse
 
           Options:
       HELP
@@ -240,8 +215,38 @@ module Tildeverse
     def parse(args)
       @options = {}
       @argv_orig = args.dup
-      optparse = OptionParser.new do |opts|
+
+      # Parse the options and show errors on failure
+      begin
+        @argv = option_parser.parse(args)
+      rescue OptionParser::ParseError => e
+        puts e
+        exit 1
+      end
+    end
+
+    ##
+    # @return [OptionParser]
+    #
+    def option_parser
+      OptionParser.new do |opts|
         opts.banner = help_text
+
+        # Filter options
+        opts.on('-u', '--user STRING', 'Filter users using regex') do |s|
+          @options[:user] = s
+        end
+        opts.on('-s', '--site STRING', 'Filter sites using regex') do |s|
+          @options[:site] = s
+        end
+        opts.on('-t', '--tag STRING', 'Filter tags using regex') do |s|
+          @options[:tag] = s
+        end
+        opts.on('-o', '--offline', 'Include offline users') do
+          @options[:offline] = true
+        end
+
+        opts.separator nil
 
         # Output options
         opts.on('-l', '--long', 'Output in long listing format') do
@@ -254,13 +259,16 @@ module Tildeverse
           @options[:pretty] = true
         end
 
+        opts.separator nil
+
         # Exception handling
         opts.on('-f', '--force', 'Force continuation on error') do
           @options[:force] = true
         end
 
-        # Help output
         opts.separator nil
+
+        # Help output
         opts.on('-h', '--help', 'Display this help screen') do
           puts opts
           exit 0
@@ -270,14 +278,44 @@ module Tildeverse
           exit 0
         end
       end
+    end
 
-      # Parse the options and show errors on failure
-      begin
-        @argv = optparse.parse(args)
-      rescue OptionParser::ParseError => e
-        puts e
-        exit 1
+    ############################################################################
+
+    ##
+    # Return the complete user list filtered according to the {options} flags
+    #
+    # @return [Array<User>]
+    #
+    def filtered_users
+      Tildeverse.data.users.dup.tap do |users|
+        filter_by_online!(users)
+        filter_by_user!(users)
+        filter_by_site!(users)
+        filter_by_tag!(users)
       end
+    end
+
+    def filter_by_online!(users)
+      users.select!(&:online?) unless options[:offline]
+    end
+
+    def filter_by_user!(users)
+      regex = options[:user]
+      return users unless regex
+      users.select! { |u| u.name[Regexp.new(regex)] }
+    end
+
+    def filter_by_site!(users)
+      regex = options[:site]
+      return users unless regex
+      users.select! { |u| u.site.name[Regexp.new(regex)] }
+    end
+
+    def filter_by_tag!(users)
+      regex = options[:tag]
+      return users unless regex
+      users.select! { |u| !u.tags.grep(Regexp.new(regex)).empty? }
     end
 
     ############################################################################
