@@ -233,14 +233,23 @@ module Tildeverse
         opts.banner = help_text
 
         # Filter options
-        opts.on('-u', '--user STRING', 'Filter users using regex') do |s|
+        opts.on('-u', '--user STRING', 'Regex to include users') do |s|
           @options[:user] = s
         end
-        opts.on('-s', '--site STRING', 'Filter sites using regex') do |s|
+        opts.on('-s', '--site STRING', 'Regex to include sites') do |s|
           @options[:site] = s
         end
-        opts.on('-t', '--tag STRING', 'Filter tags using regex') do |s|
+        opts.on('-t', '--tag STRING', 'Regex to include tags') do |s|
           @options[:tag] = s
+        end
+        opts.on('-U', '--xuser STRING', 'Regex to exclude users') do |s|
+          @options[:xuser] = s
+        end
+        opts.on('-S', '--xsite STRING', 'Regex to exclude sites') do |s|
+          @options[:xsite] = s
+        end
+        opts.on('-T', '--xtag STRING', 'Regex to exclude tags') do |s|
+          @options[:xtag] = s
         end
         opts.on('-o', '--offline', 'Include offline users') do
           @options[:offline] = true
@@ -293,6 +302,9 @@ module Tildeverse
         filter_by_user!(users)
         filter_by_site!(users)
         filter_by_tag!(users)
+        filter_by_user_exclude!(users)
+        filter_by_site_exclude!(users)
+        filter_by_tag_exclude!(users)
       end
     end
 
@@ -316,6 +328,24 @@ module Tildeverse
       regex = options[:tag]
       return users unless regex
       users.select! { |u| !u.tags.grep(Regexp.new(regex)).empty? }
+    end
+
+    def filter_by_user_exclude!(users)
+      regex = options[:xuser]
+      return users unless regex
+      users.reject! { |u| u.name[Regexp.new(regex)] }
+    end
+
+    def filter_by_site_exclude!(users)
+      regex = options[:xsite]
+      return users unless regex
+      users.reject! { |u| u.site.name[Regexp.new(regex)] }
+    end
+
+    def filter_by_tag_exclude!(users)
+      regex = options[:xtag]
+      return users unless regex
+      users.select! { |u| u.tags.grep(Regexp.new(regex)).empty? }
     end
 
     ############################################################################

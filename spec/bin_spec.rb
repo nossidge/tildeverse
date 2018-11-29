@@ -235,7 +235,11 @@ describe 'Tildeverse::Bin' do
         ['-s pebb|town',  %w[pebble.ink tilde.town]],
         ['-t blog',       %w[pebble.ink]],
         ['-u foo',        %w[tilde.club]],
-        ['-u f',          %w[pebble.ink tilde.club]]
+        ['-u f',          %w[pebble.ink tilde.club]],
+        ['-U f',          %w[pebble.ink tilde.town]],
+        ['-U noss',       %w[pebble.ink tilde.club]],
+        ['-T empty',      %w[pebble.ink tilde.town]],
+        ['-S tilde',      %w[pebble.ink]]
       ].each do |args|
         bin = Tildeverse::Bin.new(args.first.split)
         output = capture_stdout { bin.tildeverse_sites }
@@ -264,7 +268,10 @@ describe 'Tildeverse::Bin' do
         ['-u noss',      %w[nossidge]],
         ['-u c',         %w[clach04 contolini elzilrac]],
         ['-s club',      %w[foo_user]],
-        ['-t blog',      %w[jovan phildini]]
+        ['-t blog',      %w[jovan phildini]],
+        ['-U e',         %w[clach04 contolini imt jovan phildini]],
+        ['-T e',         %w[jovan ke7ofi phildini]],
+        ['-S pebble',    %w[foo_user nossidge]]
       ].each do |args|
         bin = Tildeverse::Bin.new(args.first.split)
         output = capture_stdout { bin.tildeverse_users }
@@ -344,6 +351,8 @@ describe 'Tildeverse::Bin' do
         [%w[-ojp],                 {offline: true, json: true, pretty: true}],
         [%w[--offline -jp],        {offline: true, json: true, pretty: true}],
         [%w[scrape -f],            {force: true}],
+        [%w[-T blog -S club],      {xtag: 'blog', xsite: 'club'}],
+        [%w[-T blog -U noss],      {xtag: 'blog', xuser: 'noss'}],
       ].each do |args|
         bin = Tildeverse::Bin.new([])
         after_parse = bin.send(:parse, args.first)
