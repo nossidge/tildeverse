@@ -239,7 +239,9 @@ describe 'Tildeverse::Bin' do
         ['-U f',          %w[pebble.ink tilde.town]],
         ['-U noss',       %w[pebble.ink tilde.club]],
         ['-T empty',      %w[pebble.ink tilde.town]],
-        ['-S tilde',      %w[pebble.ink]]
+        ['-S tilde',      %w[pebble.ink]],
+        ['--http',        %w[pebble.ink tilde.club]],
+        ['--https',       %w[tilde.town]]
       ].each do |args|
         bin = Tildeverse::Bin.new(args.first.split)
         output = capture_stdout { bin.tildeverse_sites }
@@ -271,7 +273,8 @@ describe 'Tildeverse::Bin' do
         ['-t blog',      %w[jovan phildini]],
         ['-U e',         %w[clach04 contolini imt jovan phildini]],
         ['-T e',         %w[jovan ke7ofi phildini]],
-        ['-S pebble',    %w[foo_user nossidge]]
+        ['-S pebble',    %w[foo_user nossidge]],
+        ['--https',      %w[nossidge]]
       ].each do |args|
         bin = Tildeverse::Bin.new(args.first.split)
         output = capture_stdout { bin.tildeverse_users }

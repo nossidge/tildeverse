@@ -232,7 +232,7 @@ module Tildeverse
       OptionParser.new do |opts|
         opts.banner = help_text
 
-        # Filter options
+        # Regex filter options
         opts.on('-u', '--user STRING', 'Regex to include users') do |s|
           @options[:user] = s
         end
@@ -251,8 +251,18 @@ module Tildeverse
         opts.on('-T', '--xtag STRING', 'Regex to exclude tags') do |s|
           @options[:xtag] = s
         end
+
+        opts.separator nil
+
+        # Boolean filter options
         opts.on('-o', '--offline', 'Include offline users') do
           @options[:offline] = true
+        end
+        opts.on('-h', '--http', 'Only include sites using http') do
+          @options[:http] = true
+        end
+        opts.on('-H', '--https', 'Only include sites using https') do
+          @options[:https] = true
         end
 
         opts.separator nil
@@ -278,11 +288,11 @@ module Tildeverse
         opts.separator nil
 
         # Help output
-        opts.on('-h', '--help', 'Display this help screen') do
+        opts.on('--help', 'Display this help screen') do
           puts opts
           exit 0
         end
-        opts.on('-v', '--version', 'Display the version number') do
+        opts.on('--version', 'Display the version number') do
           puts version_text
           exit 0
         end
@@ -299,6 +309,7 @@ module Tildeverse
     def filtered_users
       Tildeverse.data.users.dup.tap do |users|
         filter_by_online!(users)
+        filter_by_hypertext_protocol!(users)
         filter_by_user!(users)
         filter_by_site!(users)
         filter_by_tag!(users)
@@ -310,6 +321,12 @@ module Tildeverse
 
     def filter_by_online!(users)
       users.select!(&:online?) unless options[:offline]
+    end
+
+    def filter_by_hypertext_protocol!(users)
+      return users unless options[:http] ^ options[:https]
+      protocol = options[:http] ? 'http' : 'https'
+      users.select! { |u| u.site.uri.scheme == protocol }
     end
 
     def filter_by_user!(users)
