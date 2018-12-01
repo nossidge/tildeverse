@@ -22,10 +22,10 @@ module Tildeverse
       case argv
       when Hash
         @options = argv
+        apply_options
       else # assume Array
         parse([*argv])
       end
-      apply_options
     end
 
     ##
@@ -34,6 +34,9 @@ module Tildeverse
     def apply_options
       if options[:force]
         Tildeverse.suppress << Error::OfflineURIError
+      end
+      if options[:offline] && options[:long]
+        @options[:longer] = true
       end
     end
 
@@ -115,7 +118,7 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse sites [-l] [-j/p] [-o] [-u/s/t 'regex']
+    # $ tildeverse sites [options]
     #
     # List all sites in the Tildeverse
     #
@@ -125,9 +128,9 @@ module Tildeverse
     end
 
     ##
-    # $ tildeverse users [-l] [-j/p] [-o] [-u/s/t 'regex']
+    # $ tildeverse users [options]
     #   or
-    # $ tildeverse [-l] [-j/p] [-o] [-u/s/t 'regex']
+    # $ tildeverse [options]
     #
     # List all the users by URL
     #
@@ -163,12 +166,12 @@ module Tildeverse
         $ tildeverse json [-p]
           Write the full JSON file to standard out
 
-        $ tildeverse sites [-l] [-j/p] [-o] [-u/s/t 'regex']
+        $ tildeverse sites [options]
           List sites in the Tildeverse
 
-        $ tildeverse users [-l] [-j/p] [-o] [-u/s/t 'regex']
+        $ tildeverse users [options]
           or
-        $ tildeverse [-l] [-j/p] [-o] [-u/s/t 'regex']
+        $ tildeverse [options]
           List users in the Tildeverse
 
           Options:
@@ -210,8 +213,6 @@ module Tildeverse
     # Parse the arguments and set the values of
     # {#options}, {#argv_orig}, and {#argv}
     #
-    # @return [Array<String>] remaining arguments
-    #
     def parse(args)
       @options = {}
       @argv_orig = args.dup
@@ -223,6 +224,8 @@ module Tildeverse
         puts e
         exit 1
       end
+
+      apply_options
     end
 
     ##
@@ -270,6 +273,9 @@ module Tildeverse
         # Output options
         opts.on('-l', '--long', 'Output in long listing format') do
           @options[:long] = true
+        end
+        opts.on('-L', '--longer', 'Output as long with more fields') do
+          @options[:longer] = true
         end
         opts.on('-j', '--json', 'Output in JSON format') do
           @options[:json] = true
@@ -375,8 +381,11 @@ module Tildeverse
     # @return [String] text to be put to stdout
     #
     def format_users(users)
-      if options[:long]
-        Tildeverse.data.serialize.users_as_wsv(users)
+      if options[:longer]
+        Tildeverse.data.serialize.users_as_wsv_long(users)
+
+      elsif options[:long]
+        Tildeverse.data.serialize.users_as_wsv_short(users)
 
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.users(users)
@@ -395,8 +404,11 @@ module Tildeverse
     # @return [String] text to be put to stdout
     #
     def format_sites(sites)
-      if options[:long]
-        Tildeverse.data.serialize.sites_as_wsv(sites)
+      if options[:longer]
+        Tildeverse.data.serialize.sites_as_wsv_long(sites)
+
+      elsif options[:long]
+        Tildeverse.data.serialize.sites_as_wsv_short(sites)
 
       elsif options[:json] || options[:pretty]
         obj = Tildeverse.data.serialize.sites(sites)

@@ -107,12 +107,13 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Serialise an array of users to a whitespace-delimited array of strings
+    # Serialise an array of users to a whitespace-delimited array of strings,
+    # using the headers +SITE+, +NAME+, +URL+, +MODIFIED+, +TAGGED+, +TAGS+
     #
     # @param [Array<User>] users
     # @return [Array<String>] whitespace-delimited values
     #
-    def users_as_wsv(users = data.users)
+    def users_as_wsv_short(users = data.users)
       header = %w[SITE NAME URL MODIFIED TAGGED TAGS]
       output = [header] + [*users].map do |user|
         [
@@ -128,12 +129,38 @@ module Tildeverse
     end
 
     ##
-    # Serialise an array of sites to a whitespace-delimited array of strings
+    # Serialise an array of users to a whitespace-delimited array of strings,
+    # using the headers +SITE+, +NAME+, +URL+, +ONLINE+, +OFFLINE+, +MODIFIED+,
+    # +TAGGED+, +TAGS+
+    #
+    # @param [Array<User>] users
+    # @return [Array<String>] whitespace-delimited values
+    #
+    def users_as_wsv_long(users = data.users)
+      header = %w[SITE NAME URL ONLINE OFFLINE MODIFIED TAGGED TAGS]
+      output = [header] + [*users].map do |user|
+        [
+          user.site.name,
+          user.name,
+          user.homepage,
+          user.date_online.to_s,
+          user.date_offline.to_s,
+          user.date_modified.to_s,
+          user.date_tagged.to_s,
+          user.tags.empty? ? '-' : user.tags.join(',')
+        ]
+      end
+      WSV.new(output).to_wsv
+    end
+
+    ##
+    # Serialise an array of sites to a whitespace-delimited array of strings,
+    # using the headers +NAME+, +URL+, +USERS+
     #
     # @param [Array<Site>] sites
     # @return [Array<String>] whitespace-delimited values
     #
-    def sites_as_wsv(sites = data.sites)
+    def sites_as_wsv_short(sites = data.sites)
       header = %w[NAME URL USERS]
       output = [header] + [*sites].map do |site|
         [
@@ -143,6 +170,27 @@ module Tildeverse
         ]
       end
       WSV.new(output).to_wsv(rjust: [2])
+    end
+
+    ##
+    # Serialise an array of sites to a whitespace-delimited array of strings,
+    # using the headers +NAME+, +URL+, +USERS+, +ONLINE+, +OFFLINE+
+    #
+    # @param [Array<Site>] sites
+    # @return [Array<String>] whitespace-delimited values
+    #
+    def sites_as_wsv_long(sites = data.sites)
+      header = %w[NAME URL USERS ONLINE OFFLINE]
+      output = [header] + [*sites].map do |site|
+        [
+          site.name,
+          site.uri.root,
+          site.users.count,
+          site.users.select(&:online?).count,
+          site.users.reject(&:online?).count
+        ]
+      end
+      WSV.new(output).to_wsv(rjust: [2, 3, 4])
     end
   end
 end

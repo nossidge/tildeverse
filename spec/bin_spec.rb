@@ -249,18 +249,21 @@ describe 'Tildeverse::Bin' do
       end
     end
 
-    it 'should return the correct sites in long format' do
-      %w[foo pebble.ink pebb ink$ ebb.*k tilde com$].each do |regex|
-        args = ['--long', '--site', regex]
-        bin = Tildeverse::Bin.new(args)
-        output = capture_stdout { bin.tildeverse_sites }
-
-        # Just check for the headers
-        %w[NAME URL USERS].each do |header|
-          expect(output.split("\n").first).to include(header)
+    # For each 'long' format, just check the presence of the headers
+    long = proc do |option_name, headers|
+      it "should return the correct sites in #{option_name} format" do
+        %w[foo pebble.ink pebb ink$ ebb.*k tilde com$].each do |regex|
+          args = ["--#{option_name}", '--site', regex]
+          bin = Tildeverse::Bin.new(args)
+          output = capture_stdout { bin.tildeverse_sites }
+          headers.each do |header|
+            expect(output.split("\n").first).to include(header)
+          end
         end
       end
     end
+    long.call('long',   %w[NAME URL USERS])
+    long.call('longer', %w[NAME URL USERS ONLINE OFFLINE])
   end
 
   describe '#tildeverse_users' do
@@ -285,18 +288,21 @@ describe 'Tildeverse::Bin' do
       end
     end
 
-    it 'should return the correct users in long format' do
-      %w[foobarbaz noss c].each do |regex|
-        args = ['--long', '--user', regex]
-        bin = Tildeverse::Bin.new(args)
-        output = capture_stdout { bin.tildeverse_users }
-
-        # Just check for the headers
-        %w[SITE NAME URL MODIFIED TAGGED TAGS].each do |header|
-          expect(output.split("\n").first).to include(header)
+    # For each 'long' format, just check the presence of the headers
+    long = proc do |option_name, headers|
+      it "should return the correct users in #{option_name} format" do
+        %w[foobarbaz noss c].each do |regex|
+          args = ["--#{option_name}", '--user', regex]
+          bin = Tildeverse::Bin.new(args)
+          output = capture_stdout { bin.tildeverse_users }
+          headers.each do |header|
+            expect(output.split("\n").first).to include(header)
+          end
         end
       end
     end
+    long.call('long',   %w[SITE NAME URL MODIFIED TAGGED TAGS])
+    long.call('longer', %w[SITE NAME URL ONLINE OFFLINE MODIFIED TAGGED TAGS])
   end
 
   ##############################################################################
@@ -347,6 +353,8 @@ describe 'Tildeverse::Bin' do
         [%w[-u foo],               {user: 'foo'}],
         [%w[user -u foo],          {user: 'foo'}],
         [%w[user -u foo -l],       {user: 'foo', long: true}],
+        [%w[user -u foo -L],       {user: 'foo', longer: true}],
+        [%w[-o -l],                {long: true, offline: true, longer: true}],
         [%w[user -u foo -j],       {user: 'foo', json: true}],
         [%w[user -u foo -jp],      {user: 'foo', json: true, pretty: true}],
         [%w[site -u foo --pretty], {user: 'foo', pretty: true}],
@@ -360,7 +368,6 @@ describe 'Tildeverse::Bin' do
         bin = Tildeverse::Bin.new([])
         after_parse = bin.send(:parse, args.first)
         expect(bin.options).to eq args.last
-        expect(bin.argv).to eq after_parse
         expect(bin.argv_orig).to eq args.first
       end
     end
@@ -382,7 +389,7 @@ describe 'Tildeverse::Bin' do
 
     it 'should return a whitespace-delimited array if options[:long]' do
       options = { long: true }
-      expect(call[options]).to eq Tildeverse.data.serialize.users_as_wsv(user)
+      expect(call[options]).to eq Tildeverse.data.serialize.users_as_wsv_short(user)
     end
 
     it 'should return a JSON string if options[:json]' do
@@ -410,7 +417,7 @@ describe 'Tildeverse::Bin' do
 
     it 'should return a whitespace-delimited array if options[:long]' do
       options = { long: true }
-      expect(call[options]).to eq Tildeverse.data.serialize.sites_as_wsv(site)
+      expect(call[options]).to eq Tildeverse.data.serialize.sites_as_wsv_short(site)
     end
 
     it 'should return a JSON string if options[:json]' do
