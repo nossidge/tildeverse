@@ -4,76 +4,50 @@
 module Tildeverse
   ##
   # Scrape modified dates from ~insom's list,
-  # http://tilde.town/~insom/modified.html.
+  # http://tilde.town/~insom/modified.html
   #
-  # Use {#get} to overwrite the cache with a new remote scrape.
+  # Use {#get} to scrape data, or return the most recent cache
   #
-  # Use {#data} to return the most recent cache.
+  # Use {#get!} to overwrite the cache with a new remote scrape
   #
   class ModifiedDates
     ##
-    # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated date.
+    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP
+    #
+    # @return [Hash{String => Hash{String => Date}}]
+    #   Hash of hashes that describe a user's updated date
     # @example
-    #   [
-    #     {
-    #       :site => "tilde.town",
-    #       :user => "nossidge",
-    #       :date => "2017-04-02"
-    #     }
-    #   ]
+    #   data["tilde.town"]["nossidge"] == "2017-04-02"
     #
-    attr_reader :data
-
-    ##
-    # On initialisation, call {#get}
-    #
-    def initialize
-      get
+    def get
+      @data ||= get!
     end
 
     ##
-    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
-    # Save the result to a cache file.
+    # (see #get)
     #
-    # If the list has already been scraped today, read from the cached file.
+    # This overwrites the data with updated information
     #
-    # This overwrites {#data} with updated information.
-    #
-    # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated date.
-    # @example
-    #   [
-    #     {
-    #       :site => "tilde.town",
-    #       :user => "nossidge",
-    #       :date => "2017-04-02"
-    #     }
-    #   ]
-    #
-    def get
+    def get!
       @data = parse_data(read_data)
     end
 
     ##
-    # Return the modified date for a specific user page.
+    # Return the modified date for a specific user page
     #
-    # @param [String] site  Name of the server.
-    # @param [String] user  Name of the user.
-    # @return [String] string representation of the date.
-    # @return [nil] if not found.
+    # @param site [String] name of the server
+    # @param user [String] name of the user
+    # @return [Date] user's updated date
+    # @return [nil] if not found
     #
     def for_user(site, user)
-      result = @data.select do |i|
-        i[:site] == site && i[:user] == user
-      end.first
-      result ? result[:date] : nil
+      get[site][user]
     end
 
     private
 
     ##
-    # Set up a connection to the remote HTML file.
+    # Set up a connection to the remote HTML file
     #
     # @return [RemoteResource]
     #
@@ -88,41 +62,37 @@ module Tildeverse
     end
 
     ##
-    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP.
+    # Remotely read ~insom's list, using RemoteResource to fetch via HTTP
     #
     # @return [Array<String>]
-    #   Array of HTML lines that describe a user's updated date.
+    #   Array of HTML lines that describe a user's updated date
     #
     def read_data
       remote.get.split("\n").select { |i| i.match('<a href') }
     end
 
     ##
-    # Parse ~insom's HTML formatted lines to a usable hash.
+    # Parse ~insom's HTML formatted lines to a usable hash
     #
     # @param [Array<String>] input_data
-    #   Array of HTML lines that describe a user's updated date.
-    # @return [Array<Hash{Symbol => String}>]
-    #   Array of hashes that describe a user's updated date.
+    #   Array of HTML lines that describe a user's updated date
+    # @return [Hash{String => Hash{String => Date}}]
+    #   Hash of hashes that describe a user's updated date
     # @example
-    #   [
-    #     {
-    #       :site => "tilde.town",
-    #       :user => "nossidge",
-    #       :date => "2017-04-02"
-    #     }
-    #   ]
+    #   data["tilde.town"]["nossidge"] == "2017-04-02"
     #
     def parse_data(input_data)
-      input_data.map do |i|
-        i = i.gsub('<br/>', '')
-        i = i.gsub('</a>', '')
-        i = i.split('>')[1..-1].join
-        {
-          site: i.split('/')[2],
-          user: i.split('/')[3].delete('~'),
-          date: i.split(' -- ')[1].split('T').first
-        }
+      Hash.new { |h, k| h[k] = {} }.tap do |hash|
+        input_data.each do |i|
+          i = i
+              .gsub!('<br/>', '')
+              .gsub!('</a>', '')
+              .split('>')[1..-1].join
+          site = i.split('/')[2]
+          user = i.split('/')[3].delete('~')
+          date = i.split(' -- ')[1].split('T').first
+          hash[site][user] = Date.parse(date)
+        end
       end
     end
   end
