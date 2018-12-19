@@ -116,55 +116,64 @@ var INFO = ( function(mod) {
 var TAG_DOM = ( function(mod) {
 
   // For the 'browser' webapp:
-  // Create and append the HTML elements for the tag buttons.
   mod.createTagElementsBrowser = function() {
-    let html = `
-      <div class="btn-group btn-block" data-tag-name="@TAG@" title="@DESC@">
-        <a tabindex="@INDEX@1" title="Exclude the '@TAG@' tag" id="tag_button_unchecked_@TAG@" data-filter-type="unchecked" class="btn btn-default btn-lg btn_glyph tag_button_unchecked" onclick="TAG_DOM.toggleTagFilter(this);">
+    let templateHTML = `
+      <div class="btn-group btn-block" title="@DESC@" data-tag-name="@TAG@">
+        <a id="tag_button_unchecked_@TAG@"
+           class="btn btn-default btn-lg btn_glyph tag_button_unchecked"
+           title="Exclude the '@TAG@' tag"
+           data-filter-type="unchecked"
+           tabindex="@INDEX@1"
+           onclick="TAG_DOM.toggleTagFilter(this);">
           <div class="glyphicon glyphicon-remove"></div>
         </a>
-        <a tabindex="@INDEX@2" title="Include the '@TAG@' tag" id="tag_button_checked_@TAG@" data-filter-type="checked" class="btn btn-default btn-lg btn_glyph tag_button_checked" onclick="TAG_DOM.toggleTagFilter(this);">
+        <a id="tag_button_checked_@TAG@"
+           class="btn btn-default btn-lg btn_glyph tag_button_checked"
+           title="Include the '@TAG@' tag"
+           data-filter-type="checked"
+           tabindex="@INDEX@2"
+           onclick="TAG_DOM.toggleTagFilter(this);">
           <div class="glyphicon glyphicon-ok"></div>
         </a>
-        <div title="(This is not actually a button)" id="tag_button_desc_@TAG@" data-tag-name="@TAG@" class="btn btn-default btn-lg tag_button_desc no_pointer_events">@TAG@</div>
+        <div id="tag_button_desc_@TAG@"
+             class="btn btn-default btn-lg tag_button_desc no_pointer_events"
+             title="(This is not actually a button)"
+             data-tag-name="@TAG@">
+          @TAG@
+        </div>
       </div>
     `;
-    let elem = $("#tag_buttons");
-    elem.empty();
-    let index = 2;
-    $.each(INFO.tags, function(tag, desc) {
-      let tagHtml = html;
-      tagHtml = tagHtml.replace(/@TAG@/g, tag);
-      tagHtml = tagHtml.replace(/@DESC@/g, desc);
-      tagHtml = tagHtml.replace(/@INDEX@/g, index + 2);
-      elem.append(tagHtml);
-      index++;
-    });
+    replaceTemplateKeywords(templateHTML);
   };
 
   // For the 'tagging' webapp:
-  // Create and append the HTML elements for the tag buttons.
   mod.createTagElementsTagging = function() {
-    let html = `
-      <a id="tag_button_@TAG@" title="Add/remove the '@TAG@' tag"
-          class="btn btn-default btn-lg btn_tags tag_button_desc tag_button"
-          data-tag-name="@TAG@"
-          onclick="TAG_STATE.toggleTag(this);">
+    let templateHTML = `
+      <a id="tag_button_@TAG@"
+         class="btn btn-default btn-lg btn_tags tag_button"
+         title="@DESC@"
+         data-tag-name="@TAG@"
+         onclick="TAG_STATE.toggleTag(this);">
         @TAG@
       </a>
     `;
+    replaceTemplateKeywords(templateHTML);
+  };
+
+  // Create and append the HTML elements for the tag buttons.
+  function replaceTemplateKeywords(templateHTML) {
     let elem = $("#tag_buttons");
     elem.empty();
     let index = 2;
     $.each(INFO.tags, function(tag, desc) {
-      let tagHtml = html;
+      let tagHtml = templateHTML;
       tagHtml = tagHtml.replace(/@TAG@/g, tag);
       tagHtml = tagHtml.replace(/@DESC@/g, desc);
       tagHtml = tagHtml.replace(/@INDEX@/g, index + 2);
       elem.append(tagHtml);
       index++;
     });
-  };
+  }
 
   // Return the status of the tags selected on the UI.
   mod.getDesc = function() {
@@ -290,6 +299,7 @@ var USERS = ( function(mod) {
 
   // Display all the user's info on screen.
   mod.displayCurrentUser = function() {
+    HELP.hide();
     let user = mod.currentUser();
 
     if (typeof user !== "undefined") {
@@ -643,3 +653,49 @@ var TAG_STATE = ( function(mod) {
 
   return mod;
 }(TAG_STATE || {}));
+
+//##############################################################################
+
+// Module to show/hide the browser help screen.
+var HELP = ( function(mod) {
+  let displayed = null;
+
+  mod.show = function() {
+    if (displayed) return;
+    displayed = true;
+
+    TAG_DOM.displayTags([]);
+    $("#text_user").attr("value", "Info screen");
+    $("#text_counter").attr("value", "");
+    document.getElementById("url_dropdown").value = null;
+
+    $("#help_text").addClass("visible");
+    $("#help_text").removeClass("hidden");
+    $("#tildesite_iframe").addClass("hidden");
+    $("#tildesite_iframe").removeClass("visible");
+    $("#help").addClass("active");
+  };
+
+  mod.hide = function() {
+    if (!displayed) return;
+    displayed = false;
+
+    USERS.displayCurrentUser();
+
+    $("#help_text").addClass("hidden");
+    $("#help_text").removeClass("visible");
+    $("#tildesite_iframe").addClass("visible");
+    $("#tildesite_iframe").removeClass("hidden");
+    $("#help").removeClass("active");
+  };
+
+  mod.toggle = function() {
+    if (displayed) {
+      mod.hide();
+    } else {
+      mod.show();
+    }
+  };
+
+  return mod;
+}(HELP || {}));

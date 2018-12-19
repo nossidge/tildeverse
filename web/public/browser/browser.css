@@ -31,13 +31,13 @@ input {
   margin-right: 8px;
 }
 .top_button_left {
-  width: 100px;
+  width: 99px;
 }
 .col_left_thin {
-  flex: 0 0 223px;
+  flex: 0 0 221px;
 }
 .col_left_wide {
-  flex: 0 0 322px;
+  flex: 0 0 319px;
 }
 .col_middle {
   background-color: white;
@@ -51,10 +51,11 @@ input {
 }
 .btn_glyph {
   height: 44px;
+  width: 50px;
 }
 .tag_button, .tag_button_desc {
   height: 44px;
-  width: 196px;
+  width: 197px;
 }
 .tag_header {
   background-color: #F2F2F2;
@@ -68,7 +69,18 @@ input {
 }
 #save {
   margin: 0px -1px 0px 0px;
-  width: 199px;
+  width: 197px;
+}
+
+#help_text {
+  font-family: 'Lucida Console', Monaco, monospace;
+  text-align: center;
+  color: #333;
+  font-size: 125%;
+  line-height: 160%;
+}
+#help_text p, #help_text h1 {
+  margin-top: 26px;
 }
 
 /* options for a group of button groups */
@@ -95,4 +107,11 @@ input {
 /* these are not buttons, they just look like buttons */
 .no_pointer_events {
   pointer-events: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
 }

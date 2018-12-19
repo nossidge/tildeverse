@@ -34,6 +34,9 @@
           // Navigate to a random URL.
           URL_NAVIGATION.randomUrl();
 
+          // Show the help text.
+          HELP.show();
+
         });
 
       });
@@ -61,11 +64,11 @@
               <span class="glyphicon glyphicon-random"></span>
             </a>
           </div>
-            <a tabindex="4" title="Open user homepage in new tab"
-                class="btn btn-default top_button top_button_left btn-lg"
-                onclick="USERS.openCurrentInNewTab()">
-              <span class="glyphicon glyphicon-eye-open"></span>
-            </a>
+          <a tabindex="4" title="Open user homepage in new tab"
+              class="btn btn-default top_button top_button_left btn-lg"
+              onclick="USERS.openCurrentInNewTab()">
+            <span class="glyphicon glyphicon-eye-open"></span>
+          </a>
         </div>
         <div class="header_title input-group-lg">
           <input tabindex="5" id="text_user"
@@ -84,12 +87,18 @@
                  class="form-control input-lg"
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
-          <div id="buttons_right" class="btn-group btn-group-lg">
+          <div id="filters" class="btn-group btn-group-lg">
             <a id="filter_by_excluding_banned"
                title="Only list users that are capable of being displayed in the iframe viewer.&#013;This excludes all that are HTTP only, or have blocked cross-origin requests."
                class="btn btn-default btn-lg top_button top_button_right"
                onclick="TOGGLE_GROUPS.toggleExcludingBanned()">
               <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            <a id="help"
+               title="Display help screen"
+               class="btn btn-default btn-lg top_button top_button_right"
+               onclick="HELP.toggle()">
+              <span class="glyphicon glyphicon-info-sign"></span>
             </a>
           </div>
         </div>
@@ -113,7 +122,7 @@
                    onclick="TOGGLE_GROUPS.toggleAllChecked(this)">
                   <div class="glyphicon glyphicon-ok"></div>
                 </a>
-                <div class="btn btn-default btn-lg tag_button_desc tag_header">
+                <div class="btn btn-default btn-lg tag_button_desc tag_header no_pointer_events">
                   homepage tags
                 </div>
               </div>
@@ -122,7 +131,27 @@
           </div>
         </div>
       </div>
-      <iframe id="col_middle" class="col_middle border" name="tildesite"></iframe>
+      <iframe id="tildesite_iframe" name="tildesite" class="col_middle border hidden"></iframe>
+      <div id="help_text" class="col_middle border">
+        <h1>Tildeverse User Browser</h1>
+        <p>
+          Welcome! This is a frame-based browser to help you search for <a href="https://tilde.town/~nossidge/tildeverse/">Tildeverse</a> homepages<br>
+          Each user's public homepage has been tagged based on what sort of content they post<br>
+          Tags are displayed on the left, and you can filter ones to <span class="glyphicon glyphicon-ok"></span> include or <span class="glyphicon glyphicon-remove"></span> exclude<br>
+          Once filtered, you can cycle between homepages using the controls at the top
+        </p>
+        <p>
+          There are some sites that cannot be displayed in this frame-based format<br>
+          Some are not available through HTTPS, and so cannot be accessed securely<br>
+          Some have their headers set up to disallow iframes for security reasons<br>
+          These can still be found, but they will not be displayed in the frame<br>
+          You can toggle these sites by using the <span class="glyphicon glyphicon-remove"></span> button at the top-right
+        </p>
+        <p>
+          The source code for this project can be found on <a href="https://github.com/nossidge/tildeverse">GitHub</a><br>
+          Please log any bugs or issues you encounter
+        </p>
+      </div>
     </div>
   </body>
 </html>
