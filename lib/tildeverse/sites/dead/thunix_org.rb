@@ -6,7 +6,7 @@ module Tildeverse
     ##
     # Site information and user list for +thunix.org+
     #
-    class ThunixOrg < Tildeverse::Site::Live
+    class ThunixOrg < Tildeverse::Site::Dead
       ##
       # Calls {Tildeverse::Site#initialize} with arg +thunix.org+
       #
