@@ -229,4 +229,24 @@ describe 'Tildeverse::Error' do
       expect(console_message).to include(issue_link_msg)
     end
   end
+
+  ##############################################################################
+
+  describe 'InvalidTags' do
+    let(:dodgy_tags) { %w[foo bar baz] }
+    let(:error) { Tildeverse::Error::InvalidTags.new(dodgy_tags) }
+    let(:msg) { %(Invalid tag encountered: #{dodgy_tags.inspect}) }
+    it 'should be a Tildeverse::Error' do
+      expect(error).to be_a Tildeverse::Error
+    end
+    it 'should declare a meaningful #message' do
+      expect(error.message).to eq msg
+    end
+    it "should declare a 'developer_error' #console_message" do
+      expect(error).to receive(:developer_error).and_call_original
+      console_message = error.console_message
+      expect(console_message).to include(dev_error_msg)
+      expect(console_message).to include(issue_link_msg)
+    end
+  end
 end

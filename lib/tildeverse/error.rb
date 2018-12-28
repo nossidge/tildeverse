@@ -280,5 +280,34 @@ module Tildeverse
         MSG
       end
     end
+
+    ############################################################################
+
+    ##
+    # Error class raised on invalid tag input
+    #
+    class InvalidTags < Error
+      #
+      # List of all tags that are invalid
+      attr_reader :dodgy_tags
+
+      def initialize(dodgy_tags, msg = nil)
+        @dodgy_tags = dodgy_tags
+        super msg || message
+      end
+
+      # (see Tildeverse::Error#message)
+      def message
+        %(Invalid tag encountered: #{dodgy_tags.inspect})
+      end
+
+      # (see Tildeverse::Error#console_message)
+      def console_message
+        <<~MSG + developer_error
+          ERROR: Invalid tag encounted for Tilde user:
+                   #{dodgy_tags.inspect}
+        MSG
+      end
+    end
   end
 end
