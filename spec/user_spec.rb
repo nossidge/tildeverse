@@ -7,8 +7,8 @@ describe 'Tildeverse::User' do
       def uri
         @uri ||= Tildeverse::TildeSiteURI.new('http://example.com')
       end
-      def ==(o)
-        name == o.name
+      def ==(other)
+        name == other.name
       end
     end
   end
@@ -21,7 +21,7 @@ describe 'Tildeverse::User' do
       date_offline:   Date.new(2018, 6, 10),
       date_modified:  Date.new(2017, 2, 9),
       date_tagged:    Date.new(2017, 3, 25),
-      tags:           %w[foo bar baz]
+      tags:           %w[bar baz foo]
     }
   end
 
@@ -45,7 +45,7 @@ describe 'Tildeverse::User' do
       expect(user.date_offline).to  eq Tildeverse::TildeDate.new(nil)
       expect(user.date_modified).to eq Tildeverse::TildeDate.new(nil)
       expect(user.date_tagged).to   eq Tildeverse::TildeDate.new(nil)
-      expect(user.tags).to          eq user.send(:default_tags)
+      expect(user.tags).to          eq Tildeverse::TagArray.new(nil)
       expect(user.site).to          eq 'site.foo'
       expect(user.name).to          eq 'site_foo'
     end
@@ -128,11 +128,19 @@ describe 'Tildeverse::User' do
 
   describe '#tags=' do
     it 'should reset the tags array to a new value' do
-      new_tags = %w[bar foo]
-
+      new_tags = %w[blog code]
       user.tags = new_tags
       expect(user.tags).to eq new_tags
       expect(user.date_tagged).to eq Date.today
+    end
+
+    it 'should fail by default when any tag is invalid' do
+      old_date_tagged = user.date_tagged
+      new_tags = %w[blog code foo]
+      expect do
+        user.tags = new_tags
+      end.to raise_error(Tildeverse::Error::InvalidTags)
+      expect(user.date_tagged).to eq old_date_tagged
     end
   end
 

@@ -9,17 +9,40 @@ module Tildeverse
   # This validation can be disabled if necessary.
   # Once initialised, these objects are immutable.
   #
+  # There is one special input tag, +-+.
+  # Tags that are read as +-+ from the input file are set to an empty array.
+  #
   class TagArray < SimpleDelegator
+    class << self
+      ##
+      # Merge any number of TagArray objects into one.
+      # Does NOT do any validation; it is assumed that since the TagArray
+      # objects were created without error then they are valid.
+      #
+      # @param *tag_arrays [Array<TagArray>]
+      #   any number of TagArray values
+      #
+      def merge(*tag_arrays)
+        TagArray.new(tag_arrays, validation: false)
+      end
+    end
+
+    ##
+    # String value to return when tag array is empty
+    #
+    EMPTY = '-'
+
     ##
     # @param *args [Array<String>]
     #   any number of tag values
     # @param validation [Boolean]
     #   validate tags based on a lookup list
-    # @raise [Error::UpdateFrequencyError]
+    # @raise [Error::InvalidTags]
     #   if any tag is not valid (if validation is specified)
     #
     def initialize(*args, validation: true)
-      tag_array = [*args].flatten.compact.map(&:to_s).sort
+      tag_array = [*args].flatten.compact.map(&:to_s).sort.uniq
+      tag_array -= [EMPTY]
       dodgy_tags = validation ? invalid_tags(tag_array) : []
       raise Error::InvalidTags, dodgy_tags unless dodgy_tags.empty?
       super tag_array.freeze
@@ -32,7 +55,7 @@ module Tildeverse
     # @return [String]
     #
     def to_s
-      empty? ? '-' : join(',')
+      empty? ? EMPTY : join(',')
     end
 
     private

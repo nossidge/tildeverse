@@ -95,7 +95,7 @@ describe 'Tildeverse::Data' do
     it 'should correctly clear the underlying data hash object' do
       user = instance.user('nossidge').first
       old_tags = user.tags
-      new_tags = %w[bar foo]
+      new_tags = %w[blog code]
       user.tags = new_tags
       expect(user.tags).to eq new_tags
       instance.clear

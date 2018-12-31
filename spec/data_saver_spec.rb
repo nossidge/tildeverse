@@ -25,7 +25,7 @@ describe 'Tildeverse::DataSaver' do
     it 'should save to file and be loaded back' do
       user = data.user('nossidge').first
       old_tags = user.tags
-      new_tags = %w[bar foo]
+      new_tags = %w[blog code]
       user.tags = new_tags
       expect(user.tags).to eq new_tags
       data.save

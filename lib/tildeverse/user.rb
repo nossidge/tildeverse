@@ -45,7 +45,7 @@ module Tildeverse
     attr_reader :date_tagged
 
     ##
-    # @return [Array<String>] a list of usersite tags for the user
+    # @return [TagArray] a list of usersite tags for the user
     #
     attr_reader :tags
 
@@ -62,7 +62,7 @@ module Tildeverse
     #   the date the user site was last modified
     # @option options [String, Date, TildeDate] :date_tagged
     #   the date the tags were last updated
-    # @option options [Array<String>] :tags
+    # @option options [Array<String>, TagArray] :tags
     #   a list of usersite tags for the user
     #
     def initialize(site:, name:, **options)
@@ -75,7 +75,7 @@ module Tildeverse
       @date_offline  = TildeDate.new options[:date_offline]
       @date_modified = TildeDate.new options[:date_modified]
       @date_tagged   = TildeDate.new options[:date_tagged]
-      @tags          = validate_tags options[:tags]
+      @tags          = TagArray.new(options[:tags], validation: false)
     end
 
     ##
@@ -121,12 +121,14 @@ module Tildeverse
     # Set the {tags} attribute.
     # Also updates {#date_tagged} to today's date
     #
-    # @param [Array<String>] tags the array of tags
-    # @return [Array<String>] the array of tags
+    # @param tags [Array<String>, TagArray] the array of tags
+    # @return [TagArray] the array of tags
+    # @raise [Error::InvalidTags] if any tag is not valid
     #
     def tags=(tags)
+      @tags = TagArray.new(tags)
       @date_tagged = TildeDate.new(Date.today)
-      @tags = [*tags].flatten.sort.uniq
+      @tags
     end
 
     ##
@@ -171,14 +173,6 @@ module Tildeverse
     def invalid_options(options)
       valid = %i[date_online date_offline date_modified date_tagged tags]
       options.keys - valid
-    end
-
-    def validate_tags(value)
-      [*value] || default_tags
-    end
-
-    def default_tags
-      []
     end
   end
 end

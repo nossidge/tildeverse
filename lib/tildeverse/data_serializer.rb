@@ -122,7 +122,7 @@ module Tildeverse
           user.homepage,
           user.date_modified.to_s,
           user.date_tagged.to_s,
-          user.tags.empty? ? '-' : user.tags.join(',')
+          user.tags.to_s
         ]
       end
       WSV.new(output).to_wsv
@@ -147,7 +147,7 @@ module Tildeverse
           user.date_offline.to_s,
           user.date_modified.to_s,
           user.date_tagged.to_s,
-          user.tags.empty? ? '-' : user.tags.join(',')
+          user.tags.to_s
         ]
       end
       WSV.new(output).to_wsv

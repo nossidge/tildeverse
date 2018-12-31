@@ -29,7 +29,7 @@ module Tildeverse
         date_offline:  user.date_offline.to_s,
         date_modified: user.date_modified.to_s,
         date_tagged:   user.date_tagged.to_s,
-        tags:          user.tags.join(','),
+        tags:          user.tags.to_s,
         online:        user.online?
       }.to_s
     end
@@ -47,7 +47,7 @@ module Tildeverse
         user.date_offline,
         user.date_modified,
         user.date_tagged,
-        user.tags.empty? ? '-' : user.tags.join(',')
+        user.tags.to_s
       ]
     end
 

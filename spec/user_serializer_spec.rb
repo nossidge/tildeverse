@@ -16,7 +16,7 @@ describe 'Tildeverse::UserSerializer' do
       date_offline:   Tildeverse::TildeDate.new('2018-06-10'),
       date_modified:  Tildeverse::TildeDate.new('2017-02-09'),
       date_tagged:    Tildeverse::TildeDate.new('2017-03-25'),
-      tags:           %w[foo bar baz]
+      tags:           %w[bar baz foo]
     }
   end
 

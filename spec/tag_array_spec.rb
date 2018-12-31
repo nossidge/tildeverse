@@ -6,6 +6,8 @@ describe 'Tildeverse::TagArray' do
     [
       [nil,             '-'],
       [[],              '-'],
+      ['-',             '-'],
+      [['-'],           '-'],
       [[:poetry],       'poetry'],
       [['poetry'],      'poetry'],
       [%w[empty prose], 'empty,prose'],
@@ -28,6 +30,13 @@ describe 'Tildeverse::TagArray' do
         expect do
           Tildeverse::TagArray.new(input)
         end.to_not raise_error
+      end
+    end
+
+    it "should be empty when input is '-'" do
+      ['-', ['-']].each do |input|
+        tag_array = Tildeverse::TagArray.new(input)
+        expect(tag_array.to_a).to be_empty
       end
     end
 
@@ -54,6 +63,44 @@ describe 'Tildeverse::TagArray' do
       input_valid.each do |input, expected_to_s|
         tag_array = Tildeverse::TagArray.new(input)
         expect(tag_array.to_s).to eq expected_to_s
+      end
+    end
+  end
+
+  let(:input_merge) do
+    [
+      [
+        [%i[foo], %i[bar], %i[baz]],
+        %w[bar baz foo]
+      ], [
+        [%i[foo], %i[foo], %i[foo]],
+        %w[foo]
+      ], [
+        [%i[foo], 'foo', :foo],
+        %w[foo]
+      ], [
+        [%i[empty prose], %i[empty prose], %i[empty prose], %i[empty prose]],
+        %w[empty prose]
+      ], [
+        [%i[empty prose], %i[empty prose], %i[foo]],
+        %w[empty foo prose]
+      ], [
+        [%i[empty prose], %w[empty prose], :foo, nil, []],
+        %w[empty foo prose]
+      ]
+    ]
+  end
+
+  describe 'self#merge' do
+    it 'should correctly merge any number of TagArray objects' do
+      input_merge.each do |tag_input, expected_merge|
+        tag_array = tag_input.map do |tags|
+          Tildeverse::TagArray.new(tags, validation: false)
+        end
+        expect do
+          merged = Tildeverse::TagArray.merge(*tag_array)
+          expect(merged.to_a).to eq expected_merge
+        end.to_not raise_error
       end
     end
   end
