@@ -24,8 +24,8 @@ module Tildeverse
       #
       def scrape_users
         #
-        # There's a strange issue with curling this URL.
-        # I'll just use a manual list for now.
+        # There's a strange issue with curling this URL
+        # I'll just use a manual list for now
         %w[
           anizawa arung asvvvad ben biglysmalls brendantcc caleb copart
           deepend distip diverger edwardthefma emv envican fosslinux geoff
@@ -40,7 +40,7 @@ module Tildeverse
 
       ##
       # HTTP requests from tilde.town to yourtilde.com fail for some reason,
-      # so don't check for 'con.error?' on the URI.
+      # so don't check for 'con.error?' on the URI
       #
       def scrape_users_cache
         scrape_users
@@ -52,7 +52,7 @@ module Tildeverse
       def actual_scraper_code
         validate_usernames do
           #
-          # These are lines on the page that start with '<a href'.
+          # These are lines on the page that start with '<a href'
           con.result.split("\n").map do |i|
             next unless i.strip =~ /^<a href/
             i.split('~').last.split('<').first

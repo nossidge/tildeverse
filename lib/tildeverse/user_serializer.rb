@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Class for serialising an individual User
+  # Class for serialising an individual {User}
   #
   class UserSerializer
     ##
@@ -12,14 +12,18 @@ module Tildeverse
     attr_reader :user
 
     ##
-    # @param [User] user User object to serialise
+    # Creates a new {UserSerializer} that will serialise one {User} object
+    #
+    # @param user [User] User object to serialise
     #
     def initialize(user)
       @user = user
     end
 
     ##
-    # @return [String] string representation of the contents of the instance
+    # Serialize {#user} information as a string
+    #
+    # @return [String] string representation of {#user} information
     #
     def to_s
       {
@@ -35,7 +39,7 @@ module Tildeverse
     end
 
     ##
-    # Serialize the data as an array for later WSV formatting.
+    # Serialize {#user} information as an array for later WSV formatting
     #
     # @return [Array<String>]
     #
@@ -52,7 +56,7 @@ module Tildeverse
     end
 
     ##
-    # Serialize the data for writing to {Files#output_json_tildeverse}
+    # Serialize {#user} for writing to {Files#output_json_tildeverse}
     #
     # @return [Hash]
     #

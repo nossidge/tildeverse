@@ -154,36 +154,36 @@ describe 'Tildeverse::Site' do
       expect(users_scraped).to eq users_orig
     end
 
-    # We won't really scrape from external HTML, just mock the results.
-    # Use 'pebble.ink' seed data as the example.
+    # We won't really scrape from external HTML, just mock the results
+    # Use 'pebble.ink' seed data as the example
     it 'should correctly scrape and merge the users' do
 
-      # Get current users from the seed data.
+      # Get current users from the seed data
       users_orig = Tildeverse.site('pebble.ink').users.map(&:name)
 
-      # Add and remove one user.
-      # We expect that the deleted 'imt' user will remain in the system.
+      # Add and remove one user
+      # We expect that the deleted 'imt' user will remain in the system
       users_mocked   = users_orig + ['foo'] - ['imt']
       users_expected = users_orig + ['foo']
 
-      # Mock the memoized 'scrape_users_cache' to return the new list.
+      # Mock the memoized 'scrape_users_cache' to return the new list
       pebble_ink = Tildeverse.site('pebble.ink')
       allow(pebble_ink).to(
         receive(:scrape_users_cache).and_return(users_mocked)
       )
 
-      # Perform the scrape.
+      # Perform the scrape
       pebble_ink.scrape
       users_now = Tildeverse.site('pebble.ink').users.map(&:name)
 
-      # Confirm that the changes have been made.
+      # Confirm that the changes have been made
       expect(users_now).to eq users_expected.sort
 
-      # Confirm that the deleted user is offline.
+      # Confirm that the deleted user is offline
       deleted_user = Tildeverse.site('pebble.ink').user('imt')
       expect(deleted_user.online?).to eq false
 
-      # Confirm that the offline date is correct.
+      # Confirm that the offline date is correct
       expect(deleted_user.date_offline).to eq Date.today
     end
   end

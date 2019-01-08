@@ -19,7 +19,7 @@ module Tildeverse
       #
       def scrape_users
         #
-        # Manually found 8 users, but no list.
+        # Manually found 8 users, but no list
         %w[alyssa j jay nk kc nickolas360 nix tb10]
       end
     end

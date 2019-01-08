@@ -12,6 +12,13 @@ module Tildeverse
   #
   class User
     ##
+    # @return [Array<String>] master array of valid initialize options
+    #
+    VALID_OPTIONS = %i[
+      date_online date_offline date_modified date_tagged tags
+    ].freeze
+
+    ##
     # @return [Site] the site the user belongs to
     #
     attr_reader :site
@@ -27,14 +34,27 @@ module Tildeverse
     attr_reader :date_online
 
     ##
+    # @!attribute [rw] date_offline
     # @return [TildeDate] the date the user went offline
     #
     attr_reader :date_offline
+    #
+    # @param [String, Date, TildeDate] value
+    def date_offline=(value)
+      @date_offline = TildeDate.new(value)
+    end
 
     ##
+    # @!attribute [rw] date_modified
     # @return [TildeDate] the date the user's homepage was last modified
     #
     attr_reader :date_modified
+    #
+    # @param [String, Date, TildeDate] value
+    #   the date the user's homepage was last modified
+    def date_modified=(value)
+      @date_modified = TildeDate.new(value)
+    end
 
     ##
     # The date the tags were last updated.
@@ -45,15 +65,25 @@ module Tildeverse
     attr_reader :date_tagged
 
     ##
+    # Settting this attribute also updates {date_tagged} to today's date
+    #
+    # @!attribute [rw] tags
     # @return [TagArray] a list of usersite tags for the user
+    # @raise [Error::InvalidTags] if any tag is not valid
     #
     attr_reader :tags
+    #
+    # @param tags [Array<String>, TagArray] the array of tags
+    def tags=(tags)
+      @tags = TagArray.new(tags)
+      @date_tagged = TildeDate.new(Date.today)
+    end
 
     ##
     # Returns a new instance of User
     #
-    # @param [Site] site the site the user belongs to
-    # @param [String] name the name of the user
+    # @param site [Site] the site the user belongs to
+    # @param name [String] the name of the user
     # @option options [String, Date, TildeDate] :date_online
     #   the date the user first came online
     # @option options [String, Date, TildeDate] :date_offline
@@ -66,7 +96,7 @@ module Tildeverse
     #   a list of usersite tags for the user
     #
     def initialize(site:, name:, **options)
-      dodgy_args = invalid_options(options)
+      dodgy_args = options.keys - VALID_OPTIONS
       raise ArgumentError, dodgy_args unless dodgy_args.empty?
 
       @site          = site
@@ -91,44 +121,6 @@ module Tildeverse
     #
     def to_s
       serialize.to_s
-    end
-
-    ##
-    # Set the {date_offline} attribute
-    #
-    # @param [String, Date, TildeDate] value
-    #   the date the user first went offline
-    # @return [TildeDate]
-    #   input value parsed as {TildeDate}
-    #
-    def date_offline=(value)
-      @date_offline = TildeDate.new(value)
-    end
-
-    ##
-    # Set the {date_modified} attribute
-    #
-    # @param [String, Date, TildeDate] value
-    #   the date the user's homepage was last modified
-    # @return [TildeDate]
-    #   input value parsed as {TildeDate}
-    #
-    def date_modified=(value)
-      @date_modified = TildeDate.new(value)
-    end
-
-    ##
-    # Set the {tags} attribute.
-    # Also updates {#date_tagged} to today's date
-    #
-    # @param tags [Array<String>, TagArray] the array of tags
-    # @return [TagArray] the array of tags
-    # @raise [Error::InvalidTags] if any tag is not valid
-    #
-    def tags=(tags)
-      @tags = TagArray.new(tags)
-      @date_tagged = TildeDate.new(Date.today)
-      @tags
     end
 
     ##
@@ -160,19 +152,6 @@ module Tildeverse
     #
     def email
       site.uri.email(name)
-    end
-
-    private
-
-    ##
-    # Return an array of the option keys that are not defined
-    #
-    # @param [Hash] options hash of options
-    # @return [Array<void>] array of invalid keys
-    #
-    def invalid_options(options)
-      valid = %i[date_online date_offline date_modified date_tagged tags]
-      options.keys - valid
     end
   end
 end

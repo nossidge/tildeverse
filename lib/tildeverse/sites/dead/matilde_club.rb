@@ -20,7 +20,7 @@ module Tildeverse
       def scrape_users
         validate_usernames do
           #
-          # This is not newline based, so need to do other stuff.
+          # This is not newline based, so need to do other stuff
           # 2016/02/04  RIP
           [].tap do |users|
             con.result.split("\n").each do |i|

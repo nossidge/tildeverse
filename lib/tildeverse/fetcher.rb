@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Fetch the up-to-date TXT file from the remote URI.
+  # Fetch the up-to-date TXT file from the remote URI
   #
   class Fetcher
     ##
@@ -17,6 +17,9 @@ module Tildeverse
     attr_reader :remote
 
     ##
+    # Creates a new {Fetcher}, with a {Data} object containing each {Site}
+    # and {User} to update
+    #
     # @param [Data] data
     # @param [RemoteResource] remote
     #
@@ -38,27 +41,27 @@ module Tildeverse
     def fetch
       raise Error::DeniedByConfig unless data.config.authorised?
 
-      # Try to get the remote file via HTTP.
+      # Try to get the remote file via HTTP
       remote.get
 
-      # Copy the existing 'tildeverse.txt' file as a backup.
+      # Copy the existing 'tildeverse.txt' file as a backup
       original = Files.input_txt_tildeverse
       backup   = Files.input_txt_tildeverse_fetch_backup
       FileUtils.cp(original, backup) if original.exist?
 
-      # Save the remote result verbatim, overwriting the existing file.
+      # Save the remote result verbatim, overwriting the existing file
       Files.save_text(remote.result, Files.input_txt_tildeverse)
 
-      # Use the new text file to load input.
+      # Use the new text file to load input
       data.clear
 
-      # Update to include any local tags.
+      # Update to include any local tags
       TagMerger.new(data, backup).merge if backup.exist?
 
-      # Remove the backup file.
+      # Remove the backup file
       FileUtils.rm(backup) if backup.exist?
 
-      # Use the new text file to save output.
+      # Use the new text file to save output
       data.save
     end
   end

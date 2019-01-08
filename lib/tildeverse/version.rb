@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # @return [String] the number of the current version.
+  # @return [String] the number of the current version
   # @example
   #   '1.2.0'
   #   '0.0.1.pre'
@@ -18,7 +18,7 @@ module Tildeverse
   end
 
   ##
-  # @return [String] the date of the current version.
+  # @return [String] the date of the current version
   # @example
   #   '2017-07-28'
   #

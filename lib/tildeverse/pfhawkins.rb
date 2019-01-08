@@ -8,30 +8,42 @@ module Tildeverse
   # http://tilde.club/~pfhawkins/othertildes.html
   #
   # If this has been updated let me know. Then I can manually add the new box.
+  #
   class PFHawkins
     ##
-    # URL of the remote HTML list of Tilde servers.
-    # @return [String]
-    # @example
-    #   'http://tilde.club/~pfhawkins/othertildes.html'
+    # @return [Array<String>] the Tilde servers that we know about
     #
-    def url_html
-      'http://tilde.club/~pfhawkins/othertildes.html'
-    end
+    SERVER_LIST = %w[
+      ctrl-c.club
+      cybyte.club
+      hackers.cool
+      nand.club
+      pebble.ink
+      protocol.club
+      remotes.club
+      riotgirl.club
+      rudimentarylathe.org
+      skylab.org
+      squiggle.city
+      thunix.org
+      tilde.team
+      tilde.town
+      tilde.works
+      yourtilde.com
+    ].freeze
 
     ##
-    # URL of the remote JSON list of Tilde servers.
-    # @return [String]
-    # @example
-    #   'http://tilde.club/~pfhawkins/othertildes.json'
+    # @return [String] URL of the remote HTML list of Tilde servers
     #
-    def url_json
-      'http://tilde.club/~pfhawkins/othertildes.json'
-    end
+    URL_HTML = 'http://tilde.club/~pfhawkins/othertildes.html'
 
     ##
-    # Array of all the Tilde servers on the list.
-    # @return [Array<String>]
+    # @return [String] URL of the remote JSON list of Tilde servers
+    #
+    URL_JSON = 'http://tilde.club/~pfhawkins/othertildes.json'
+
+    ##
+    # @return [Array<String>] the Tilde servers scraped from ~pfhawkins
     # @example
     #   [
     #     'ctrl-c.club',
@@ -51,18 +63,16 @@ module Tildeverse
     alias boxes servers
 
     ##
-    # If there is there a new server on the ~pfhawkins list.
-    # @return [true, false]
+    # @return [Boolean] whether there is a new server on the ~pfhawkins list
     #
     def new?
       a = servers
-      b = server_list_cache
+      b = SERVER_LIST
       !(a - b | b - a).empty?
     end
 
     ##
-    # Output a message (using puts) if there is a new server.
-    # @return [nil]
+    # Output a message (using puts) if there is a new server
     #
     def puts_if_new
       puts new_message if new?
@@ -71,45 +81,19 @@ module Tildeverse
     private
 
     ##
-    # List of the Tilde servers that we know about.
-    # @return [Array<String>]
+    # Fetch and return the remote JSON list of Tilde servers
     #
-    def server_list_cache
-      %w[
-        ctrl-c.club
-        cybyte.club
-        hackers.cool
-        nand.club
-        pebble.ink
-        protocol.club
-        remotes.club
-        riotgirl.club
-        rudimentarylathe.org
-        skylab.org
-        squiggle.city
-        thunix.org
-        tilde.team
-        tilde.town
-        tilde.works
-        yourtilde.com
-      ]
-    end
-
-    ##
-    # Fetch and return the remote JSON list of Tilde servers.
     # @return [Hash]
     #
     def json
-      return @json if @json
-      @json = JSON[open(url_json).read]
+      @json ||= JSON[open(URL_JSON).read]
     end
 
     ##
-    # Message to output if there is a new server.
-    # @return [String]
+    # @return [String] message to output if there is a new server
     #
     def new_message
-      "-- New Tilde Boxes!\n" + url_html
+      "-- New Tilde Boxes!\n" + URL_HTML
     end
   end
 end

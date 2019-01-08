@@ -3,7 +3,7 @@
 
 describe 'Tildeverse::Data' do
 
-  # Same info as Config class, but not tied to a file on the system.
+  # Same info as Config class, but not tied to a file on the system
   let(:config_struct) do
     Struct.new(
       :update_type,

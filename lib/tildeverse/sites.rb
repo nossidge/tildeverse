@@ -10,7 +10,7 @@ module Tildeverse
   module Sites
     ##
     # Find all Tilde site classes by returning the inheritors of {Site::Live}
-    # and {Site::Dead}.
+    # and {Site::Dead}
     #
     # @return [Array<Class>]
     #

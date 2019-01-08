@@ -20,6 +20,8 @@ module Tildeverse
     attr_reader :filepath
 
     ##
+    # Creates a new {TagMerger}
+    #
     # @param [Data] data
     # @param [Pathname] filepath
     #   File in the same format as 'tildeverse.txt' containing newer user tags
@@ -41,12 +43,12 @@ module Tildeverse
         user = data.site(i[:site_name])&.user(i[:user_name])
         next unless user
 
-        # Determine if the tagged date is newer than the current.
+        # Determine if the tagged date is newer than the current
         current = TildeDate.new(user.date_tagged)
         newer   = TildeDate.new(i[:date_tagged])
         tags_are_newer = current < newer
 
-        # Update if necessary.
+        # Update if necessary
         user.tags = i[:tags].split(',') if tags_are_newer
       end
     end

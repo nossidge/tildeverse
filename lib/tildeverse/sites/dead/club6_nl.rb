@@ -20,7 +20,7 @@ module Tildeverse
       def scrape_users
         validate_usernames do
           #
-          # 2015/01/03  New box, a nice easy JSON format.
+          # 2015/01/03  New box, a nice easy JSON format
           # 2016/01/13  RIP
           parsed = JSON[con.result.delete("\t")]
           parsed['users'].map do |i|

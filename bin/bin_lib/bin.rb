@@ -435,7 +435,7 @@ module Tildeverse
     # Output a string to console. I had a weird bug that caused output to
     # error when piped to another command on MinGW. Using 'rescue' fixed it.
     #
-    # @param [String] string to output
+    # @param output [String] string to output
     #
     def puts(output)
       super output

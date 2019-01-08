@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Methods for serialising data at a high level
+  # Methods for serialising {Data} at a high level
   #
   class DataSerializer
     ##
@@ -12,7 +12,9 @@ module Tildeverse
     attr_reader :data
 
     ##
-    # @param [Data] data Data object to serialise
+    # Creates a new {DataSerializer} that will serialise one {Data} object
+    #
+    # @param data [Data] Data object to serialise
     #
     def initialize(data)
       @data = data
@@ -53,14 +55,14 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Serialize data in the format of {Files#output_json_tildeverse}
+    # Serialize {#data} in the format of {Files#output_json_tildeverse}
     #
     # @return [Hash]
     #
     def for_tildeverse_json
       {
         metadata: {
-          url: 'http://tilde.town/~nossidge/tildeverse/',
+          url:           'http://tilde.town/~nossidge/tildeverse/',
           date_human:    Time.now.strftime('%Y/%m/%d %H:%M'),
           date_unix:     Time.now.to_i,
           date_timezone: Time.now.getlocal.zone
@@ -70,7 +72,7 @@ module Tildeverse
     end
 
     ##
-    # Serialize data in the format of {Files#output_json_users}
+    # Serialize {#data} in the format of {Files#output_json_users}
     #
     # @return [Hash]
     #

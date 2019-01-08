@@ -71,7 +71,7 @@ describe 'Tildeverse::Config' do
     end
   end
 
-  # Only stipulation is that '#to_s' must be implemented.
+  # Only stipulation is that '#to_s' must be implemented
   describe '#authorised_users=' do
     let(:no_to_s) do
       Class.new do
@@ -81,7 +81,7 @@ describe 'Tildeverse::Config' do
 
     it 'should validate to String array' do
       # Updating an attribute calls '#save' automatically, which
-      # raises its own 'Error::DeniedByConfig', so disable it for now.
+      # raises its own 'Error::DeniedByConfig', so disable it for now
       allow(instance).to receive(:authorised?).and_return(true)
 
       valid = [%w[paul joe], ['paul', :joe], 'paul', 123, nil]
@@ -234,7 +234,7 @@ describe 'Tildeverse::Config' do
     let(:config) { Tildeverse::Config.new(temp_file) }
 
     it 'should correctly compare logged-in user with @authorised_users' do
-      # '#save' raises its own 'Error::DeniedByConfig', so disable it for now.
+      # '#save' raises its own 'Error::DeniedByConfig', so disable it for now
       allow(config).to receive(:save)
 
       config.authorised_users = Etc.getlogin

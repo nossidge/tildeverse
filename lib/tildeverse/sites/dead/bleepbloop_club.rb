@@ -20,8 +20,8 @@ module Tildeverse
       def scrape_users
         validate_usernames do
           #
-          # This is straight from someone's ~user index.html.
-          # I'm betting this will be the first page to break.
+          # This is straight from someone's ~user index.html
+          # I'm betting this will be the first page to break
           # 2015/10/26  RIP
           con.result.split("\n").map do |i|
             next unless i =~ /<li>/

@@ -136,12 +136,12 @@ describe 'Tildeverse::Files' do
       data2 = Tildeverse::Files.output_tildeverse!
 
       # There may be some differences between generation times,
-      # but it should never be more than one second.
+      # but it should never be more than one second
       time1 = data1['metadata']['date_unix']
       time2 = data2['metadata']['date_unix']
       expect(time1 == time2 || time1 == time2 - 1).to be true
 
-      # Remove 'date_unix' from the equation, and compare the hash.
+      # Remove 'date_unix' from the equation, and compare the hash
       data1['metadata']['date_unix'] = 0
       data2['metadata']['date_unix'] = 0
       expect(data1).to eq data2

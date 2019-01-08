@@ -18,15 +18,15 @@ module Tildeverse
       # @return [Array<String>] all users of +squiggle.city+
       #
       def scrape_users
-        # The JSON doesn't include all the users.
-        # So group them together, sort and uniq.
+        # The JSON doesn't include all the users
+        # So group them together, sort and uniq
         a = read_json
         b = read_html
         a.concat(b).sort.uniq
       end
 
       ##
-      # @return [Array<String>] users from the JSON source.
+      # @return [Array<String>] users from the JSON source
       #
       def read_json
         url = 'https://squiggle.city/tilde.json'
@@ -34,7 +34,7 @@ module Tildeverse
 
         validate_usernames do
           #
-          # There's a NULL record at the end of the file.
+          # There's a NULL record at the end of the file
           # Also, doesn't seem to include all users...
           parsed = JSON[con(url).result.delete("\t")]
           parsed['users'].map do |i|
@@ -44,7 +44,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Array<String>] users from the HTML source.
+      # @return [Array<String>] users from the HTML source
       #
       def read_html
         url = 'https://squiggle.city/'

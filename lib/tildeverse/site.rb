@@ -82,7 +82,7 @@ module Tildeverse
     end
 
     ##
-    # @return [Boolean] the site's known online status.
+    # @return [Boolean] the site's known online status
     #
     def online?
       self.class.online?
@@ -91,12 +91,11 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Find a user by name.
-    # This will return the full User object, with tag data included.
+    # Find a user by name
     #
-    # @param [String] user_name The name of the user
-    # @return [User] First matching user
-    # @return [nil] If no user matches
+    # @param user_name [String] the name of the user
+    # @return [User] the user with the same {User#name}
+    # @return [nil] if no user matches
     #
     def user(user_name)
       @all_users[user_name]
@@ -125,14 +124,14 @@ module Tildeverse
     def scrape
       return unless online?
 
-      # These are the users we already know about.
+      # These are the users we already know about
       existing_users = @all_users.keys.sort
 
-      # These are the users from the remote list.
+      # These are the users from the remote list
       remote_users = scrape_users_cache.sort
 
-      # Add new user accounts to @all_users.
-      # They do not have 'tagged' or 'tags' data yet.
+      # Add new user accounts to @all_users
+      # They do not have 'tagged' or 'tags' data yet
       new_users = remote_users - existing_users
 
       new_users.each do |user_name|
@@ -143,7 +142,7 @@ module Tildeverse
         )
       end
 
-      # Flag newly dead user accounts to date_offline = today.
+      # Flag newly dead user accounts to date_offline = today
       dead_users = existing_users - remote_users
       dead_users.each do |user_name|
         user = @all_users[user_name]
@@ -151,8 +150,8 @@ module Tildeverse
       end
 
       # If a 'new' account was previously marked as offline, remove the
-      # 'date_offline' attribute while keeping the existing 'date_online'.
-      # This might naturally occur if a site goes offline for a few days.
+      # 'date_offline' attribute while keeping the existing 'date_online'
+      # This might naturally occur if a site goes offline for a few days
       remote_users.each do |user_name|
         user = @all_users[user_name]
         user.date_offline = TildeDate.new(nil)
@@ -186,11 +185,11 @@ module Tildeverse
     ##
     # Build up the @all_users hash, by finding user tagging data from
     # {Tildeverse::Files#input_tildeverse} and online users from the remote
-    # location.
+    # location
     #
     def initialize_users
       #
-      # Create a new User instance for all users, using the cached data.
+      # Create a new User instance for all users, using the cached data
       # Initially, this will be just those users from 'tildeverse.txt'
       @all_users = {}.tap do |hash|
         users = users_from_input_tildeverse
@@ -213,8 +212,8 @@ module Tildeverse
     # Memoize results with the same info, to reduce server load.
     #
     # @param [String] url
-    #   Optional argument to overwrite the {#resource} URL.
-    # @return [RemoteResource] Connection to the remote {#resource}.
+    #   optional argument to overwrite the {#resource} URL.
+    # @return [RemoteResource] connection to the remote {#resource}.
     #
     def connection(url = uri.list)
       return @remote if @remote && @remote.resource == url

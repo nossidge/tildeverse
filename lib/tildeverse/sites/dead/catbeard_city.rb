@@ -21,7 +21,7 @@ module Tildeverse
         validate_usernames do
           #
           # These are lines on the page that include '<li><a href'
-          # But only between two other lines.
+          # But only between two other lines
           # 2015/10/26  RIP
           found = false
           con.result.split("\n").map do |i|

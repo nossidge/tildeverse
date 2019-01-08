@@ -16,6 +16,8 @@ module Tildeverse
   # If accessing through a console, all these errors are cause to exit
   #
   class Error < StandardError
+
+    # @param msg [String] override of {#message} value
     def initialize(msg)
       super msg
     end
@@ -49,7 +51,7 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Error class raised when an abstract method is called.
+    # Error class raised when an abstract method is called
     #
     class AbstractMethodError < Error
       #
@@ -200,6 +202,8 @@ module Tildeverse
     # Error class raised when a 'config.yml' file is read incorrectly
     #
     class ConfigError < Error
+
+      # (see Tildeverse::Error#console_message)
       def console_message
         super + "\n" + <<-MSG.gsub(/^ {10}/, '')
                  Update the file 'config.yml' and correct this field
@@ -276,7 +280,7 @@ module Tildeverse
           ERROR: No users found for site:
                    "#{site_name}"
                  The URL is online and accessible, but the code
-                 to scrape the list of users needs updating.
+                 to scrape the list of users needs updating
         MSG
       end
     end

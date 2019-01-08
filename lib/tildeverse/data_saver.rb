@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Class for saving the contents of a Data object to file
+  # Class for saving the contents of a {Data} object to file
   #
   class DataSaver
     ##
@@ -12,7 +12,9 @@ module Tildeverse
     attr_reader :data
 
     ##
-    # @param [Data] data Data object to save to file
+    # Creates a new {DataSaver} object
+    #
+    # @param data [Data] Data object to save to file
     #
     def initialize(data)
       @data = data

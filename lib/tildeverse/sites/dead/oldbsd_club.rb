@@ -19,7 +19,7 @@ module Tildeverse
       #
       def scrape_users
         #
-        # No idea about this one.
+        # No idea about this one
         []
       end
     end

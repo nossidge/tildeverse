@@ -5,7 +5,7 @@ require 'fileutils'
 
 module Tildeverse
   ##
-  # Scrape all Tilde sites and save as JSON files.
+  # Scrape all Tilde sites and save as JSON files
   #
   class Scraper
     ##
@@ -14,6 +14,9 @@ module Tildeverse
     attr_reader :data
 
     ##
+    # Creates a new {Scraper}, with a {Data} object containing each {Site}
+    # and {User} to update
+    #
     # @param [Data] data
     #
     def initialize(data)
@@ -40,7 +43,7 @@ module Tildeverse
     private
 
     ##
-    # Add new users to the hash, for all sites.
+    # Add new users to the hash, for all sites
     #
     def scrape_all_sites
       data.sites.map(&:scrape)

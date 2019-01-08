@@ -20,7 +20,7 @@ module Tildeverse
       def scrape_users
         validate_usernames do
           #
-          # The https has expired, do use http.
+          # The https has expired, do use http
           con.result.split("\n").map do |i|
             next unless i =~ /^<li>/
             user = i.split('href=')[1].first_between_two_chars('"').strip

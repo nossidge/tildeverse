@@ -26,7 +26,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Array<String>] users from the JSON source.
+      # @return [Array<String>] users from the JSON source
       #
       def read_json
         url = 'http://yester.host/tilde.json'
@@ -34,7 +34,7 @@ module Tildeverse
 
         validate_usernames do
           #
-          # There's a NULL record at the end of the file.
+          # There's a NULL record at the end of the file
           parsed = JSON[con(url).result.delete("\t")]
           parsed['users'].map do |i|
             i['username']
@@ -43,7 +43,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Array<String>] users from the HTML source.
+      # @return [Array<String>] users from the HTML source
       #
       def read_html
         url = 'http://yester.host/'

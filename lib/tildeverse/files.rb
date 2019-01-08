@@ -7,12 +7,12 @@ require 'json'
 
 module Tildeverse
   ##
-  # Location of the input and output files in the repository.
+  # Location of the input and output files in the repository
   #
   module Files
     class << self
       ##
-      # @return [Pathname] the root directory of the repository.
+      # @return [Pathname] the root directory of the repository
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse'
       #
@@ -21,7 +21,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the directory for data files.
+      # @return [Pathname] the directory for data files
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/data'
       #
@@ -30,7 +30,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the directory for web files.
+      # @return [Pathname] the directory for web files
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/web'
       #
@@ -39,7 +39,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the directory for public web files.
+      # @return [Pathname] the directory for public web files
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/web/public'
       #
@@ -48,7 +48,7 @@ module Tildeverse
       end
 
       ##
-      # File path of the config YAML. Creates directory if not yet existing.
+      # File path of the config YAML. Creates directory if not yet existing
       # @return [Pathname] the file path of the config YAML
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/config/config.yml'
@@ -60,7 +60,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the input 'tildeverse' TXT file.
+      # @return [Pathname] the input 'tildeverse' TXT file
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse.txt'
       #
@@ -119,7 +119,7 @@ module Tildeverse
         file_contents = read_utf8(file)
         wsv = WSV.new(file_contents.split("\n"))
 
-        # Convert the 'tags' property to an array.
+        # Convert the 'tags' property to an array
         hash_array = wsv.from_wsv_with_header.tap do |a|
           a.each do |i|
             i[:tags] ||= ''
@@ -147,7 +147,7 @@ module Tildeverse
       ##
       # @return [Pathname]
       #   the temporary backup file that is created and deleted when a
-      #   {Fetcher#fetch} operation is performed.
+      #   {Fetcher#fetch} operation is performed
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/input/tildeverse_fetch_backup.txt'
       #
@@ -156,7 +156,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the HTML output file.
+      # @return [Pathname] the HTML output file
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/index.html'
       #
@@ -170,7 +170,7 @@ module Tildeverse
       # This is created for backwards-compatibility for external services
       # that use this instead of the newer {Files#output_json_tildeverse} file.
       #
-      # @return [Pathname] the output 'users' JSON file.
+      # @return [Pathname] the output 'users' JSON file
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/users.json'
       #
@@ -179,7 +179,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the output 'tildeverse' JSON file.
+      # @return [Pathname] the output 'tildeverse' JSON file
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.json'
       #
@@ -188,7 +188,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Pathname] the output 'tildeverse' TXT file.
+      # @return [Pathname] the output 'tildeverse' TXT file
       # @example
       #   'C:/Dropbox/Code/Ruby/tildeverse/output/tildeverse.txt'
       #
@@ -210,7 +210,7 @@ module Tildeverse
       end
 
       ##
-      # Same as {Files#output_tildeverse!}, but result is cached.
+      # Same as {Files#output_tildeverse!}, but result is cached
       #
       # @return [Hash] the contents of {Files#output_json_tildeverse}
       #
@@ -239,10 +239,10 @@ module Tildeverse
       end
 
       ##
-      # Save an object to a JSON file.
+      # Save an object to a JSON file
       #
-      # @param [Hash, Array] obj  Object to write to file.
-      # @param [Pathname, String] filepath  Location to save file to.
+      # @param obj [Hash, Array] object to write to file
+      # @param filepath [Pathname, String] location to save file to
       # @return [nil]
       #
       def save_json(obj, filepath)
@@ -252,10 +252,10 @@ module Tildeverse
       end
 
       ##
-      # Save a string to a text file.
+      # Save a string to a text file
       #
-      # @param [String] string  String to write to file.
-      # @param [Pathname, String] filepath  Location to save file to.
+      # @param string [String] string to write to file
+      # @param filepath [Pathname, String] location to save file to
       # @return [nil]
       #
       def save_text(string, filepath)
@@ -265,10 +265,10 @@ module Tildeverse
       end
 
       ##
-      # Save an array to a text file, separated by newlines.
+      # Save an array to a text file, separated by newlines
       #
-      # @param [Array] array  Array to write to file.
-      # @param [Pathname, String] filepath  Location to save file to.
+      # @param array [Array] array to write to file
+      # @param filepath [Pathname, String] location to save file to
       # @return [nil]
       #
       def save_array(array, filepath)
@@ -280,10 +280,10 @@ module Tildeverse
       end
 
       ##
-      # Read a text file ensuring UTF8 encoding.
+      # Read a text file ensuring UTF8 encoding
       #
-      # @param [Pathname, String] filepath  Location of input file.
-      # @return [String] File contents.
+      # @param filepath [Pathname, String] location of input file
+      # @return [String] file contents
       #
       def read_utf8(filepath)
         File.read(

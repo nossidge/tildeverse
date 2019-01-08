@@ -21,7 +21,7 @@ module Tildeverse
         validate_usernames do
           #
           # Current as of 2015/11/13
-          # Uses a nice JSON format.
+          # Uses a nice JSON format
           parsed = JSON[con.result.delete("\t")]
           parsed['users'].map do |i|
             i['username']

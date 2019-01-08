@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Class to decorate {Array} with tag-specific validation.
+  # Class to decorate Array with tag-specific validation.
   # Validation ensures that no tag can be added without it being
   # on the list of valid tags.
   # This validation can be disabled if necessary.
@@ -19,7 +19,7 @@ module Tildeverse
       # Does NOT do any validation; it is assumed that since the TagArray
       # objects were created without error then they are valid.
       #
-      # @param *tag_arrays [Array<TagArray>]
+      # @param tag_arrays [Array<TagArray>]
       #   any number of TagArray values
       #
       def merge(*tag_arrays)
@@ -28,12 +28,22 @@ module Tildeverse
     end
 
     ##
-    # String value to return when tag array is empty
+    # @return [String] value of {#to_s} when tag array is empty
     #
     EMPTY = '-'
 
     ##
-    # @param *args [Array<String>]
+    # @return [Array<String>] master array of valid tags
+    #
+    VALID_TAGS = %w[
+      empty brief redirect links blog poetry prose art photo audio
+      video gaming tutorial app code procgen web1.0 unix tilde
+    ].freeze
+
+    ##
+    # Creates a new {TagArray}, with an array of tag strings
+    #
+    # @param args [Array<String>]
     #   any number of tag values
     # @param validation [Boolean]
     #   validate tags based on a lookup list
@@ -67,17 +77,7 @@ module Tildeverse
     # @return [Array<String>] array of invalid tags
     #
     def invalid_tags(tag_array)
-      tag_array - valid_tags
-    end
-
-    ##
-    # @return [Array<String>] array of valid tags
-    #
-    def valid_tags
-      %w[
-        empty brief redirect links blog poetry prose art photo audio
-        video gaming tutorial app code procgen web1.0 unix tilde
-      ]
+      tag_array - VALID_TAGS
     end
   end
 end

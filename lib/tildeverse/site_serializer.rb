@@ -3,7 +3,7 @@
 
 module Tildeverse
   ##
-  # Class for serialising a Site full of Users
+  # Class for serialising a {Site} full of {User} objects
   #
   class SiteSerializer
     ##
@@ -12,14 +12,18 @@ module Tildeverse
     attr_reader :site
 
     ##
-    # @param [Site] site Site object to serialise
+    # Creates a new {SiteSerializer} that will serialise one {Site} object
+    #
+    # @param site [Site] Site object to serialise
     #
     def initialize(site)
       @site = site
     end
 
     ##
-    # @return [String] string representation of the contents of the instance
+    # Serialize {#site} information as a string
+    #
+    # @return [String] string representation of the contents of {#site}
     #
     def to_s
       {
@@ -34,8 +38,10 @@ module Tildeverse
     end
 
     ##
-    # @param [Array<User>] users_array list of users to include in the output
-    # @return [Hash] internal Site data in a hash format
+    # Serialize {#site} information as a hash
+    #
+    # @param users_array [Array<User>] list of users to include in the output
+    # @return [Hash] {#site} information in a hash format
     #
     def to_h(users_array = site.users_online)
       {
@@ -49,7 +55,7 @@ module Tildeverse
     end
 
     ##
-    # Serialize the data for writing to {Files#output_json_tildeverse}
+    # Serialize {#site} for writing to {Files#output_json_tildeverse}
     #
     # @return [Hash]
     #
@@ -60,7 +66,7 @@ module Tildeverse
     private
 
     ##
-    # @param [Array<User>] users_array list of users to display
+    # @param users_array [Array<User>] list of users to display
     # @return [Hash]
     #
     def serialize_users(users_array)

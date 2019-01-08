@@ -38,7 +38,7 @@ require_relative 'tildeverse/version'
 ################################################################################
 
 ##
-# Download and output lists of the servers and users in the Tildeverse.
+# Download and output lists of the servers and users in the Tildeverse
 #
 module Tildeverse
   class << self
@@ -81,7 +81,7 @@ module Tildeverse
     # (see Tildeverse::Data#users)
     #
     # Since this is the 'public' interface for the data, only return those
-    # users who are online.
+    # users who are online
     #
     def users
       data.users.select(&:online?)
@@ -91,7 +91,7 @@ module Tildeverse
     # (see Tildeverse::Data#user)
     #
     # Since this is the 'public' interface for the data, only return those
-    # users who are online.
+    # users who are online
     #
     def user(user_name)
       data.user(user_name).select(&:online?)

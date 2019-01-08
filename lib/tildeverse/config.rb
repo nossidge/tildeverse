@@ -16,22 +16,46 @@ module Tildeverse
     attr_reader :filepath
 
     ##
-    # Users authorised to run GET requests.
-    # @return [Array<String>] list of system user names.
+    # Users authorised to run GET requests
+    #
+    # @!attribute [rw] authorised_users
+    # @return [Array<String>] list of system user names
+    # @raise [Error::AuthorisedUsersError] if not valid
     #
     attr_reader :authorised_users
+    #
+    # @param [Array<String>] value
+    def authorised_users=(value)
+      afterwards(:save) { @authorised_users = validate_authorised_users(value) }
+    end
 
     ##
-    # Method to use when GETting data from the Internet.
+    # Method to use when GETting data from the Internet
+    #
+    # @!attribute [rw] update_type
     # @return [String] either 'scrape' or 'fetch'
     #
     attr_reader :update_type
+    #
+    # @param [String] value
+    # @raise [Error::UpdateTypeError] if not valid
+    def update_type=(value)
+      afterwards(:save) { @update_type = validate_update_type(value) }
+    end
 
     ##
-    # Frequency to GET data from the Internet.
+    # Frequency to GET data from the Internet
+    #
+    # @!attribute [rw] update_frequency
     # @return [String] either 'always', 'day', 'week' or 'month'
     #
     attr_reader :update_frequency
+    #
+    # @param [String] value
+    # @raise [Error::UpdateFrequencyError] if not valid
+    def update_frequency=(value)
+      afterwards(:save) { @update_frequency = validate_update_frequency(value) }
+    end
 
     ##
     # @return [Date] date the data was last updated
@@ -42,7 +66,7 @@ module Tildeverse
     # Load data from 'config.yml' if the file exists.
     # If it does not exist, create new file using default values.
     #
-    # @param [Pathname] filepath Path to the 'config.yml' file
+    # @param filepath [Pathname] path to the 'config.yml' file
     #
     def initialize(filepath = Files.config_yml)
       @filepath = filepath
@@ -59,33 +83,6 @@ module Tildeverse
     end
 
     ##
-    # @param [Array<String>] value
-    # @return [Array<String>] the input value
-    # @raise [Error::AuthorisedUsersError] if not valid
-    #
-    def authorised_users=(value)
-      afterwards(:save) { @authorised_users = validate_authorised_users(value) }
-    end
-
-    ##
-    # @param [String] value
-    # @return [String] the input value
-    # @raise [Error::UpdateTypeError] if not valid
-    #
-    def update_type=(value)
-      afterwards(:save) { @update_type = validate_update_type(value) }
-    end
-
-    ##
-    # @param [String] value
-    # @return [String] the input value
-    # @raise [Error::UpdateFrequencyError] if not valid
-    #
-    def update_frequency=(value)
-      afterwards(:save) { @update_frequency = validate_update_frequency(value) }
-    end
-
-    ##
     # Set {#updated_on} to today's date
     # @return [Date] today's date
     #
@@ -94,14 +91,14 @@ module Tildeverse
     end
 
     ##
-    # Save config settings to file.
+    # Save config settings to file
     #
     def save
       raise Error::DeniedByConfig unless authorised?
 
       str = yaml_template.dup
 
-      # 'authorised_users' is an array, so use the nice YAML hyphen notation.
+      # 'authorised_users' is an array, so use the nice YAML hyphen notation
       %w[
         authorised_users
       ].each do |var|
@@ -109,7 +106,7 @@ module Tildeverse
         str.sub!("@#{var}@", "#{var}:#{val}")
       end
 
-      # These are scalar, so no problem.
+      # These are scalar, so no problem
       %w[
         update_type
         update_frequency
@@ -123,7 +120,7 @@ module Tildeverse
 
     ##
     # Consult the options to see if an update is needed today
-    # @return [true, false]
+    # @return [Boolean]
     #
     def update_required?
       now = date_today
@@ -164,7 +161,7 @@ module Tildeverse
 
     ##
     # Yield to a block, run a method, and return
-    # the return value of the block.
+    # the return value of the block
     #
     def afterwards(method_name)
       yield.tap do

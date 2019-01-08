@@ -10,27 +10,25 @@ module Tildeverse
   #   └── Site       (has many)
   #       └── User   (has many)
   #
-  # When first instantiated, it will automatically scrape all user
-  # information through HTTP, or read from daily cache if present.
-  #
   # Note that it is redundant in most cases to use this class directly,
-  # as the main {Tildeverse} module implements {#site}, {#sites}, {#user},
-  # and {#users} as class methods.
-  # So instead of writing +Tildeverse::Data.instance.site+, you can just
-  # use +Tildeverse.site+.
+  # as the main {Tildeverse} module creates an instance that can be globally
+  # accessed. {Tildeverse} implements {#site}, {#sites}, {#user}, and {#users}
+  # as class method proxies to this instance.
+  # So instead of writing +Tildeverse::Data.new.site+, or
+  # +Tildeverse.data.site+, you should just use +Tildeverse.site+.
   #
   # @example
-  #   Tildeverse::Data.instance.site('tilde.town')
-  #   # => #<Tildeverse::Site::TildeTown:0x34e4608>
+  #   Tildeverse::Data.new.site('tilde.town')
+  #   #=> Tildeverse::Sites::TildeTown
   # @example
-  #   Tildeverse::Data.instance.site('tilde.town').user('nossidge')
-  #   # => #<Tildeverse::User:0x34ec660>
+  #   Tildeverse::Data.new.site('tilde.town').user('nossidge')
+  #   #=> Tildeverse::User
   # @example
-  #   Tildeverse::Data.instance.sites.select(&:online?).map(&:name)
-  #   # => ['backtick.town', 'botb.club', ..., 'yourtilde.com']
+  #   Tildeverse::Data.new.sites.select(&:online?).map(&:name)
+  #   #=> ['crime.team', 'ctrl-c.club', ..., 'yourtilde.com']
   # @example
-  #   Tildeverse::Data.instance.user('dave').map(&:email)
-  #   # => ['dave@tilde.club', 'dave@tilde.town']
+  #   Tildeverse::Data.new.user('dave').map(&:email)
+  #   #=> ['dave@riotgirl.club', 'dave@tilde.club', 'dave@tilde.town']
   #
   class Data
     ##
@@ -39,9 +37,12 @@ module Tildeverse
     attr_reader :config
 
     ##
-    # @param [Config] config Config object to use for certain decisions
+    # Creates a new {Data} object. The {#config} parameter is used when
+    # fetching remote data or saving to file.
     #
-    def initialize(config)
+    # @param config [Config] Config object to use for certain decisions
+    #
+    def initialize(config = Tildeverse::Config.new)
       @config = config
     end
 
@@ -62,9 +63,9 @@ module Tildeverse
     ##
     # Find a site by name
     #
-    # @param [String] site_name  Name of the site
-    # @return [Site] First matching site
-    # @return [nil] If no site matches
+    # @param site_name [String] name of the site
+    # @return [Site] first matching site
+    # @return [nil] if no site matches
     #
     def site(site_name)
       sites_hash[site_name]
@@ -96,7 +97,7 @@ module Tildeverse
     end
 
     ##
-    # Clear all the data.
+    # Clear all the data
     #
     def clear
       @sites_hash = nil

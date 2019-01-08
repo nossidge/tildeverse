@@ -3,7 +3,7 @@
 
 describe 'Tildeverse::DataSaver' do
 
-  # Same info as Config class, but not tied to a file on the system.
+  # Same info as Config class, but not tied to a file on the system
   let(:config_struct) do
     Struct.new(
       :update_type,
@@ -45,20 +45,20 @@ describe 'Tildeverse::DataSaver' do
     it 'should update the users JSON file' do
       files_to_update = [Tildeverse::Files.output_json_users]
 
-      # Kill the existing files.
+      # Kill the existing files
       files_to_update.each do |f|
         f.delete if f.exist?
       end
 
-      # Ensure the files do not exist.
+      # Ensure the files do not exist
       files_to_update.each do |f|
         expect(f.exist?).to be false
       end
 
-      # Run the method to create the files.
+      # Run the method to create the files
       data.save
 
-      # Ensure the files DO exist.
+      # Ensure the files DO exist
       files_to_update.each do |f|
         expect(f.exist?).to be true
       end

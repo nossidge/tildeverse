@@ -19,7 +19,7 @@ module Tildeverse
       #
       def scrape_users
         #
-        # Manually found some users, but no list.
+        # Manually found some users, but no list
         %w[ajroach42 djsundog noah russ]
       end
     end

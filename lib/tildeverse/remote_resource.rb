@@ -42,8 +42,9 @@ module Tildeverse
     ##
     # The result of the HTTP request to {#resource}.
     # Probably in HTML or JSON format
+    #
     # @return [String]
-    # @return [nil] Before {#get} is called
+    # @return [nil] before {#get} is called
     # @example
     #   <!DOCTYPE html>
     #   <html>
@@ -105,7 +106,7 @@ module Tildeverse
     # Whether or not we can connect to the root URL
     #
     # @return [Boolean]
-    # @return [nil] Before {#get} is called
+    # @return [nil] before {#get} is called
     #
     def valid_root?
       @valid_root
@@ -115,7 +116,7 @@ module Tildeverse
     # Whether or not we can connect to the resource URL
     #
     # @return [Boolean]
-    # @return [nil] Before {#get} is called
+    # @return [nil] before {#get} is called
     #
     def valid_resource?
       @valid_resource
@@ -125,7 +126,7 @@ module Tildeverse
     # Whether or not there is an error with either URL
     #
     # @return [Boolean]
-    # @return [nil] Before {#get} is called
+    # @return [nil] before {#get} is called
     #
     def error?
       return nil unless @get_tried
@@ -138,7 +139,7 @@ module Tildeverse
     # On error, return which of the two URIs is offline
     #
     # @return [String]
-    # @return [nil] Before {#get} is called, or if {#error?} is False
+    # @return [nil] before {#get} is called, or if {#error?} is False
     #
     def offline_uri
       return nil unless error?

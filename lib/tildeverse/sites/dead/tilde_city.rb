@@ -19,7 +19,7 @@ module Tildeverse
       #
       def scrape_users
         #
-        # Manually found 2 users, but no list.
+        # Manually found 2 users, but no list
         %w[twilde skk]
       end
     end

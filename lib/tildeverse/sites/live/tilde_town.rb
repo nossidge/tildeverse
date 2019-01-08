@@ -25,7 +25,7 @@ module Tildeverse
       end
 
       ##
-      # @return [Array<String>] users from the JSON source.
+      # @return [Array<String>] users from the JSON source
       #
       def read_json
         url = 'http://tilde.town/~dan/users.json'
@@ -33,14 +33,14 @@ module Tildeverse
 
         validate_usernames do
           #
-          # A nice easy JSON format.
+          # A nice easy JSON format
           parsed = JSON[con(url).result.delete("\t")]
           parsed.map(&:first).compact.sort.uniq
         end
       end
 
       ##
-      # @return [Array<String>] users from the HTML source.
+      # @return [Array<String>] users from the HTML source
       #
       def read_html
         url = 'http://tilde.town/'

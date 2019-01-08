@@ -22,7 +22,7 @@ module Tildeverse
           #
           # These are lines on the page that include '<li><a href',
           # after the line that matches '<p>Current users:</p>'
-          # There's an error with some URLs, so we need to use the anchor text.
+          # There's an error with some URLs, so we need to use the anchor text
           found = false
           con.result.split("\n").map do |i|
             found = true if i.strip == '<p>Current users:</p>'

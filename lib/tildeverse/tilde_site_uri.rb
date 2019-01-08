@@ -41,7 +41,7 @@ module Tildeverse
     ##
     # @!attribute homepage_format
     # @return [String]
-    #   the format that the site uses to map users to their homepage.
+    #   the format that the site uses to map users to their homepage
     # @example
     #   'https://tilde.town/~USER/'
     #   'https://USER.remotes.club/'
@@ -54,7 +54,7 @@ module Tildeverse
     # Because the code is using ||, a variable can be restored to the
     # default by setting its value to nil.
     #
-    # @param [Symbol] attr The name of the attribute
+    # @param attr [Symbol] the name of the attribute
     #
     def self.use_default_if_missing(attr)
       class_eval(<<~CODE, __FILE__, __LINE__ + 1)
@@ -72,10 +72,12 @@ module Tildeverse
     use_default_if_missing(:homepage_format)
 
     ##
-    # @param [String, URI] uri
+    # Creates a new {TildeSiteURI} from a URI object. If an object other
+    # than a URI is passed, it will attempt to convert it to one.
+    #
+    # @param [URI, String] uri
     #   {URI}[https://ruby-doc.org/stdlib-2.3.3/libdoc/uri/rdoc/URI.html]
-    #   object to which this class acts as a wrapper. If an object other
-    #   than a URI is passed, it will attempt to convert it to one.
+    #   object to which this class acts as a wrapper
     #
     def initialize(uri)
       @uri = uri.is_a?(URI::HTTP) ? uri : URI(uri)
@@ -87,10 +89,10 @@ module Tildeverse
     ############################################################################
 
     ##
-    # Use {#homepage_format} to map the user to their homepage URL.
+    # Use {#homepage_format} to map the user to their homepage URL
     #
-    # @param [String] user The name of the user.
-    # @return [String] user's homepage.
+    # @param user [String] the name of the user
+    # @return [String] user's homepage
     # @example
     #   site = TildeSiteURI.new('http://tilde.town/~dan/users.json')
     #   site.homepage('imt')
@@ -114,7 +116,7 @@ module Tildeverse
     ##
     # Use {#name} to map the user to their email address
     #
-    # @param [String] user The name of the user
+    # @param user [String] the name of the user
     # @return [String] user's email address
     # @example
     #   site = TildeSiteURI.new('http://tilde.town/~dan/users.json')

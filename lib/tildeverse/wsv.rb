@@ -4,18 +4,21 @@
 module Tildeverse
   ##
   # Class for parsing from and writing to data in rows of
-  # whitespace-separated values.
+  # whitespace-separated values
   #
   class WSV
     ##
     # @return [Array<String>, Array<Array<String>>]
-    #   Input lines to be parsed from or to.
+    #   Input lines to be parsed from or to
     #
     attr_reader :data
 
     ##
+    # Creates a new {WSV} object that will parse or serialise WSV formatted
+    # strings
+    #
     # @param [Array<String>, Array<Array<String>>] data
-    #   Input lines to be parsed from or to.
+    #   Input lines to be parsed from or to
     #
     def initialize(data)
       @data = data
@@ -49,9 +52,7 @@ module Tildeverse
     #   # ]
     #
     def from_wsv
-      data
-        .map(&:strip)
-        .map { |i| i.split(/\s+/) }
+      data.map { |i| i.strip.split(/\s+/) }
     end
 
     ##
@@ -134,7 +135,7 @@ module Tildeverse
     #
     def to_wsv(rjust: [], spaces: 2)
       #
-      # Figure out max lengths, to use as the width of each column.
+      # Figure out max lengths, to use as the width of each column
       max_lengths = data.first.map(&:length)
       data.each do |row|
         row.each_with_index do |e, i|
@@ -144,13 +145,13 @@ module Tildeverse
         end
       end
 
-      # Format each row as one long string.
+      # Format each row as one long string
       data.map do |row|
         format = max_lengths.map.with_index do |value, index|
           just = rjust.include?(index) ? '' : '-'
 
-          # Set a % format string for the field.
-          # If the field does not contain a value, fill with spaces.
+          # Set a % format string for the field
+          # If the field does not contain a value, fill with spaces
           index < row.count ? "%#{just}#{value}s" : ' ' * value
         end
         (format.join(' ' * spaces) % row).rstrip
