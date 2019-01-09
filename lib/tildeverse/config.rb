@@ -75,7 +75,7 @@ module Tildeverse
         @authorised_users = validate_authorised_users data['authorised_users']
         @update_type      = validate_update_type      data['update_type']
         @update_frequency = validate_update_frequency data['update_frequency']
-        @updated_on       = data['updated_on']
+        @updated_on       = validate_updated_on       data['updated_on']
       else
         apply_default_values
         save
@@ -237,6 +237,19 @@ module Tildeverse
         error = Error::UpdateFrequencyError
         raise error unless valid.include?(value)
       end
+    end
+
+    ##
+    # Validate {#updated_on}
+    # @return [Date] if valid
+    # @raise [Error::UpdatedOnError] if not valid
+    #
+    def validate_updated_on(input)
+      return input if input.respond_to?(:to_date)
+      yyyy, mm, dd = input.to_s.split('-').map(&:to_i)
+      Date.new(yyyy, mm, dd)
+    rescue StandardError
+      raise Error::UpdatedOnError
     end
 
     ##

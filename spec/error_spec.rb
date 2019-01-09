@@ -188,7 +188,7 @@ describe 'Tildeverse::Error' do
 
   describe 'UpdatedOnError' do
     let(:error) { Tildeverse::Error::UpdatedOnError.new }
-    let(:msg) { %(todo) }
+    let(:msg) { %('updated_on' must be a date in the format 'yyyy-mm-dd') }
     it 'should be a Tildeverse::Error::ConfigError' do
       expect(error).to be_a Tildeverse::Error::ConfigError
     end

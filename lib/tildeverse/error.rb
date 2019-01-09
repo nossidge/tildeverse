@@ -239,11 +239,11 @@ module Tildeverse
     end
 
     ##
-    # todo
+    # Error class raised when {Config#updated_on} is invalid
     #
     class UpdatedOnError < ConfigError
       def initialize
-        super %(todo)
+        super %('updated_on' must be a date in the format 'yyyy-mm-dd')
       end
     end
 

@@ -121,6 +121,27 @@ describe 'Tildeverse::Config' do
     end
   end
 
+  describe '#validate_updated_on' do
+    it 'should validate as date, or be parsable to date' do
+      valid = [
+        '1920-01-01',
+        '1970-01-01',
+        '2019-01-01',
+        '9999-12-31',
+        Date.new(2019, 1, 1),
+        Tildeverse::TildeDate.new('2019-01-01')
+      ]
+      invalid = [
+        123, nil, Integer, true, 'scrape', 'always',
+        'yyyy-mm-dd', '2019-13-13', '2019-02-30',
+        '01-01-2019', '2019/01/01'
+      ]
+      test_raise_error(valid, invalid, terror::UpdatedOnError) do |i|
+        instance.send(:validate_updated_on, i)
+      end
+    end
+  end
+
   ##############################################################################
 
   describe '#update' do
