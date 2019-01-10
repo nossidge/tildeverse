@@ -27,12 +27,13 @@ module Tildeverse
         # There's a strange issue with curling this URL
         # I'll just use a manual list for now
         %w[
-          anizawa arung asvvvad ben biglysmalls brendantcc caleb copart
-          deepend distip diverger edwardthefma emv envican fosslinux geoff
-          hustler hyperboredoubt jovan juaniman99 khuxkm kingofobsolete
-          login mhj msmcmickey mspe mushmouth nozy oak_tree petegozz rileyjb
-          rofopaje rostovripper sebboh silbern slip snowdusk tiasum tomasino
-          tunas ubergeek valdebrick wl01 worldwide xdrixxyz zenoil zin
+          amcclure anizawa arung asvvvad ben biglysmalls brendantcc caleb
+          copart deepend distip diverger doctorcoleton edwardthefma emv
+          envican fosslinux geoff hustler hyperboredoubt jovan juaniman99
+          khuxkm kingofobsolete login mhj msmcmickey mspe mushmouth nozy
+          nun oak_tree petegozz rileyjb rofopaje rostovripper ryumin sebboh
+          silbern slip snowdusk tiasum tomasino tunas ubergeek valdebrick
+          wl01 worldwide xdrixxyz xeffyr zenoil zin
         ]
       end
 
