@@ -1,106 +1,106 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <meta charset="UTF-8"></meta>
-  <title>Tildeverse</title>
-  <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
-  <link rel="stylesheet" href="vendor/css/holy_grail.css">
-  <style type="text/css">
-    body {
-      min-height: 100vh;
-    }
-    input {
-      text-align: center;
-    }
-    .header_div {
-      margin: 10px;
-    }
-    .header_left {
-      flex: 0 0 414px;
-      margin-top: 0px;
-      margin-left: 0px;
-    }
-    .header_right {
-      flex: 0 0 614px;
-      margin-left: 8px;
-      margin-right: 0px;
-      display: flex;
-    }
-    #text_counter {
-      width: 130px;
-      margin-left: 8px;
-    }
-    .top_button {
-      width: 100px;
-    }
-    .col_left {
-      flex: 0 0 16em;
-    }
-    .col_middle {
-      background-color: white;
-      padding: 0px;
-    }
-    #save {
-      margin: 0px 0px 3px 0px;
-    }
-    .btn_tags {
-      height: 44px;
-    }
-    .centre_text {
-      text-align: center;
-    }
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>Tildeverse</title>
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/holy_grail.css">
+    <style type="text/css">
+      body {
+        min-height: 100vh;
+      }
+      input {
+        text-align: center;
+      }
+      .header_div {
+        margin: 10px;
+      }
+      .header_left {
+        flex: 0 0 414px;
+        margin-top: 0px;
+        margin-left: 0px;
+      }
+      .header_right {
+        flex: 0 0 614px;
+        margin-left: 8px;
+        margin-right: 0px;
+        display: flex;
+      }
+      #text_counter {
+        width: 130px;
+        margin-left: 8px;
+      }
+      .top_button {
+        width: 100px;
+      }
+      .col_left {
+        flex: 0 0 16em;
+      }
+      .col_middle {
+        background-color: white;
+        padding: 0px;
+      }
+      #save {
+        margin: 0px 0px 3px 0px;
+      }
+      .btn_tags {
+        height: 44px;
+      }
+      .centre_text {
+        text-align: center;
+      }
 
-    /* https://www.w3schools.com/howto/howto_css_split_screen.asp */
-    .split {
-      height: 100%;
-      width: 50%;
-      position: fixed;
-      top: 0;
-      overflow-x: hidden;
-      padding-top: 20px;
-    }
-    .left {
-      left: 0;
-    }
-    .right {
-      right: 0;
-    }
-    .centered {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-    }
+      /* https://www.w3schools.com/howto/howto_css_split_screen.asp */
+      .split {
+        height: 100%;
+        width: 50%;
+        position: fixed;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+      }
+      .left {
+        left: 0;
+      }
+      .right {
+        right: 0;
+      }
+      .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
 
-    a:link, a:visited { color: #000000; }
-    a:hover, a:active { color: #222222; }
-    .big_hitbox { padding: 160px 60px; }
-  </style>
- </head>
- <body class="border centre_text">
-  <header>
-    <h1>Tildeverse Directory Server</h1>
-  </header>
-  <div class="contents">
-    <div class="split left">
-      <a class="centered big_hitbox" href="/index.html">
-        <h2>Viewing</h2>
-        <p>View the output website</p>
-      </a>
+      a:link, a:visited { color: #000000; }
+      a:hover, a:active { color: #222222; }
+      .big_hitbox { padding: 160px 60px; }
+    </style>
+  </head>
+  <body class="border centre_text">
+    <header>
+      <h1>Tildeverse Directory Server</h1>
+    </header>
+    <div class="contents">
+      <div class="split left">
+        <a class="centered big_hitbox" href="/index.html">
+          <h2>Viewing</h2>
+          <p>View the output website</p>
+        </a>
+      </div>
+      <div class="split right">
+        <a class="centered big_hitbox" href="/tagging">
+          <h2>Tagging</h2>
+          <p>Open the user tagging website</p>
+        </a>
+      </div>
+      <div>
+        <a class="centered big_hitbox" href="browser/index.html">
+          <h2>Browsing</h2>
+          <p>View the tag browser</p>
+        </a>
+      </div>
     </div>
-    <div class="split right">
-      <a class="centered big_hitbox" href="/tagging">
-        <h2>Tagging</h2>
-        <p>Open the user tagging website</p>
-      </a>
-    </div>
-    <div>
-      <a class="centered big_hitbox" href="browser/index.html">
-        <h2>Browsing</h2>
-        <p>View the tag browser</p>
-      </a>
-    </div>
-  </div>
- </body>
+  </body>
 </html>

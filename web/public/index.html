@@ -1,183 +1,172 @@
 <!DOCTYPE html>
 <html>
- <head>
-  <meta charset="UTF-8"></meta>
-  <title>Tildeverse Directory</title>
-  <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
-  <link rel="stylesheet" href="vendor/css/bootstrap-multiselect.css">
-  <link rel="stylesheet" href="vendor/css/jquery.dataTables.min.css">
-  <script src="vendor/js/jquery.min.js"></script>
-  <script src="vendor/js/Chart.bundle.min.js"></script>
-  <script src="vendor/js/jquery.dataTables.min.js"></script>
-  <script src="vendor/js/bootstrap.min.js"></script>
-  <script src="vendor/js/bootstrap-multiselect.js"></script>
-  <script src="users.js"></script>
-  <script src="boxes.js"></script>
-  <script src="pie.js"></script>
-
-  <script type="text/javascript">
-    function dataTables() {
-      let colOrder = {
-        "#table_users": [3, "desc"],
-        "#table_boxes": [2, "desc"]
-      }
-      let colHidden = {
-        "#table_users": [{
-          "targets": [4],
-          "visible": false
-        }],
-        "#table_boxes": []
-      }
-      $.each(["#table_users", "#table_boxes"], function(index, value) {
-        $(value).DataTable({
-          "aLengthMenu": [
-            [20, 50, 100, 200, 500, -1],
-            [20, 50, 100, 200, 500, "All"]
-          ],
-          "order": colOrder[value],
-          "columnDefs": colHidden[value]
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>Tildeverse Directory</title>
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="vendor/css/jquery.dataTables.min.css">
+    <script src="vendor/js/jquery.min.js"></script>
+    <script src="vendor/js/Chart.bundle.min.js"></script>
+    <script src="vendor/js/jquery.dataTables.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="vendor/js/bootstrap-multiselect.js"></script>
+    <script src="users.js"></script>
+    <script src="boxes.js"></script>
+    <script src="pie.js"></script>
+    <script type="text/javascript">
+      function dataTables() {
+        let colOrder = {
+          "#table_users": [3, "desc"],
+          "#table_boxes": [2, "desc"]
+        }
+        let colHidden = {
+          "#table_users": [{
+            "targets": [4],
+            "visible": false
+          }],
+          "#table_boxes": []
+        }
+        $.each(["#table_users", "#table_boxes"], function(index, value) {
+          $(value).DataTable({
+            "aLengthMenu": [
+              [20, 50, 100, 200, 500, -1],
+              [20, 50, 100, 200, 500, "All"]
+            ],
+            "order": colOrder[value],
+            "columnDefs": colHidden[value]
+          });
         });
-      });
-    }
-    function createMultiselect() {
-      let tags = [
-        "blog","tutorial","prose","poetry",
-        "art","photo","audio","video","gaming",
-        "app","code","procgen","web1.0","unix","tilde",
-        "links","brief","redirect","empty"
-      ];
-      let selectContents = $.map(tags, function(value) {
-        return `<option value="${value}">${value}</option>`;
-      });
-      let elem = document.createElement("select");
-      $(elem).attr("id", "tags_select");
-      $(elem).attr("multiple", "multiple");
-      $("#table_users_length").append(elem);
-      $(elem).html(selectContents);
-      $(elem).multiselect({
-        nonSelectedText: "Filter by user site tag",
-        buttonWidth: "260px",
-        numberDisplayed: 4,
-        includeSelectAllOption: true,
-        selectAllText: "ALL",
-        selectAllNumber: false,
-        onChange: multiselectEvent,
-        onSelectAll: multiselectEvent,
-        onDeselectAll: multiselectEvent
-      });
-    }
-    function multiselectEvent() {
-      let table = $("#table_users").DataTable();
-      let tags = $("#tags_select").val() || [];
-      let tagString = $.map(tags, function(value) {
-        return "#" + value;
-      });
-      table.search(tagString.join(" ")).draw();
-    }
-    $(document).ready( function () {
-      var x = new XMLHttpRequest();
-      x.open("GET", "tildeverse.json", true);
-      x.responseType = "json";
-      x.onload = function() {
-        var tildeverseJSON = x.response;
-        users(tildeverseJSON);
-        boxes(tildeverseJSON);
-        pie(tildeverseJSON);
-        dataTables();
-        createMultiselect();
-
-        let elem = $("#last_update");
-        let d  = tildeverseJSON["metadata"]["date_human"];
-        let tz = tildeverseJSON["metadata"]["date_timezone"];
-        elem.html(d);
-        elem.prop("title", tz);
       }
-      x.send(null);
-    });
-  </script>
-
-  <style type="text/css">
-    #content { width: 800px; margin: 0 auto; }
-    p, h1    { text-align: center; }
-    #legend                    { margin: 0 auto; padding: 20px 0px; }
-    #legend table              { margin: 0 auto; }
-    #legend tr td:first-child  { padding-left: 0px; }
-    #legend tr td:last-child   { text-align: right; }
-    #legend tr th:last-child   { text-align: right; }
-    #legend td, #legend th     { padding: 0px 0px 0px 12px; }
-    .dataTables_wrapper        { padding: 20px 0px 10px 0px; }
-    .multiselect-native-select { margin-left: 78px; }
-    .tildePie_wrapper {
-      width:  560px;
-      height: 560px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      padding-bottom: 10px;
-    }
-  </style>
- </head>
-
- <body>
-  <div id="content">
-
-    <h1>Tildeverse User Directory</h1>
-    <hr>
-
-    <div>
-      <ul class="nav nav-tabs">
-        <li class="active">
-          <a href="#users" data-toggle="tab">Users</a>
-        </li>
-        <li>
-          <a href="#boxes" data-toggle="tab">Boxes</a>
-        </li>
-        <li>
-          <a href="#pie" data-toggle="tab">Pie</a>
-        </li>
-        <li>
-          <a href="#about" data-toggle="tab">About</a>
-        </li>
-      </ul>
-
-      <div class="tab-content">
-        <div class="tab-pane fade in active" id="users">
-          <table id="table_users" class="display"></table>
-        </div>
-
-        <div class="tab-pane fade" id="boxes">
-          <table id="table_boxes" class="display"></table>
-        </div>
-
-        <div class="tab-pane fade" id="pie">
-          <div id="legend"></div>
-          <div class="tildePie_wrapper">
-            <canvas id="tildePie"></canvas>
+      function createMultiselect() {
+        let tags = [
+          "blog","tutorial","prose","poetry",
+          "art","photo","audio","video","gaming",
+          "app","code","procgen","web1.0","unix","tilde",
+          "links","brief","redirect","empty"
+        ];
+        let selectContents = $.map(tags, function(value) {
+          return `<option value="${value}">${value}</option>`;
+        });
+        let elem = document.createElement("select");
+        $(elem).attr("id", "tags_select");
+        $(elem).attr("multiple", "multiple");
+        $("#table_users_length").append(elem);
+        $(elem).html(selectContents);
+        $(elem).multiselect({
+          nonSelectedText: "Filter by user site tag",
+          buttonWidth: "260px",
+          numberDisplayed: 4,
+          includeSelectAllOption: true,
+          selectAllText: "ALL",
+          selectAllNumber: false,
+          onChange: multiselectEvent,
+          onSelectAll: multiselectEvent,
+          onDeselectAll: multiselectEvent
+        });
+      }
+      function multiselectEvent() {
+        let table = $("#table_users").DataTable();
+        let tags = $("#tags_select").val() || [];
+        let tagString = $.map(tags, function(value) {
+          return "#" + value;
+        });
+        table.search(tagString.join(" ")).draw();
+      }
+      $(document).ready( function () {
+        let x = new XMLHttpRequest();
+        x.open("GET", "tildeverse.json", true);
+        x.responseType = "json";
+        x.onload = function() {
+          let tildeverseJSON = x.response;
+          users(tildeverseJSON);
+          boxes(tildeverseJSON);
+          pie(tildeverseJSON);
+          dataTables();
+          createMultiselect();
+          let elem = $("#last_update");
+          let d  = tildeverseJSON["metadata"]["date_human"];
+          let tz = tildeverseJSON["metadata"]["date_timezone"];
+          elem.html(d);
+          elem.prop("title", tz);
+        }
+        x.send(null);
+      });
+    </script>
+    <style type="text/css">
+      #content { width: 800px; margin: 0 auto; }
+      p, h1    { text-align: center; }
+      #legend                    { margin: 0 auto; padding: 20px 0px; }
+      #legend table              { margin: 0 auto; }
+      #legend tr td:first-child  { padding-left: 0px; }
+      #legend tr td:last-child   { text-align: right; }
+      #legend tr th:last-child   { text-align: right; }
+      #legend td, #legend th     { padding: 0px 0px 0px 12px; }
+      .dataTables_wrapper        { padding: 20px 0px 10px 0px; }
+      .multiselect-native-select { margin-left: 78px; }
+      .tildePie_wrapper {
+        width:  560px;
+        height: 560px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <h1>Tildeverse User Directory</h1>
+      <hr>
+      <div>
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a href="#users" data-toggle="tab">Users</a>
+          </li>
+          <li>
+            <a href="#boxes" data-toggle="tab">Boxes</a>
+          </li>
+          <li>
+            <a href="#pie" data-toggle="tab">Pie</a>
+          </li>
+          <li>
+            <a href="#about" data-toggle="tab">About</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="users">
+            <table id="table_users" class="display"></table>
           </div>
-        </div>
-
-        <div class="tab-pane fade" id="about">
-          <br>
-          <p>This is a list of all users in the whole wide Tildeverse.
-          <br>Since the creation of <a href="http://tilde.club/">tilde.club</a>, many <a href="http://tilde.club/~pfhawkins/othertildes.html">other sites</a> have sprung up.
-          <br>All united in celebration of a kinder, old-fashioned WWW.
-          <br>United in goal, differing only in URL.
-          <br>Run by people, not corporations.
-          <br>Like the web used to be.</p>
-          <hr>
-          <p>This list is based on the <a href="http://tilde.club/~pfhawkins/othertildes.html">master list</a> tended to by <a href="https://twitter.com/pfhawkins">~pfhawkins</a>
-          <br>If you are aware of any updates to this list, please let me know: <a href="https://twitter.com/nossidge">@nossidge</a></p>
-          <p>Users are found by scraping the source of a Tilde's user directory.
-          <br>If any of those pages change, this list will likely break.</p>
-          <p>The full information can be downloaded as <a href="tildeverse.json">JSON</a>.
-          <br>It is updated every hour, as is this web page.</p>
-          <p>Code is available on <a href="https://github.com/nossidge/tildeverse">GitHub</a>.</p>
-          <hr>
-          <p>Last update: <strong id="last_update">(JavaScript required)</strong></p>
+          <div class="tab-pane fade" id="boxes">
+            <table id="table_boxes" class="display"></table>
+          </div>
+          <div class="tab-pane fade" id="pie">
+            <div id="legend"></div>
+            <div class="tildePie_wrapper">
+              <canvas id="tildePie"></canvas>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="about">
+            <br>
+            <p>This is a list of all users in the whole wide Tildeverse.
+            <br>Since the creation of <a href="http://tilde.club/">tilde.club</a>, many <a href="http://tilde.club/~pfhawkins/othertildes.html">other sites</a> have sprung up.
+            <br>All united in celebration of a kinder, old-fashioned WWW.
+            <br>United in goal, differing only in URL.
+            <br>Run by people, not corporations.
+            <br>Like the web used to be.</p>
+            <hr>
+            <p>This list is based on the <a href="http://tilde.club/~pfhawkins/othertildes.html">master list</a> tended to by <a href="https://twitter.com/pfhawkins">~pfhawkins</a>
+            <br>If you are aware of any updates to this list, please let me know: <a href="https://twitter.com/nossidge">@nossidge</a></p>
+            <p>Users are found by scraping the source of a Tilde's user directory.
+            <br>If any of those pages change, this list will likely break.</p>
+            <p>The full information can be downloaded as <a href="tildeverse.json">JSON</a>.
+            <br>It is updated every hour, as is this web page.</p>
+            <p>Code is available on <a href="https://github.com/nossidge/tildeverse">GitHub</a>.</p>
+            <hr>
+            <p>Last update: <strong id="last_update">(JavaScript required)</strong></p>
+          </div>
         </div>
       </div>
     </div>
-
-  </div>
- </body>
+  </body>
 </html>
