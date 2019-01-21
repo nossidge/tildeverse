@@ -153,5 +153,21 @@ module Tildeverse
     def email
       site.uri.email(name)
     end
+
+    ##
+    # Use HTTP to query the user's homepage and return the 'last-modified'
+    # header datetime. If a valid datetime is returned from the header,
+    # The {#date_modified} attribute will be updated.
+    #
+    # @return [DateTime] last modified date
+    # @return [nil] if header value is not returned
+    #
+    def date_modified!
+      uri = URI URI::encode(homepage)
+      res = Net::HTTP.get_response(uri)
+      last_modified = res['last-modified']
+      return nil unless last_modified
+      self.date_modified = DateTime.parse(last_modified)
+    end
   end
 end

@@ -181,4 +181,26 @@ describe 'Tildeverse::User' do
       user.email
     end
   end
+
+  describe '#date_modified!' do
+    let(:date_string) { 'Wed, 21 Oct 2015 07:28:00 GMT' }
+    let(:date_time)   { DateTime.new(2015, 10, 21, 7, 28, 0, 'GMT') }
+    let(:date_tilde)  { Tildeverse::TildeDate.new('2015-10-21') }
+
+    it 'should correctly query the homepage and return the date' do
+      header = { 'last-modified' => date_string }
+      allow(Net::HTTP).to receive(:get_response).and_return(header)
+      user = Tildeverse.site('tilde.town').user('nossidge')
+      expect(user.date_modified).to eq Tildeverse::TildeDate.new('2017-04-02')
+      expect(user.date_modified!).to eq date_time
+      expect(user.date_modified).to eq date_tilde
+    end
+
+    it "should return Nil if header does not send 'last-modified'" do
+      header = { 'foo' => 'bar' }
+      allow(Net::HTTP).to receive(:get_response).and_return(header)
+      user = Tildeverse.site('tilde.town').user('nossidge')
+      expect(user.date_modified!).to be nil
+    end
+  end
 end
