@@ -6,10 +6,6 @@ module Tildeverse
   # Scrape modified dates from ~insom's list,
   # http://tilde.town/~insom/modified.html
   #
-  # !!!Temporary update!!!
-  # Use this URI instead:
-  # http://tilde.town/~nossidge/tildeverse/modified.html
-  #
   # Use {#get} to scrape data, or return the most recent cache
   #
   # Use {#get!} to overwrite the cache with a new remote scrape
@@ -58,9 +54,9 @@ module Tildeverse
     def remote
       return @remote if @remote
       info = [
-        'nossidge/modified',
-        'http://tilde.town/~nossidge/',
-        'http://tilde.town/~nossidge/tildeverse/modified.html'
+        'insom/modified',
+        'http://tilde.town/~insom/',
+        'http://tilde.town/~insom/modified.html'
       ]
       @remote = RemoteResource.new(*info)
     end
