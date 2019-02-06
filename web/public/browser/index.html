@@ -35,7 +35,7 @@
           URL_NAVIGATION.randomUrl();
 
           // Show the help text.
-          HELP.show();
+          VIEW.help();
 
         });
 
@@ -87,18 +87,24 @@
                  class="form-control input-lg"
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
-          <div id="filters" class="btn-group btn-group-lg">
+          <div id="filters_three" class="btn-group btn-group-lg">
             <a id="filter_by_excluding_banned"
                title="Only list users that are capable of being displayed in the iframe viewer.&#013;This excludes all that are HTTP only, or have blocked cross-origin requests."
                class="btn btn-default btn-lg top_button top_button_right"
                onclick="TOGGLE_GROUPS.toggleExcludingBanned()">
               <span class="glyphicon glyphicon-remove"></span>
             </a>
-            <a id="help"
+            <a id="help_btn"
                title="Display help screen"
                class="btn btn-default btn-lg top_button top_button_right"
-               onclick="HELP.toggle()">
+               onclick="VIEW.helpToggle()">
               <span class="glyphicon glyphicon-info-sign"></span>
+            </a>
+            <a id="list_btn"
+               title="Display results in list format"
+               class="btn btn-default btn-lg top_button top_button_right"
+               onclick="VIEW.listToggle()">
+              <span class="glyphicon glyphicon-list"></span>
             </a>
           </div>
         </div>
@@ -132,6 +138,33 @@
         </div>
       </div>
       <iframe id="tildesite_iframe" name="tildesite" class="col_middle border hidden"></iframe>
+      <div id="list_text" class="col_middle border hidden">
+        <div>
+          <h1>TODO</h1>
+          <table id="list_table">
+            <tr>
+              <th>Site</th>
+              <th>User</th>
+              <th>Tags</th>
+            </tr>
+            <tr>
+              <td>squiggle.city</td>
+              <td>brennen</td>
+              <td>blog,code,links,tilde,tutorial</td>
+            </tr>
+            <tr>
+              <td>tilde.club</td>
+              <td>ford</td>
+              <td>blog,photo,tilde</td>
+            </tr>
+            <tr>
+              <td>tilde.town</td>
+              <td>nossidge</td>
+              <td>art,audio,gaming,poetry,procgen,prose,tilde,web1.0</td>
+            </tr>
+          </table>
+        </div>
+      </div>
       <div id="help_text" class="col_middle border">
         <h1>Tildeverse Directory Browser</h1>
         <p>

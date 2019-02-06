@@ -299,7 +299,7 @@ var USERS = ( function(mod) {
 
   // Display all the user's info on screen.
   mod.displayCurrentUser = function() {
-    HELP.hide();
+    VIEW.iframe();
     let user = mod.currentUser();
 
     if (typeof user !== "undefined") {
@@ -656,46 +656,64 @@ var TAG_STATE = ( function(mod) {
 
 //##############################################################################
 
-// Module to show/hide the browser help screen.
-var HELP = ( function(mod) {
-  let displayed = null;
+// Module to switch the content in the main div.
+var VIEW = ( function(mod) {
+  let current = "iframe";
 
-  mod.show = function() {
-    if (displayed) return;
-    displayed = true;
+  mod.iframe = function() {
+    if (current == "iframe") return;
+    current = "iframe";
+    elemShow("#tildesite_iframe");
+    elemHide("#help_text");
+    elemHide("#list_text");
+    $("#help_btn").removeClass("active");
+    $("#list_btn").removeClass("active");
+    USERS.displayCurrentUser();
+  };
 
+  mod.help = function() {
+    if (current == "help") return;
+    current = "help";
+    elemHide("#tildesite_iframe");
+    elemShow("#help_text");
+    elemHide("#list_text");
+    $("#help_btn").addClass("active");
+    $("#list_btn").removeClass("active");
     TAG_DOM.displayTags([]);
     $("#text_user").attr("value", "Info screen");
     $("#text_counter").attr("value", "");
     document.getElementById("url_dropdown").value = null;
-
-    $("#help_text").addClass("visible");
-    $("#help_text").removeClass("hidden");
-    $("#tildesite_iframe").addClass("hidden");
-    $("#tildesite_iframe").removeClass("visible");
-    $("#help").addClass("active");
   };
 
-  mod.hide = function() {
-    if (!displayed) return;
-    displayed = false;
-
-    USERS.displayCurrentUser();
-
-    $("#help_text").addClass("hidden");
-    $("#help_text").removeClass("visible");
-    $("#tildesite_iframe").addClass("visible");
-    $("#tildesite_iframe").removeClass("hidden");
-    $("#help").removeClass("active");
+  mod.list = function() {
+    if (current == "list") return;
+    current = "list";
+    elemHide("#tildesite_iframe");
+    elemShow("#list_text");
+    elemHide("#help_text");
+    $("#help_btn").removeClass("active");
+    $("#list_btn").addClass("active");
+    TAG_DOM.displayTags([]);
+    $("#text_user").attr("value", "User list");
+    $("#text_counter").attr("value", "");
+    document.getElementById("url_dropdown").value = null;
   };
 
-  mod.toggle = function() {
-    if (displayed) {
-      mod.hide();
-    } else {
-      mod.show();
-    }
+  mod.helpToggle = function() {
+    $("#help_btn").hasClass("active") ? VIEW.iframe() : VIEW.help();
   };
+  mod.listToggle = function() {
+    $("#list_btn").hasClass("active") ? VIEW.iframe() : VIEW.list();
+  };
+
+  function elemHide(elemID) {
+    $(elemID).addClass("hidden");
+    $(elemID).removeClass("visible");
+  }
+  function elemShow(elemID) {
+    $(elemID).addClass("visible");
+    $(elemID).removeClass("hidden");
+  }
 
   return mod;
-}(HELP || {}));
+}(VIEW || {}));

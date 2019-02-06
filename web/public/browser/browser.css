@@ -12,8 +12,12 @@ input {
   margin-top: 0px;
   margin-left: 0px;
 }
-#filters {
+#filters_two {
   width: 165px;
+  margin: 0px;
+}
+#filters_three {
+  width: 281px;
   margin: 0px;
 }
 .top_button {
@@ -72,15 +76,26 @@ input {
   width: 197px;
 }
 
-#help_text {
+#help_text, #list_text {
   font-family: 'Lucida Console', Monaco, monospace;
-  text-align: center;
   color: #333;
   font-size: 125%;
   line-height: 160%;
 }
-#help_text p, #help_text h1 {
+#help_text {
+  text-align: center;
+}
+#help_text p, #help_text h1, #list_text h1 {
+  text-align: center;
   margin-top: 26px;
+}
+#list_table {
+  margin: 0 auto;
+  margin-top: 26px;
+}
+#list_table table, #list_table th, #list_table td {
+  border: 2px solid black;
+  padding: 3px 12px;
 }
 
 /* options for a group of button groups */
