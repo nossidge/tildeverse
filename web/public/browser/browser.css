@@ -1,7 +1,7 @@
 body {
   min-height: 100vh;
 }
-input {
+.centre_text {
   text-align: center;
 }
 .header_div {
@@ -85,7 +85,7 @@ input {
 #help_text {
   text-align: center;
 }
-#help_text p, #help_text h1, #list_text h1 {
+#help_text p, #help_text h1 {
   text-align: center;
   margin-top: 26px;
 }
@@ -93,9 +93,17 @@ input {
   margin: 0 auto;
   margin-top: 26px;
 }
-#list_table table, #list_table th, #list_table td {
-  border: 2px solid black;
+#list_table th, #list_table td {
   padding: 3px 12px;
+}
+#list_text {
+  padding-left: 26px;
+  padding-right: 26px;
+  overflow: auto;
+  max-height: 895px;
+}
+.dataTables_wrapper {
+  padding: 20px 0px 10px 0px;
 }
 
 /* options for a group of button groups */

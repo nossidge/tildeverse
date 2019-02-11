@@ -5,8 +5,10 @@
     <title>Tildeverse Browser</title>
     <link rel="stylesheet" href="../vendor/css/bootstrap.min.css">
     <link rel="stylesheet" href="../vendor/css/holy_grail.css">
+    <link rel="stylesheet" href="../vendor/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="browser.css">
     <script src="../vendor/js/jquery.min.js"></script>
+    <script src="../vendor/js/jquery.dataTables.min.js"></script>
     <script src="../vendor/js/bootstrap.min.js"></script>
     <script src="browser.js"></script>
     <script language="javascript">
@@ -37,9 +39,18 @@
           // Show the help text.
           VIEW.help();
 
+          // See below.
+          fixListHeight();
         });
-
       });
+
+      // Dodgy "fix" to keep the list height correct.
+      $(window).resize(fixListHeight);
+      function fixListHeight() {
+        $("#list_text").css("min-height", "0px");
+        let columnHeight = $("#col_left").css("height");
+        $("#list_text").css("min-height", columnHeight);
+      }
 
     </script>
   </head>
@@ -72,7 +83,7 @@
         </div>
         <div class="header_title input-group-lg">
           <input tabindex="5" id="text_user"
-                 class="form-control"
+                 class="form-control centre_text"
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
           <a hidden id="url_iframe_link" target="tildesite"></a>
@@ -84,7 +95,7 @@
                   onchange="URL_NAVIGATION.gotoUrlIndex(this.value)">
           </select>
           <input tabindex="7" id="text_counter"
-                 class="form-control input-lg"
+                 class="form-control input-lg centre_text"
                  type="text" readonly="readonly"
                  onfocus="this.focus();this.select()">
           <div id="filters_three" class="btn-group btn-group-lg">
@@ -140,29 +151,7 @@
       <iframe id="tildesite_iframe" name="tildesite" class="col_middle border hidden"></iframe>
       <div id="list_text" class="col_middle border hidden">
         <div>
-          <h1>TODO</h1>
-          <table id="list_table">
-            <tr>
-              <th>Site</th>
-              <th>User</th>
-              <th>Tags</th>
-            </tr>
-            <tr>
-              <td>squiggle.city</td>
-              <td>brennen</td>
-              <td>blog,code,links,tilde,tutorial</td>
-            </tr>
-            <tr>
-              <td>tilde.club</td>
-              <td>ford</td>
-              <td>blog,photo,tilde</td>
-            </tr>
-            <tr>
-              <td>tilde.town</td>
-              <td>nossidge</td>
-              <td>art,audio,gaming,poetry,procgen,prose,tilde,web1.0</td>
-            </tr>
-          </table>
+          <table id="list_table"></table>
         </div>
       </div>
       <div id="help_text" class="col_middle border">

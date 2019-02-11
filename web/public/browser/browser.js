@@ -9,6 +9,20 @@ Array.prototype.diff = function(a) {
 
 //##############################################################################
 
+// Return a formatted string from a date.
+// Return "-" if the date is invalid.
+function dateYYYYMMDD(date) {
+  if (isNaN(date)) return "-";
+  let year = date.getFullYear();
+  let month = "" + (date.getMonth() + 1);
+  let day = "" + date.getDate();
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+  return [year, month, day].join("-");
+}
+
+//##############################################################################
+
 // Turn an array into an iterator.
 function toIterator(array) {
   let index = -1;
@@ -427,7 +441,13 @@ var FILTER_FUNCTIONS = ( function(mod) {
       );
     }
     USERS.filtered(newList);
-    gotoOriginal(newList, originalUser);
+
+    // If the current view is "list", then remake the table.
+    if (VIEW.current() == "list") {
+      VIEW.list();
+    } else {
+      gotoOriginal(newList, originalUser);
+    }
   };
 
   // Return users whose modified date is greater than their tagged date.
@@ -660,6 +680,10 @@ var TAG_STATE = ( function(mod) {
 var VIEW = ( function(mod) {
   let current = "iframe";
 
+  mod.current = function() {
+    return current;
+  };
+
   mod.iframe = function() {
     if (current == "iframe") return;
     current = "iframe";
@@ -672,7 +696,6 @@ var VIEW = ( function(mod) {
   };
 
   mod.help = function() {
-    if (current == "help") return;
     current = "help";
     elemHide("#tildesite_iframe");
     elemShow("#help_text");
@@ -686,7 +709,6 @@ var VIEW = ( function(mod) {
   };
 
   mod.list = function() {
-    if (current == "list") return;
     current = "list";
     elemHide("#tildesite_iframe");
     elemShow("#list_text");
@@ -697,6 +719,8 @@ var VIEW = ( function(mod) {
     $("#text_user").attr("value", "User list");
     $("#text_counter").attr("value", "");
     document.getElementById("url_dropdown").value = null;
+    makeUserTable();
+    dataTables();
   };
 
   mod.helpToggle = function() {
@@ -713,6 +737,51 @@ var VIEW = ( function(mod) {
   function elemShow(elemID) {
     $(elemID).addClass("visible");
     $(elemID).removeClass("hidden");
+  }
+
+  function makeUserTable() {
+    let thead = "<thead><tr><th>Tilde Box</th><th>User Name</th><th>User URL</th><th>Modified</th><th>Tags</th></tr></thead>";
+    let tbody = document.createElement("tbody");
+    $("#list_table").empty();
+    $("#list_table").append(thead);
+    $("#list_table").append(tbody);
+    let row = '<tr><td><a href="SITE_URL">SITE_NAME</a></td><td>USER_NAME</td><td><a href="USER_URL">USER_URL_TIDY</a></td><td>MODIFIED</td><td>TAGS</td></tr>';
+    $.each(URL_NAVIGATION.data().all(), function(index, user) {
+      let tidy = user.url.substring(user.url.indexOf("//") + 2);
+      let scheme = user.url.split("/")[0];
+      let siteUrl = scheme + "//" + user.site;
+      let tags = "";
+      if (user.tags) {
+        tags = user.tags.map( function(tag) {
+          return "#" + tag;
+        }).join(" ");
+      }
+      let out = row;
+      out = out.replace("SITE_URL",      siteUrl);
+      out = out.replace("SITE_NAME",     user.site);
+      out = out.replace("USER_NAME",     user.user);
+      out = out.replace("USER_URL",      user.url);
+      out = out.replace("USER_URL_TIDY", tidy.replace(/\/$/, ""));
+      out = out.replace("MODIFIED",      dateYYYYMMDD(user.date_modified));
+      out = out.replace("TAGS",          tags);
+      $(tbody).append(out);
+    });
+  }
+
+  function dataTables() {
+    let colHidden = [{
+      "targets": [4],
+      "visible": false
+    }];
+    $("#list_table").DataTable({
+      "aLengthMenu": [
+        [20, 50, 100, 200, 500, -1],
+        [20, 50, 100, 200, 500, "All"]
+      ],
+      "order": [3, "desc"],
+      "columnDefs": colHidden,
+      "bDestroy": true
+    });
   }
 
   return mod;
