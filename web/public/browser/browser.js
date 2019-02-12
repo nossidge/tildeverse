@@ -10,7 +10,7 @@ Array.prototype.diff = function(a) {
 //##############################################################################
 
 // Return a formatted string from a date.
-// Return "-" if the date is invalid.
+// Return '-' if the date is invalid.
 function dateYYYYMMDD(date) {
   if (isNaN(date)) return "-";
   let year = date.getFullYear();
@@ -303,7 +303,7 @@ var USERS = ( function(mod) {
 
   // Basic getter/setter.
   mod.filtered = function(value) {
-    if (typeof value !== 'undefined') {
+    if (typeof value !== "undefined") {
       filtered = value;
       URL_NAVIGATION.data(value);
       populateDropdownURLs();
@@ -521,7 +521,7 @@ var URL_NAVIGATION = ( function(mod) {
   // The iterator object that contains the underlying data.
   let data = null;
   mod.data = function(value) {
-    if (typeof value !== 'undefined') data = value;
+    if (typeof value !== "undefined") data = value;
     return data;
   };
 
@@ -719,8 +719,7 @@ var VIEW = ( function(mod) {
     $("#text_user").attr("value", "User list");
     $("#text_counter").attr("value", "");
     document.getElementById("url_dropdown").value = null;
-    makeUserTable();
-    dataTables();
+    DATA_TABLE.make();
   };
 
   mod.helpToggle = function() {
@@ -739,23 +738,47 @@ var VIEW = ( function(mod) {
     $(elemID).removeClass("hidden");
   }
 
-  function makeUserTable() {
-    let thead = "<thead><tr><th>Tilde Box</th><th>User Name</th><th>User URL</th><th>Modified</th><th>Tags</th></tr></thead>";
+  return mod;
+}(VIEW || {}));
+
+//##############################################################################
+
+// Module to create and display the table of users.
+var DATA_TABLE = ( function(mod) {
+  let sortOrder = [3, "desc"];
+  let pageLength = 20;
+  let searchText = "";
+
+  mod.make = function() {
+    makeHTML();
+    applyDataTable();
+  };
+
+  function makeHTML() {
+    let thead = `
+      <thead>
+        <tr>
+          <th>Tilde Box</th>
+          <th>User Name</th>
+          <th>User URL</th>
+          <th>Modified</th>
+        </tr>
+      </thead>`;
     let tbody = document.createElement("tbody");
     $("#list_table").empty();
     $("#list_table").append(thead);
     $("#list_table").append(tbody);
-    let row = '<tr><td><a href="SITE_URL">SITE_NAME</a></td><td>USER_NAME</td><td><a href="USER_URL">USER_URL_TIDY</a></td><td>MODIFIED</td><td>TAGS</td></tr>';
+    let row = `
+      <tr>
+        <td><a href="SITE_URL">SITE_NAME</a></td>
+        <td>USER_NAME</td>
+        <td><a href="USER_URL">USER_URL_TIDY</a></td>
+        <td>MODIFIED</td>
+      </tr>`;
     $.each(URL_NAVIGATION.data().all(), function(index, user) {
       let tidy = user.url.substring(user.url.indexOf("//") + 2);
       let scheme = user.url.split("/")[0];
       let siteUrl = scheme + "//" + user.site;
-      let tags = "";
-      if (user.tags) {
-        tags = user.tags.map( function(tag) {
-          return "#" + tag;
-        }).join(" ");
-      }
       let out = row;
       out = out.replace("SITE_URL",      siteUrl);
       out = out.replace("SITE_NAME",     user.site);
@@ -763,26 +786,33 @@ var VIEW = ( function(mod) {
       out = out.replace("USER_URL",      user.url);
       out = out.replace("USER_URL_TIDY", tidy.replace(/\/$/, ""));
       out = out.replace("MODIFIED",      dateYYYYMMDD(user.date_modified));
-      out = out.replace("TAGS",          tags);
       $(tbody).append(out);
     });
   }
 
-  function dataTables() {
-    let colHidden = [{
-      "targets": [4],
-      "visible": false
-    }];
-    $("#list_table").DataTable({
+  function applyDataTable() {
+    let table = $("#list_table").DataTable({
+      "bDestroy": true,
       "aLengthMenu": [
-        [20, 50, 100, 200, 500, -1],
-        [20, 50, 100, 200, 500, "All"]
+        [10, 20, 50, 100, 200, 500, -1],
+        [10, 20, 50, 100, 200, 500, "All"]
       ],
-      "order": [3, "desc"],
-      "columnDefs": colHidden,
-      "bDestroy": true
+      "order": sortOrder,
+      "pageLength": pageLength,
+      "search": {
+        "search": searchText
+      }
+    });
+    table.on("order.dt", function(_1, _2, edit) {
+      sortOrder = [edit[0].col, edit[0].dir];
+    });
+    table.on("length.dt", function(_1, _2, len) {
+      pageLength = len;
+    });
+    table.on("search.dt", function() {
+      searchText = table.search();
     });
   }
 
   return mod;
-}(VIEW || {}));
+}(DATA_TABLE || {}));
