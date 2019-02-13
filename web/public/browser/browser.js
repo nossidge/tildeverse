@@ -88,12 +88,26 @@ var ACCESSIBILITY = ( function(mod) {
     });
   };
 
+  // Hacky fix to keep the heights correct.
+  mod.fixHeights = function() {
+    let heightDiff = 133;
+    let btnHeightAll = $(window).height() - heightDiff;
+    let btnHeight = (btnHeightAll / INFO.tagsCount) + "px";
+    $(".tag_button_desc").css("height", btnHeight);
+    $(".tag_button").css("height", btnHeight);
+    $(".btn_glyph").css("height", btnHeight);
+    $(".btn_tags").css("height", btnHeight);
+    $("#list_text").css("max-height", "0px");
+    let columnHeight = $("#col_left").css("height");
+    $("#list_text").css("max-height", columnHeight);
+  };
+
   return mod;
 }(ACCESSIBILITY || {}));
 
 //##############################################################################
 
-// Module to store the info on each tag.
+// Module to store the info about each tag.
 var INFO = ( function(mod) {
 
   mod.tags = {
@@ -117,6 +131,9 @@ var INFO = ( function(mod) {
     unix:     "Unix and terminal",
     tilde:    "Meta stuff, to do with the Tildeverse"
   };
+
+  // Count the number of tags.
+  mod.tagsCount = Object.keys(mod.tags).length;
 
   // These sites have 'X-Frame-Options' set to 'sameorigin'
   mod.banned = ["tilde.team", "thunix.org"];
@@ -212,10 +229,10 @@ var TAG_DOM = ( function(mod) {
 
   // Handle the header 'select all' buttons.
   mod.allChecked = function() {
-    return (mod.getChecked().length == Object.keys(INFO.tags).length);
+    return (mod.getChecked().length == INFO.tagsCount);
   };
   mod.allUnchecked = function() {
-    return (mod.getUnchecked().length == Object.keys(INFO.tags).length);
+    return (mod.getUnchecked().length == INFO.tagsCount);
   };
   mod.handleSelectAllButtons = function() {
     if (mod.allUnchecked()) {

@@ -33,9 +33,13 @@
           // Navigate to a random URL.
           URL_NAVIGATION.randomUrl();
 
+          // Correct the button heights.
+          ACCESSIBILITY.fixHeights();
         });
-
       });
+
+      // Correct the button heights.
+      $(window).resize(ACCESSIBILITY.fixHeights);
 
     </script>
   </head>

@@ -39,18 +39,13 @@
           // Show the help text.
           VIEW.help();
 
-          // See below.
-          fixListHeight();
+          // Correct the button heights.
+          ACCESSIBILITY.fixHeights();
         });
       });
 
-      // Dodgy "fix" to keep the list height correct.
-      $(window).resize(fixListHeight);
-      function fixListHeight() {
-        $("#list_text").css("min-height", "0px");
-        let columnHeight = $("#col_left").css("height");
-        $("#list_text").css("min-height", columnHeight);
-      }
+      // Correct the button heights.
+      $(window).resize(ACCESSIBILITY.fixHeights);
 
     </script>
   </head>
