@@ -65,8 +65,8 @@ body {
   background-color: #F2F2F2;
   color: #555;
 }
-#tag_buttons {
-  margin-bottom: -10px;
+#tag_area_left {
+  overflow: hidden;
 }
 #tag_area_top {
   margin: 0px 0px 3px 0px;

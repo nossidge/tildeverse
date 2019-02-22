@@ -90,9 +90,10 @@ var ACCESSIBILITY = ( function(mod) {
 
   // Hacky fix to keep the heights correct.
   mod.fixHeights = function() {
-    let heightDiff = 133;
+    let heightDiff = 89;
+    let btnCount = INFO.tagsCount + 1;
     let btnHeightAll = $(window).height() - heightDiff;
-    let btnHeight = (btnHeightAll / INFO.tagsCount) + "px";
+    let btnHeight = (btnHeightAll / btnCount) + "px";
     $(".tag_button_desc").css("height", btnHeight);
     $(".tag_button").css("height", btnHeight);
     $(".btn_glyph").css("height", btnHeight);
