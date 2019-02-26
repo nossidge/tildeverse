@@ -1,5 +1,5 @@
 
-// Create the users table in the users tab.
+// Create the users table in the users tab
 function users(tildeverseJSON) {
 
   let thead = "<thead><tr><th>Tilde Box</th><th>User Name</th><th>User URL</th><th>Modified</th><th>Tags</th></tr></thead>";

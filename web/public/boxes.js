@@ -1,5 +1,5 @@
 
-// Create the box table in the box tab.
+// Create the box table in the box tab
 function boxes(tildeverseJSON) {
 
   let thead = "<thead><tr><th>Tilde Box</th><th>Online?</th><th>User Count</th></tr></thead>";

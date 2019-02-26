@@ -13,32 +13,32 @@
 
       $(document).ready( function() {
 
-        // Create the DOM elements for each tag.
+        // Create the DOM elements for each tag
         TAG_DOM.createTagElementsTagging();
 
-        // Wait for the external JSON file to load.
+        // Wait for the external JSON file to load
         $.getJSON("tildeverse.json", function(data) {
 
-          // Load the JSON data to the USERS module.
+          // Load the JSON data to the USERS module
           USERS.initialize(data);
 
-          // By default, filter for only newly updated users.
-          // If none found, filter for users who have never been tagged.
+          // By default, filter for only newly updated users
+          // If none found, filter for users who have never been tagged
           if (FILTER_FUNCTIONS.getNewlyUpdated().length != 0) {
             TOGGLE_GROUPS.toggleNewlyUpdated();
           } else {
             TOGGLE_GROUPS.toggleNeverTagged();
           }
 
-          // Navigate to a random URL.
+          // Navigate to a random URL
           URL_NAVIGATION.randomUrl();
 
-          // Correct the button heights.
+          // Correct the button heights
           ACCESSIBILITY.fixHeights();
         });
       });
 
-      // Correct the button heights.
+      // Correct the button heights
       $(window).resize(ACCESSIBILITY.fixHeights);
 
     </script>

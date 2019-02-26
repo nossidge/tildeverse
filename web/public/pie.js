@@ -1,10 +1,10 @@
 
-// Load the pie chart to the pie tab.
+// Load the pie chart to the pie tab
 function pie(tildeverseJSON) {
 
-  // Need to be kind of randomised, but the same colour each load.
-  // So use sine to approximate this randomness.
-  // Colour will be the same per "seed" number.
+  // Need to be kind of randomised, but the same colour each load
+  // So use sine to approximate this randomness
+  // Colour will be the same per "seed" number
   let randomSinColour = function (seed) {
     let x = Math.sin(seed) * 10000;
     let sinRand = x - Math.floor(x);
@@ -20,15 +20,15 @@ function pie(tildeverseJSON) {
     }
   }
 
-  // Sort the hash by the user count.
+  // Sort the hash by the user count
   let sortedArray = [];
   for (let key in hashJSON) {
     sortedArray.push([key, hashJSON[key]]);
   }
   sortedArray.sort( function(a, b) {return a[1] - b[1]});
 
-  // Loop through the sorted array, backwards.
-  // But the colours need to go forwards.
+  // Loop through the sorted array, backwards
+  // But the colours need to go forwards
   let labels = [], colour = [], data = [];
   let j = 1;
   for (let i = sortedArray.length - 1 ; i >= 0; i--) {
@@ -38,7 +38,7 @@ function pie(tildeverseJSON) {
     colour.push( randomSinColour(j) );
   };
 
-  // The chart options, including the legend HTML.
+  // The chart options, including the legend HTML
   let config = {
     type: 'pie',
     data: {
@@ -77,11 +77,11 @@ function pie(tildeverseJSON) {
     }
   };
 
-  // Create the chart.
+  // Create the chart
   let ctx = document.getElementById('tildePie').getContext('2d');
   let tildePie = new Chart(ctx, config);
 
-  // Generate the legend, and put it in the 'legend' element.
+  // Generate the legend, and put it in the 'legend' element
   let legend = tildePie.generateLegend();
   document.getElementById('legend').innerHTML = legend;
 }

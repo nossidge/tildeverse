@@ -1,5 +1,5 @@
 
-// Find the difference of two arrays.
+// Find the difference of two arrays
 // https://stackoverflow.com/a/4026828/139299
 Array.prototype.diff = function(a) {
   return this.filter( function(i) {
@@ -9,8 +9,8 @@ Array.prototype.diff = function(a) {
 
 //##############################################################################
 
-// Return a formatted string from a date.
-// Return '-' if the date is invalid.
+// Return a formatted string from a date
+// Return '-' if the date is invalid
 function dateYYYYMMDD(date) {
   if (isNaN(date)) return "-";
   let year = date.getFullYear();
@@ -23,7 +23,7 @@ function dateYYYYMMDD(date) {
 
 //##############################################################################
 
-// Turn an array into an iterator.
+// Turn an array into an iterator
 function toIterator(array) {
   let index = -1;
 
@@ -72,11 +72,11 @@ function toIterator(array) {
 
 //##############################################################################
 
-// UI improvements for accessibility.
+// UI improvements for accessibility
 var ACCESSIBILITY = ( function(mod) {
 
-  // For anchors with a 'tabindex', call 'onclick' when space/enter is pressed.
-  // Only run this when all DOM elements are loaded.
+  // For anchors with a 'tabindex', call 'onclick' when space/enter is pressed
+  // Only run this when all DOM elements are loaded
   mod.tabNavClicks = function() {
     $("a[tabindex]").each( function() {
       $(this).keydown(function(e) {
@@ -88,7 +88,7 @@ var ACCESSIBILITY = ( function(mod) {
     });
   };
 
-  // Hacky fix to keep the heights correct.
+  // Hacky fix to keep the heights correct
   mod.fixHeights = function() {
     let heightDiff = 89;
     let btnCount = INFO.tagsCount + 1;
@@ -108,7 +108,7 @@ var ACCESSIBILITY = ( function(mod) {
 
 //##############################################################################
 
-// Module to store the info about each tag.
+// Module to store the info about each tag
 var INFO = ( function(mod) {
 
   mod.tags = {
@@ -133,7 +133,7 @@ var INFO = ( function(mod) {
     tilde:    "Meta stuff, to do with the Tildeverse"
   };
 
-  // Count the number of tags.
+  // Count the number of tags
   mod.tagsCount = Object.keys(mod.tags).length;
 
   // These sites have 'X-Frame-Options' set to 'sameorigin'
@@ -144,7 +144,7 @@ var INFO = ( function(mod) {
 
 //##############################################################################
 
-// Module to read and set tag info.
+// Module to read and set tag info
 var TAG_DOM = ( function(mod) {
 
   // For the 'browser' webapp:
@@ -192,7 +192,7 @@ var TAG_DOM = ( function(mod) {
     replaceTemplateKeywords(templateHTML);
   };
 
-  // Create and append the HTML elements for the tag buttons.
+  // Create and append the HTML elements for the tag buttons
   function replaceTemplateKeywords(templateHTML) {
     let elem = $("#tag_buttons");
     elem.empty();
@@ -207,7 +207,7 @@ var TAG_DOM = ( function(mod) {
     });
   }
 
-  // Return the status of the tags selected on the UI.
+  // Return the status of the tags selected on the UI
   mod.getDesc = function() {
     return mod.getTagsByType("desc");
   };
@@ -228,7 +228,7 @@ var TAG_DOM = ( function(mod) {
     return tags;
   };
 
-  // Handle the header 'select all' buttons.
+  // Handle the header 'select all' buttons
   mod.allChecked = function() {
     return (mod.getChecked().length == INFO.tagsCount);
   };
@@ -248,7 +248,7 @@ var TAG_DOM = ( function(mod) {
     }
   };
 
-  // Display the users tags as active/inactive description buttons.
+  // Display the users tags as active/inactive description buttons
   mod.displayTags = function(tags) {
     $(".tag_button_desc").each( function() {
       $(this).removeClass("active");
@@ -260,9 +260,9 @@ var TAG_DOM = ( function(mod) {
     });
   };
 
-  // Toggle an button active state.
-  // Also unchecks the opposite button.
-  // Afterwards, filter by selected tags.
+  // Toggle an button active state
+  // Also unchecks the opposite button
+  // Afterwards, filter by selected tags
   mod.toggleTagFilter = function(element) {
     let thisFilter = $(element).attr("data-filter-type");
     let thatFilter = (thisFilter == "checked" ? "unchecked" : "checked");
@@ -277,14 +277,14 @@ var TAG_DOM = ( function(mod) {
 
 //##############################################################################
 
-// Module to store user arrays.
+// Module to store user arrays
 var USERS = ( function(mod) {
   let all = [];
   let filtered = null;
 
-  // Set the underlying user array from the JSON object.
-  // Convert JSON into an array of hashes.
-  // Save to 'all' instance variable.
+  // Set the underlying user array from the JSON object
+  // Convert JSON into an array of hashes
+  // Save to 'all' instance variable
   mod.initialize = function(value) {
     all = [];
     let allSites = value["sites"];
@@ -308,18 +308,18 @@ var USERS = ( function(mod) {
     }
   };
 
-  // Getter only.
+  // Getter only
   mod.all = function() {
     return all;
   };
 
-  // Reference to the current user.
+  // Reference to the current user
   mod.currentUser = function() {
     if (!filtered) return false;
     return filtered.current().value;
   };
 
-  // Basic getter/setter.
+  // Basic getter/setter
   mod.filtered = function(value) {
     if (typeof value !== "undefined") {
       filtered = value;
@@ -329,7 +329,7 @@ var USERS = ( function(mod) {
     return filtered;
   };
 
-  // Display all the user's info on screen.
+  // Display all the user's info on screen
   mod.displayCurrentUser = function() {
     VIEW.iframe();
     let user = mod.currentUser();
@@ -349,7 +349,7 @@ var USERS = ( function(mod) {
     }
   };
 
-  // Open the current Tilde user site in the iframe.
+  // Open the current Tilde user site in the iframe
   mod.openCurrentInFrame = function() {
     if (typeof mod.currentUser() !== "undefined") {
       let elem = document.getElementById("url_iframe_link");
@@ -358,7 +358,7 @@ var USERS = ( function(mod) {
     }
   };
 
-  // Open the current Tilde user site in a new tab.
+  // Open the current Tilde user site in a new tab
   mod.openCurrentInNewTab = function() {
     if (typeof mod.currentUser() !== "undefined") {
       let elem = document.getElementById("url_blank_link");
@@ -367,7 +367,7 @@ var USERS = ( function(mod) {
     }
   };
 
-  // Populate the input selection with the URLs.
+  // Populate the input selection with the URLs
   function populateDropdownURLs() {
     let elem = $("#url_dropdown");
     elem.empty();
@@ -382,35 +382,40 @@ var USERS = ( function(mod) {
 
 //##############################################################################
 
-// Store which filter settings are currently in place.
+// Store which filter settings are currently in place
 var FILTER = ( function(mod) {
   let filterName = "all"
   let tagsInclude = [];
   let tagsExclude = [];
 
+  // Set a named filter
   mod.setAll = function() {
-    filterName = "all";
-    apply();
+    setFilterNameAndApply("all");
   };
   mod.setNewlyUpdated = function() {
-    filterName = "newly_updated";
-    apply();
+    setFilterNameAndApply("newly_updated");
   };
   mod.setNeverTagged = function() {
-    filterName = "never_tagged";
-    apply();
+    setFilterNameAndApply("never_tagged");
   };
   mod.setExcludingBanned = function() {
-    filterName = "excluding_banned";
-    apply();
+    setFilterNameAndApply("excluding_banned");
   };
+
+  // Set a group of tags to include and/or exclude
   mod.setTags = function(include, exclude) {
     tagsInclude = include;
     tagsExclude = exclude;
     apply();
   };
 
-  // Apply the given filters to the user list.
+  // Set the filtername and then apply the filter
+  function setFilterNameAndApply(value) {
+    filterName = value;
+    apply();
+  }
+
+  // Apply the given filters to the user list
   function apply() {
     let baseArray = USERS.all();
     switch (filterName) {
@@ -431,11 +436,11 @@ var FILTER = ( function(mod) {
 
 //##############################################################################
 
-// Module to filter USER arrays by various means.
+// Module to filter USER arrays by various means
 var FILTER_FUNCTIONS = ( function(mod) {
 
-  // Filter the homepage list by specific tags.
-  // Also updates the page elements.
+  // Filter the homepage list by specific tags
+  // Also updates the page elements
   // @param tagsInclude [Array<String>]
   // @param tagsExclude [Array<String>]
   mod.byTag = function(baseArray, tagsInclude = [], tagsExclude = []) {
@@ -460,7 +465,7 @@ var FILTER_FUNCTIONS = ( function(mod) {
     }
     USERS.filtered(newList);
 
-    // If the current view is "list", then remake the table.
+    // If the current view is "list", then remake the table
     if (VIEW.current() == "list") {
       VIEW.list();
     } else {
@@ -468,7 +473,7 @@ var FILTER_FUNCTIONS = ( function(mod) {
     }
   };
 
-  // Return users whose modified date is greater than their tagged date.
+  // Return users whose modified date is greater than their tagged date
   let getNewlyUpdatedMemo = null;
   mod.getNewlyUpdated = function() {
     return addMemo("getNewlyUpdatedMemo", function(user) {
@@ -478,18 +483,21 @@ var FILTER_FUNCTIONS = ( function(mod) {
     });
   };
 
-  // Return users who have never been tagged.
+  // Return users who have never been tagged
   let getNeverTaggedMemo = null;
   mod.getNeverTagged = function() {
     return addMemo("getNeverTaggedMemo", function(user) {
       return USERS.all().filter( function(user) {
-        return (JSON.stringify(user.tags) == JSON.stringify(["-"]));
+        let strTags = JSON.stringify(user.tags);
+        let isHyphen = (strTags == JSON.stringify(["-"]));
+        let isEmpty  = (strTags == JSON.stringify([]));
+        return (isHyphen || isEmpty);
       });
     });
   };
 
-  // Return users who are not banned from cross-origin iframe.
-  // Also, tilde.town is over HTTPS, so exclude all sites that are HTTP.
+  // Return users who are not banned from cross-origin iframe
+  // Also, tilde.town is over HTTPS, so exclude all sites that are HTTP
   let getExcludingBannedMemo = null;
   mod.getExcludingBanned = function() {
     return addMemo("getExcludingBannedMemo", function(user) {
@@ -502,8 +510,7 @@ var FILTER_FUNCTIONS = ( function(mod) {
   };
 
   // If the original user still exists in the filtered dataset,
-  // then keep them selected.
-  // Else, go to the first URL.
+  // then keep them selected. Else, go to the first URL
   function gotoOriginal(newList, originalUser) {
     if (originalUser) {
       let found = newList.all().find( function(user) {
@@ -519,7 +526,7 @@ var FILTER_FUNCTIONS = ( function(mod) {
     }
   }
 
-  // Add memoization to the callback function.
+  // Add memoization to the callback function
   function addMemo(memoVar, callback) {
     let memo = eval(memoVar);
     if (memo) return memo;
@@ -533,10 +540,10 @@ var FILTER_FUNCTIONS = ( function(mod) {
 
 //##############################################################################
 
-// Module to control the top-left URL navigation buttons.
+// Module to control the top-left URL navigation buttons
 var URL_NAVIGATION = ( function(mod) {
 
-  // The iterator object that contains the underlying data.
+  // The iterator object that contains the underlying data
   let data = null;
   mod.data = function(value) {
     if (typeof value !== "undefined") data = value;
@@ -571,10 +578,10 @@ var URL_NAVIGATION = ( function(mod) {
 
 //##############################################################################
 
-// Module to handle buttons that act like option groups.
+// Module to handle buttons that act like option groups
 var TOGGLE_GROUPS = ( function(mod) {
 
-  // Handle the tag select/deselect all buttons.
+  // Handle the tag select/deselect all buttons
   mod.toggleAllUnchecked = function(self) {
     toggleEither(self, ".tag_button_unchecked", ".tag_button_checked");
     FILTER.setTags(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
@@ -592,7 +599,7 @@ var TOGGLE_GROUPS = ( function(mod) {
     }
   }
 
-  // Handle the exclude cross requests button.
+  // Handle the exclude cross requests button
   mod.toggleExcludingBanned = function() {
     let elem = $("#filter_by_excluding_banned");
     if (elem.hasClass("active")) {
@@ -604,7 +611,7 @@ var TOGGLE_GROUPS = ( function(mod) {
     }
   };
 
-  // Handle the filter by tag/moddate buttons.
+  // Handle the filter by tag/moddate buttons
   mod.toggleNeverTagged = function() {
     MASS_CLASS.add("#filter_by_never_tagged", "active");
     MASS_CLASS.remove("#filter_by_newly_updated", "active");
@@ -621,7 +628,7 @@ var TOGGLE_GROUPS = ( function(mod) {
 
 //##############################################################################
 
-// Module to add/remove class for many elements at once.
+// Module to add/remove class for many elements at once
 var MASS_CLASS = ( function(mod) {
 
   mod.add = function(domIdentifier, className) {
@@ -694,7 +701,7 @@ var TAG_STATE = ( function(mod) {
 
 //##############################################################################
 
-// Module to switch the content in the main div.
+// Module to switch the content in the main div
 var VIEW = ( function(mod) {
   let current = "iframe";
 
@@ -702,6 +709,7 @@ var VIEW = ( function(mod) {
     return current;
   };
 
+  // Display the iframe with the embedded Tildesite
   mod.iframe = function() {
     if (current == "iframe") return;
     current = "iframe";
@@ -713,6 +721,7 @@ var VIEW = ( function(mod) {
     USERS.displayCurrentUser();
   };
 
+  // Diplay the help text
   mod.help = function() {
     current = "help";
     elemHide("#tildesite_iframe");
@@ -721,11 +730,10 @@ var VIEW = ( function(mod) {
     $("#help_btn").addClass("active");
     $("#list_btn").removeClass("active");
     TAG_DOM.displayTags([]);
-    $("#text_user").attr("value", "Info screen");
-    $("#text_counter").attr("value", "");
-    document.getElementById("url_dropdown").value = null;
+    clearTopBarInfo("Info screen");
   };
 
+  // Diplay the selected users in a table list
   mod.list = function() {
     current = "list";
     elemHide("#tildesite_iframe");
@@ -734,12 +742,11 @@ var VIEW = ( function(mod) {
     $("#help_btn").removeClass("active");
     $("#list_btn").addClass("active");
     TAG_DOM.displayTags([]);
-    $("#text_user").attr("value", "User list");
-    $("#text_counter").attr("value", "");
-    document.getElementById("url_dropdown").value = null;
+    clearTopBarInfo("User list");
     DATA_TABLE.make();
   };
 
+  // The button toggle events that switch the view
   mod.helpToggle = function() {
     $("#help_btn").hasClass("active") ? VIEW.iframe() : VIEW.help();
   };
@@ -747,6 +754,7 @@ var VIEW = ( function(mod) {
     $("#list_btn").hasClass("active") ? VIEW.iframe() : VIEW.list();
   };
 
+  // Use CSS classes to show or hide an element
   function elemHide(elemID) {
     $(elemID).addClass("hidden");
     $(elemID).removeClass("visible");
@@ -756,12 +764,19 @@ var VIEW = ( function(mod) {
     $(elemID).removeClass("hidden");
   }
 
+  // Empty the top bar of user details and display the current view title
+  function clearTopBarInfo(displayText) {
+    $("#text_user").attr("value", displayText);
+    $("#text_counter").attr("value", "");
+    document.getElementById("url_dropdown").value = null;
+  }
+
   return mod;
 }(VIEW || {}));
 
 //##############################################################################
 
-// Module to create and display the table of users.
+// Module to create and display the table of users
 var DATA_TABLE = ( function(mod) {
   let sortOrder = [3, "desc"];
   let pageLength = 20;

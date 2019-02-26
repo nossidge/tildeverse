@@ -15,36 +15,36 @@
 
       $(document).ready( function() {
 
-        // Create the DOM elements for each tag.
+        // Create the DOM elements for each tag
         TAG_DOM.createTagElementsBrowser();
 
-        // Setup keyboard-based clicks for tab-able elements.
+        // Setup keyboard-based clicks for tab-able elements
         ACCESSIBILITY.tabNavClicks();
 
-        // Wait for the external JSON file to load.
+        // Wait for the external JSON file to load
         $.getJSON("../tildeverse.json", function(data) {
 
-          // Load the JSON data to the USERS module.
+          // Load the JSON data to the USERS module
           USERS.initialize(data);
 
           // By default, filter by:
-          //   - excluding denied XReqs.
-          //   - excluding the 'empty' tag.
+          //   - excluding denied XReqs
+          //   - excluding the 'empty' tag
           TOGGLE_GROUPS.toggleExcludingBanned();
           TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
 
-          // Navigate to a random URL.
+          // Navigate to a random URL
           URL_NAVIGATION.randomUrl();
 
-          // Show the help text.
+          // Show the help text
           VIEW.help();
 
-          // Correct the button heights.
+          // Correct the button heights
           ACCESSIBILITY.fixHeights();
         });
       });
 
-      // Correct the button heights.
+      // Correct the button heights
       $(window).resize(ACCESSIBILITY.fixHeights);
 
     </script>
