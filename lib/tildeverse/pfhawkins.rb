@@ -29,6 +29,7 @@ module Tildeverse
       tilde.team
       tilde.town
       tilde.works
+      tildecow.com
       yourtilde.com
     ].freeze
 
