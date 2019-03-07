@@ -11,7 +11,9 @@ module Tildeverse
       # Calls {Tildeverse::Site#initialize} with arg +tildecow.com+
       #
       def initialize
-        super TildeSiteURI.new('http://www.tildecow.com/')
+        uri = TildeSiteURI.new('http://www.tildecow.com/')
+        uri.homepage_format = 'http://www.tildecow.com/USER/'
+        super uri
       end
 
       ##
