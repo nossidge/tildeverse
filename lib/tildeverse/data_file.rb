@@ -52,29 +52,56 @@ module Tildeverse
     end
 
     ##
-    # Side effects: 'tildeverse.txt' and 'tildeverse_yyyymmdd.txt' for today's
+    # Side effects: if the user is authorised for write access,
+    # 'tildeverse.txt' and 'tildeverse_yyyymmdd.txt' for today's
     # date will be overwritten with copies of the best file.
-    #
     # All other old backups will be deleted from the directory.
     #
     # @return [Pathname]
     #   the most recent, longest file. (i.e. if two files have the same
     #   line count, the most recent one is considered the best)
     #
+    # @raise [Error::MissingFileError] if a valid file is not found
+    #
     def get!
       best_file = all_files.max_by { |f| f.each_line.count }
+      best_file ||= main
 
-      FileUtils.cp(best_file, todays_file) unless best_file == todays_file
-      FileUtils.cp(best_file, main) unless best_file == main
+      dodgy_file = !best_file.exist? || best_file.zero?
+      raise Error::MissingFileError, dir if dodgy_file
 
-      files_to_kill = dir.glob('tildeverse_20??????.txt')
-      files_to_kill.delete(todays_file)
-      files_to_kill.each { |f| FileUtils.rm(f) }
+      if config_authorised?
+        save_best_file(best_file)
+        best_file = main
+      end
 
       best_file
     end
 
     private
+
+    ##
+    # (see Tildeverse::Config#authorised?)
+    #
+    def config_authorised?
+      Tildeverse.data.config.authorised?
+    end
+
+    ##
+    # 'tildeverse.txt' and 'tildeverse_yyyymmdd.txt' for today's
+    # date will be overwritten with copies of the best file.
+    # All other old backups will be deleted from the directory.
+    #
+    # @param best_file [Pathname] the file containing the best data
+    #
+    def save_best_file(best_file)
+      FileUtils.cp(best_file, todays_file) unless best_file == todays_file
+      FileUtils.cp(best_file, main)        unless best_file == main
+
+      files_to_kill = dir.glob('tildeverse_20??????.txt')
+      files_to_kill.delete(todays_file)
+      files_to_kill.each { |f| FileUtils.rm(f) }
+    end
 
     ##
     # @return [Array<Pathname>]

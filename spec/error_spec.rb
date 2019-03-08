@@ -249,4 +249,29 @@ describe 'Tildeverse::Error' do
       expect(console_message).to include(issue_link_msg)
     end
   end
+
+  ##############################################################################
+
+  describe 'MissingFileError' do
+    let(:dir) { Tildeverse::Files.dir_root }
+    let(:error) { Tildeverse::Error::MissingFileError.new(dir) }
+    let(:msg) { %(No valid text file in directory: "#{dir}") }
+    let(:console_msg) do
+      <<~MSG
+        ERROR: No valid text file in directory:
+                 "#{dir}"
+               You can download the most up-to-date file online here:
+                 https://tilde.town/~nossidge/tildeverse/tildeverse.txt
+      MSG
+    end
+    it 'should be a Tildeverse::Error' do
+      expect(error).to be_a Tildeverse::Error
+    end
+    it 'should declare a meaningful #message' do
+      expect(error.message).to eq msg
+    end
+    it 'should declare a meaningful #console_message' do
+      expect(error.console_message).to eq console_msg
+    end
+  end
 end

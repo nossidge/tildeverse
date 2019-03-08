@@ -313,5 +313,36 @@ module Tildeverse
         MSG
       end
     end
+
+    ############################################################################
+
+    ##
+    # Error class raised when input text file is not found
+    #
+    class MissingFileError < Error
+      #
+      # @return [Pathname] the directory containing the data text files
+      attr_reader :dir
+
+      def initialize(dir, msg = nil)
+        @dir = dir
+        super msg || message
+      end
+
+      # (see Tildeverse::Error#message)
+      def message
+        %(No valid text file in directory: "#{dir}")
+      end
+
+      # (see Tildeverse::Error#console_message)
+      def console_message
+        <<~MSG
+          ERROR: No valid text file in directory:
+                   "#{dir}"
+                 You can download the most up-to-date file online here:
+                   https://tilde.town/~nossidge/tildeverse/tildeverse.txt
+        MSG
+      end
+    end
   end
 end

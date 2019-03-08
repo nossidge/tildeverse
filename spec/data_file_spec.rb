@@ -96,26 +96,66 @@ describe 'Tildeverse::DataFile' do
       end
     end
 
+    let(:let_authorised_return) do
+      lambda do |bool|
+        allow_any_instance_of(Tildeverse::Config).to(
+          receive(:authorised?).and_return(bool)
+        )
+      end
+    end
+
+    # It's fine to ignore EOF here, we're just using it to compare 2 files
+    def get_line(file)
+      file.readline if file.exist?
+    rescue EOFError
+      nil
+    end
+
+    # Todo: Error if no file present
+
     run_scenario = lambda do |index, scenario|
       context "scenario #{index}" do
         let(:best)    { @dir_datafile + scenario[:best] }
         before(:each) { create_files.call(scenario[:files]) }
         after(:each)  { delete_all_files.call }
 
-        it 'should identify the best file' do
-          expect(data_file.get!).to eq best
+        it 'should call Config#authorised? to determine write access' do
+          expect_any_instance_of(Tildeverse::Config).to receive(:authorised?)
+          data_file.get!
         end
 
-        it 'should copy the best file to main and todays file' do
-          first_line = best.readline
+        it 'should identify the best file' do
+          best_first_line = get_line(best)
+          [false, true].each do |bool|
+            let_authorised_return.call(bool)
+            first_line = get_line(data_file.get!)
+            expect(first_line).to eq best_first_line
+          end
+        end
+
+        it 'should copy the best file to main and todays file, if authorised' do
+          let_authorised_return.call(true)
+          first_line = get_line(best)
 
           data_file.get!
 
-          expect(main_file.readline).to eq first_line
-          expect(todays_file.readline).to eq first_line
+          expect(get_line(main_file)).to eq first_line
+          expect(get_line(todays_file)).to eq first_line
         end
 
-        it 'should remove unwanted backups' do
+        it 'should not copy any files, if not authorised' do
+          let_authorised_return.call(false)
+          first_line_main   = get_line(main_file)
+          first_line_todays = get_line(todays_file)
+
+          data_file.get!
+
+          expect(get_line(main_file)).to eq first_line_main
+          expect(get_line(todays_file)).to eq first_line_todays
+        end
+
+        it 'should remove unneeded backups, if authorised' do
+          let_authorised_return.call(true)
           starting_files = @dir_datafile.children
           expect(starting_files.count).to eq scenario[:files].count
 
@@ -125,6 +165,15 @@ describe 'Tildeverse::DataFile' do
           expect(remaining_files.count).to eq 2
           expect(remaining_files).to include main_file
           expect(remaining_files).to include todays_file
+        end
+
+        it 'should not remove unneeded backups, if not authorised' do
+          let_authorised_return.call(false)
+          expect(@dir_datafile.children.count).to eq scenario[:files].count
+
+          data_file.get!
+
+          expect(@dir_datafile.children.count).to eq scenario[:files].count
         end
       end
     end

@@ -114,8 +114,7 @@ module Tildeverse
       def input_tildeverse_txt_as_hash
         return @input_tildeverse_txt_as_hash if @input_tildeverse_txt_as_hash
 
-        file = input_txt_tildeverse
-        FileUtils.touch(file) unless file.exist?
+        file = Tildeverse::DataFile.new.get!
         file_contents = read_utf8(file)
         wsv = WSV.new(file_contents.split("\n"))
 
