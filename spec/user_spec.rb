@@ -203,4 +203,18 @@ describe 'Tildeverse::User' do
       expect(user.date_modified!).to be nil
     end
   end
+
+  describe '#update_date_tagged!' do
+    {
+      String:    '2019-03-09',
+      Date:      Date.new(2019, 3, 9),
+      TildeDate: Tildeverse::TildeDate.new('2019-03-09')
+    }.each do |type, value|
+      it "should accept a #{type}" do
+        expect(user.date_tagged.to_s).to eq '2017-03-25'
+        user.update_date_tagged!(value)
+        expect(user.date_tagged.to_s).to eq value.to_s
+      end
+    end
+  end
 end

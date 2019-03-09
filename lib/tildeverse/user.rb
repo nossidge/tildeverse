@@ -169,5 +169,19 @@ module Tildeverse
       return nil unless last_modified
       self.date_modified = DateTime.parse(last_modified)
     end
+
+    ##
+    # Amend the date on which the {tags} were last updated.
+    #
+    # This is not recommended to be used in normal program use.
+    # It is assumed that the {date_tagged} attribute will be updated
+    # automatically whenever {tags=} is called.
+    # Therefore, only use this when you are certain it is needed.
+    #
+    # @param date [String, Date, TildeDate]
+    # @return [TildeDate]
+    def update_date_tagged!(date)
+      @date_tagged = TildeDate.new(date)
+    end
   end
 end

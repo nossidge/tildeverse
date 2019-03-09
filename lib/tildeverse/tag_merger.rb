@@ -49,7 +49,10 @@ module Tildeverse
         tags_are_newer = current < newer
 
         # Update if necessary
-        user.tags = i[:tags].split(',') if tags_are_newer
+        if tags_are_newer
+          user.tags = i[:tags].split(',')
+          user.update_date_tagged!(newer)
+        end
       end
     end
 
