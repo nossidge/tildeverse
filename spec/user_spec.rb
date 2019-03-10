@@ -175,6 +175,14 @@ describe 'Tildeverse::User' do
     end
   end
 
+  describe '#homepage_encoded' do
+    it 'should delegate the method to a TildeSiteURI object' do
+      encoded_name = URI.encode_www_form_component(user.name)
+      expect(user.site.uri).to receive(:homepage).with(encoded_name)
+      user.homepage
+    end
+  end
+
   describe '#email' do
     it 'should delegate the method to a TildeSiteURI object' do
       expect(user.site.uri).to receive(:email).with(user.name)

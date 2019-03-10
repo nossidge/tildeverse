@@ -146,6 +146,16 @@ module Tildeverse
     end
 
     ##
+    # Call {TildeSiteURI#homepage} with ASCCI-encoded {#name} as the parameter
+    #
+    # @return [String] user's homepage URL, encoded to ASCII only
+    #
+    def homepage_encoded
+      encoded_name = URI.encode_www_form_component(name)
+      site.uri.homepage(encoded_name)
+    end
+
+    ##
     # Call {TildeSiteURI#email} with {#name} as the parameter
     #
     # @return [String] user's email address
@@ -163,7 +173,7 @@ module Tildeverse
     # @return [nil] if header value is not returned
     #
     def date_modified!
-      uri = URI URI::encode(homepage)
+      uri = URI(homepage_encoded)
       res = Net::HTTP.get_response(uri)
       last_modified = res['last-modified']
       return nil unless last_modified
