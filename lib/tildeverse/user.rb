@@ -75,7 +75,7 @@ module Tildeverse
     #
     # @param tags [Array<String>, TagArray] the array of tags
     def tags=(tags)
-      @tags = TagArray.new(tags)
+      @tags = tags.is_a?(TagArray) ? tags : TagArray.new(tags)
       @date_tagged = TildeDate.new(Date.today)
     end
 

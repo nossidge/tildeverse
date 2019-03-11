@@ -50,7 +50,8 @@ module Tildeverse
 
         # Update if necessary
         if tags_are_newer
-          user.tags = i[:tags].split(',')
+          tags = i[:tags].split(',')
+          user.tags = TagArray.new(tags, validation: false)
           user.update_date_tagged!(newer)
         end
       end

@@ -142,6 +142,18 @@ describe 'Tildeverse::User' do
       end.to raise_error(Tildeverse::Error::InvalidTags)
       expect(user.date_tagged).to eq old_date_tagged
     end
+
+    it 'should accept a TagArray, even when a tag is invalid' do
+      [
+        %w[blog code],
+        %w[blog code foo],
+        %w[]
+      ].each do |tags|
+        tag_array = Tildeverse::TagArray.new(tags, validation: false)
+        expect { user.tags = tag_array }.to_not raise_error
+        expect(user.tags).to eq tag_array
+      end
+    end
   end
 
   describe '#online?' do
