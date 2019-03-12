@@ -338,6 +338,14 @@ var USERS = ( function(mod) {
       mod.openCurrentInFrame();
       TAG_DOM.displayTags(user.tags);
       $("#text_user").attr("value", user.url);
+
+      // Show dates as tooltips
+      let tooltip = "@TAG@ - tagged\n@MOD@ - modified";
+      tooltip = tooltip.replace(/@TAG@/g, dateYYYYMMDD(user.date_tagged));
+      tooltip = tooltip.replace(/@MOD@/g, dateYYYYMMDD(user.date_modified));
+      $("#text_user").attr("title", tooltip);
+      $("#text_counter").attr("title", tooltip);
+
       let index = USERS.filtered().index();
       document.getElementById("url_dropdown").value = index;
       let counter = (index + 1) + "/" + USERS.filtered().all().length;
