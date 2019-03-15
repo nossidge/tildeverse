@@ -27,11 +27,8 @@
           // Load the JSON data to the USERS module
           USERS.initialize(data);
 
-          // By default, filter by:
-          //   - excluding denied XReqs
-          //   - excluding the 'empty' tag
-          TOGGLE_GROUPS.toggleExcludingBanned();
-          TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
+          // Set tags from the query string
+          QUERY_STRING.browserRead();
 
           // Navigate to a random URL
           URL_NAVIGATION.randomUrl();

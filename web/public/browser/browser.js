@@ -270,6 +270,7 @@ var TAG_DOM = ( function(mod) {
     $(opposite).removeClass("active");
     $(element).toggleClass("active");
     FILTER.setTags(TAG_DOM.getChecked(), TAG_DOM.getUnchecked());
+    QUERY_STRING.browserWrite();
   };
 
   return mod;
@@ -857,3 +858,57 @@ var DATA_TABLE = ( function(mod) {
 
   return mod;
 }(DATA_TABLE || {}));
+
+//##############################################################################
+
+// Read/write to/from the URL query string
+var QUERY_STRING = ( function(mod) {
+  let paramTagInclude = "y";
+  let paramTagExclude = "n";
+
+  // Read the query for the browser page
+  mod.browserRead = function() {
+    let params = new URLSearchParams(location.search);
+    let tagsY = params.get(paramTagInclude);
+    let tagsN = params.get(paramTagExclude);
+
+    // Apply the query tags to the app
+    if (tagsY || tagsN) {
+      tagsY = (tagsY ? tagsY.split(",") : []);
+      tagsN = (tagsN ? tagsN.split(",") : []);
+
+      toggleTags = function(tags, status) {
+        for (let tag of tags) {
+          let button = $("#tag_button_" + status + "_" + tag);
+          if (button.length) TAG_DOM.toggleTagFilter(button);
+        }
+      };
+      toggleTags(tagsY, "checked");
+      toggleTags(tagsN, "unchecked");
+
+    // By default, filter by:
+    //   - excluding denied XReqs
+    //   - excluding the 'empty' tag
+    } else {
+      TOGGLE_GROUPS.toggleExcludingBanned();
+      TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
+    }
+  };
+
+  // Write the query back to the URL bar
+  mod.browserWrite = function() {
+    let tagsY = TAG_DOM.getChecked().join();
+    let tagsN = TAG_DOM.getUnchecked().join();
+
+    let params = new URLSearchParams();
+    if (tagsY) params.set(paramTagInclude, tagsY);
+    if (tagsN) params.set(paramTagExclude, tagsN);
+    let strParams = decodeURIComponent(params.toString());
+
+    let url = new URL(window.location.href);
+    url.search = "?" + strParams;
+    window.history.replaceState({}, strParams, url);
+  };
+
+  return mod;
+}(QUERY_STRING || {}));
