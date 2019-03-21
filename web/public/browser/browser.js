@@ -397,6 +397,11 @@ var FILTER = ( function(mod) {
   let tagsInclude = [];
   let tagsExclude = [];
 
+  // Return the current filter name
+  mod.name = function() {
+    return filterName;
+  };
+
   // Set a named filter
   mod.setAll = function() {
     setFilterNameAndApply("all");
@@ -438,6 +443,7 @@ var FILTER = ( function(mod) {
         baseArray = FILTER_FUNCTIONS.getExcludingBanned();
     }
     FILTER_FUNCTIONS.byTag(baseArray, tagsInclude, tagsExclude);
+    QUERY_STRING.browserWrite();
   }
 
   return mod;
@@ -863,17 +869,19 @@ var DATA_TABLE = ( function(mod) {
 
 // Read/write to/from the URL query string
 var QUERY_STRING = ( function(mod) {
-  let paramTagInclude = "y";
-  let paramTagExclude = "n";
+  let paramTagInclude  = "y";
+  let paramTagExclude  = "n";
+  let paramCrossOrigin = "x";
 
   // Read the query for the browser page
   mod.browserRead = function() {
     let params = new URLSearchParams(location.search);
     let tagsY = params.get(paramTagInclude);
     let tagsN = params.get(paramTagExclude);
+    let xOrig = (params.get(paramCrossOrigin) == "true");
 
     // Apply the query tags to the app
-    if (tagsY || tagsN) {
+    if (tagsY || tagsN || xOrig) {
       tagsY = (tagsY ? tagsY.split(",") : []);
       tagsN = (tagsN ? tagsN.split(",") : []);
 
@@ -886,12 +894,18 @@ var QUERY_STRING = ( function(mod) {
       toggleTags(tagsY, "checked");
       toggleTags(tagsN, "unchecked");
 
+      if (xOrig) TOGGLE_GROUPS.toggleExcludingBanned();
+
+      VIEW.list();
+
     // By default, filter by:
     //   - excluding denied XReqs
     //   - excluding the 'empty' tag
     } else {
       TOGGLE_GROUPS.toggleExcludingBanned();
       TAG_DOM.toggleTagFilter($("#tag_button_unchecked_empty"));
+      URL_NAVIGATION.randomUrl();  // Navigate to a random URL
+      VIEW.help();                 // Show the help text
     }
   };
 
@@ -899,10 +913,12 @@ var QUERY_STRING = ( function(mod) {
   mod.browserWrite = function() {
     let tagsY = TAG_DOM.getChecked().join();
     let tagsN = TAG_DOM.getUnchecked().join();
+    let xOrig = (FILTER.name() == "excluding_banned");
 
     let params = new URLSearchParams();
     if (tagsY) params.set(paramTagInclude, tagsY);
     if (tagsN) params.set(paramTagExclude, tagsN);
+    if (xOrig) params.set(paramCrossOrigin, "true");
     let strParams = decodeURIComponent(params.toString());
 
     let url = new URL(window.location.href);
