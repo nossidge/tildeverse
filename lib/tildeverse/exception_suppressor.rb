@@ -8,6 +8,7 @@ module Tildeverse
   # Suppress one or more exception classes, and carry on with processing.
   # This is only appropriate for errors which can be safely ignored.
   # Currently (and probably only ever) valid with {Error::OfflineURIError}
+  # and {Error::ScrapeError}
   #
   # This class is a SimpleDelegator for an Array object, which is used to
   # store those exceptions that should be suppressed

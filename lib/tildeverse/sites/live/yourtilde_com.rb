@@ -44,7 +44,9 @@ module Tildeverse
       # so don't check for 'con.error?' on the URI
       #
       def scrape_users_cache
-        scrape_users
+        Tildeverse.suppress.handle(Error::ScrapeError) do
+          scrape_users
+        end
       end
 
       ##

@@ -170,7 +170,13 @@ module Tildeverse
     def scrape_users_cache
       return @scrape_users_cache if @scrape_users_cache
       return @scrape_users_cache = [] if connection.error?
-      scrape_users
+
+      # Suppress any scrape errors if necessary
+      output = []
+      Tildeverse.suppress.handle(Error::ScrapeError) do
+        output = scrape_users
+      end
+      output
     end
 
     ##

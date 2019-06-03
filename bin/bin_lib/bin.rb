@@ -34,6 +34,7 @@ module Tildeverse
     def apply_options
       if options[:force]
         Tildeverse.suppress << Error::OfflineURIError
+        Tildeverse.suppress << Error::ScrapeError
       end
       if options[:offline] && options[:long]
         @options[:longer] = true
@@ -100,7 +101,8 @@ module Tildeverse
     ##
     # $ tildeverse new
     #
-    # See if there have been any additions by ~pfhawkins
+    # See if there have been any additions to
+    # http://tilde.club/~pfhawkins/othertildes.html
     #
     def tildeverse_new
       Tildeverse::PFHawkins.new.puts_if_new
@@ -161,7 +163,8 @@ module Tildeverse
         @authorised_commands@
 
         $ tildeverse new
-          See if there have been any additions by ~pfhawkins
+          See if there have been any additions to
+          http://tilde.club/~pfhawkins/othertildes.html
 
         $ tildeverse json [-p]
           Write the full JSON file to standard out
